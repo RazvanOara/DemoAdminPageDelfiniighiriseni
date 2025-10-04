@@ -10,43 +10,22 @@
 
 This platform solves two major operational challenges for competitive swimming clubs:
 
-### 1. Digital Registration System
-Transforms paper-based registration (3 physical documents) into a streamlined online process:
-- Single web form with real-time validation
+**1. Digital Registration System**
+- Transforms paper-based registration (3 physical documents) into a streamlined online process
 - Auto-generates 2 PDFs server-side (registration + declaration)
-- Email delivery with attachments
-- Medical certificate upload handling
-- GDPR-compliant consent tracking
+- Email delivery with attachments and medical certificate upload handling
 
-### 2. Professional Training Management
-Provides coaches with comprehensive tools for competitive swimming programs:
+**2. Professional Training Management**
 - Structured workout creation with complex intervals
 - Long-term periodization planning (macro-cycles)
 - Session management with live time recording
 - Athlete performance tracking and progression
-- Group organization and bulk operations
+
+The complete system includes both a public-facing registration interface and this admin management interface. This repository showcases only the admin side with mock data.
 
 ---
 
-## 🏗️ System Architecture
-
-### Dual Interface Design
-
-**Public Interface (Production):**
-- Registration forms with progress tracking
-- Gallery, announcements, contact pages
-- Mobile-responsive with animations
-- Real-time validation and user feedback
-
-**Admin Interface (This Repository):**
-- Registration management dashboard
-- Training module (workouts, plans, sessions)
-- Athlete profiles and performance tracking
-- Group management
-- GDPR compliance tools
-- System monitoring
-
-### Technology Stack
+## 🏗️ Technology Stack
 
 **Frontend:**
 - React 18 with functional components
