@@ -1,5 +1,3 @@
-# DemoAdminPageDelfiniighiriseni
-
 # Swimming Club Management Platform - Admin Interface
 
 **Public demonstration of the admin interface** for a comprehensive swimming club management system currently running in production at [delfiniighiriseni.ro](https://delfiniighiriseni.ro).
