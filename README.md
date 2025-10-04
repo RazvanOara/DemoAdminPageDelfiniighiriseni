@@ -1,5 +1,10 @@
 # Swimming Club Management Platform - Admin Interface
 
+🌐 **[View Live Demo](https://clubhub-admin-demo.netlify.app)** | 📂 [Source Code](https://github.com/RazvanOara/DemoAdminPageDelfiniighiriseni) | 🏊 [Production Platform](https://delfiniighiriseni.ro)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/YOUR-SITE-ID/deploy-status)](https://app.netlify.com/sites/clubhub-admin-demo/deploys)
+
+
 **Public demonstration of the admin interface** for a comprehensive swimming club management system currently running in production at [delfiniighiriseni.ro](https://delfiniighiriseni.ro).
 
 > **Purpose:** This repository makes the admin interface publicly visible with mock data. The actual production system contains real data and is access-restricted. This demo showcases the platform's capabilities for portfolio and educational purposes.
