@@ -270,10 +270,10 @@ src/
 
 ```bash
 # Clone repository
-git clone https://github.com/[username]/swimming-club-admin-demo.git
+git clone https://github.com/razvanoara/DemoAdminPageDelfiniighiriseni.git
 
 # Navigate to directory
-cd swimming-club-admin-demo
+cd DemoAdminPageDelfiniighiriseni
 
 # Install dependencies
 npm install
