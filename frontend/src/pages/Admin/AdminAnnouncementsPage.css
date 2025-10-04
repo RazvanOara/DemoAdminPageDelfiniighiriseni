@@ -1,0 +1,248 @@
+/* Admin Announcements Page */
+.admin-announcements {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Header */
+.admin-announcements-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.admin-announcements-header h1 {
+  font-size: 2.2rem;
+  background: linear-gradient(45deg, #00d4ff, #0099ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.admin-announcements-header p {
+  color: #aaa;
+  font-size: 1rem;
+}
+
+/* Announcement Form */
+.announcement-form {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+}
+
+.announcement-form h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: #00d4ff;
+}
+
+.announcement-form .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.announcement-form .form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ddd;
+  font-weight: 500;
+}
+
+.announcement-form .form-input,
+.announcement-form .form-textarea,
+.announcement-form .form-select {
+  width: 100%;
+  padding: 0.75rem;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.announcement-form .form-input:focus,
+.announcement-form .form-textarea:focus,
+.announcement-form .form-select:focus {
+  outline: none;
+  border-color: #00d4ff;
+}
+
+.announcement-form .form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.5rem;
+}
+
+.announcement-form .form-select option {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+.announcement-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.announcement-form .image-preview {
+  margin-top: 1rem;
+}
+
+.announcement-form .image-preview img {
+  max-height: 150px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 0.5rem;
+}
+
+.announcement-form .checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.announcement-form .checkbox-group input[type="checkbox"] {
+  width: auto;
+}
+
+.announcement-form .form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.uploading-text {
+  color: #00d4ff;
+  margin-top: 0.5rem;
+}
+
+/* Announcements List */
+.announcements-list {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.announcement-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.announcement-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
+}
+
+.announcement-card img {
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  max-height: 180px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.announcement-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #00d4ff;
+}
+
+.announcement-card .subtitle {
+  font-style: italic;
+  color: #aaa;
+  margin-bottom: 0.75rem;
+}
+
+.announcement-card .content {
+  margin-bottom: 1rem;
+  color: #ddd;
+  line-height: 1.6;
+}
+
+.announcement-meta {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
+}
+
+.announcement-meta p {
+  margin-bottom: 0.25rem;
+}
+
+.announcement-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.announcement-actions button {
+  flex: 1;
+}
+
+/* Loading and Error States */
+.announcements-loading,
+.announcements-error,
+.no-announcements {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.announcements-loading {
+  color: #aaa;
+}
+
+.announcements-error {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  color: #ff6b6b;
+}
+
+.no-announcements {
+  color: #aaa;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .admin-announcements {
+    padding: 1rem;
+  }
+
+  .announcement-form {
+    padding: 1.5rem;
+  }
+
+  .announcement-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .announcements-list {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}

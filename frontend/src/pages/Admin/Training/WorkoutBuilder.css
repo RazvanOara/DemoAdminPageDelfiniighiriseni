@@ -1,0 +1,794 @@
+/* Swimming Workout Builder Styles */
+
+.swim-builder-container {
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--text-primary);
+}
+
+/* Header Section */
+.swim-builder-header {
+  margin-bottom: 3rem;
+}
+
+.swim-builder-name-input {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid var(--primary-color);
+  color: var(--text-primary);
+  padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 600px;
+  transition: all 0.3s ease;
+}
+
+.swim-builder-name-input:focus {
+  outline: none;
+  border-bottom-color: var(--primary-color);
+  box-shadow: 0 3px 10px var(--shadow-light);
+}
+
+.swim-builder-stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.swim-builder-stat {
+  text-align: center;
+}
+
+.swim-builder-stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.swim-builder-stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.swim-builder-notation {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.swim-builder-notation-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.swim-builder-notation-text {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+/* Empty States */
+.swim-builder-empty-workout {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  border: 2px dashed var(--border-color);
+}
+
+.swim-builder-empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.swim-builder-empty-workout h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.swim-builder-empty-workout p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.swim-builder-empty-repeat {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  border: 2px dashed rgba(139, 92, 246, 0.3);
+}
+
+/* Workout Items */
+.swim-builder-items {
+  position: relative;
+}
+
+.swim-builder-item {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.swim-builder-item.swim-builder-level-0 {
+  margin-left: 0;
+}
+
+.swim-builder-item.swim-builder-level-1 {
+  margin-left: 2rem;
+  border-left: 3px solid rgba(139, 92, 246, 0.3);
+  padding-left: 1rem;
+}
+
+.swim-builder-item.swim-builder-level-2 {
+  margin-left: 4rem;
+  border-left: 3px solid rgba(59, 130, 246, 0.3);
+  padding-left: 1rem;
+}
+
+.swim-builder-item.swim-builder-level-3 {
+  margin-left: 6rem;
+  border-left: 3px solid rgba(16, 185, 129, 0.3);
+  padding-left: 1rem;
+}
+
+/* Drag and Drop */
+.swim-builder-drop-zone {
+  height: 4px;
+  background: transparent;
+  transition: all 0.2s ease;
+  border-radius: 2px;
+  margin: 2px 0;
+}
+
+.swim-builder-drop-zone.swim-builder-active {
+  height: 8px;
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+  box-shadow: 0 0 10px var(--shadow-primary);
+}
+
+.swim-builder-item-content {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: grab;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.swim-builder-item-content:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--shadow-light);
+}
+
+.swim-builder-item-content.swim-builder-dragging {
+  opacity: 0.5;
+  transform: rotate(3deg) scale(0.95);
+  cursor: grabbing;
+  z-index: 1000;
+}
+
+.swim-builder-item-content.swim-builder-repeat-item {
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+}
+
+.swim-builder-item-content.swim-builder-repeat-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(45deg, #8b5cf6, #a855f7);
+  border-radius: 16px 16px 0 0;
+}
+
+/* Item Header */
+.swim-builder-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.swim-builder-item-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex: 1;
+}
+
+.swim-builder-item-type-indicator {
+  width: 6px;
+  height: 60px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.swim-builder-item-details {
+  flex: 1;
+}
+
+.swim-builder-item-badges {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.swim-builder-step-type-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.swim-builder-repeat-badge {
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(45deg, #8b5cf6, #a855f7);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.swim-builder-item-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.swim-builder-effort-indicator,
+.swim-builder-pace-indicator,
+.swim-builder-css-indicator,
+.swim-builder-drill-indicator {
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-size: 0.9rem;
+}
+
+.swim-builder-drill-indicator {
+  font-style: italic;
+  color: rgba(139, 92, 246, 0.8);
+}
+
+.swim-builder-pace-indicator {
+  color: rgba(16, 185, 129, 0.8);
+  font-family: 'Courier New', monospace;
+}
+
+.swim-builder-css-indicator {
+  color: rgba(59, 130, 246, 0.8);
+  font-family: 'Courier New', monospace;
+}
+
+/* Equipment Multi-Select Styles */
+.swim-builder-equipment-selector {
+  position: relative;
+}
+
+.swim-builder-equipment-display {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  background: rgba(26, 26, 46, 0.9) !important;
+  color: var(--text-primary) !important;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.swim-builder-equipment-display:hover {
+  border-color: var(--primary-color);
+  background: rgba(26, 26, 46, 0.95) !important;
+}
+
+.swim-builder-equipment-dropdown-arrow {
+  transition: transform 0.3s ease;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.swim-builder-equipment-dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.swim-builder-equipment-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(26, 26, 46, 0.98);
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  margin-top: 4px;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px var(--shadow-light);
+}
+
+.swim-builder-equipment-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.swim-builder-equipment-dropdown::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.swim-builder-equipment-dropdown::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+
+.swim-builder-equipment-option {
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+}
+
+.swim-builder-equipment-option:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.swim-builder-equipment-option.selected {
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.swim-builder-equipment-option:last-child {
+  border-bottom: none;
+}
+
+.swim-builder-equipment-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--primary-color);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.swim-builder-equipment-checkbox.checked {
+  background: var(--primary-color);
+}
+
+.swim-builder-equipment-checkbox-check {
+  color: var(--background-primary);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.swim-builder-equipment-info {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.swim-builder-notes {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Item Actions */
+.swim-builder-item-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.swim-builder-action-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.swim-builder-action-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.swim-builder-action-btn.swim-builder-add-to-repeat {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a855f7;
+}
+
+.swim-builder-action-btn.swim-builder-add-to-repeat:hover {
+  background: #8b5cf6;
+  color: white;
+}
+
+.swim-builder-action-btn.swim-builder-edit {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+.swim-builder-action-btn.swim-builder-edit:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+.swim-builder-action-btn.swim-builder-duplicate {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.swim-builder-action-btn.swim-builder-duplicate:hover {
+  background: #10b981;
+  color: white;
+}
+
+.swim-builder-action-btn.swim-builder-delete {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.swim-builder-action-btn.swim-builder-delete:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* Repeat Content */
+.swim-builder-repeat-content {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  border: 1px dashed rgba(139, 92, 246, 0.3);
+  position: relative;
+  min-height: 60px;
+}
+
+.swim-builder-repeat-content::before {
+  content: 'Drop here or click + to add steps';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(139, 92, 246, 0.5);
+  font-size: 0.9rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.swim-builder-repeat-content:empty::before {
+  opacity: 1;
+}
+
+/* Add Item Section */
+.swim-builder-add-item-section {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 2rem;
+}
+
+/* Form Styles */
+.swim-builder-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.swim-builder-form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.swim-builder-form-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(45deg, var(--text-primary), var(--primary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.swim-builder-parent-info {
+  color: #a855f7;
+  font-size: 0.9rem;
+}
+
+.swim-builder-step-form {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(20px);
+}
+
+/* Fix dropdown styling - Override global form styles */
+.swim-builder-step-form .form-select {
+  background: rgba(26, 26, 46, 0.9) !important;
+  color: var(--text-primary) !important;
+  border: 2px solid var(--border-color) !important;
+}
+
+.swim-builder-step-form .form-select option {
+  background: var(--background-secondary) !important;
+  color: var(--text-primary) !important;
+  padding: 0.5rem;
+}
+
+.swim-builder-step-form .form-input,
+.swim-builder-step-form .form-textarea {
+  background: rgba(26, 26, 46, 0.9) !important;
+  color: var(--text-primary) !important;
+  border: 2px solid var(--border-color) !important;
+}
+
+.swim-builder-step-form .form-input::placeholder,
+.swim-builder-step-form .form-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.swim-builder-step-form .form-input:focus,
+.swim-builder-step-form .form-select:focus,
+.swim-builder-step-form .form-textarea:focus {
+  outline: none !important;
+  border-color: var(--primary-color) !important;
+  background: rgba(26, 26, 46, 0.95) !important;
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1) !important;
+}
+
+.swim-builder-type-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.swim-builder-type-btn {
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.swim-builder-type-btn:hover {
+  border-color: var(--primary-color);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.swim-builder-type-btn.swim-builder-active {
+  border-color: var(--primary-color);
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+  color: white;
+}
+
+.swim-builder-form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.swim-builder-form-actions .btn {
+  flex: 1;
+}
+
+/* Footer */
+.swim-builder-footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.swim-builder-footer .btn {
+  margin: 0 0.5rem;
+}
+
+/* Button Size Variations */
+.btn.swim-builder-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.btn.swim-builder-large {
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+}
+
+/* Add these styles to your existing CSS */
+
+.swim-builder-action-btn.swim-builder-repeat-up,
+.swim-builder-action-btn.swim-builder-repeat-down {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a855f7;
+  font-size: 0.8rem;
+  width: 28px;
+  height: 28px;
+}
+
+.swim-builder-action-btn.swim-builder-repeat-up:hover,
+.swim-builder-action-btn.swim-builder-repeat-down:hover {
+  background: #8b5cf6;
+  color: white;
+}
+
+.swim-builder-action-btn.swim-builder-repeat-up {
+  border-radius: 8px 8px 2px 2px;
+}
+
+.swim-builder-action-btn.swim-builder-repeat-down {
+  border-radius: 2px 2px 8px 8px;
+}
+.swim-builder-repeat-actions {
+  padding: 1rem;
+  border-top: 1px solid rgba(139, 92, 246, 0.2);
+  background: rgba(139, 92, 246, 0.05);
+  border-radius: 0 0 8px 8px;
+  margin-top: 1rem;
+}
+
+.swim-builder-repeat-actions:first-child {
+  border-top: none;
+  margin-top: 0;
+}
+
+.swim-builder-pace-indicator {
+  color: #60a5fa;
+  font-weight: 600;
+  font-size: 0.9em;
+}
+
+.swim-builder-effort-indicator {
+  color: #a78bfa;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 0.9em;
+}
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .swim-builder-container {
+    padding: 1rem;
+  }
+
+  .swim-builder-name-input {
+    font-size: 1.8rem;
+  }
+
+  .swim-builder-stats {
+    justify-content: center;
+  }
+
+  .swim-builder-item-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .swim-builder-item-actions {
+    align-self: stretch;
+    justify-content: space-around;
+  }
+
+  .swim-builder-item.swim-builder-level-1,
+  .swim-builder-item.swim-builder-level-2,
+  .swim-builder-item.swim-builder-level-3 {
+    margin-left: 1rem;
+  }
+
+  .swim-builder-type-selector {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .swim-builder-form-actions {
+    flex-direction: column;
+  }
+
+  .swim-builder-footer .btn {
+    display: block;
+    margin: 0.5rem 0;
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .swim-builder-item-content {
+    padding: 1rem;
+  }
+
+  .swim-builder-item-type-indicator {
+    height: 40px;
+  }
+
+  .swim-builder-action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .swim-builder-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .swim-builder-notation-text {
+    font-size: 0.9rem;
+    word-break: break-all;
+  }
+}
+
+/* Animation for smooth interactions */
+@keyframes swim-builder-slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.swim-builder-item {
+  animation: swim-builder-slideIn 0.3s ease;
+}
+
+/* Focus indicators for accessibility */
+.swim-builder-item-content:focus,
+.swim-builder-action-btn:focus,
+.swim-builder-type-btn:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .swim-builder-item-content {
+    border-width: 2px;
+  }
+  
+  .swim-builder-action-btn {
+    border: 1px solid currentColor;
+  }
+}

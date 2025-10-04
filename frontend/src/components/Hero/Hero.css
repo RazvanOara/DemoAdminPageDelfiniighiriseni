@@ -1,0 +1,267 @@
+/* Hero.css */
+
+.hero-fullscreen {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+    padding: 2rem;
+    overflow: hidden;
+  }
+  
+  /* Add floating particles background */
+  .hero-fullscreen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(2px 2px at 20px 30px, #00d4ff, transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(0, 212, 255, 0.8), transparent),
+      radial-gradient(1px 1px at 90px 40px, #00d4ff, transparent),
+      radial-gradient(1px 1px at 130px 80px, rgba(0, 212, 255, 0.6), transparent);
+    background-repeat: repeat;
+    background-size: 150px 150px;
+    animation: particleFloat 8s ease-in-out infinite;
+    z-index: 1;
+  }
+  
+  .hero-content-center {
+    text-align: center;
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .hero-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    animation: logoEntrance 1s ease-out;
+  }
+  
+  .hero-logo {
+    height: 180px;
+    width: auto;
+    filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.4));
+    transition: all 0.3s ease;
+    animation: logoFloat 4s ease-in-out infinite;
+    /* Fix for transparent logo visibility */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+  
+  .hero-logo:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.6));
+    box-shadow: 0 12px 40px rgba(0, 212, 255, 0.3);
+  }
+  
+  .hero-logo:nth-child(2) {
+    animation-delay: 2s;
+  }
+  
+  .hero-main-title {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 900;
+    margin-bottom: 2rem;
+    animation: titleReveal 1.2s ease-out 0.3s both;
+  }
+  
+  .highlight {
+    background: linear-gradient(45deg, #00d4ff, #0099cc, #00ffff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+  }
+  
+  .hero-description {
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    opacity: 0.9;
+    animation: descriptionFade 1.4s ease-out 0.6s both;
+  }
+  
+  .hero-action-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    animation: cardsSlideUp 1.6s ease-out 0.9s both;
+  }
+  
+  .action-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .action-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 20px;
+    background: linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  
+  .action-card:hover::before {
+    opacity: 1;
+  }
+  
+  .action-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+  
+  .card-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 212, 255, 0.2);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .action-card:hover .card-icon {
+    background: rgba(0, 212, 255, 0.4);
+    transform: scale(1.1);
+  }
+  
+  .card-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+  
+  .card-content p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    animation: statsAppear 1.8s ease-out 1.2s both;
+  }
+  
+  .stat-item {
+    text-align: center;
+  }
+  
+  .stat-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00d4ff;
+    text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+    animation: numberPulse 2s ease-in-out infinite;
+    margin-bottom: 0.25rem;
+  }
+  
+  .stat-item:nth-child(1) .stat-number { animation-delay: 0s; }
+  .stat-item:nth-child(2) .stat-number { animation-delay: 0.7s; }
+  .stat-item:nth-child(3) .stat-number { animation-delay: 1.4s; }
+  
+  .stat-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+  }
+  
+  /* Mobile */
+  @media (max-width: 768px) {
+    .hero-fullscreen {
+      padding: 1rem;
+    }
+  
+    .hero-logos {
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .hero-logo {
+      height: 120px;
+      padding: 10px;
+    }
+    
+    .hero-action-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    .action-card {
+      flex-direction: column;
+      text-align: center;
+      padding: 1.5rem;
+      gap: 1rem;
+    }
+    
+    .hero-stats {
+      gap: 2rem;
+    }
+  
+    .stat-number {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-logo {
+      height: 90px;
+      padding: 8px;
+    }
+  
+    .hero-main-title {
+      font-size: 2.2rem;
+    }
+  
+    .action-card {
+      padding: 1.2rem;
+    }
+  
+    .stat-number {
+      font-size: 1.8rem;
+    }
+  }

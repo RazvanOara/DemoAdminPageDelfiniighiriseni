@@ -1,0 +1,117 @@
+/* Container */
+.consimtamant-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px var(--shadow-light);
+  }
+  
+  /* Title */
+  .consimtamant-container h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    background: linear-gradient(45deg, var(--primary-color), var(--text-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Table */
+  .consimtamant-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+  }
+  
+  /* Table Head */
+  .consimtamant-table thead {
+    background: linear-gradient(45deg, var(--primary-dark), var(--primary-color));
+    color: var(--text-primary);
+    text-align: left;
+  }
+  
+  .consimtamant-table th {
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Table Body */
+  .consimtamant-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+  
+  /* Row Hover */
+  .consimtamant-table tbody tr:hover {
+    background: rgba(0, 212, 255, 0.08);
+    transition: background 0.3s ease;
+  }
+  
+  /* Empty/Loading State */
+  .consimtamant-container p {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-top: 2rem;
+  }
+  .consimtamant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Responsive */
+  @media screen and (max-width: 768px) {
+    .consimtamant-table,
+    .consimtamant-table thead,
+    .consimtamant-table tbody,
+    .consimtamant-table th,
+    .consimtamant-table td,
+    .consimtamant-table tr {
+      display: block;
+      width: 100%;
+    }
+  
+    .consimtamant-table thead {
+      display: none;
+    }
+  
+    .consimtamant-table tr {
+      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 15px rgba(0, 212, 255, 0.05);
+    }
+  
+    .consimtamant-table td {
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      font-size: 0.95rem;
+    }
+  
+    .consimtamant-table td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      color: var(--primary-color);
+      text-transform: uppercase;
+      flex-basis: 50%;
+      text-align: left;
+    }
+  }
+  

@@ -1,0 +1,329 @@
+/* SwimmingTimes.css - Extends global CSS variables and styles */
+
+/* Swimming Times specific styles */
+.personal-bests-preview {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+  
+  .personal-bests-preview h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .bests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .best-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .best-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+  
+  .best-event {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .best-time {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+  }
+  
+  .more-bests {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+  
+  /* Enhanced action buttons for swimming times */
+  .swimmer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
+  }
+  
+  .action-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .action-btn.view-btn:hover {
+    background: rgba(52, 152, 219, 0.2);
+    border-color: #3498db;
+    color: #3498db;
+  }
+  
+  .action-btn.edit-btn:hover {
+    background: rgba(46, 204, 113, 0.2);
+    border-color: #2ecc71;
+    color: #2ecc71;
+  }
+  
+  .action-btn.primary-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+    border-color: var(--primary-color);
+    color: var(--text-primary);
+  }
+  
+  .action-btn.primary-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+  }
+  
+  .action-btn.delete-btn:hover {
+    background: rgba(231, 76, 60, 0.2);
+    border-color: #e74c3c;
+    color: #e74c3c;
+  }
+  
+  .btn-icon {
+    font-size: 1rem;
+  }
+  
+  /* Enhanced swimmer stats for times */
+  .swimmer-stats .stat-item .stat-icon {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+  }
+  
+  /* Times-specific filters */
+  .filter-group.time-range {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .filter-group.time-range input[type="date"] {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+  }
+  
+  .filter-group.time-range input[type="date"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+  }
+  
+  /* Pool length indicator */
+  .pool-length-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    margin-left: 0.5rem;
+  }
+  
+  /* Competition indicator */
+  .competition-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 193, 7, 0.1);
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: #ffc107;
+    margin-left: 0.5rem;
+  }
+  
+  /* Personal best indicator */
+  .personal-best-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(40, 167, 69, 0.1);
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: #28a745;
+    margin-left: 0.5rem;
+  }
+  
+  /* Time display */
+  .time-display {
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+  
+  .time-display.personal-best {
+    color: #28a745;
+    text-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+  }
+  
+  /* Enhanced loading state for times */
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+  }
+  
+  .loading-spinner {
+    font-size: 2rem;
+    animation: spin 2s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  /* Empty state enhancements */
+  .empty-state .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.6;
+  }
+  
+  /* Responsive adjustments for swimming times */
+  @media screen and (max-width: 768px) {
+    .bests-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .swimmer-actions {
+      flex-direction: column;
+    }
+    
+    .action-btn {
+      min-width: auto;
+      width: 100%;
+    }
+    
+    .filters-row {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .filter-group {
+      width: 100%;
+    }
+    
+    .swimmer-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .bests-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .swimmer-stats {
+      grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+      text-align: center;
+    }
+    
+    .personal-bests-preview {
+      padding: 0.75rem;
+    }
+    
+    .best-item {
+      padding: 0.5rem;
+    }
+  }
+  
+  /* Animation for time improvements */
+  @keyframes timeImprovement {
+    0% { 
+      background: rgba(40, 167, 69, 0.3);
+      transform: scale(1);
+    }
+    50% { 
+      background: rgba(40, 167, 69, 0.5);
+      transform: scale(1.05);
+    }
+    100% { 
+      background: rgba(40, 167, 69, 0.1);
+      transform: scale(1);
+    }
+  }
+  
+  .best-item.improved {
+    animation: timeImprovement 1s ease-in-out;
+  }
+  
+  /* Hover effects for better UX */
+  .planificare-swimmer-card:hover .personal-bests-preview {
+    background: rgba(0, 212, 255, 0.08);
+    border-color: rgba(0, 212, 255, 0.2);
+  }
+  
+  .planificare-swimmer-card:hover .best-time {
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+  }
+  
+  /* Custom scrollbar for mobile */
+  @media screen and (max-width: 768px) {
+    .swimmers-grid::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .swimmers-grid {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }

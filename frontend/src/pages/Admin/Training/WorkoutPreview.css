@@ -1,0 +1,440 @@
+/* Whiteboard View Styles */
+.workout-whiteboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    color: black;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .whiteboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #000;
+  }
+  
+  .workout-info h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .workout-summary {
+    display: flex;
+    gap: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    color: #2563eb;
+  }
+  
+  .whiteboard-actions {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .whiteboard-actions .btn {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .whiteboard-actions .btn-secondary {
+    background: #6b7280;
+    color: white;
+  }
+  
+  .whiteboard-actions .btn-secondary:hover {
+    background: #4b5563;
+  }
+  
+  .whiteboard-actions .btn-primary {
+    background: #2563eb;
+    color: white;
+  }
+  
+  .whiteboard-actions .btn-primary:hover {
+    background: #1d4ed8;
+  }
+  
+  /* Print-only header */
+  .print-header {
+    display: none;
+  }
+  
+  .workout-board {
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  .board-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 3px solid #000;
+    border-radius: 12px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .item-number {
+    background: #000;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .item-content {
+    flex: 1;
+  }
+  
+  /* Repeat Blocks */
+  .repeat-block {
+    width: 100%;
+  }
+  
+  .repeat-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    flex-wrap: wrap;
+  }
+  
+  .repeat-count {
+    background: #ff6b35;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    min-width: 60px;
+    text-align: center;
+  }
+  
+  .repeat-label {
+    font-size: 1.2rem;
+    color: #ff6b35;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .repeat-notes {
+    font-style: italic;
+    color: #666;
+    font-size: 1rem;
+  }
+  
+  .repeat-items {
+    display: grid;
+    gap: 1rem;
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 4px solid #ff6b35;
+  }
+  
+  .repeat-sub-item {
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Swimming Items */
+  .swim-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .swim-main-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .swim-distance {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2563eb;
+    min-width: 100px;
+    text-align: center;
+    background: #dbeafe;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 2px solid #2563eb;
+  }
+  
+  .swim-stroke {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #059669;
+    letter-spacing: 1px;
+  }
+  
+  .drill-type {
+    font-size: 1.2rem;
+    color: #7c2d12;
+    text-transform: capitalize;
+    font-weight: normal;
+  }
+  
+  .swim-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .equipment-list {
+    background: #fbbf24;
+    color: #92400e;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 2px solid #f59e0b;
+  }
+  
+  .effort-level {
+    background: #dc2626;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .target-pace {
+    background: #7c3aed;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .item-notes {
+    font-style: italic;
+    color: #374151;
+    margin-top: 0.5rem;
+    border-left: 4px solid #10b981;
+    padding-left: 1rem;
+    background: #ecfdf5;
+    padding: 0.8rem 1rem;
+    border-radius: 0 8px 8px 0;
+    font-size: 1.1rem;
+  }
+  
+  /* Rest Items */
+  .rest-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #7c3aed;
+    background: #f3e8ff;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid #7c3aed;
+  }
+  
+  .rest-icon {
+    font-size: 2.5rem;
+  }
+  
+  .rest-notes {
+    font-style: italic;
+    color: #6b21a8;
+    font-size: 1.1rem;
+    font-weight: normal;
+  }
+  
+  /* Footer */
+  .whiteboard-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 3px solid #000;
+  }
+  
+  .notation-display {
+    font-size: 1.2rem;
+    word-break: break-all;
+    line-height: 1.6;
+    background: #f3f4f6;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid #d1d5db;
+  }
+  
+  /* Empty State */
+  .empty-workout {
+    text-align: center;
+    padding: 4rem;
+    font-size: 1.5rem;
+    color: #666;
+  }
+  
+  .loading-state {
+    text-align: center;
+    padding: 4rem;
+    font-size: 1.5rem;
+    color: #666;
+  }
+  
+  /* Print Styles */
+  @media print {
+    .workout-whiteboard {
+      padding: 1rem;
+      background: white;
+      max-width: none;
+    }
+    
+    .whiteboard-header.no-print {
+      display: none;
+    }
+    
+    .print-header {
+      display: block;
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #000;
+      padding-bottom: 1rem;
+    }
+    
+    .print-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0;
+      text-transform: uppercase;
+    }
+    
+    .print-summary {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    
+    .board-item {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 1rem;
+      box-shadow: none;
+    }
+    
+    .repeat-items {
+      break-inside: avoid;
+    }
+    
+    .swim-distance {
+      background: #f0f0f0 !important;
+      -webkit-print-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    
+    .equipment-list,
+    .effort-level,
+    .target-pace {
+      -webkit-print-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+  .inline-pace {
+    color: #60a5fa;
+    font-weight: 600;
+    font-size: 0.95em;
+    margin-left: 0.5rem;
+  }
+  
+  .inline-effort {
+    color: #a78bfa;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 0.95em;
+    margin-left: 0.5rem;
+  }
+  
+  .drill-type {
+    font-style: italic;
+    opacity: 0.85;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .workout-whiteboard {
+      padding: 1rem;
+    }
+    
+    .whiteboard-header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+    
+    .workout-info h1 {
+      font-size: 2rem;
+    }
+    
+    .workout-summary {
+      gap: 1rem;
+      font-size: 1rem;
+    }
+    
+    .whiteboard-actions {
+      justify-content: stretch;
+    }
+    
+    .whiteboard-actions .btn {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .board-item {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .item-number {
+      margin-bottom: 1rem;
+    }
+    
+    .swim-main-info {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .swim-distance {
+      font-size: 2rem;
+    }
+    
+    .swim-stroke {
+      font-size: 1.5rem;
+    }
+  }

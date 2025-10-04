@@ -1,0 +1,378 @@
+/* CardNav.css - Swimming Website Theme
+ TODO fix logo on mobile moving when pressed*/
+.card-nav-container {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    z-index: 1000;
+    box-sizing: border-box;
+  }
+  
+  .card-nav {
+    display: block;
+    height: 60px;
+    padding: 0;
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 1rem;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(0, 212, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    will-change: height;
+    transition: all 0.3s ease;
+  }
+  
+  .card-nav:hover {
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(0, 212, 255, 0.2);
+  }
+  
+  .card-nav-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.45rem 0.55rem 1.1rem;
+    z-index: 2;
+  }
+  
+  .hamburger-menu {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 6px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+  
+  .hamburger-menu:hover {
+    background: rgba(0, 212, 255, 0.1);
+    color: #00d4ff;
+  }
+  
+  .hamburger-menu:hover .hamburger-line {
+    opacity: 0.75;
+  }
+  
+  .hamburger-line {
+    width: 30px;
+    height: 2px;
+    background-color: currentColor;
+    transition:
+      transform 0.25s ease,
+      opacity 0.2s ease,
+      margin 0.3s ease;
+    transform-origin: 50% 50%;
+    border-radius: 1px;
+  }
+  
+  .hamburger-menu.open .hamburger-line:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+  
+  .hamburger-menu.open .hamburger-line:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-decoration: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+  }
+  
+  .logo-container:hover {
+    color: #00d4ff;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  
+  .logo-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #00d4ff, #0099cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+  }
+  
+  .card-nav-cta-button {
+    background: linear-gradient(45deg, #00d4ff, #0099cc);
+    color: white;
+    border: none;
+    border-radius: calc(1rem - 0.4rem);
+    padding: 0 1.2rem;
+    height: calc(100% - 0.5rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 10px rgba(0, 212, 255, 0.3);
+  }
+  
+  .card-nav-cta-button:hover {
+    background: linear-gradient(45deg, #0099cc, #00d4ff);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+  }
+  
+  .card-nav-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 60px;
+    bottom: 0;
+    padding: 0.8rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .card-nav.open .card-nav-content {
+    visibility: visible;
+    pointer-events: auto;
+  }
+  
+  .nav-card {
+    height: 100%;
+    flex: 1 1 0;
+    min-width: 0;
+    border-radius: calc(1rem - 0.3rem);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 20px;
+    gap: 12px;
+    user-select: none;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .nav-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 153, 204, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  
+  .nav-card:hover::before {
+    opacity: 1;
+  }
+  
+  .nav-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .nav-card-label {
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  }
+  
+  .nav-card-links {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .nav-card-link {
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 4px 0;
+    border-radius: 4px;
+  }
+  
+  .nav-card-link:hover {
+    color: #00d4ff;
+    transform: translateX(4px);
+  }
+  
+  .nav-card-link-icon {
+    transition: transform 0.3s ease;
+    font-size: 14px;
+  }
+  
+  .nav-card-link:hover .nav-card-link-icon {
+    transform: translateX(2px);
+  }
+  
+  /* Swimming theme animations */
+  @keyframes swimFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-2px); }
+  }
+  
+  .card-nav-container:hover .logo-text {
+    animation: swimFloat 2s ease-in-out infinite;
+  }
+  
+  /* Mobile responsive */
+@media (max-width: 768px) {
+    .card-nav-container {
+      width: 95%;
+      top: 1.5rem;
+    }
+    
+    .card-nav-top {
+      padding: 0.5rem 1rem;
+      justify-content: space-between;
+    }
+    
+    .hamburger-menu {
+      order: 2;
+    }
+    
+    .logo-container {
+      position: static;
+      transform: none;
+      order: 1;
+      justify-self: flex-start;
+    }
+    
+    .logo-text {
+      font-size: 1rem;
+    }
+    
+    .card-nav-cta-button {
+      display: none;
+    }
+    
+    .card-nav-content {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding: 0.6rem;
+      bottom: 0;
+      justify-content: flex-start;
+    }
+    
+    .nav-card {
+      height: auto;
+      min-height: 70px;
+      flex: 1 1 auto;
+      max-height: none;
+      padding: 12px 16px;
+    }
+    
+    .nav-card-label {
+      font-size: 17px;
+    }
+    
+    .nav-card-link {
+      font-size: 14px;
+    }
+  }
+  
+  /* Nav card link styling */
+  .nav-card-link {
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 4px 0;
+    border-radius: 4px;
+    background: none;
+    @media (max-width: 480px) {
+        .card-nav-container {
+          width: 95%;
+          top: 1rem;
+        }
+        
+        .logo-text {
+          font-size: 0.9rem;
+        }
+        
+        .nav-card {
+          min-height: 60px;
+          padding: 10px 14px;
+        }
+        
+        .nav-card-label {
+          font-size: 16px;
+        }
+        
+        .nav-card-link {
+          font-size: 13px;
+        }
+      }   border: none;
+    text-align: left;
+    width: 100%;
+    .logo-container:hover,
+  .logo-container:active,
+  .logo-container:focus {
+    transform: none !important;
+    position: static !important;
+  }
+  }
+  
+  @media (max-width: 480px) {
+    .card-nav-container {
+      width: 95%;
+      top: 1rem;
+    }
+    
+    .logo-text {
+      font-size: 0.9rem;
+    }
+    
+    .nav-card {
+      min-height: 60px;
+      padding: 10px 14px;
+    }
+    
+    .nav-card-label {
+      font-size: 16px;
+    }
+    
+    .nav-card-link {
+      font-size: 13px;
+    }
+  }

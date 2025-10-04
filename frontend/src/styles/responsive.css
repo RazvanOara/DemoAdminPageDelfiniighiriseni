@@ -1,0 +1,37 @@
+/* Add this to styles/responsive.css */
+@media screen and (max-width: 768px) {
+    .hero-fullscreen {
+      margin-left: 0;
+      width: 100%;
+      padding: 0 1rem;
+    }
+    
+    .hero-logo {
+      height: 120px;
+    }
+    
+    .hero-action-cards {
+      grid-template-columns: 1fr;
+      margin-bottom: 2rem;
+    }
+    
+    .action-card {
+      flex-direction: column;
+      text-align: center;
+      min-height: auto;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .hero-logo {
+      height: 90px;
+    }
+    
+    .hero-main-title {
+      font-size: 2.5rem;
+    }
+    
+    .action-card {
+      padding: 1.2rem;
+    }
+  }
