@@ -84,7 +84,7 @@ function AppContent() {
       <main className="main-content">
         <Routes>
           {/* Redirect root to admin dashboard */}
-          <Route path="/" element={<Navigate to="/admin" replace />} />
+          <Route path="/" element={<Navigate to="/admin/about-demo" replace />} />
           
           {/* Admin Dashboard */}
           <Route
