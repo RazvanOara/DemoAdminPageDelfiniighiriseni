@@ -234,9 +234,13 @@ const AboutDemo = () => {
 
   return (
     <div style={styles.container}>
+      <style>{cssString}</style>
+
       {/* Hero Section */}
       <div style={styles.hero}>
-        <div style={styles.heroIcon}>ℹ️</div>
+        <div style={styles.heroIconWrapper}>
+          <div style={styles.heroIcon}>ℹ️</div>
+        </div>
         <h1 style={styles.heroTitle}>Despre Această Versiune Demo</h1>
         <p style={styles.heroSubtitle}>
           Ghid complet pentru funcționalitățile platformei de management
@@ -276,17 +280,19 @@ const AboutDemo = () => {
         </div>
       </div>
 
-      {/* Sections List */}
+      {/* Sections Grid - Mobile Optimized */}
       <div style={styles.sectionsContainer}>
         {sections.map((section, index) => (
           <div 
             key={section.id}
+            className="section-card"
             style={{
               ...styles.card,
               animationDelay: `${index * 0.08}s`
             }}
           >
             <div 
+              className="card-header-clickable"
               style={{
                 ...styles.cardHeader,
                 background: `linear-gradient(135deg, ${section.color}20, ${section.color}05)`,
@@ -294,11 +300,13 @@ const AboutDemo = () => {
               }}
               onClick={() => toggleSection(section.id)}
             >
-              <div style={styles.cardIcon}>{section.icon}</div>
-              <h3 style={{...styles.cardTitle, color: section.color}}>
-                {section.title}
-              </h3>
-              <div style={{
+              <div style={styles.cardHeaderContent}>
+                <div style={styles.cardIcon}>{section.icon}</div>
+                <h3 style={{...styles.cardTitle, color: section.color}}>
+                  {section.title}
+                </h3>
+              </div>
+              <div className="expand-icon" style={{
                 ...styles.expandIcon,
                 transform: expandedSection === section.id ? 'rotate(180deg)' : 'rotate(0deg)'
               }}>
@@ -307,11 +315,12 @@ const AboutDemo = () => {
             </div>
 
             <div 
+              className="card-body-expandable"
               style={{
                 ...styles.cardBody,
-                maxHeight: expandedSection === section.id ? "2000px" : "0",
+                maxHeight: expandedSection === section.id ? "3000px" : "0",
                 opacity: expandedSection === section.id ? 1 : 0,
-                padding: expandedSection === section.id ? "1.5rem" : "0 1.5rem"
+                padding: expandedSection === section.id ? "1.25rem" : "0 1.25rem"
               }}
             >
               <div style={styles.contentWrapper}>
@@ -320,6 +329,7 @@ const AboutDemo = () => {
 
               <a 
                 href={section.link} 
+                className="view-button"
                 style={{...styles.viewButton, backgroundColor: section.color}}
                 onClick={(e) => e.stopPropagation()}
               >
@@ -332,6 +342,7 @@ const AboutDemo = () => {
 
       {/* Footer */}
       <div style={styles.footer}>
+        <div style={styles.footerIcon}>🚀</div>
         <p style={styles.footerText}>
           Navighează prin secțiuni și explorează funcționalitățile platformei
         </p>
@@ -342,9 +353,9 @@ const AboutDemo = () => {
 
 const styles = {
   container: {
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "2rem",
+    maxWidth: "100%",
+    margin: "0",
+    padding: "0",
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
     minHeight: "100vh",
@@ -352,39 +363,49 @@ const styles = {
   },
   hero: {
     textAlign: "center",
-    padding: "3rem 1rem",
-    marginBottom: "3rem",
-    background: "linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1))",
-    borderRadius: "24px",
-    border: "1px solid rgba(99, 102, 241, 0.2)",
-    backdropFilter: "blur(10px)"
+    padding: "2.5rem 1.5rem",
+    margin: "0 1rem 2rem",
+    background: "linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.1))",
+    borderRadius: "20px",
+    border: "1px solid rgba(99, 102, 241, 0.3)",
+    backdropFilter: "blur(10px)",
+    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)"
+  },
+  heroIconWrapper: {
+    display: "inline-block",
+    padding: "1rem",
+    background: "rgba(99, 102, 241, 0.1)",
+    borderRadius: "20px",
+    marginBottom: "1rem"
   },
   heroIcon: {
-    fontSize: "4rem",
-    marginBottom: "1rem",
+    fontSize: "3rem",
     animation: "float 3s ease-in-out infinite"
   },
   heroTitle: {
-    fontSize: "2.5rem",
+    fontSize: "clamp(1.75rem, 5vw, 2.5rem)",
     fontWeight: "800",
     background: "linear-gradient(135deg, #6366f1, #a855f7)",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
-    marginBottom: "0.5rem"
+    marginBottom: "0.75rem",
+    lineHeight: "1.2"
   },
   heroSubtitle: {
-    fontSize: "1.1rem",
+    fontSize: "clamp(0.95rem, 3vw, 1.1rem)",
     color: "#94a3b8",
     maxWidth: "600px",
-    margin: "0 auto"
+    margin: "0 auto",
+    lineHeight: "1.6"
   },
   alertBox: {
-    background: "linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))",
+    background: "linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.06))",
     border: "2px solid rgba(239, 68, 68, 0.3)",
     borderRadius: "16px",
-    padding: "1.5rem",
-    marginBottom: "3rem",
-    animation: "slideIn 0.5s ease-out"
+    padding: "1.25rem",
+    margin: "0 1rem 2rem",
+    animation: "slideIn 0.5s ease-out",
+    boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)"
   },
   alertHeader: {
     display: "flex",
@@ -393,22 +414,25 @@ const styles = {
     marginBottom: "1rem"
   },
   alertIcon: {
-    fontSize: "1.5rem"
+    fontSize: "1.5rem",
+    flexShrink: 0
   },
   alertTitle: {
-    fontSize: "1.5rem",
+    fontSize: "clamp(1.25rem, 4vw, 1.5rem)",
     color: "#fca5a5",
-    margin: 0
+    margin: 0,
+    fontWeight: "700"
   },
   alertContent: {
     lineHeight: "1.7",
-    fontSize: "1rem"
+    fontSize: "clamp(0.9rem, 2.5vw, 1rem)"
   },
   warningBox: {
-    background: "rgba(0, 0, 0, 0.2)",
+    background: "rgba(0, 0, 0, 0.3)",
     padding: "1rem",
-    borderRadius: "8px",
-    marginTop: "1rem"
+    borderRadius: "10px",
+    marginTop: "1rem",
+    border: "1px solid rgba(239, 68, 68, 0.2)"
   },
   warningList: {
     marginTop: "0.5rem",
@@ -419,92 +443,103 @@ const styles = {
     textDecoration: "none",
     fontWeight: "600",
     borderBottom: "2px solid transparent",
-    transition: "border-color 0.3s ease"
+    transition: "border-color 0.3s ease",
+    wordBreak: "break-word"
   },
   sectionsContainer: {
     display: "flex",
     flexDirection: "column",
-    gap: "1.5rem",
-    marginBottom: "3rem",
-    maxWidth: "900px",
-    margin: "0 auto 3rem"
+    gap: "1rem",
+    padding: "0 1rem 2rem",
+    maxWidth: "100%"
   },
   card: {
-    background: "rgba(30, 41, 59, 0.6)",
+    background: "rgba(30, 41, 59, 0.7)",
     borderRadius: "16px",
-    border: "1px solid rgba(148, 163, 184, 0.1)",
+    border: "1px solid rgba(148, 163, 184, 0.15)",
     overflow: "hidden",
     transition: "all 0.3s ease",
     animation: "fadeInUp 0.6s ease-out",
     backdropFilter: "blur(10px)",
-    width: "100%"
+    boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)"
   },
   cardHeader: {
-    padding: "1.25rem 1.5rem",
+    padding: "1rem 1.25rem",
     display: "flex",
     alignItems: "center",
-    gap: "1rem",
+    justifyContent: "space-between",
     cursor: "pointer",
     transition: "all 0.3s ease",
-    borderBottom: "1px solid rgba(148, 163, 184, 0.1)"
+    borderBottom: "1px solid rgba(148, 163, 184, 0.1)",
+    gap: "1rem"
+  },
+  cardHeaderContent: {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.75rem",
+    flex: 1,
+    minWidth: 0
   },
   cardIcon: {
     fontSize: "2rem",
     flexShrink: 0
   },
   cardTitle: {
-    fontSize: "1.35rem",
+    fontSize: "clamp(1.1rem, 3.5vw, 1.35rem)",
     fontWeight: "700",
     margin: 0,
-    flex: 1
+    lineHeight: "1.3",
+    wordBreak: "break-word"
   },
   expandIcon: {
-    fontSize: "1.2rem",
+    fontSize: "1rem",
     color: "#94a3b8",
     fontWeight: "300",
-    transition: "transform 0.3s ease"
+    transition: "transform 0.3s ease",
+    flexShrink: 0
   },
   cardBody: {
     overflow: "hidden",
     transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
   },
   contentWrapper: {
-    fontSize: "1rem",
+    fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
     lineHeight: "1.7",
     color: "#cbd5e1"
   },
   detailsBox: {
-    background: "rgba(0, 0, 0, 0.2)",
-    borderRadius: "8px",
+    background: "rgba(0, 0, 0, 0.25)",
+    borderRadius: "10px",
     padding: "1rem",
     margin: "1rem 0",
-    border: "1px solid rgba(148, 163, 184, 0.1)"
+    border: "1px solid rgba(148, 163, 184, 0.15)"
   },
   detailsTitle: {
-    fontSize: "1rem",
+    fontSize: "clamp(0.95rem, 2.5vw, 1rem)",
     fontWeight: "600",
     marginBottom: "0.75rem",
     color: "#e2e8f0"
   },
   warningCard: {
-    background: "linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05))",
+    background: "linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(245, 158, 11, 0.06))",
     border: "1px solid rgba(251, 191, 36, 0.3)",
-    borderRadius: "8px",
-    padding: "0.75rem 1rem",
+    borderRadius: "10px",
+    padding: "0.875rem 1rem",
     margin: "1rem 0",
     display: "flex",
     alignItems: "flex-start",
     gap: "0.75rem",
-    fontSize: "0.95rem"
+    fontSize: "clamp(0.85rem, 2.5vw, 0.95rem)"
   },
   warningIcon: {
     flexShrink: 0,
     fontSize: "1.2rem"
   },
   viewButton: {
-    display: "inline-block",
-    padding: "0.75rem 1.5rem",
-    borderRadius: "8px",
+    display: "block",
+    width: "100%",
+    padding: "0.875rem 1.5rem",
+    borderRadius: "10px",
     color: "white",
     textDecoration: "none",
     fontWeight: "600",
@@ -512,23 +547,30 @@ const styles = {
     transition: "all 0.3s ease",
     border: "none",
     cursor: "pointer",
-    fontSize: "0.95rem"
+    fontSize: "clamp(0.9rem, 2.5vw, 0.95rem)",
+    textAlign: "center",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)"
   },
   footer: {
     textAlign: "center",
-    padding: "2rem",
+    padding: "2rem 1.5rem",
     borderTop: "1px solid rgba(148, 163, 184, 0.1)",
-    marginTop: "3rem"
+    margin: "2rem 1rem 0"
+  },
+  footerIcon: {
+    fontSize: "2rem",
+    marginBottom: "0.75rem",
+    animation: "float 3s ease-in-out infinite",
+    animationDelay: "1s"
   },
   footerText: {
     color: "#94a3b8",
-    fontSize: "0.95rem"
+    fontSize: "clamp(0.875rem, 2.5vw, 0.95rem)",
+    lineHeight: "1.6"
   }
 };
 
-// Add keyframes via style tag
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
+const cssString = `
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
@@ -560,39 +602,79 @@ styleSheet.textContent = `
     border-bottom-color: currentColor !important;
   }
   
-  div[style*="cardHeader"]:hover {
-    transform: translateX(5px);
+  .card-header-clickable:active {
+    transform: scale(0.98);
   }
   
-  a[style*="viewButton"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    filter: brightness(1.1);
+  .view-button:active {
+    transform: scale(0.97);
   }
   
-  div[style*="contentWrapper"] ul {
+  .section-card {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .contentWrapper ul {
     padding-left: 1.5rem;
     margin: 0.75rem 0;
   }
   
-  div[style*="contentWrapper"] li {
+  .contentWrapper li {
     margin: 0.5rem 0;
   }
   
-  div[style*="contentWrapper"] p {
+  .contentWrapper p {
     margin: 0.75rem 0;
   }
   
-  div[style*="contentWrapper"] strong {
+  .contentWrapper strong {
     color: #e2e8f0;
     font-weight: 600;
   }
   
-  div[style*="contentWrapper"] em {
+  .contentWrapper em {
     color: #94a3b8;
     font-style: italic;
   }
+  
+  @media (min-width: 768px) {
+    .sectionsContainer {
+      max-width: 900px !important;
+      margin: 0 auto 3rem !important;
+      padding: 0 2rem 2rem !important;
+    }
+    
+    .card-header-clickable:hover {
+      transform: translateX(5px);
+    }
+    
+    .view-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      filter: brightness(1.1);
+    }
+    
+    .hero {
+      margin: 0 2rem 3rem !important;
+      padding: 3rem 2rem !important;
+    }
+    
+    .alertBox {
+      margin: 0 2rem 3rem !important;
+      padding: 1.5rem !important;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .cardHeaderContent {
+      flex-direction: row;
+      align-items: center;
+    }
+    
+    .cardIcon {
+      font-size: 1.75rem !important;
+    }
+  }
 `;
-document.head.appendChild(styleSheet);
 
 export default AboutDemo;

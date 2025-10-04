@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-// DELETED: import { API_BASE_URL } from '../../utils/config';
+import { API_BASE_URL } from '../../utils/config';
 import './UserCard.css';
 
 const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
   const { numeComplet, email, telefon, id, dataNasterii, dataInregistrarii, expired } = inscriere.cursant;
   const [isToggling, setIsToggling] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -44,15 +45,88 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
 
   const expirationInfo = calculateDaysUntilExpiration(inscriere.cursant.dataExpirarii);
 
-  // DISABLED: Status toggle does nothing in demo mode
   const handleToggleExpired = async () => {
-    // Do nothing - feature disabled in demo
-    return;
+    setIsToggling(true);
+    
+    try {
+      const csrfResponse = await fetch(`${API_BASE_URL}/csrf`, {
+        credentials: 'include'
+      });
+      const csrfData = await csrfResponse.json();
+      const csrfToken = csrfData.token;
+
+      const response = await fetch(`${API_BASE_URL}/api/admin/cursanti/${id}/expired`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-XSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({
+          expired: !expired
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update status');
+      }
+
+      const result = await response.json();
+      
+      if (onStatusUpdate) {
+        onStatusUpdate(id, result.expired, result.dataExpirarii, result.dataInregistrarii);
+      }
+
+    } catch (error) {
+      console.error('Error toggling expired status:', error);
+      alert('Eroare la actualizarea statusului. Încercați din nou.');
+    } finally {
+      setIsToggling(false);
+    }
   };
 
   return (
-    <div className={`user-card ${expired ? 'expired' : 'active'}`}>
-      <div className="user-header">
+    <div className={`user-card ${expired ? 'expired' : 'active'} ${isExpanded ? 'expanded' : ''}`}>
+      {/* Mobile Compact Header */}
+      <div className="mobile-card-header" onClick={() => setIsExpanded(!isExpanded)}>
+        <div className="mobile-header-left">
+          <div className="mobile-name-section">
+            <h3 className="user-name">{numeComplet}</h3>
+            <span className={`mobile-status-badge ${expired ? 'expired' : 'active'}`}>
+              {expired ? 'Expirat' : 'Activ'}
+            </span>
+          </div>
+          <div className="mobile-quick-info">
+  <span className="mobile-info-item">
+    📞 <a 
+      href={`tel:${formatPhoneForCall(telefon)}`} 
+      className="mobile-phone-link"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {telefon || 'N/A'}
+    </a>
+  </span>
+  <span className="mobile-info-item">
+    🎂 {calculateAge(dataNasterii)}
+  </span>
+</div>
+        </div>
+        <div className="mobile-expand-icon">
+          <svg 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor"
+            style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      {/* Desktop Header (unchanged) */}
+      <div className="desktop-user-header">
         <h3 className="user-name">{numeComplet}</h3>
         <div className="user-status">
           <span className={`status-badge ${expired ? 'expired' : 'active'}`}>
@@ -61,113 +135,130 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
         </div>
       </div>
 
-      <div className="user-info">
-        <div className="info-row">
-          <span className="info-label">Email:</span>
-          <span className="info-value">
-            {email ? (
-              <a href={`mailto:${email}`} className="contact-link">
-                {email}
-              </a>
-            ) : (
-              'N/A'
-            )}
-          </span>
-        </div>
-        <div className="info-row">
-          <span className="info-label">Telefon:</span>
-          <span className="info-value">
-            {telefon ? (
-              <a href={`tel:${formatPhoneForCall(telefon)}`} className="contact-link phone-link">
-                {telefon}
-              </a>
-            ) : (
-              'N/A'
-            )}
-          </span>
-        </div>
-        <div className="info-row">
-          <span className="info-label">Varsta:</span>
-          <span className="info-value">{calculateAge(dataNasterii)}</span>
-        </div>
-        <div className="info-row">
-          <span className="info-label">Data nasterii:</span>
-          <span className="info-value">{formatDate(dataNasterii)}</span>
-        </div>
-        <div className="info-row">
-          <span className="info-label">Data inregistrarii:</span>
-          <span className="info-value">{formatDate(dataInregistrarii)}</span>
-        </div>
-
-        {!expired && expirationInfo && (
+      {/* Expandable Details Section */}
+      <div className={`card-details ${isExpanded ? 'show' : ''}`}>
+        <div className="user-info">
           <div className="info-row">
-            <span className="info-label">Zile ramase:</span>
-            <span className={`info-value expiration-${expirationInfo.status}`}>
-              {expirationInfo.days === 0 ? 'Expiră azi!' : 
-               expirationInfo.days === 1 ? '1 zi rămasă' :
-               `${expirationInfo.days} zile rămase`}
-            </span>
-          </div>
-        )}
-
-        {inscriere.contact && (
-          <div className="info-row">
-            <span className="info-label">Contact:</span>
+            <span className="info-label">Email:</span>
             <span className="info-value">
-              {inscriere.contact.persoanaContact} ({inscriere.contact.calitate})
+              {email ? (
+                <a href={`mailto:${email}`} className="contact-link">
+                  {email}
+                </a>
+              ) : (
+                'N/A'
+              )}
             </span>
           </div>
-        )}
-      </div>
+          <div className="info-row">
+            <span className="info-label">Telefon:</span>
+            <span className="info-value">
+              {telefon ? (
+                <a href={`tel:${formatPhoneForCall(telefon)}`} className="contact-link phone-link">
+                  {telefon}
+                </a>
+              ) : (
+                'N/A'
+              )}
+            </span>
+          </div>
+          <div className="info-row">
+            <span className="info-label">Varsta:</span>
+            <span className="info-value">{calculateAge(dataNasterii)}</span>
+          </div>
+          <div className="info-row">
+            <span className="info-label">Data nasterii:</span>
+            <span className="info-value">{formatDate(dataNasterii)}</span>
+          </div>
+          <div className="info-row">
+            <span className="info-label">Data inregistrarii:</span>
+            <span className="info-value">{formatDate(dataInregistrarii)}</span>
+          </div>
 
-      <div className="program-section">
-        <h4>Program</h4>
-        {inscriere.program && inscriere.program.length > 0 ? (
-          <ul className="program-list">
-            {inscriere.program.map((p, i) => (
-              <li key={i} className="program-item">
-                <span className="day">{p.zi}</span>
-                <span className="time">{p.ora}</span>
-                <span className="instructor">cu {p.instructor}</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="no-program">Nu există program înregistrat</p>
-        )}
-      </div>
+          {!expired && expirationInfo && (
+            <div className="info-row">
+              <span className="info-label">Zile ramase:</span>
+              <span className={`info-value expiration-${expirationInfo.status}`}>
+                {expirationInfo.days === 0 ? 'Expiră azi!' : 
+                 expirationInfo.days === 1 ? '1 zi rămasă' :
+                 `${expirationInfo.days} zile rămase`}
+              </span>
+            </div>
+          )}
 
-      <div className="documents-section">
-        <h4>Documente (Demo - Indisponibil)</h4>
-        <div className="document-links">
-          <span className="document-link disabled">
-            📄 Fișă de înscriere
-          </span>
-          <span className="document-link disabled">
-            📋 Declarație
-          </span>
-          <span className="document-link disabled">
-            🏥 Adeverință medicală
-          </span>
+          {inscriere.contact && (
+            <div className="info-row">
+              <span className="info-label">Contact:</span>
+              <span className="info-value">
+                {inscriere.contact.persoanaContact} ({inscriere.contact.calitate})
+              </span>
+            </div>
+          )}
         </div>
-      </div>
 
-      <div className="user-actions">
-        <button 
-          onClick={handleToggleExpired}
-          className={`toggle-btn ${expired ? 'activate-btn' : 'expire-btn'} disabled-demo`}
-          disabled={true}
-          title="Funcție dezactivată în modul demo"
-        >
-          {expired ? '🔄 Activează (Demo)' : '⏰ Marchează expirat (Demo)'}
-        </button>
-        
-        <button 
-          onClick={() => onDelete(id)}
-          className="delete-btn"
-        >
-          🗑️ Șterge
-        </button>
+        <div className="program-section">
+          <h4>Program</h4>
+          {inscriere.program && inscriere.program.length > 0 ? (
+            <ul className="program-list">
+              {inscriere.program.map((p, i) => (
+                <li key={i} className="program-item">
+                  <span className="day">{p.zi}</span>
+                  <span className="time">{p.ora}</span>
+                  <span className="instructor">cu {p.instructor}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="no-program">Nu există program înregistrat</p>
+          )}
+        </div>
+
+        <div className="documents-section">
+          <h4>Documente</h4>
+          <div className="document-links">
+            <a 
+              href={`${API_BASE_URL}/api/admin/pdf/inscriere/${id}`} 
+              target="_blank" 
+              rel="noreferrer"
+              className="document-link"
+            >
+              📄 Fișă de înscriere
+            </a>
+            <a 
+              href={`${API_BASE_URL}/api/admin/pdf/declaratie/${id}`} 
+              target="_blank" 
+              rel="noreferrer"
+              className="document-link"
+            >
+              📋 Declarație
+            </a>
+            <a 
+              href={`${API_BASE_URL}/api/admin/pdf/adeverinta/${id}`} 
+              target="_blank" 
+              rel="noreferrer"
+              className="document-link"
+            >
+              🏥 Adeverință medicală
+            </a>
+          </div>
+        </div>
+
+        <div className="user-actions">
+          <button 
+           
+            className={`toggle-btn ${expired ? 'activate-btn' : 'expire-btn'}`}
+            disabled={isToggling}
+          >
+            {isToggling ? 'Se actualizează...' : expired ? '🔄 Activează' : '⏰ Marchează expirat'}
+          </button>
+          
+          <button 
+            onClick={() => onDelete(id)}
+            className="delete-btn"
+          >
+            🗑️ Șterge
+          </button>
+        </div>
       </div>
     </div>
   );

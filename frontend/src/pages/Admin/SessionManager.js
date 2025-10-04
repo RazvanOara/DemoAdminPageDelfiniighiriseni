@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SessionManager.css';
 
-// ADD: Mock data
+// Mock data
 let MOCK_PLANS = [
   {
     id: 1,
@@ -63,11 +63,6 @@ const MOCK_SWIMMERS = [
   { cursantId: 3, cursantNume: 'Georgescu Sofia', groupId: 2 },
   { cursantId: 5, cursantNume: 'Marin Ana', groupId: 2 },
   { cursantId: 4, cursantNume: 'Dumitrescu Ioana', groupId: null }
-];
-
-const MOCK_GROUPS = [
-  { id: 1, name: 'Grupa A - Avansați', color: '#00d4ff' },
-  { id: 2, name: 'Grupa B - Competiție', color: '#ff6b6b' }
 ];
 
 let MOCK_SESSIONS = {};
@@ -164,7 +159,7 @@ const SwimmerRow = ({ swimmer, status, onStatusChange, sessionExists }) => {
         <span className="swimmer-name">{swimmer.name}</span>
         {sessionExists && (
           <span className={`swimmer-status-badge status-${status}`}>
-            {status}
+            {status === 'present' ? 'Prezent' : status === 'absent' ? 'Absent' : status === 'late' ? 'Întârziat' : 'Accidentat'}
           </span>
         )}
       </div>
@@ -240,7 +235,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
 
   const handleWorkoutSelect = (workout) => {
     if (!workout) {
-      if (existingSession && window.confirm('Sigur vrei să schimbi antrenamentul? (Mock)')) {
+      if (existingSession && window.confirm('Sigur vrei să schimbi antrenamentul?')) {
         const sessionKey = `plan-${plan.id}`;
         delete MOCK_SESSIONS[sessionKey];
         setSelectedWorkout(null);
@@ -294,7 +289,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
     if (session) {
       session.sessionTime = sessionTime + ':00';
       setOriginalTime(sessionTime);
-      alert(`Ora schimbată la ${sessionTime} (mock)`);
+      alert(`Ora schimbată la ${sessionTime}`);
     }
   };
 
@@ -324,7 +319,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
 
       <div className="workout-assignment-section">
         <div className="time-input-row">
-          <label className="section-label">Ora sesiunii</label>
+          <label className="section-label">Ora</label>
           <div className="time-input-with-button">
             <input 
               type="time" 
@@ -339,7 +334,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
                 onClick={handleTimeChange}
                 disabled={isLoading}
               >
-                Schimbă ora
+                Actualizează
               </button>
             )}
           </div>
@@ -464,7 +459,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
 
   const handleWorkoutSelect = (workout) => {
     if (!workout) {
-      if (sessionId && window.confirm('Sigur vrei să ștergi această sesiune? (Mock)')) {
+      if (sessionId && window.confirm('Sigur vrei să ștergi această sesiune?')) {
         delete MOCK_SESSIONS[`adhoc-${sessionId}`];
         setSelectedWorkout(null);
         setSessionId(null);
@@ -540,14 +535,8 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
     if (session) {
       session.sessionTime = sessionTime + ':00';
       setOriginalTime(sessionTime);
-      alert(`Ora schimbată la ${sessionTime} (mock)`);
+      alert(`Ora schimbată la ${sessionTime}`);
     }
-  };
-
-  const handleFinalize = () => {
-    if (!sessionId) return;
-    alert('Sesiune finalizată (mock)!');
-    onUpdate();
   };
 
   return (
@@ -558,7 +547,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
             <div>
               <h3>Sesiune ad-hoc</h3>
               <div className="plan-badges">
-                <span className="plan-badge type-badge adhoc-badge">LIBER</span>
+                <span className="plan-badge adhoc-badge">LIBER</span>
               </div>
             </div>
             {canRemove && (
@@ -576,7 +565,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
 
       <div className="workout-assignment-section">
         <div className="time-input-row">
-          <label className="section-label">Ora sesiunii</label>
+          <label className="section-label">Ora</label>
           <div className="time-input-with-button">
             <input 
               type="time" 
@@ -591,7 +580,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
                 onClick={handleTimeChange}
                 disabled={isLoading}
               >
-                Schimbă ora
+                Actualizează
               </button>
             )}
           </div>
@@ -674,9 +663,6 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
             >
               Sesiune Live
             </button>
-            <button className="btn btn-primary" onClick={handleFinalize}>
-              Finalizează
-            </button>
           </div>
         </>
       )}
@@ -693,7 +679,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
 const SessionManager = () => {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [showCalendar, setShowCalendar] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [activePlans, setActivePlans] = useState([]);
   const [sessionsByPlanId, setSessionsByPlanId] = useState({});
   const [availableWorkouts, setAvailableWorkouts] = useState([]);
@@ -701,6 +687,17 @@ const SessionManager = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [adHocSessions, setAdHocSessions] = useState([]);
+  const datePickerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (datePickerRef.current && !datePickerRef.current.contains(e.target)) {
+        setShowDatePicker(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const normalizeDate = (dateStr) => dateStr.split('T')[0];
 
@@ -781,7 +778,16 @@ const SessionManager = () => {
 
   const handleDateSelect = (e) => {
     setSelectedDate(new Date(e.target.value));
-    setShowCalendar(false);
+    setShowDatePicker(false);
+  };
+
+  const handleQuickDateJump = () => {
+    setShowDatePicker(!showDatePicker);
+  };
+
+  const goToToday = () => {
+    setSelectedDate(new Date());
+    setShowDatePicker(false);
   };
 
   const handleAddAdHocSession = () => {
@@ -790,7 +796,7 @@ const SessionManager = () => {
 
   const handleRemoveAdHocSession = (adHocSessionObj) => {
     if (adHocSessionObj.session?.id) {
-      if (!window.confirm('Sigur vrei să ștergi această sesiune? (Mock)')) {
+      if (!window.confirm('Sigur vrei să ștergi această sesiune?')) {
         return;
       }
       
@@ -832,45 +838,61 @@ const SessionManager = () => {
   return (
     <div className="session-manager">
       <header className="session-header">
-        <h1>Sesiuni de antrenament (Demo)</h1>
+        <h1>Sesiuni de antrenament</h1>
 
-        <div className="date-navigation">
-          <button className="btn-nav" onClick={handlePreviousDay}>
-            ◀
-          </button>
+        <div className="date-control">
+          <div className="date-navigation">
+            <button className="btn-nav btn-prev" onClick={handlePreviousDay} aria-label="Ziua anterioară">
+              ◀
+            </button>
 
-          <div className="current-date-display">
-            <p className="current-date">
-              {selectedDate.toLocaleDateString('ro-RO', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </p>
-            <button
-              className="btn-calendar"
-              onClick={() => setShowCalendar(!showCalendar)}
-            >
-              📅
+            <div className="date-display-wrapper">
+              <div className="current-date-display">
+                <div className="date-primary">
+                  {selectedDate.toLocaleDateString('ro-RO', {
+                    day: 'numeric',
+                    month: 'short'
+                  })}
+                </div>
+                <div className="date-secondary">
+                  {selectedDate.toLocaleDateString('ro-RO', {
+                    weekday: 'long'
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <button className="btn-nav btn-next" onClick={handleNextDay} aria-label="Ziua următoare">
+              ▶
             </button>
           </div>
 
-          <button className="btn-nav" onClick={handleNextDay}>
-            ▶
-          </button>
+          <div className="date-actions">
+  <button className="btn-date-action btn-today" onClick={goToToday}>
+    Astăzi
+  </button>
+  <div className="date-picker-container" ref={datePickerRef}>
+    <button 
+      className="btn-date-action btn-calendar" 
+      onClick={handleQuickDateJump}
+      aria-label="Selectează data"
+    >
+      📅
+    </button>
+    {showDatePicker && (
+      <div className="date-picker-dropdown">
+        <input
+          type="date"
+          value={selectedDate.toISOString().split('T')[0]}
+          onChange={handleDateSelect}
+          className="date-input"
+          autoFocus
+        />
+      </div>
+    )}
+  </div>
+</div>
         </div>
-
-        {showCalendar && (
-          <div className="calendar-picker">
-            <input
-              type="date"
-              value={selectedDate.toISOString().split('T')[0]}
-              onChange={handleDateSelect}
-              className="date-input"
-            />
-          </div>
-        )}
       </header>
 
       <div className="sessions-container">
@@ -904,13 +926,16 @@ const SessionManager = () => {
             ))}
             <div className="add-adhoc-container">
               <button className="btn-add-adhoc" onClick={handleAddAdHocSession}>
-                + Adaugă sesiune ad-hoc
+                <span className="btn-icon">+</span>
+                <span className="btn-text">Adaugă sesiune ad-hoc</span>
               </button>
             </div>
           </div>
         ) : (
           <div className="empty-state">
-            <p>Nu există planuri active pentru această dată</p>
+            <div className="empty-icon">📅</div>
+            <p className="empty-title">Nu există planuri active</p>
+            <p className="empty-subtitle">pentru {selectedDate.toLocaleDateString('ro-RO', { day: 'numeric', month: 'long' })}</p>
             <div className="plans-grid">
               {adHocSessions.map((session) => (
                 <AdHocSession
@@ -928,7 +953,8 @@ const SessionManager = () => {
               ))}
               <div className="add-adhoc-container">
                 <button className="btn-add-adhoc" onClick={handleAddAdHocSession}>
-                  + Adaugă sesiune ad-hoc
+                  <span className="btn-icon">+</span>
+                  <span className="btn-text">Adaugă sesiune ad-hoc</span>
                 </button>
               </div>
             </div>

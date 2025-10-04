@@ -18,7 +18,7 @@ const MOCK_INSCRIERI = [
       email: 'ion.popescu@email.com',
       telefon: '0722111222',
       dataInregistrarii: '2024-10-01T10:30:00',
-      dataExpirarii: '2024-11-01T10:30:00',
+      dataExpirarii: '2025-10-10T10:30:00',
       expired: false
     },
     program: [
@@ -50,7 +50,7 @@ const MOCK_INSCRIERI = [
       email: 'andrei.georgescu@email.com',
       telefon: '0744333444',
       dataInregistrarii: '2024-09-25T09:15:00',
-      dataExpirarii: '2024-10-25T09:15:00',
+      dataExpirarii: '2025-10-25T09:15:00',
       expired: false
     },
     program: [
