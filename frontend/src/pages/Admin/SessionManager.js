@@ -747,10 +747,19 @@ const SessionManager = () => {
       });
   
       const plansWithCurrentDay = activePlansData.map(plan => {
-        const currentDay = findDayForDate(plan, dateStr);
-        return { ...plan, currentDay };
-      }).filter(plan => plan.currentDay !== null);
-  
+        // Just pick the first available day, or create a fake one for demo
+        const anyDay = plan.weeks?.[0]?.days?.[0];
+        const demoDay = anyDay || {
+          id: Date.now(),
+          dayDate: dateStr + 'T00:00:00',
+          dayOfWeek: 1,
+          weekNumber: 1,
+          trainingType: 'DEMO'
+        };
+      
+        return { ...plan, currentDay: demoDay };
+      });
+      
       setActivePlans(plansWithCurrentDay);
       setSessionsByPlanId(sessionsMap);
       setAvailableWorkouts(MOCK_WORKOUTS);
@@ -881,13 +890,17 @@ const SessionManager = () => {
     </button>
     {showDatePicker && (
       <div className="date-picker-dropdown">
-        <input
-          type="date"
-          value={selectedDate.toISOString().split('T')[0]}
-          onChange={handleDateSelect}
-          className="date-input"
-          autoFocus
-        />
+       <input
+  type="date"
+  defaultValue={selectedDate.toISOString().split('T')[0]}
+  onBlur={(e) => handleDateSelect(e)}      // only fires when input loses focus
+  onKeyDown={(e) => {
+    if (e.key === 'Enter') handleDateSelect(e);  // allows Enter confirmation too
+  }}
+  className="date-input"
+  autoFocus
+/>
+
       </div>
     )}
   </div>
