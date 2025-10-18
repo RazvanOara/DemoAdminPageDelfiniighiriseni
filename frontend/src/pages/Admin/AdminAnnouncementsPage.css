@@ -1,68 +1,117 @@
-/* Admin Announcements Page */
+/* Admin Announcements Page - Enhanced Mobile-First Design */
 .admin-announcements {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
+  min-height: 100vh;
 }
 
 /* Header */
 .admin-announcements-header {
   margin-bottom: 2rem;
   text-align: center;
+  padding: 1.5rem 1rem;
 }
 
 .admin-announcements-header h1 {
-  font-size: 2.2rem;
-  background: linear-gradient(45deg, #00d4ff, #0099ff);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 50%, #0066cc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .admin-announcements-header p {
-  color: #aaa;
-  font-size: 1rem;
+  color: #999;
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  line-height: 1.5;
 }
 
 /* Announcement Form */
 .announcement-form {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 2rem;
-  margin-bottom: 3rem;
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.03) 0%, rgba(0, 153, 255, 0.03) 100%);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  border-radius: 24px;
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 
+    0 4px 24px rgba(0, 0, 0, 0.1),
+    0 0 40px rgba(0, 212, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.announcement-form:hover {
+  border-color: rgba(0, 212, 255, 0.25);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 0 60px rgba(0, 212, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .announcement-form h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  margin-bottom: 1.75rem;
+  font-size: clamp(1.25rem, 4vw, 1.6rem);
   color: #00d4ff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.announcement-form h2::before {
+  content: "📝";
+  font-size: 1.5em;
 }
 
 .announcement-form .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .announcement-form .form-label {
   display: block;
-  margin-bottom: 0.5rem;
-  color: #ddd;
+  margin-bottom: 0.6rem;
+  color: #e0e0e0;
   font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+.announcement-form .form-label::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  transition: width 0.3s ease;
+}
+
+.announcement-form .form-group:focus-within .form-label {
+  color: #00d4ff;
 }
 
 .announcement-form .form-input,
 .announcement-form .form-textarea,
 .announcement-form .form-select {
   width: 100%;
-  padding: 0.75rem;
-  background: #1e1e1e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  padding: 0.875rem 1rem;
+  background: rgba(30, 30, 30, 0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   color: #fff;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.announcement-form .form-input:hover,
+.announcement-form .form-textarea:hover,
+.announcement-form .form-select:hover {
+  border-color: rgba(0, 212, 255, 0.3);
+  background: rgba(30, 30, 30, 0.95);
 }
 
 .announcement-form .form-input:focus,
@@ -70,19 +119,33 @@
 .announcement-form .form-select:focus {
   outline: none;
   border-color: #00d4ff;
+  background: rgba(30, 30, 30, 1);
+  box-shadow: 
+    0 0 0 3px rgba(0, 212, 255, 0.1),
+    0 4px 12px rgba(0, 212, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.announcement-form .form-textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
 }
 
 .announcement-form .form-select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2300d4ff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  padding-right: 2.5rem;
+  background-position: right 1rem center;
+  background-size: 16px;
+  padding-right: 3rem;
+  cursor: pointer;
 }
 
 .announcement-form .form-select option {
   background: #1e1e1e;
   color: #fff;
+  padding: 0.5rem;
 }
 
 .announcement-form .form-row {
@@ -93,106 +156,258 @@
 
 .announcement-form .image-preview {
   margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px dashed rgba(0, 212, 255, 0.3);
+  border-radius: 12px;
+  text-align: center;
 }
 
 .announcement-form .image-preview img {
-  max-height: 150px;
+  max-height: 200px;
+  max-width: 100%;
   border-radius: 12px;
-  object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 0.5rem;
+  object-fit: contain;
+  border: 2px solid rgba(0, 212, 255, 0.2);
+  margin-bottom: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .announcement-form .checkbox-group {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(0, 212, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 212, 255, 0.1);
 }
 
 .announcement-form .checkbox-group input[type="checkbox"] {
-  width: auto;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #00d4ff;
+}
+
+.announcement-form .checkbox-group label {
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
 }
 
 .announcement-form .form-actions {
   display: flex;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .uploading-text {
   color: #00d4ff;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.uploading-text::before {
+  content: "⏳";
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 /* Announcements List */
 .announcements-list {
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 }
 
 .announcement-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
+  padding: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.announcement-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00d4ff, #0099ff);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.announcement-card:hover {
+  transform: translateY(-8px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.2),
+    0 0 60px rgba(0, 212, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.3);
+}
+
+.announcement-card:hover::before {
+  opacity: 1;
+}
+
+.announcement-card-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.announcement-card-content {
   padding: 1.5rem;
-  transition: all 0.3s ease;
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.announcement-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
-}
-
-.announcement-card img {
-  border-radius: 12px;
-  margin-bottom: 1rem;
-  max-height: 180px;
-  width: 100%;
-  object-fit: cover;
-}
-
 .announcement-card h3 {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   margin-bottom: 0.5rem;
   color: #00d4ff;
+  font-weight: 600;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .announcement-card .subtitle {
   font-style: italic;
-  color: #aaa;
-  margin-bottom: 0.75rem;
+  color: #999;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .announcement-card .content {
-  margin-bottom: 1rem;
-  color: #ddd;
-  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  color: #ccc;
+  line-height: 1.65;
+  font-size: 0.95rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .announcement-meta {
-  font-size: 0.9rem;
-  color: #aaa;
-  margin-bottom: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 1rem;
+  font-size: 0.875rem;
+  color: #999;
+  margin-bottom: 1.25rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .announcement-meta p {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.announcement-meta p:last-child {
+  margin-bottom: 0;
+}
+
+.announcement-meta strong {
+  color: #00d4ff;
+  font-weight: 500;
+  min-width: 80px;
 }
 
 .announcement-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
   margin-top: auto;
 }
 
-.announcement-actions button {
-  flex: 1;
+/* Button Styles */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  letter-spacing: 0.3px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+  color: #000;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #00e5ff 0%, #00aaff 100%);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #ff6b6b;
+  border: 1.5px solid rgba(255, 107, 107, 0.5);
+}
+
+.btn-outline:hover {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: #ff6b6b;
+  transform: translateY(-2px);
 }
 
 /* Loading and Error States */
@@ -200,49 +415,157 @@
 .announcements-error,
 .no-announcements {
   text-align: center;
-  padding: 2rem;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 2rem 0;
 }
 
 .announcements-loading {
-  color: #aaa;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.announcements-loading::before {
+  content: "⏳";
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .announcements-error {
-  background: rgba(255, 107, 107, 0.1);
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.08) 0%, rgba(255, 107, 107, 0.04) 100%);
   border: 1px solid rgba(255, 107, 107, 0.3);
   color: #ff6b6b;
 }
 
-.no-announcements {
-  color: #aaa;
+.announcements-error::before {
+  content: "⚠️";
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
 
-/* Responsive */
+.announcements-error p {
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+.no-announcements {
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.no-announcements::before {
+  content: "📢";
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Responsive Design */
 @media screen and (max-width: 768px) {
   .admin-announcements {
-    padding: 1rem;
+    padding: 0.75rem;
+  }
+
+  .admin-announcements-header {
+    padding: 1rem 0.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .announcement-form {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+  }
+
+  .announcement-form h2 {
+    font-size: 1.35rem;
   }
 
   .announcement-form .form-row {
     grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .announcement-form .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .announcement-form .form-actions .btn {
+    width: 100%;
   }
 
   .announcements-list {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 
-  .form-actions {
-    flex-direction: column;
+  .announcement-card-image {
+    height: 180px;
   }
 
-  .form-actions button {
-    width: 100%;
+  .announcement-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .announcement-meta strong {
+    min-width: 70px;
+    font-size: 0.85rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .admin-announcements {
+    padding: 0.5rem;
+  }
+
+  .announcement-form {
+    padding: 1rem;
+  }
+
+  .announcement-form .form-input,
+  .announcement-form .form-textarea,
+  .announcement-form .form-select {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .announcement-card-content {
+    padding: 1.25rem;
+  }
+
+  .btn {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .announcement-form .form-input,
+  .announcement-form .form-textarea,
+  .announcement-form .form-select {
+    padding: 1rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .announcement-card:active {
+    transform: scale(0.98);
   }
 }

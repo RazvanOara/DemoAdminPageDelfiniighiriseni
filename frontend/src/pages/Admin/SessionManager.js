@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './SessionManager.css';
-
+import SwimmerFeedbackModal from './Training/SwimmerFeedbackModal';
 // Mock data
 let MOCK_PLANS = [
   {
@@ -68,10 +67,31 @@ const MOCK_SWIMMERS = [
 let MOCK_SESSIONS = {};
 let sessionIdCounter = 1000;
 
-const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout }) => {
+const isDateInPast = (date) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const compareDate = new Date(date);
+  compareDate.setHours(0, 0, 0, 0);
+  return compareDate < today;
+};
+
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isMobile;
+};
+
+const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout, isPastDate }) => {
   const [search, setSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
+  const isMobile = useIsMobile();
 
   const filteredWorkouts = workouts.filter(w =>
     w.name?.toLowerCase().includes(search.toLowerCase())
@@ -89,28 +109,42 @@ const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout }) => {
 
   if (selectedWorkout) {
     return (
-      <div className="selected-workout-display">
+      <div className={`selected-workout-display ${isMobile ? 'mobile' : ''}`}>
         <div className="workout-info">
           <div className="workout-name">{selectedWorkout.name}</div>
           <div className="workout-distance">{selectedWorkout.totalDistance}m</div>
         </div>
-        <button
-          className="btn-change-workout"
-          onClick={() => onSelect(null)}
-          disabled={disabled}
-        >
-          Schimbă
-        </button>
+        {!isPastDate && (
+          <button
+            className="btn-change-workout"
+            onClick={() => onSelect(null)}
+            disabled={disabled}
+          >
+            {isMobile ? '✏️' : 'Schimbă'}
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  if (isPastDate) {
+    return (
+      <div className={`selected-workout-display ${isMobile ? 'mobile' : ''}`}>
+        <div className="workout-info">
+          <div className="workout-name" style={{ color: '#999' }}>
+            Niciun antrenament
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="workout-search-container" ref={dropdownRef}>
+    <div className={`workout-search-container ${isMobile ? 'mobile' : ''}`} ref={dropdownRef}>
       <input
         type="text"
         className="workout-search-input"
-        placeholder="Caută antrenament..."
+        placeholder={isMobile ? 'Caută...' : 'Caută antrenament...'}
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
@@ -121,10 +155,10 @@ const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout }) => {
       />
       <span className="search-icon">🔍</span>
 
-      {showDropdown && search && (
+      {showDropdown && (
         <div className="workout-dropdown">
           {filteredWorkouts.length > 0 ? (
-            filteredWorkouts.map(workout => (
+            filteredWorkouts.slice(0, 10).map(workout => (
               <div
                 key={workout.id}
                 className="workout-dropdown-item"
@@ -144,7 +178,9 @@ const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout }) => {
               </div>
             ))
           ) : (
-            <div className="no-results">Niciun antrenament găsit</div>
+            <div className="no-results">
+              {search ? 'Niciun antrenament găsit' : 'Nu există antrenamente disponibile'}
+            </div>
           )}
         </div>
       )}
@@ -152,7 +188,48 @@ const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout }) => {
   );
 };
 
-const SwimmerRow = ({ swimmer, status, onStatusChange, sessionExists }) => {
+const SwimmerRow = ({ swimmer, status, onStatusChange, sessionExists, isPastDate }) => {
+  const isMobile = useIsMobile();
+  const [expanded, setExpanded] = useState(false);
+
+  if (isMobile) {
+    return (
+      <div className="swimmer-row-mobile">
+        <div className="swimmer-row-mobile-header" onClick={() => sessionExists && setExpanded(!expanded)}>
+          <span className="swimmer-name-mobile">{swimmer.name}</span>
+          <div className="swimmer-row-mobile-actions">
+            {sessionExists && (
+              <>
+                <span className={`status-dot status-${status}`}></span>
+                {expanded ? '▲' : '▼'}
+              </>
+            )}
+          </div>
+        </div>
+        
+        {expanded && sessionExists && (
+          <div className="swimmer-row-mobile-expanded">
+            {!isPastDate && (
+              <select
+                value={status}
+                onChange={(e) => onStatusChange(e.target.value)}
+                className="status-select-mobile"
+              >
+                <option value="present">Prezent</option>
+                <option value="absent">Absent</option>
+                <option value="late">Întârziat</option>
+                <option value="injured">Accidentat</option>
+              </select>
+            )}
+            <button className="btn-rate-swimmer-mobile">
+              ⭐ Evaluează
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="swimmer-row">
       <div className="swimmer-info-row">
@@ -163,23 +240,32 @@ const SwimmerRow = ({ swimmer, status, onStatusChange, sessionExists }) => {
           </span>
         )}
       </div>
-      {sessionExists && (
-        <select
-          value={status}
-          onChange={(e) => onStatusChange(e.target.value)}
-          className="status-select"
-        >
-          <option value="present">Prezent</option>
-          <option value="absent">Absent</option>
-          <option value="late">Întârziat</option>
-          <option value="injured">Accidentat</option>
-        </select>
-      )}
+      <div className="swimmer-actions">
+        {sessionExists && !isPastDate && (
+          <select
+            value={status}
+            onChange={(e) => onStatusChange(e.target.value)}
+            className="status-select"
+          >
+            <option value="present">Prezent</option>
+            <option value="absent">Absent</option>
+            <option value="late">Întârziat</option>
+            <option value="injured">Accidentat</option>
+          </select>
+        )}
+        {sessionExists && (
+          <button className="btn-rate-swimmer" title="Evaluează înotătorul">
+            ⭐
+          </button>
+        )}
+      </div>
     </div>
   );
 };
 
-const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpdate, onOpenTimeRecorder, onOpenLiveWorkout }) => {
+const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpdate, isPastDate }) => {
+  const isMobile = useIsMobile();
+  const [expanded, setExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [swimmerSearch, setSwimmerSearch] = useState('');
   const [sessionTime, setSessionTime] = useState(
@@ -234,6 +320,8 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
   }
 
   const handleWorkoutSelect = (workout) => {
+    if (isPastDate) return;
+
     if (!workout) {
       if (existingSession && window.confirm('Sigur vrei să schimbi antrenamentul?')) {
         const sessionKey = `plan-${plan.id}`;
@@ -269,7 +357,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
   };
 
   const handleAttendanceChange = (cursantId, newStatus) => {
-    if (!existingSession) return;
+    if (!existingSession || isPastDate) return;
     
     const sessionKey = `plan-${plan.id}`;
     const session = MOCK_SESSIONS[sessionKey];
@@ -282,14 +370,13 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
   };
 
   const handleTimeChange = () => {
-    if (!existingSession || sessionTime === originalTime) return;
+    if (!existingSession || sessionTime === originalTime || isPastDate) return;
     
     const sessionKey = `plan-${plan.id}`;
     const session = MOCK_SESSIONS[sessionKey];
     if (session) {
       session.sessionTime = sessionTime + ':00';
       setOriginalTime(sessionTime);
-      alert(`Ora schimbată la ${sessionTime}`);
     }
   };
 
@@ -297,8 +384,126 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
     p => p.participantType === 'GROUP'
   )?.groupColor || '#00d4ff';
 
+  if (isMobile) {
+    return (
+      <div className={`plan-card-mobile ${isPastDate ? 'past-date' : ''}`} style={{ borderLeftColor: groupColor }}>
+        {isPastDate && (
+          <div className="past-date-banner-mobile">
+            📅 Dată trecută
+          </div>
+        )}
+        
+        <div className="plan-card-mobile-header" onClick={() => setExpanded(!expanded)}>
+          <div className="plan-card-mobile-title">
+            <h3>{plan.name}</h3>
+            {plan.currentDay && (
+              <div className="plan-meta-mobile">
+                <span className="type-badge-mobile" style={{ background: groupColor }}>
+                  {plan.currentDay.trainingType}
+                </span>
+                <span className="week-info-mobile">
+                  Săptămâna {plan.currentDay.weekNumber} • Ziua {plan.currentDay.dayOfWeek}
+                </span>
+              </div>
+            )}
+          </div>
+          <div className="expand-icon">{expanded ? '▲' : '▼'}</div>
+        </div>
+
+        {expanded && (
+          <div className="plan-card-mobile-content">
+            <div className="mobile-compact-row">
+              <span className="mobile-label">Ora</span>
+              <input 
+                type="time" 
+                value={sessionTime}
+                onChange={(e) => setSessionTime(e.target.value)}
+                className="session-time-input-mobile"
+                disabled={isLoading || !existingSession || isPastDate}
+              />
+              {existingSession && sessionTime !== originalTime && !isPastDate && (
+                <button 
+                  className="btn-update-time-mobile"
+                  onClick={handleTimeChange}
+                  disabled={isLoading}
+                >
+                  ✓
+                </button>
+              )}
+            </div>
+
+            <div className="mobile-section">
+              <span className="mobile-label">Antrenament</span>
+              <WorkoutSearch
+                workouts={availableWorkouts}
+                onSelect={handleWorkoutSelect}
+                disabled={isLoading || isPastDate}
+                selectedWorkout={selectedWorkout}
+                isPastDate={isPastDate}
+              />
+            </div>
+
+            <div className="mobile-section">
+              <div className="swimmers-header-mobile">
+                <span className="mobile-label">
+                  Înotători ({filteredSwimmers.length})
+                </span>
+              </div>
+
+              <div className="swimmers-list-mobile-wrapper">
+                <div className="swimmers-list-mobile">
+                  {filteredSwimmers.length > 0 ? (
+                    filteredSwimmers.map(swimmer => (
+                      <SwimmerRow
+                        key={swimmer.id}
+                        swimmer={swimmer}
+                        status={swimmerStatuses[swimmer.id] || 'present'}
+                        onStatusChange={(status) => handleAttendanceChange(swimmer.id, status)}
+                        sessionExists={!!existingSession}
+                        isPastDate={isPastDate}
+                      />
+                    ))
+                  ) : (
+                    <div className="no-swimmers-mobile">
+                      {swimmerSearch ? 'Niciun înotător găsit' : 'Niciun înotător în acest plan'}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {existingSession && (
+              <div className="action-buttons-mobile">
+                <button className="btn-mobile btn-secondary-mobile">
+                  ⏱️ Notează timpi
+                </button>
+                {!isPastDate && (
+                  <button className="btn-mobile btn-primary-mobile">
+                    🏊 Sesiune Live
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {isLoading && (
+          <div className="loading-overlay">
+            <div className="spinner"></div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <div className="plan-card" style={{ borderLeftColor: groupColor }}>
+    <div className={`plan-card ${isPastDate ? 'past-date' : ''}`} style={{ borderLeftColor: groupColor }}>
+      {isPastDate && (
+        <div className="past-date-banner">
+          <span>📅 Această dată este în trecut - modificările sunt limitate</span>
+        </div>
+      )}
+      
       <div className="plan-header">
         <div className="plan-title-section">
           <h3>{plan.name}</h3>
@@ -326,9 +531,9 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
               value={sessionTime}
               onChange={(e) => setSessionTime(e.target.value)}
               className="session-time-input"
-              disabled={isLoading || !existingSession}
+              disabled={isLoading || !existingSession || isPastDate}
             />
-            {existingSession && sessionTime !== originalTime && (
+            {existingSession && sessionTime !== originalTime && !isPastDate && (
               <button 
                 className="btn-update-time"
                 onClick={handleTimeChange}
@@ -343,8 +548,9 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
         <WorkoutSearch
           workouts={availableWorkouts}
           onSelect={handleWorkoutSelect}
-          disabled={isLoading}
+          disabled={isLoading || isPastDate}
           selectedWorkout={selectedWorkout}
+          isPastDate={isPastDate}
         />
       </div>
 
@@ -371,6 +577,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
                 status={swimmerStatuses[swimmer.id] || 'present'}
                 onStatusChange={(status) => handleAttendanceChange(swimmer.id, status)}
                 sessionExists={!!existingSession}
+                isPastDate={isPastDate}
               />
             ))
           ) : (
@@ -383,18 +590,14 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
 
       {existingSession && (
         <div className="action-buttons">
-          <button 
-            className="btn btn-secondary"
-            onClick={() => onOpenTimeRecorder(existingSession.id)}
-          >
+          <button className="btn btn-secondary">
             Notează timpi
           </button>
-          <button 
-            className="btn btn-primary"
-            onClick={() => onOpenLiveWorkout(existingSession.id)}
-          >
-            Sesiune Live
-          </button>
+          {!isPastDate && (
+            <button className="btn btn-primary">
+              Sesiune Live
+            </button>
+          )}
         </div>
       )}
 
@@ -407,7 +610,9 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
   );
 };
 
-const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, onRemove, canRemove, existingSession, onOpenTimeRecorder, onOpenLiveWorkout }) => {
+const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, onRemove, canRemove, existingSession, isPastDate }) => {
+  const isMobile = useIsMobile();
+  const [expanded, setExpanded] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(
     existingSession ? {
       id: existingSession.workoutId,
@@ -433,7 +638,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
       const swimmers = existingSession.performances.map(perf => ({
         id: perf.cursantId,
         name: perf.cursantNume,
-        status: perf.attendanceStatus
+        status: perf.attendanceStatus || 'present'
       }));
       const uniqueSwimmers = swimmers.filter((swimmer, index, self) =>
         index === self.findIndex(s => s.id === swimmer.id)
@@ -458,6 +663,8 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
   }, []);
 
   const handleWorkoutSelect = (workout) => {
+    if (isPastDate) return;
+
     if (!workout) {
       if (sessionId && window.confirm('Sigur vrei să ștergi această sesiune?')) {
         delete MOCK_SESSIONS[`adhoc-${sessionId}`];
@@ -491,6 +698,8 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
   };
 
   const handleAddSwimmer = (swimmer) => {
+    if (isPastDate) return;
+
     const newSwimmer = {
       id: swimmer.cursantId,
       name: swimmer.cursantNume,
@@ -514,7 +723,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
   };
 
   const handleStatusChange = (swimmerId, newStatus) => {
-    if (!sessionId) return;
+    if (!sessionId || isPastDate) return;
     
     const session = MOCK_SESSIONS[`adhoc-${sessionId}`];
     if (session) {
@@ -529,28 +738,189 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
   };
 
   const handleTimeChange = () => {
-    if (!sessionId || sessionTime === originalTime) return;
+    if (!sessionId || sessionTime === originalTime || isPastDate) return;
     
     const session = MOCK_SESSIONS[`adhoc-${sessionId}`];
     if (session) {
       session.sessionTime = sessionTime + ':00';
       setOriginalTime(sessionTime);
-      alert(`Ora schimbată la ${sessionTime}`);
     }
   };
 
+  if (isMobile) {
+    return (
+      <div className={`plan-card-mobile adhoc-mobile ${isPastDate ? 'past-date' : ''}`}>
+        {isPastDate && (
+          <div className="past-date-banner-mobile">
+            📅 Dată trecută
+          </div>
+        )}
+        
+        <div className="plan-card-mobile-header" onClick={() => setExpanded(!expanded)}>
+          <div className="plan-card-mobile-title">
+            <h3>Sesiune ad-hoc</h3>
+            <span className="type-badge-mobile adhoc-badge-mobile">
+              LIBER
+            </span>
+          </div>
+          <div className="header-actions-mobile">
+            {canRemove && !isPastDate && (
+              <button 
+                className="btn-remove-adhoc-mobile"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemove();
+                }}
+              >
+                ✕
+              </button>
+            )}
+            <div className="expand-icon">{expanded ? '▲' : '▼'}</div>
+          </div>
+        </div>
+
+        {expanded && (
+          <div className="plan-card-mobile-content">
+            <div className="mobile-compact-row">
+              <span className="mobile-label">Ora</span>
+              <input 
+                type="time" 
+                value={sessionTime}
+                onChange={(e) => setSessionTime(e.target.value)}
+                className="session-time-input-mobile"
+                disabled={isLoading || !sessionId || isPastDate}
+              />
+              {sessionId && sessionTime !== originalTime && !isPastDate && (
+                <button 
+                  className="btn-update-time-mobile"
+                  onClick={handleTimeChange}
+                  disabled={isLoading}
+                >
+                  ✓
+                </button>
+              )}
+            </div>
+
+            <div className="mobile-section">
+              <span className="mobile-label">Antrenament</span>
+              <WorkoutSearch
+                workouts={availableWorkouts}
+                onSelect={handleWorkoutSelect}
+                disabled={isLoading || isPastDate}
+                selectedWorkout={selectedWorkout}
+                isPastDate={isPastDate}
+              />
+            </div>
+
+            {sessionId && (
+              <>
+                <div className="mobile-section">
+                  <div className="swimmers-header-mobile">
+                    <span className="mobile-label">
+                      Înotători ({addedSwimmers.length})
+                    </span>
+                    {!isPastDate && (
+                      <div className="swimmer-search-container-mobile" ref={dropdownRef}>
+                        <input
+                          type="text"
+                          className="swimmer-search-input-mobile"
+                          placeholder="Adaugă înotător..."
+                          value={swimmerSearch}
+                          onChange={(e) => {
+                            setSwimmerSearch(e.target.value);
+                            setShowSwimmerDropdown(true);
+                          }}
+                          onFocus={() => setShowSwimmerDropdown(true)}
+                        />
+                        {showSwimmerDropdown && (
+                          <div className="swimmer-dropdown-mobile">
+                            {filteredSwimmers.length > 0 ? (
+                              filteredSwimmers.slice(0, 10).map(swimmer => (
+                                <div
+                                  key={swimmer.cursantId}
+                                  className="swimmer-dropdown-item"
+                                  onClick={() => handleAddSwimmer(swimmer)}
+                                >
+                                  {swimmer.cursantNume}
+                                </div>
+                              ))
+                            ) : (
+                              <div className="no-results">
+                                {swimmerSearch ? 'Niciun înotător găsit' : 'Nu mai sunt înotători disponibili'}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="swimmers-list-mobile-wrapper">
+                    <div className="swimmers-list-mobile">
+                      {addedSwimmers.length > 0 ? (
+                        addedSwimmers.map(swimmer => (
+                          <SwimmerRow
+                            key={swimmer.id}
+                            swimmer={swimmer}
+                            status={swimmer.status}
+                            onStatusChange={(status) => handleStatusChange(swimmer.id, status)}
+                            sessionExists={true}
+                            isPastDate={isPastDate}
+                          />
+                        ))
+                      ) : (
+                        <div className="no-swimmers-mobile">
+                          Niciun înotător adăugat
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="action-buttons-mobile">
+                  <button className="btn-mobile btn-secondary-mobile">
+                    ⏱️ Notează timpi
+                  </button>
+                  {!isPastDate && (
+                    <button className="btn-mobile btn-primary-mobile">
+                      🏊 Sesiune Live
+                    </button>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {isLoading && (
+          <div className="loading-overlay">
+            <div className="spinner"></div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <div className="plan-card adhoc-card">
+    <div className={`plan-card adhoc-card ${isPastDate ? 'past-date' : ''}`}>
+      {isPastDate && (
+        <div className="past-date-banner">
+          <span>📅 Această dată este în trecut - modificările sunt limitate</span>
+        </div>
+      )}
+      
       <div className="plan-header">
         <div className="plan-title-section">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <h3>Sesiune ad-hoc</h3>
               <div className="plan-badges">
-                <span className="plan-badge adhoc-badge">LIBER</span>
+                <span className="plan-badge type-badge adhoc-badge">
+                  LIBER
+                </span>
               </div>
             </div>
-            {canRemove && (
+            {canRemove && !isPastDate && (
               <button 
                 className="btn-remove-adhoc"
                 onClick={onRemove}
@@ -572,9 +942,9 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
               value={sessionTime}
               onChange={(e) => setSessionTime(e.target.value)}
               className="session-time-input"
-              disabled={isLoading || !sessionId}
+              disabled={isLoading || !sessionId || isPastDate}
             />
-            {sessionId && sessionTime !== originalTime && (
+            {sessionId && sessionTime !== originalTime && !isPastDate && (
               <button 
                 className="btn-update-time"
                 onClick={handleTimeChange}
@@ -589,8 +959,9 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
         <WorkoutSearch
           workouts={availableWorkouts}
           onSelect={handleWorkoutSelect}
-          disabled={isLoading}
+          disabled={isLoading || isPastDate}
           selectedWorkout={selectedWorkout}
+          isPastDate={isPastDate}
         />
       </div>
 
@@ -601,36 +972,40 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
               <label className="section-label">
                 Înotători ({addedSwimmers.length})
               </label>
-              <div className="swimmer-search-container" ref={dropdownRef}>
-                <input
-                  type="text"
-                  className="swimmer-search-input"
-                  placeholder="Adaugă înotător..."
-                  value={swimmerSearch}
-                  onChange={(e) => {
-                    setSwimmerSearch(e.target.value);
-                    setShowSwimmerDropdown(true);
-                  }}
-                  onFocus={() => setShowSwimmerDropdown(true)}
-                />
-                {showSwimmerDropdown && swimmerSearch && (
-                  <div className="swimmer-dropdown">
-                    {filteredSwimmers.length > 0 ? (
-                      filteredSwimmers.slice(0, 10).map(swimmer => (
-                        <div
-                          key={swimmer.cursantId}
-                          className="swimmer-dropdown-item"
-                          onClick={() => handleAddSwimmer(swimmer)}
-                        >
-                          {swimmer.cursantNume}
+              {!isPastDate && (
+                <div className="swimmer-search-container" ref={dropdownRef}>
+                  <input
+                    type="text"
+                    className="swimmer-search-input"
+                    placeholder="Adaugă înotător..."
+                    value={swimmerSearch}
+                    onChange={(e) => {
+                      setSwimmerSearch(e.target.value);
+                      setShowSwimmerDropdown(true);
+                    }}
+                    onFocus={() => setShowSwimmerDropdown(true)}
+                  />
+                  {showSwimmerDropdown && (
+                    <div className="swimmer-dropdown">
+                      {filteredSwimmers.length > 0 ? (
+                        filteredSwimmers.slice(0, 10).map(swimmer => (
+                          <div
+                            key={swimmer.cursantId}
+                            className="swimmer-dropdown-item"
+                            onClick={() => handleAddSwimmer(swimmer)}
+                          >
+                            {swimmer.cursantNume}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="no-results">
+                          {swimmerSearch ? 'Niciun înotător găsit' : 'Nu mai sunt înotători disponibili'}
                         </div>
-                      ))
-                    ) : (
-                      <div className="no-results">Niciun înotător găsit</div>
-                    )}
-                  </div>
-                )}
-              </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="swimmers-list">
@@ -642,27 +1017,26 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
                     status={swimmer.status}
                     onStatusChange={(status) => handleStatusChange(swimmer.id, status)}
                     sessionExists={true}
+                    isPastDate={isPastDate}
                   />
                 ))
               ) : (
-                <div className="no-swimmers">Niciun înotător adăugat</div>
+                <div className="no-swimmers">
+                  Niciun înotător adăugat
+                </div>
               )}
             </div>
           </div>
 
           <div className="action-buttons">
-            <button 
-              className="btn btn-secondary"
-              onClick={() => onOpenTimeRecorder(sessionId)}
-            >
+            <button className="btn btn-secondary">
               Notează timpi
             </button>
-            <button 
-              className="btn btn-primary"
-              onClick={() => onOpenLiveWorkout(sessionId)}
-            >
-              Sesiune Live
-            </button>
+            {!isPastDate && (
+              <button className="btn btn-primary">
+                Sesiune Live
+              </button>
+            )}
           </div>
         </>
       )}
@@ -677,9 +1051,9 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
 };
 
 const SessionManager = () => {
-  const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [activePlans, setActivePlans] = useState([]);
   const [sessionsByPlanId, setSessionsByPlanId] = useState({});
   const [availableWorkouts, setAvailableWorkouts] = useState([]);
@@ -687,24 +1061,11 @@ const SessionManager = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [adHocSessions, setAdHocSessions] = useState([]);
-  const datePickerRef = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (datePickerRef.current && !datePickerRef.current.contains(e.target)) {
-        setShowDatePicker(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const isPastDate = isDateInPast(selectedDate);
 
   const normalizeDate = (dateStr) => dateStr.split('T')[0];
 
-  const handleOpenLiveWorkout = (sessionId) => {
-    navigate(`/admin/traininghub/session/${sessionId}/live`);
-  };
-  
   const findDayForDate = (plan, dateStr) => {
     if (!plan.weeks || plan.weeks.length === 0) return null;
   
@@ -747,7 +1108,6 @@ const SessionManager = () => {
       });
   
       const plansWithCurrentDay = activePlansData.map(plan => {
-        // Just pick the first available day, or create a fake one for demo
         const anyDay = plan.weeks?.[0]?.days?.[0];
         const demoDay = anyDay || {
           id: Date.now(),
@@ -787,23 +1147,23 @@ const SessionManager = () => {
 
   const handleDateSelect = (e) => {
     setSelectedDate(new Date(e.target.value));
-    setShowDatePicker(false);
-  };
-
-  const handleQuickDateJump = () => {
-    setShowDatePicker(!showDatePicker);
-  };
-
-  const goToToday = () => {
-    setSelectedDate(new Date());
-    setShowDatePicker(false);
+    setShowCalendar(false);
   };
 
   const handleAddAdHocSession = () => {
+    if (isPastDate) {
+      alert('Nu poți adăuga sesiuni pentru date trecute');
+      return;
+    }
     setAdHocSessions([...adHocSessions, { id: Date.now() }]);
   };
 
   const handleRemoveAdHocSession = (adHocSessionObj) => {
+    if (isPastDate) {
+      alert('Nu poți șterge sesiuni pentru date trecute');
+      return;
+    }
+
     if (adHocSessionObj.session?.id) {
       if (!window.confirm('Sigur vrei să ștergi această sesiune?')) {
         return;
@@ -814,10 +1174,6 @@ const SessionManager = () => {
     } else {
       setAdHocSessions(adHocSessions.filter(s => s.id !== adHocSessionObj.id));
     }
-  };
-
-  const handleOpenTimeRecorder = (sessionId) => {
-    navigate(`/admin/traininghub/session/${sessionId}/times`);
   };
 
   if (isLoading) {
@@ -845,72 +1201,60 @@ const SessionManager = () => {
   }
 
   return (
-    <div className="session-manager">
-      <header className="session-header">
-        <h1>Sesiuni de antrenament</h1>
+    <div className={`session-manager ${isMobile ? 'mobile' : ''}`}>
+      <header className={`session-header ${isMobile ? 'mobile' : ''}`}>
+        <h1>{isMobile ? 'Sesiuni' : 'Sesiuni de antrenament'}</h1>
 
-        <div className="date-control">
-          <div className="date-navigation">
-            <button className="btn-nav btn-prev" onClick={handlePreviousDay} aria-label="Ziua anterioară">
-              ◀
-            </button>
+        <div className={`date-navigation ${isMobile ? 'mobile' : ''}`}>
+          <button className="btn-nav" onClick={handlePreviousDay}>
+            ◀
+          </button>
 
-            <div className="date-display-wrapper">
-              <div className="current-date-display">
-                <div className="date-primary">
-                  {selectedDate.toLocaleDateString('ro-RO', {
-                    day: 'numeric',
-                    month: 'short'
-                  })}
-                </div>
-                <div className="date-secondary">
-                  {selectedDate.toLocaleDateString('ro-RO', {
-                    weekday: 'long'
-                  })}
-                </div>
-              </div>
-            </div>
-
-            <button className="btn-nav btn-next" onClick={handleNextDay} aria-label="Ziua următoare">
-              ▶
+          <div className={`current-date-display ${isMobile ? 'mobile' : ''}`}>
+            <p className="current-date">
+              {isMobile ? (
+                selectedDate.toLocaleDateString('en-US', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric'
+                })
+              ) : (
+                selectedDate.toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })
+              )}
+            </p>
+            <button
+              className="btn-calendar"
+              onClick={() => setShowCalendar(!showCalendar)}
+            >
+              📅
             </button>
           </div>
 
-          <div className="date-actions">
-  <button className="btn-date-action btn-today" onClick={goToToday}>
-    Astăzi
-  </button>
-  <div className="date-picker-container" ref={datePickerRef}>
-    <button 
-      className="btn-date-action btn-calendar" 
-      onClick={handleQuickDateJump}
-      aria-label="Selectează data"
-    >
-      📅
-    </button>
-    {showDatePicker && (
-      <div className="date-picker-dropdown">
-       <input
-  type="date"
-  defaultValue={selectedDate.toISOString().split('T')[0]}
-  onBlur={(e) => handleDateSelect(e)}      // only fires when input loses focus
-  onKeyDown={(e) => {
-    if (e.key === 'Enter') handleDateSelect(e);  // allows Enter confirmation too
-  }}
-  className="date-input"
-  autoFocus
-/>
-
-      </div>
-    )}
-  </div>
-</div>
+          <button className="btn-nav" onClick={handleNextDay}>
+            ▶
+          </button>
         </div>
+
+        {showCalendar && (
+          <div className="calendar-picker">
+            <input
+              type="date"
+              value={selectedDate.toISOString().split('T')[0]}
+              onChange={handleDateSelect}
+              className="date-input"
+            />
+          </div>
+        )}
       </header>
 
-      <div className="sessions-container">
+      <div className={`sessions-container ${isMobile ? 'mobile' : ''}`}>
         {activePlans.length > 0 ? (
-          <div className="plans-grid">
+          <div className={`plans-grid ${isMobile ? 'mobile' : ''}`}>
             {activePlans.map(plan => (
               <PlanCard
                 key={plan.id}
@@ -919,8 +1263,7 @@ const SessionManager = () => {
                 availableWorkouts={availableWorkouts}
                 allSwimmers={allSwimmers}
                 onUpdate={loadData}
-                onOpenTimeRecorder={handleOpenTimeRecorder}
-                onOpenLiveWorkout={handleOpenLiveWorkout}
+                isPastDate={isPastDate}
               />
             ))}
             {adHocSessions.map((session) => (
@@ -933,23 +1276,21 @@ const SessionManager = () => {
                 onRemove={() => handleRemoveAdHocSession(session)}
                 canRemove={true}
                 existingSession={session.session || null}
-                onOpenTimeRecorder={handleOpenTimeRecorder}
-                onOpenLiveWorkout={handleOpenLiveWorkout} 
+                isPastDate={isPastDate}
               />
             ))}
-            <div className="add-adhoc-container">
-              <button className="btn-add-adhoc" onClick={handleAddAdHocSession}>
-                <span className="btn-icon">+</span>
-                <span className="btn-text">Adaugă sesiune ad-hoc</span>
-              </button>
-            </div>
+            {!isPastDate && (
+              <div className={`add-adhoc-container ${isMobile ? 'mobile' : ''}`}>
+                <button className="btn-add-adhoc" onClick={handleAddAdHocSession}>
+                  + {isMobile ? 'Ad-hoc' : 'Adaugă sesiune ad-hoc'}
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="empty-state">
-            <div className="empty-icon">📅</div>
-            <p className="empty-title">Nu există planuri active</p>
-            <p className="empty-subtitle">pentru {selectedDate.toLocaleDateString('ro-RO', { day: 'numeric', month: 'long' })}</p>
-            <div className="plans-grid">
+            <p>Nu există planuri active pentru această dată</p>
+            <div className={`plans-grid ${isMobile ? 'mobile' : ''}`}>
               {adHocSessions.map((session) => (
                 <AdHocSession
                   key={session.id}
@@ -960,16 +1301,16 @@ const SessionManager = () => {
                   onRemove={() => handleRemoveAdHocSession(session)}
                   canRemove={true}
                   existingSession={session.session || null}
-                  onOpenTimeRecorder={handleOpenTimeRecorder}
-                  onOpenLiveWorkout={handleOpenLiveWorkout}
+                  isPastDate={isPastDate}
                 />
               ))}
-              <div className="add-adhoc-container">
-                <button className="btn-add-adhoc" onClick={handleAddAdHocSession}>
-                  <span className="btn-icon">+</span>
-                  <span className="btn-text">Adaugă sesiune ad-hoc</span>
-                </button>
-              </div>
+              {!isPastDate && (
+                <div className={`add-adhoc-container ${isMobile ? 'mobile' : ''}`}>
+                  <button className="btn-add-adhoc" onClick={handleAddAdHocSession}>
+                    + {isMobile ? 'Ad-hoc' : 'Adaugă sesiune ad-hoc'}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

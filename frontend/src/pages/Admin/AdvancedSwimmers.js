@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdvancedSwimmers.css';
 
-// ADD: Mock data for advanced swimmers
+// Mock data for advanced swimmers
 let MOCK_ADVANCED_SWIMMERS = [
   {
     id: 1,
@@ -56,7 +56,7 @@ let MOCK_ADVANCED_SWIMMERS = [
   }
 ];
 
-// ADD: Mock groups data
+// Mock groups data
 const MOCK_GROUPS = [
   { id: 1, name: 'Grupa A - Avansați', color: '#00d4ff' },
   { id: 2, name: 'Grupa B - Competiție', color: '#ff6b6b' },
@@ -68,13 +68,17 @@ const AdvancedSwimmers = () => {
   const [advancedSwimmers, setAdvancedSwimmers] = useState([]);
   const [groups, setGroups] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [expandedCards, setExpandedCards] = useState(new Set());
   const [filters, setFilters] = useState({
     search: '',
     heartRateRange: '',
     groupId: ''
   });
 
-  // REPLACED: Fetch with mock data loading
+  // Helper to check if mobile
+  const isMobile = () => window.innerWidth <= 768;
+
+  // Fetch with mock data loading
   useEffect(() => {
     const fetchAdvancedSwimmers = async () => {
       setIsLoading(true);
@@ -89,7 +93,7 @@ const AdvancedSwimmers = () => {
     fetchAdvancedSwimmers();
   }, []);
 
-  // REPLACED: Fetch groups with mock data
+  // Fetch groups with mock data
   useEffect(() => {
     const fetchGroups = async () => {
       setTimeout(() => {
@@ -112,6 +116,18 @@ const AdvancedSwimmers = () => {
       zone4: { min: restingHr + Math.round(hrReserve * 0.8), max: restingHr + Math.round(hrReserve * 0.9) },
       zone5: { min: restingHr + Math.round(hrReserve * 0.9), max: maxHr }
     };
+  };
+
+  const toggleCardExpansion = (swimmerId) => {
+    setExpandedCards(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(swimmerId)) {
+        newSet.delete(swimmerId);
+      } else {
+        newSet.add(swimmerId);
+      }
+      return newSet;
+    });
   };
 
   // Filter advanced swimmers based on current filters
@@ -169,77 +185,117 @@ const AdvancedSwimmers = () => {
 
   const AdvancedSwimmerCard = ({ swimmer }) => {
     const zones = calculateHeartRateZones(swimmer.maxHeartRate, swimmer.restingHeartRate);
+    const isExpanded = expandedCards.has(swimmer.id);
+    
+    // Handle card header click - navigate on mobile, expand on desktop
+    const handleCardHeaderClick = () => {
+      if (isMobile()) {
+        navigate(`/admin/advanced-swimmers/${swimmer.id}/details`);
+      } else {
+        toggleCardExpansion(swimmer.id);
+      }
+    };
     
     return (
-      <div className="planificare-swimmer-card">
-        <div className="swimmer-card-header">
+      <div className={`planificare-swimmer-card ${isExpanded ? 'expanded' : ''}`}>
+        <div 
+          className="swimmer-card-header"
+          onClick={handleCardHeaderClick}
+          style={{ cursor: 'pointer' }}
+        >
           <h3 className="swimmer-title">{swimmer.cursantNume || `Cursant ID: ${swimmer.cursantId}`}</h3>
           <span className="swimmer-id-badge">ID: {swimmer.id}</span>
+          <span className="expand-indicator">▼</span>
         </div>
         
-        <div className="swimmer-meta">
-          <span className="swimmer-created">Creat: {new Date(swimmer.createdAt).toLocaleDateString('ro-RO')}</span>
-        </div>
-        
-        {swimmer.groupId && (
-          <div className="swimmer-group">
-            <span className="group-badge" style={{ 
-              backgroundColor: groups.find(g => g.id === swimmer.groupId)?.color || '#00d4ff',
-              opacity: 0.2,
-              border: `1px solid ${groups.find(g => g.id === swimmer.groupId)?.color || '#00d4ff'}`
-            }}>
-              <span style={{ color: groups.find(g => g.id === swimmer.groupId)?.color || '#00d4ff' }}>
-                👥 {groups.find(g => g.id === swimmer.groupId)?.name || 'Grup'}
-              </span>
-            </span>
+        <div className="swimmer-quick-info">
+          <div className="quick-stat">
+            <span className="quick-stat-icon">❤️</span>
+            <span className="quick-stat-value">{swimmer.maxHeartRate}</span>
+            <span className="quick-stat-label">Max</span>
           </div>
-        )}
-        
-        <div className="swimmer-stats">
-          <div className="stat-item">
-            <span className="stat-icon">❤️</span>
-            <div className="stat-content">
-              <span className="stat-value">{swimmer.maxHeartRate}</span>
-              <span className="stat-label">HR Max (bpm)</span>
-            </div>
+          <div className="quick-stat">
+            <span className="quick-stat-icon">💤</span>
+            <span className="quick-stat-value">{swimmer.restingHeartRate}</span>
+            <span className="quick-stat-label">Repaus</span>
           </div>
-          <div className="stat-item">
-            <span className="stat-icon">💤</span>
-            <div className="stat-content">
-              <span className="stat-value">{swimmer.restingHeartRate}</span>
-              <span className="stat-label">HR Repaus (bpm)</span>
-            </div>
-          </div>
-          <div className="stat-item">
-            <span className="stat-icon">🎯</span>
-            <div className="stat-content">
-              <span className="stat-value">{swimmer.thresholdHeartRate}</span>
-              <span className="stat-label">HR Prag (bpm)</span>
-            </div>
+          <div className="quick-stat">
+            <span className="quick-stat-icon">🎯</span>
+            <span className="quick-stat-value">{swimmer.thresholdHeartRate}</span>
+            <span className="quick-stat-label">Prag</span>
           </div>
         </div>
         
-        {zones && (
-          <div className="swimmer-zones">
-            <h4>Zone de Antrenament</h4>
-            <div className="zones-grid">
-              <span className="zone-tag zone-1">Z1: {zones.zone1.min}-{zones.zone1.max}</span>
-              <span className="zone-tag zone-2">Z2: {zones.zone2.min}-{zones.zone2.max}</span>
-              <span className="zone-tag zone-3">Z3: {zones.zone3.min}-{zones.zone3.max}</span>
-              <span className="zone-tag zone-4">Z4: {zones.zone4.min}-{zones.zone4.max}</span>
-              <span className="zone-tag zone-5">Z5: {zones.zone5.min}-{zones.zone5.max}</span>
+        <div className="swimmer-expandable-content">
+          <div className="swimmer-expandable-inner">
+            <div className="swimmer-meta">
+              <span className="swimmer-created">Creat: {new Date(swimmer.createdAt).toLocaleDateString('ro-RO')}</span>
+            </div>
+            
+            {swimmer.groupId && (
+              <div className="swimmer-group">
+                <span className="group-badge" style={{ 
+                  backgroundColor: (groups.find(g => g.id === swimmer.groupId)?.color || '#00d4ff') + '20',
+                  border: `1px solid ${groups.find(g => g.id === swimmer.groupId)?.color || '#00d4ff'}`,
+                  color: groups.find(g => g.id === swimmer.groupId)?.color || '#00d4ff'
+                }}>
+                  <span style={{ color: groups.find(g => g.id === swimmer.groupId)?.color || '#00d4ff' }}>
+                    👥 {groups.find(g => g.id === swimmer.groupId)?.name || 'Grup'}
+                  </span>
+                </span>
+              </div>
+            )}
+            
+            <div className="swimmer-stats">
+              <div className="stat-item">
+                <span className="stat-icon">❤️</span>
+                <div className="stat-content">
+                  <span className="stat-value">{swimmer.maxHeartRate}</span>
+                  <span className="stat-label">HR Max (bpm)</span>
+                </div>
+              </div>
+              <div className="stat-item">
+                <span className="stat-icon">💤</span>
+                <div className="stat-content">
+                  <span className="stat-value">{swimmer.restingHeartRate}</span>
+                  <span className="stat-label">HR Repaus (bpm)</span>
+                </div>
+              </div>
+              <div className="stat-item">
+                <span className="stat-icon">🎯</span>
+                <div className="stat-content">
+                  <span className="stat-value">{swimmer.thresholdHeartRate}</span>
+                  <span className="stat-label">HR Prag (bpm)</span>
+                </div>
+              </div>
+            </div>
+            
+            {zones && (
+              <div className="swimmer-zones">
+                <h4>Zone de Antrenament</h4>
+                <div className="zones-grid">
+                  <span className="zone-tag zone-1">Z1: {zones.zone1.min}-{zones.zone1.max}</span>
+                  <span className="zone-tag zone-2">Z2: {zones.zone2.min}-{zones.zone2.max}</span>
+                  <span className="zone-tag zone-3">Z3: {zones.zone3.min}-{zones.zone3.max}</span>
+                  <span className="zone-tag zone-4">Z4: {zones.zone4.min}-{zones.zone4.max}</span>
+                  <span className="zone-tag zone-5">Z5: {zones.zone5.min}-{zones.zone5.max}</span>
+                </div>
+              </div>
+            )}
+            
+            <div className="swimmer-actions">
+              <button 
+                className="action-btn view-more-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/admin/advanced-swimmers/${swimmer.id}/details`);
+                }}
+              >
+                <span className="btn-icon">👁️</span>
+                Vezi Mai Mult
+              </button>
             </div>
           </div>
-        )}
-        
-        <div className="swimmer-actions">
-          <button 
-            className="action-btn view-more-btn"
-            onClick={() => navigate(`/admin/advanced-swimmers/${swimmer.id}/details`)}
-          >
-            <span className="btn-icon">👁️</span>
-            Vezi Mai Mult
-          </button>
         </div>
       </div>
     );

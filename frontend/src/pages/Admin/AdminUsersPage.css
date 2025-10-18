@@ -127,6 +127,12 @@
   box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
 }
 
+.filter-select option,
+.sort-select option {
+  background: #1e1e1e;
+  color: #ffffff;
+}
+
 .refresh-btn {
   padding: 0.75rem 1.5rem;
   background: rgba(0, 212, 255, 0.1);
@@ -158,14 +164,14 @@
   font-weight: 500;
 }
 
-/* Users Grid - FIXED RESPONSIVE VERSION */
+/* Users Grid */
 .users-grid {
   display: grid;
   gap: 1.5rem;
-  /* Responsive grid that works on all screen sizes */
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
 }
 
+/* Export Section */
 .export-section {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 15px;
@@ -223,19 +229,6 @@
   box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
 }
 
-.excel-btn {
-  background: rgba(33, 150, 243, 0.1);
-  color: #2196f3;
-  border: 2px solid rgba(33, 150, 243, 0.3);
-}
-
-.excel-btn:hover:not(:disabled) {
-  background: #2196f3;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
-}
-
 .export-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -253,173 +246,6 @@
   border-left: 3px solid var(--primary-color);
 }
 
-
-/* Responsive Breakpoints */
-@media screen and (max-width: 1200px) {
-  .users-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
-    gap: 1.25rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
-
-  .export-section {
-    padding: 1.25rem;
-  }
-
-  .export-section h3 {
-    font-size: 1rem;
-  }
-
-  .export-buttons {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .export-btn {
-    width: 100%;
-    justify-content: center;
-    padding: 1rem 1.5rem;
-  }
-  .admin-users-page {
-    padding: 0 0.5rem;
-  }
-
-  .page-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.5rem;
-    gap: 1rem;
-  }
-
-  .page-header h1 {
-    font-size: 1.8rem;
-    width: 100%;
-  }
-
-  .stats {
-    width: 100%;
-    justify-content: flex-start;
-    gap: 1rem;
-  }
-
-  .stats .stat {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
-  }
-
-  .filters-section {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 1.25rem;
-    gap: 1rem;
-  }
-
-  .search-box {
-    min-width: auto;
-    max-width: none;
-  }
-
-  .filter-controls {
-    justify-content: center;
-    gap: 0.75rem;
-  }
-
-  .filter-select,
-  .sort-select {
-    min-width: 130px;
-    font-size: 0.9rem;
-  }
-
-  .refresh-btn {
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-
-  /* Single column on mobile */
-  .users-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
-.filter-select option,
-.sort-select option {
-  background: #1e1e1e; /* dark grey */
-  color: #ffffff;      /* white text */
-}
-@media screen and (max-width: 480px) {
-  .export-section {
-    padding: 1rem;
-  }
-
-  .export-section h3::before {
-    display: none;
-  }
-
-  .export-btn {
-    font-size: 0.85rem;
-    padding: 0.875rem 1.25rem;
-  }
-
-  .export-info {
-    font-size: 0.8rem;
-    padding: 0.4rem 0.8rem;
-  }
-  .admin-users-page {
-    padding: 0 0.25rem;
-  }
-
-  .page-header {
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .page-header h1 {
-    font-size: 1.5rem;
-  }
-
-  .stats {
-    gap: 0.75rem;
-  }
-
-  .stats .stat {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-  }
-
-  .filters-section {
-    padding: 1rem;
-  }
-
-  .search-input {
-    padding: 0.875rem 1.25rem;
-    font-size: 0.9rem;
-  }
-
-  .filter-controls {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-  }
-
-  .filter-select,
-  .sort-select,
-  .refresh-btn {
-    width: 100%;
-    min-width: auto;
-  }
-
-  .results-info {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-
-  .users-grid {
-    gap: 0.75rem;
-  }
-}
-
 /* No results message */
 .no-results {
   grid-column: 1 / -1;
@@ -430,4 +256,179 @@
   background: rgba(255, 255, 255, 0.05);
   border-radius: 15px;
   border: 1px solid var(--border-color);
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+@media screen and (max-width: 1200px) {
+  .users-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-users-page {
+    padding: 0 0.75rem;
+  }
+
+  /* Mobile Page Header */
+  .page-header {
+    padding: 1.25rem;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+    width: 100%;
+  }
+
+  .stats {
+    width: 100%;
+    gap: 0.65rem;
+    justify-content: center;
+  }
+
+  .stats .stat {
+    flex: 1;
+    min-width: fit-content;
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    text-align: center;
+    border-radius: 12px;
+  }
+
+  /* Mobile Filters Section */
+  .filters-section {
+    padding: 1rem;
+    gap: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .search-input {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+    border-radius: 12px;
+  }
+
+  .filter-controls {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .filter-select,
+  .sort-select {
+    padding: 0.875rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .refresh-btn {
+    padding: 0.875rem;
+    font-size: 0.9rem;
+  }
+
+  /* Mobile Export Section */
+  .export-section {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .export-section h3 {
+    font-size: 0.95rem;
+  }
+
+  .export-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .export-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.875rem;
+    font-size: 0.9rem;
+  }
+
+  .export-info {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Results info */
+  .results-info {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Mobile Users Grid */
+  .users-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .admin-users-page {
+    padding: 0 0.5rem;
+  }
+
+  .page-header {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .stats .stat {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .filters-section {
+    padding: 0.875rem;
+  }
+
+  .search-input {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .filter-select,
+  .sort-select,
+  .refresh-btn {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.85rem;
+  }
+
+  .export-section {
+    padding: 0.875rem;
+  }
+
+  .export-section h3 {
+    font-size: 0.9rem;
+  }
+
+  .export-section h3::before {
+    display: none;
+  }
+
+  .export-btn {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .export-info {
+    font-size: 0.75rem;
+    padding: 0.45rem 0.65rem;
+  }
+
+  .users-grid {
+    gap: 0.75rem;
+  }
 }

@@ -2,25 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CreateAdvancedSwimmer.css';
 
-// ADD: Mock cursants data (filtered from AdminUsersPage mock data)
+// Mock cursants data (filtered - those without advanced profiles)
 const MOCK_CURSANTS = [
   {
     id: 4,
     numeComplet: 'Popa Mihai',
     telefon: '0755444555',
-    dataNasterii: '2010-05-15'
+    dataNasterii: '2010-05-15',
+    email: 'mihai.popa@email.com'
   },
   {
     id: 6,
     numeComplet: 'Stan Gabriel',
     telefon: '0777666777',
-    dataNasterii: '2012-08-22'
+    dataNasterii: '2012-08-22',
+    email: 'gabriel.stan@email.com'
   },
   {
     id: 8,
     numeComplet: 'Radu Andrei',
     telefon: '0799888999',
-    dataNasterii: '2011-03-10'
+    dataNasterii: '2011-03-10',
+    email: 'andrei.radu@email.com'
   }
 ];
 
@@ -37,8 +40,14 @@ const CreateAdvancedSwimmer = () => {
     restingHeartRate: '',
     thresholdHeartRate: ''
   });
+  const [notification, setNotification] = useState({
+    isVisible: false,
+    type: 'info',
+    title: '',
+    message: ''
+  });
 
-  // REPLACED: Fetch with mock data loading
+  // Fetch with mock data loading
   useEffect(() => {
     const fetchAllCursants = () => {
       setIsLoading(true);
@@ -76,8 +85,10 @@ const CreateAdvancedSwimmer = () => {
       const normalizedQuery = normalizeString(searchQuery);
       const filtered = allCursants.filter(cursant => {
         const name = cursant.numeComplet || cursant.nume || '';
+        const email = cursant.email || '';
         const normalizedName = normalizeString(name);
-        return normalizedName.includes(normalizedQuery);
+        const normalizedEmail = normalizeString(email);
+        return normalizedName.includes(normalizedQuery) || normalizedEmail.includes(normalizedQuery);
       });
       setFilteredCursants(filtered);
     }
@@ -96,6 +107,14 @@ const CreateAdvancedSwimmer = () => {
       });
     }
   }, [selectedCursant]);
+
+  const showNotification = (type, title, message) => {
+    setNotification({ isVisible: true, type, title, message });
+  };
+
+  const closeNotification = () => {
+    setNotification({ ...notification, isVisible: false });
+  };
 
   const calculateAge = (dataNasterii) => {
     const birthDate = new Date(dataNasterii);
@@ -128,10 +147,10 @@ const CreateAdvancedSwimmer = () => {
     return { maxHeartRate, restingHeartRate, thresholdHeartRate };
   };
 
-  // REPLACED: Create with mock implementation
   const handleCreateAdvancedSwimmer = async () => {
     if (!selectedCursant) {
       setError('Vă rugăm să selectați un cursant');
+      showNotification('warning', 'Avertisment', 'Vă rugăm să selectați un cursant');
       return;
     }
 
@@ -142,21 +161,25 @@ const CreateAdvancedSwimmer = () => {
 
     if (maxHr < 120 || maxHr > 220) {
       setError('Frecvența cardiacă maximă trebuie să fie între 120 și 220 bpm');
+      showNotification('warning', 'Validare', 'Frecvența cardiacă maximă trebuie să fie între 120 și 220 bpm');
       return;
     }
 
     if (restingHr < 30 || restingHr > 100) {
       setError('Frecvența cardiacă de repaus trebuie să fie între 30 și 100 bpm');
+      showNotification('warning', 'Validare', 'Frecvența cardiacă de repaus trebuie să fie între 30 și 100 bpm');
       return;
     }
 
     if (thresholdHr < 100 || thresholdHr > 200) {
       setError('Frecvența cardiacă prag trebuie să fie între 100 și 200 bpm');
+      showNotification('warning', 'Validare', 'Frecvența cardiacă prag trebuie să fie între 100 și 200 bpm');
       return;
     }
 
     if (restingHr >= maxHr) {
       setError('Frecvența cardiacă de repaus trebuie să fie mai mică decât cea maximă');
+      showNotification('warning', 'Validare', 'Frecvența cardiacă de repaus trebuie să fie mai mică decât cea maximă');
       return;
     }
 
@@ -164,10 +187,15 @@ const CreateAdvancedSwimmer = () => {
 
     // Simulate API delay
     setTimeout(() => {
-      // In a real scenario, you would add to MOCK_ADVANCED_SWIMMERS here
-      // For now, just navigate back with success
-      alert(`Înotător avansat creat cu succes pentru ${selectedCursant.numeComplet}! (Mock)`);
-      navigate('/admin/advanced-swimmers');
+      showNotification(
+        'success',
+        'Profil Creat',
+        `Înotător avansat creat cu succes pentru ${selectedCursant.numeComplet}! (Mock)`
+      );
+      
+      setTimeout(() => {
+        navigate('/admin/advanced-swimmers');
+      }, 2000);
     }, 800);
   };
 
@@ -186,6 +214,17 @@ const CreateAdvancedSwimmer = () => {
 
   return (
     <div className="create-swimmer-container">
+      {/* Notification */}
+      {notification.isVisible && (
+        <div className={`notification notification-${notification.type}`}>
+          <div className="notification-content">
+            <h4>{notification.title}</h4>
+            <p>{notification.message}</p>
+          </div>
+          <button onClick={closeNotification} className="notification-close">×</button>
+        </div>
+      )}
+
       {/* Header */}
       <div className="create-swimmer-header">
         <div className="header-content">
@@ -198,7 +237,7 @@ const CreateAdvancedSwimmer = () => {
           </button>
           <div>
             <h1 className="page-title">Adaugă Înotător Avansat (Demo)</h1>
-            <p className="page-subtitle">Creează un nou profil de înotător cu monitorizare avansată - Mock data</p>
+            <p className="page-subtitle">Creează un nou profil de înotător cu monitorizare avansată - Date mock</p>
           </div>
         </div>
       </div>
@@ -222,7 +261,7 @@ const CreateAdvancedSwimmer = () => {
             <input
               type="text"
               className="search-input"
-              placeholder="Caută după nume..."
+              placeholder="Caută după nume sau email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -248,9 +287,9 @@ const CreateAdvancedSwimmer = () => {
                   >
                     <div className="cursant-info">
                       <h4>{cursant.numeComplet || cursant.nume}</h4>
-                      {cursant.telefon && <p>Tel: {cursant.telefon}</p>}
+                      {cursant.telefon && <p>📞 {cursant.telefon}</p>}
                       {cursant.dataNasterii && (
-                        <p>Vârsta: {calculateAge(cursant.dataNasterii)} ani</p>
+                        <p>🎂 {calculateAge(cursant.dataNasterii)} ani</p>
                       )}
                     </div>
                     <div className="cursant-select">

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import "./Consimtamant.css";
 
-// ADD: Mock consents data
+// Mock consents data
 const MOCK_CONSENTS = [
   {
     id: 1,
@@ -51,15 +50,24 @@ const MOCK_CONSENTS = [
 const ConsimtamantTable = () => {
   const [consents, setConsents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [expandedCards, setExpandedCards] = useState(new Set());
 
-  // REPLACED: Fetch with mock data loading
+  // Fetch with mock data loading
   useEffect(() => {
     const fetchConsents = () => {
       setIsLoading(true);
       
       // Simulate loading delay
       setTimeout(() => {
-        setConsents(MOCK_CONSENTS);
+        const mappedConsents = MOCK_CONSENTS.map(consent => ({
+          id: consent.id,
+          fullName: consent.numePrenume,
+          agreementDate: consent.dataAcord,
+          deviceIp: consent.ipDispozitiv,
+          gdprVersion: consent.gdpr?.version
+        }));
+        setConsents(mappedConsents);
         setIsLoading(false);
       }, 500);
     };
@@ -67,48 +75,186 @@ const ConsimtamantTable = () => {
     fetchConsents();
   }, []);
 
+  const filteredConsents = consents.filter((consent) =>
+    consent.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleGDPRClick = () => {
+    window.location.href = '/admin/gdpr';
+  };
+
+  const toggleCard = (id) => {
+    setExpandedCards(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
   return (
-    <div className="consimtamant-container">
-      <div className="consimtamant-header">
-        <h1>Consimțământ GDPR (Demo)</h1>
+    <div className="consimtamant-page">
+      <div className="consimtamant-container">
+        <div className="consimtamant-header">
+          <div className="header-content">
+            <h1>Consimțământ GDPR (Demo)</h1>
+            <p className="subtitle">Vizualizează toate consimțămintele GDPR înregistrate - Date mock</p>
+          </div>
+          <button onClick={handleGDPRClick} className="btn-gdpr">
+            <span className="btn-icon">📜</span>
+            Gestionare GDPR
+          </button>
+        </div>
 
-        <Link to="/admin/gdpr" className="btn btn-primary">
-          📜 Gestionare GDPR
-        </Link>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Caută după nume..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+          <svg className="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+        {isLoading ? (
+          <div className="loading-state">
+            <div className="spinner"></div>
+            <p>Se încarcă consimțămintele...</p>
+          </div>
+        ) : filteredConsents.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">📋</div>
+            <p className="empty-title">
+              {searchTerm ? "Nu au fost găsite rezultate" : "Nu există consimțăminte înregistrate"}
+            </p>
+            <p className="empty-subtitle">
+              {searchTerm
+                ? "Încearcă să modifici termenul de căutare"
+                : "Consimțămintele vor apărea aici când utilizatorii completează formularul"}
+            </p>
+          </div>
+        ) : (
+          <div className="table-wrapper">
+            {/* Desktop Table */}
+            <table className="consimtamant-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nume Prenume</th>
+                  <th>Data Acord</th>
+                  <th>IP Dispozitiv</th>
+                  <th>Versiune GDPR</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredConsents.map((consent) => (
+                  <tr key={consent.id}>
+                    <td data-label="ID">
+                      <span className="id-badge">{consent.id}</span>
+                    </td>
+                    <td data-label="Nume Prenume">
+                      <div className="user-info">
+                        <div className="avatar">
+                          {consent.fullName?.charAt(0).toUpperCase() || "?"}
+                        </div>
+                        <span>{consent.fullName}</span>
+                      </div>
+                    </td>
+                    <td data-label="Data Acord">
+                      {consent.agreementDate
+                        ? new Date(consent.agreementDate).toLocaleString("ro-RO", {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                          })
+                        : "-"}
+                    </td>
+                    <td data-label="IP Dispozitiv">
+                      <span className="ip-badge">{consent.deviceIp || "-"}</span>
+                    </td>
+                    <td data-label="Versiune GDPR">
+                      <span className="version-badge">v{consent.gdprVersion || "N/A"}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Mobile Cards */}
+            <div className="mobile-cards">
+              {filteredConsents.map((consent) => {
+                const isExpanded = expandedCards.has(consent.id);
+                return (
+                  <div 
+                    key={consent.id} 
+                    className={`mobile-card ${isExpanded ? 'expanded' : ''}`}
+                    onClick={() => toggleCard(consent.id)}
+                  >
+                    <div className="mobile-card-header">
+                      <div className="mobile-user-info">
+                        <div className="avatar">
+                          {consent.fullName?.charAt(0).toUpperCase() || "?"}
+                        </div>
+                        <div className="mobile-user-details">
+                          <span className="mobile-user-name">{consent.fullName}</span>
+                          <span className="mobile-user-id">ID: {consent.id}</span>
+                        </div>
+                      </div>
+                      <div className="mobile-expand-icon">
+                        <svg 
+                          width="20" 
+                          height="20" 
+                          viewBox="0 0 20 20" 
+                          fill="none" 
+                          stroke="currentColor"
+                          className={isExpanded ? 'rotated' : ''}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    <div className={`mobile-card-content ${isExpanded ? 'show' : ''}`}>
+                      <div className="mobile-info-row">
+                        <span className="mobile-label">DATA ACORD</span>
+                        <span className="mobile-value">
+                          {consent.agreementDate
+                            ? new Date(consent.agreementDate).toLocaleString("ro-RO", {
+                                dateStyle: "short",
+                                timeStyle: "short",
+                              })
+                            : "-"}
+                        </span>
+                      </div>
+                      <div className="mobile-info-row">
+                        <span className="mobile-label">IP DISPOZITIV</span>
+                        <span className="mobile-value ip-badge">{consent.deviceIp || "-"}</span>
+                      </div>
+                      <div className="mobile-info-row">
+                        <span className="mobile-label">VERSIUNE GDPR</span>
+                        <span className="version-badge">v{consent.gdprVersion || "N/A"}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="results-counter">
+              <p>
+                Se afișează <span className="highlight">{filteredConsents.length}</span>{" "}
+                {filteredConsents.length === 1 ? "rezultat" : "rezultate"}
+                {searchTerm && " (filtrat)"}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
-
-      {isLoading ? (
-        <p>Se încarcă...</p>
-      ) : consents.length === 0 ? (
-        <p>Nu există consimțăminte înregistrate.</p>
-      ) : (
-        <table className="consimtamant-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nume Prenume</th>
-              <th>Data Acord</th>
-              <th>IP Dispozitiv</th>
-              <th>GDPR Version</th>
-            </tr>
-          </thead>
-          <tbody>
-            {consents.map((c) => (
-              <tr key={c.id}>
-                <td>{c.id}</td>
-                <td>{c.numePrenume}</td>
-                <td>
-                  {c.dataAcord
-                    ? new Date(c.dataAcord).toLocaleString("ro-RO")
-                    : "-"}
-                </td>
-                <td>{c.ipDispozitiv}</td>
-                <td>{c.gdpr ? c.gdpr.version : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
     </div>
   );
 };

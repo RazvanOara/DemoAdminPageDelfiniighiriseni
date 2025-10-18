@@ -16,7 +16,26 @@
   .phase-selector.selected {
     animation: phaseSelect 0.3s ease;
   }
+  .group-preview-card {
+    transition: all 0.3s ease;
+  }
   
+  .group-preview-card:not(.added):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+    border-color: var(--primary-color);
+  }
+  
+  .group-preview-card.added {
+    opacity: 0.6;
+    border-color: #4CAF50;
+    background: rgba(76, 175, 80, 0.1);
+  }
+  
+  .group-preview-card.added h5 span {
+    color: #4CAF50;
+    margin-left: 0.5rem;
+  }
   /* Modal Styles */
   .phase-assignment-modal {
     position: fixed;
@@ -447,7 +466,9 @@
   font-size: 0.9rem;
   border-radius: 12px;
 }
-
+.plan-card-footer .btn-outline {
+  display: none; /* Hide "Vezi Detalii" on desktop */
+}
 /* Create Plan Styles */
 .create-plan {
   max-width: 900px;
@@ -1002,26 +1023,120 @@
 }
 /* Responsive Design */
 @media screen and (max-width: 768px) {
-  .reference-sections {
-    gap: 1.5rem;
+  .plans-container > div:not(.planificare-header) {
+    padding: 0 1rem;
   }
-
-  .zones-grid {
+  
+  .overview-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .plans-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
-
-  .training-types-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  
+  .plan-card {
+    padding: 1rem;
   }
-
-  .zone-header,
-  .type-header {
-    gap: 0.6rem;
+  
+  .plan-card-body {
+    gap: 0;
   }
-
-  .zone-card,
-  .training-type-card {
+  
+  /* Collapsible sections on mobile */
+  .plan-dates,
+  .plan-progress,
+  .plan-phases,
+  .plan-races {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .plan-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
     padding: 0.8rem;
+    background: transparent;
+    border: none;
+  }
+  
+  .date-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    text-align: left;
+  }
+  
+  .date-label {
+    font-size: 0.75rem;
+    margin-bottom: 0;
+    flex: 0 0 auto;
+  }
+  
+  .date-value {
+    font-size: 0.85rem;
+    text-align: right;
+    flex: 0 0 auto;
+  }
+  
+  .plan-phases {
+    display: none; /* Hide phases on mobile by default */
+  }
+  
+  .plan-card.expanded .plan-phases {
+    display: flex;
+  }
+  
+  .plan-races {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+  
+  .plan-card.expanded .plan-races {
+    max-height: 500px;
+    opacity: 1;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .race-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.6rem;
+  }
+  
+  .race-name {
+    font-size: 0.85rem;
+  }
+  
+  .phases-list {
+    gap: 0.4rem;
+  }
+  
+  .phase-badge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .plan-card-footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+  .plan-card-footer .btn-outline {
+    display: block; /* Show "Vezi Detalii" only on mobile */
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './GroupsManagement.css';
 
-// ADD: Mock groups data
+// Mock groups data
 let MOCK_GROUPS = [
   {
     id: 1,
@@ -32,7 +32,7 @@ let MOCK_GROUPS = [
   }
 ];
 
-// ADD: Mock swimmers (reuse from AdvancedSwimmers)
+// Mock swimmers (reuse from AdvancedSwimmers)
 const MOCK_SWIMMERS = [
   { id: 1, cursantId: 1, cursantNume: 'Popescu Alex', groupId: 1 },
   { id: 2, cursantId: 2, cursantNume: 'Ionescu David', groupId: 1 },
@@ -56,7 +56,6 @@ const GroupsManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
 
-  // REPLACED: Fetch with mock data loading
   useEffect(() => {
     fetchGroups();
     fetchAvailableSwimmers();
@@ -76,7 +75,6 @@ const GroupsManagement = () => {
     }, 300);
   };
 
-  // REPLACED: Create group with mock implementation
   const handleCreateGroup = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -113,7 +111,6 @@ const GroupsManagement = () => {
     }, 500);
   };
 
-  // REPLACED: Update group with mock implementation
   const handleUpdateGroup = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -156,7 +153,6 @@ const GroupsManagement = () => {
     }, 500);
   };
 
-  // REPLACED: Delete group with mock implementation
   const handleDeleteGroup = (groupId) => {
     if (!window.confirm('Sigur vrei să ștergi acest grup? (Mock)')) return;
 
@@ -217,80 +213,84 @@ const GroupsManagement = () => {
   );
 
   const renderListView = () => (
-    <div className="groups-list-view">
-      <div className="list-header">
-        <h2 className="page-title">Gestionare Grupuri (Demo)</h2>
-        <button className="btn btn-primary" onClick={() => setActiveView('create')}>
-          + Creează Grup Nou
+    <div className="gm-list-view">
+      <div className="gm-header">
+        <div className="gm-header-content">
+          <h1 className="gm-title">Gestionare Grupuri (Demo)</h1>
+          <p className="gm-subtitle">{groups.length} {groups.length === 1 ? 'grup' : 'grupuri'}</p>
+        </div>
+        <button className="gm-btn gm-btn-primary gm-btn-icon" onClick={() => setActiveView('create')}>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 4V16M4 10H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          <span>Grup Nou</span>
         </button>
       </div>
 
       {error && (
-        <div className="error-banner">
-          {error}
-          <button onClick={() => setError(null)}>✕</button>
+        <div className="gm-alert gm-alert-error">
+          <span>{error}</span>
+          <button onClick={() => setError(null)} className="gm-alert-close">×</button>
         </div>
       )}
 
       {isLoading ? (
-        <div className="loading">
-          <div className="spinner"></div>
+        <div className="gm-loading">
+          <div className="gm-spinner"></div>
         </div>
       ) : groups.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-icon">👥</div>
-          <h3>Nu există grupuri create</h3>
+        <div className="gm-empty">
+          <div className="gm-empty-icon">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="24" r="8" stroke="currentColor" strokeWidth="2"/>
+              <path d="M20 44C20 38.4772 24.4772 34 30 34H34C39.5228 34 44 38.4772 44 44V48H20V44Z" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+          </div>
+          <h3>Nu există grupuri</h3>
           <p>Creează primul grup pentru a organiza înotătorii avansați</p>
-          <button className="btn btn-primary" onClick={() => setActiveView('create')}>
+          <button className="gm-btn gm-btn-primary" onClick={() => setActiveView('create')}>
             Creează Primul Grup
           </button>
         </div>
       ) : (
-        <div className="groups-grid">
+        <div className="gm-grid">
           {groups.map(group => (
-            <div key={group.id} className="group-card" style={{ borderLeftColor: group.color }}>
-              <div className="group-header">
-                <div className="group-color" style={{ backgroundColor: group.color }}></div>
-                <div className="group-info">
-                  <h3 className="group-name">{group.name}</h3>
+            <div key={group.id} className="gm-card">
+              <div className="gm-card-color" style={{ backgroundColor: group.color }}></div>
+              
+              <div className="gm-card-header">
+                <div className="gm-card-info">
+                  <h3 className="gm-card-name">{group.name}</h3>
                   {group.description && (
-                    <p className="group-description">{group.description}</p>
+                    <p className="gm-card-desc">{group.description}</p>
                   )}
                 </div>
               </div>
 
-              <div className="group-stats">
-                <div className="stat">
-                  <span className="stat-label">Înotători</span>
-                  <span className="stat-value">{group.swimmerCount || 0}</span>
-                </div>
+              <div className="gm-card-stat">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 8C9.65685 8 11 6.65685 11 5C11 3.34315 9.65685 2 8 2C6.34315 2 5 3.34315 5 5C5 6.65685 6.34315 8 8 8Z" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M3 14C3 11.7909 4.79086 10 7 10H9C11.2091 10 13 11.7909 13 14" stroke="currentColor" strokeWidth="1.5"/>
+                </svg>
+                <span>{group.swimmerCount || 0} înotători</span>
               </div>
 
               {group.swimmerNames && group.swimmerNames.length > 0 && (
-                <div className="group-swimmers">
-                  <h4>Membri:</h4>
-                  <div className="swimmer-tags">
-                    {group.swimmerNames.slice(0, 3).map((name, idx) => (
-                      <span key={idx} className="swimmer-tag">{name}</span>
-                    ))}
-                    {group.swimmerNames.length > 3 && (
-                      <span className="swimmer-tag more">+{group.swimmerNames.length - 3}</span>
-                    )}
-                  </div>
+                <div className="gm-card-members">
+                  {group.swimmerNames.slice(0, 2).map((name, idx) => (
+                    <span key={idx} className="gm-member-tag">{name}</span>
+                  ))}
+                  {group.swimmerNames.length > 2 && (
+                    <span className="gm-member-more">+{group.swimmerNames.length - 2}</span>
+                  )}
                 </div>
               )}
 
-              <div className="group-actions">
-                <button 
-                  className="btn btn-secondary"
-                  onClick={() => handleEditGroup(group)}
-                >
+              <div className="gm-card-actions">
+                <button className="gm-btn gm-btn-edit" onClick={() => handleEditGroup(group)}>
                   Editează
                 </button>
-                <button 
-                  className="btn btn-outline"
-                  onClick={() => handleDeleteGroup(group.id)}
-                >
+                <button className="gm-btn gm-btn-delete" onClick={() => handleDeleteGroup(group.id)}>
                   Șterge
                 </button>
               </div>
@@ -302,32 +302,37 @@ const GroupsManagement = () => {
   );
 
   const renderFormView = () => (
-    <div className="groups-form-view">
-      <div className="form-header">
-        <button className="back-button" onClick={() => { resetForm(); setActiveView('list'); }}>
-          ← Înapoi
+    <div className="gm-form-view">
+      <div className="gm-form-header">
+        <button className="gm-back-btn" onClick={() => { resetForm(); setActiveView('list'); }}>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12 4L6 10L12 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
         </button>
-        <h2 className="page-title">
-          {activeView === 'create' ? 'Creează Grup Nou (Demo)' : 'Editează Grup (Demo)'}
-        </h2>
+        <div>
+          <h1 className="gm-form-title">
+            {activeView === 'create' ? 'Grup Nou (Demo)' : 'Editează Grup (Demo)'}
+          </h1>
+          <p className="gm-form-subtitle">
+            {activeView === 'create' ? 'Creează un nou grup pentru înotători' : 'Modifică detaliile grupului'}
+          </p>
+        </div>
       </div>
 
       {error && (
-        <div className="error-banner">
-          {error}
-          <button onClick={() => setError(null)}>✕</button>
+        <div className="gm-alert gm-alert-error">
+          <span>{error}</span>
+          <button onClick={() => setError(null)} className="gm-alert-close">×</button>
         </div>
       )}
 
-      <form onSubmit={activeView === 'create' ? handleCreateGroup : handleUpdateGroup} className="group-form">
-        <div className="form-section">
-          <h3 className="section-title">Informații Grup</h3>
-          
-          <div className="form-group">
-            <label className="form-label">Nume Grup *</label>
+      <form onSubmit={activeView === 'create' ? handleCreateGroup : handleUpdateGroup} className="gm-form">
+        <div className="gm-form-section">
+          <div className="gm-form-group">
+            <label className="gm-label">Nume Grup *</label>
             <input
               type="text"
-              className="form-input"
+              className="gm-input"
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               placeholder="ex. Grup Performanță"
@@ -335,10 +340,10 @@ const GroupsManagement = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Descriere</label>
+          <div className="gm-form-group">
+            <label className="gm-label">Descriere</label>
             <textarea
-              className="form-textarea"
+              className="gm-textarea"
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
               placeholder="Descriere grup..."
@@ -346,80 +351,88 @@ const GroupsManagement = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Culoare Grup</label>
-            <div className="color-picker-wrapper">
+          <div className="gm-form-group">
+            <label className="gm-label">Culoare Grup</label>
+            <div className="gm-color-picker">
               <input
                 type="color"
-                className="color-picker"
                 value={formData.color}
                 onChange={(e) => setFormData(prev => ({ ...prev, color: e.target.value }))}
+                className="gm-color-input"
               />
-              <span className="color-preview" style={{ backgroundColor: formData.color }}></span>
-              <span className="color-value">{formData.color}</span>
+              <div className="gm-color-preview" style={{ backgroundColor: formData.color }}></div>
+              <span className="gm-color-value">{formData.color.toUpperCase()}</span>
             </div>
           </div>
         </div>
 
-        <div className="form-section">
-          <h3 className="section-title">Selectează Înotători</h3>
+        <div className="gm-form-section">
+          <div className="gm-section-header">
+            <h3 className="gm-section-title">Înotători</h3>
+            <span className="gm-section-badge">{formData.swimmerIds.length} selectați</span>
+          </div>
           
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-input"
-              placeholder="Caută înotător..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <div className="gm-form-group">
+            <div className="gm-search">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5"/>
+                <path d="M11 11L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              <input
+                type="text"
+                className="gm-search-input"
+                placeholder="Caută înotător..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
 
-          <div className="swimmers-selection">
+          <div className="gm-swimmers">
             {filteredSwimmers.filter(swimmer => 
               !swimmer.groupId || (selectedGroup && swimmer.groupId === selectedGroup.id)
             ).length === 0 ? (
-              <p className="no-swimmers">Nu există înotători disponibili</p>
+              <div className="gm-swimmers-empty">
+                <p>Nu există înotători disponibili</p>
+              </div>
             ) : (
-              <div className="swimmers-list">
+              <div className="gm-swimmers-list">
                 {filteredSwimmers
                   .filter(swimmer => !swimmer.groupId || (selectedGroup && swimmer.groupId === selectedGroup.id))
                   .map(swimmer => (
-                    <div 
-                      key={swimmer.id} 
-                      className={`swimmer-item ${formData.swimmerIds.includes(swimmer.id) ? 'selected' : ''}`}
-                      onClick={() => toggleSwimmer(swimmer.id)}
-                    >
-                      <div className="swimmer-info">
-                        <span className="swimmer-name">{swimmer.cursantNume || `Cursant ${swimmer.cursantId}`}</span>
+                    <label key={swimmer.id} className="gm-swimmer-item">
+                      <div className="gm-swimmer-info">
+                        <span className="gm-swimmer-name">
+                          {swimmer.cursantNume || `Cursant ${swimmer.cursantId}`}
+                        </span>
                         {swimmer.groupId && selectedGroup && swimmer.groupId === selectedGroup.id && (
-                          <span className="current-group-badge">În acest grup</span>
+                          <span className="gm-swimmer-badge">În acest grup</span>
                         )}
                       </div>
-                      <div className="swimmer-checkbox">
-                        {formData.swimmerIds.includes(swimmer.id) && '✓'}
-                      </div>
-                    </div>
+                      <input
+                        type="checkbox"
+                        checked={formData.swimmerIds.includes(swimmer.id)}
+                        onChange={() => toggleSwimmer(swimmer.id)}
+                        className="gm-checkbox"
+                      />
+                    </label>
                   ))}
               </div>
             )}
           </div>
-
-          <div className="selected-count">
-            Selectați: {formData.swimmerIds.length} înotători
-          </div>
         </div>
 
-        <div className="form-actions">
+        <div className="gm-form-actions">
           <button 
             type="button"
-            className="btn btn-secondary"
+            className="gm-btn gm-btn-secondary"
             onClick={() => { resetForm(); setActiveView('list'); }}
           >
             Anulează
           </button>
           <button 
             type="submit"
-            className="btn btn-primary"
+            className="gm-btn gm-btn-primary"
             disabled={isLoading || !formData.name.trim()}
           >
             {isLoading ? 'Se salvează...' : (activeView === 'create' ? 'Creează Grup' : 'Actualizează Grup')}
