@@ -678,7 +678,9 @@ const AdminDashboard = () => {
           title={t('dashboard.quickNav.announcements.title')}
           subtitle={t('dashboard.quickNav.announcements.subtitle')}
           color="#ffd93d"
-          onClick={() => navigate('/admin/announcements')}
+          onClick={() => navigate(`/${lang}/admin/announcements`)}
+
+
         />
       </div>
 
