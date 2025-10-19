@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useSearchParams, useParams } from 'react-router-dom';
 import './CreateSwimmingTimes.css';
 
 // ADD: Mock cursant info
@@ -12,12 +13,14 @@ const MOCK_CURSANTS = {
 };
 
 const CreateSwimmingTimes = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const cursantIdFromUrl = searchParams.get('cursantId');
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { lang } = useParams();
   const [success, setSuccess] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -52,26 +55,33 @@ const CreateSwimmingTimes = () => {
   const [advancedSwimmerId, setAdvancedSwimmerId] = useState(null);
 
   const swimmingEvents = [
-    { key: 'freestyle50m', label: 'Liber 50m', category: 'Liber', distance: '50m' },
-    { key: 'freestyle100m', label: 'Liber 100m', category: 'Liber', distance: '100m' },
-    { key: 'freestyle200m', label: 'Liber 200m', category: 'Liber', distance: '200m' },
-    { key: 'freestyle400m', label: 'Liber 400m', category: 'Liber', distance: '400m' },
-    { key: 'freestyle800m', label: 'Liber 800m', category: 'Liber', distance: '800m' },
-    { key: 'freestyle1500m', label: 'Liber 1500m', category: 'Liber', distance: '1500m' },
-    { key: 'backstroke50m', label: 'Spate 50m', category: 'Spate', distance: '50m' },
-    { key: 'backstroke100m', label: 'Spate 100m', category: 'Spate', distance: '100m' },
-    { key: 'backstroke200m', label: 'Spate 200m', category: 'Spate', distance: '200m' },
-    { key: 'breaststroke50m', label: 'Bras 50m', category: 'Bras', distance: '50m' },
-    { key: 'breaststroke100m', label: 'Bras 100m', category: 'Bras', distance: '100m' },
-    { key: 'breaststroke200m', label: 'Bras 200m', category: 'Bras', distance: '200m' },
-    { key: 'butterfly50m', label: 'Fluture 50m', category: 'Fluture', distance: '50m' },
-    { key: 'butterfly100m', label: 'Fluture 100m', category: 'Fluture', distance: '100m' },
-    { key: 'butterfly200m', label: 'Fluture 200m', category: 'Fluture', distance: '200m' },
-    { key: 'im100m', label: 'Mixt 100m', category: 'Mixt', distance: '100m' },
-    { key: 'im200m', label: 'Mixt 200m', category: 'Mixt', distance: '200m' }
+    { key: 'freestyle50m', label: t('createTimes.events.freestyle50'), category: t('createTimes.categories.freestyle'), distance: '50m' },
+    { key: 'freestyle100m', label: t('createTimes.events.freestyle100'), category: t('createTimes.categories.freestyle'), distance: '100m' },
+    { key: 'freestyle200m', label: t('createTimes.events.freestyle200'), category: t('createTimes.categories.freestyle'), distance: '200m' },
+    { key: 'freestyle400m', label: t('createTimes.events.freestyle400'), category: t('createTimes.categories.freestyle'), distance: '400m' },
+    { key: 'freestyle800m', label: t('createTimes.events.freestyle800'), category: t('createTimes.categories.freestyle'), distance: '800m' },
+    { key: 'freestyle1500m', label: t('createTimes.events.freestyle1500'), category: t('createTimes.categories.freestyle'), distance: '1500m' },
+    { key: 'backstroke50m', label: t('createTimes.events.backstroke50'), category: t('createTimes.categories.backstroke'), distance: '50m' },
+    { key: 'backstroke100m', label: t('createTimes.events.backstroke100'), category: t('createTimes.categories.backstroke'), distance: '100m' },
+    { key: 'backstroke200m', label: t('createTimes.events.backstroke200'), category: t('createTimes.categories.backstroke'), distance: '200m' },
+    { key: 'breaststroke50m', label: t('createTimes.events.breaststroke50'), category: t('createTimes.categories.breaststroke'), distance: '50m' },
+    { key: 'breaststroke100m', label: t('createTimes.events.breaststroke100'), category: t('createTimes.categories.breaststroke'), distance: '100m' },
+    { key: 'breaststroke200m', label: t('createTimes.events.breaststroke200'), category: t('createTimes.categories.breaststroke'), distance: '200m' },
+    { key: 'butterfly50m', label: t('createTimes.events.butterfly50'), category: t('createTimes.categories.butterfly'), distance: '50m' },
+    { key: 'butterfly100m', label: t('createTimes.events.butterfly100'), category: t('createTimes.categories.butterfly'), distance: '100m' },
+    { key: 'butterfly200m', label: t('createTimes.events.butterfly200'), category: t('createTimes.categories.butterfly'), distance: '200m' },
+    { key: 'im100m', label: t('createTimes.events.im100'), category: t('createTimes.categories.im'), distance: '100m' },
+    { key: 'im200m', label: t('createTimes.events.im200'), category: t('createTimes.categories.im'), distance: '200m' }
   ];
 
-  const categories = ['all', 'Liber', 'Spate', 'Bras', 'Fluture', 'Mixt'];
+  const categories = [
+    'all',
+    t('createTimes.categories.freestyle'),
+    t('createTimes.categories.backstroke'),
+    t('createTimes.categories.breaststroke'),
+    t('createTimes.categories.butterfly'),
+    t('createTimes.categories.im')
+  ];
 
   // Filter events based on search and category
   const filteredEvents = swimmingEvents.filter(event => {
@@ -154,7 +164,7 @@ const CreateSwimmingTimes = () => {
           } else {
             setCursantInfo({ 
               id: cursantIdFromUrl, 
-              nume: `Cursant ${cursantIdFromUrl}` 
+              nume: `${t('createTimes.student')} ${cursantIdFromUrl}` 
             });
           }
         }, 300);
@@ -162,7 +172,7 @@ const CreateSwimmingTimes = () => {
     };
 
     fetchCursantInfo();
-  }, [cursantIdFromUrl]);
+  }, [cursantIdFromUrl, t]);
 
   // REPLACED: Submit with mock implementation
   const handleSubmit = async (e) => {
@@ -171,12 +181,12 @@ const CreateSwimmingTimes = () => {
 
     // Validation
     if (!formData.cursantId) {
-      setError('ID-ul cursantului este obligatoriu');
+      setError(t('createTimes.validation.studentRequired'));
       return;
     }
 
     if (!formData.recordedDate) {
-      setError('Data înregistrării este obligatorie');
+      setError(t('createTimes.validation.dateRequired'));
       return;
     }
 
@@ -185,7 +195,7 @@ const CreateSwimmingTimes = () => {
     );
 
     if (!hasAtLeastOneTime) {
-      setError('Trebuie să introduci cel puțin un timp');
+      setError(t('createTimes.validation.atLeastOneTime'));
       return;
     }
 
@@ -194,7 +204,7 @@ const CreateSwimmingTimes = () => {
       const timeValue = formData[event.key];
       if (timeValue && timeValue.trim() !== '') {
         if (!isValidTimeFormat(timeValue)) {
-          setError(`Formatul timpului pentru ${event.label} este invalid. Folosește formatul MM:SS sau MM:SS.CC`);
+          setError(t('createTimes.validation.invalidFormat', { event: event.label }));
           return;
         }
       }
@@ -209,9 +219,9 @@ const CreateSwimmingTimes = () => {
       
       setTimeout(() => {
         if (advancedSwimmerId) {
-          navigate(`/admin/advanced-swimmers/${advancedSwimmerId}/details`);
+          navigate(`/${lang}/admin/advanced-swimmers/${advancedSwimmerId}/details`);
         } else {
-          navigate('/admin/swimming-times');
+          navigate(`/${lang}/admin/swimming-times`);
         }
       }, 1500);
     }, 800);
@@ -237,19 +247,19 @@ const CreateSwimmingTimes = () => {
           className="back-btn" 
           onClick={() => {
             if (advancedSwimmerId) {
-              navigate(`/admin/advanced-swimmers/${advancedSwimmerId}/details`);
+              navigate(`/${lang}/admin/advanced-swimmers/${advancedSwimmerId}/details`);
             } else {
-              navigate('/admin/swimming-times');
+              navigate(`/${lang}/admin/swimming-times`);
             }
           }}
         >
-          ← Înapoi
+          ← {t('createTimes.backButton')}
         </button>
         <div className="header-content">
-          <h1 className="page-title">Adaugă Timpii de Înot (Demo)</h1>
+          <h1 className="page-title">{t('createTimes.pageTitle')}</h1>
           <p className="page-subtitle">
-            Înregistrează timpii pentru antrenament sau competiție - Mock data
-            {filledTimesCount > 0 && <span className="times-counter">({filledTimesCount} timpii completați)</span>}
+            {t('createTimes.pageSubtitle')}
+            {filledTimesCount > 0 && <span className="times-counter">({filledTimesCount} {t('createTimes.timesCompleted')})</span>}
           </p>
         </div>
       </div>
@@ -263,7 +273,7 @@ const CreateSwimmingTimes = () => {
 
       {success && (
         <div className="success-message">
-          <span className="success-text">Timpii au fost salvați cu succes (mock)!</span>
+          <span className="success-text">{t('createTimes.successMessage')}</span>
         </div>
       )}
 
@@ -271,20 +281,20 @@ const CreateSwimmingTimes = () => {
         {/* Basic Information */}
         <div className="form-section">
           <div className="section-header">
-            <h2>Informații Generale</h2>
-            <p>Completează informațiile de bază despre sesiunea de înot</p>
+            <h2>{t('createTimes.basicInfo.title')}</h2>
+            <p>{t('createTimes.basicInfo.description')}</p>
           </div>
           
           <div className="form-grid">
             <div className="form-group">
-              <label className="form-label">Cursant</label>
+              <label className="form-label">{t('createTimes.basicInfo.student')}</label>
               <div className="cursant-display">
-                <span className="cursant-name">{cursantInfo?.nume || 'Se încarcă...'}</span>
+                <span className="cursant-name">{cursantInfo?.nume || t('createTimes.basicInfo.loading')}</span>
               </div>
             </div>
 
             <div className="form-group">
-              <label className="form-label">Data Înregistrării *</label>
+              <label className="form-label">{t('createTimes.basicInfo.recordDate')} *</label>
               <input
                 type="date"
                 className="form-input"
@@ -295,37 +305,37 @@ const CreateSwimmingTimes = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Lungimea Bazinului</label>
+              <label className="form-label">{t('createTimes.basicInfo.poolLength')}</label>
               <select
                 className="form-select"
                 value={formData.poolLength}
                 onChange={(e) => handleInputChange('poolLength', e.target.value)}
               >
-                <option value={25}>25 metri</option>
-                <option value={50}>50 metri</option>
+                <option value={25}>{t('createTimes.basicInfo.meters25')}</option>
+                <option value={50}>{t('createTimes.basicInfo.meters50')}</option>
               </select>
             </div>
           </div>
 
           <div className="form-grid">
             <div className="form-group">
-              <label className="form-label">Numele Competiției (opțional)</label>
+              <label className="form-label">{t('createTimes.basicInfo.competitionName')}</label>
               <input
                 type="text"
                 className="form-input"
                 value={formData.competitionName}
                 onChange={(e) => handleInputChange('competitionName', e.target.value)}
-                placeholder="ex. Campionatul Național de Înot"
+                placeholder={t('createTimes.basicInfo.competitionPlaceholder')}
               />
             </div>
 
             <div className="form-group">
-              <label className="form-label">Note (opțional)</label>
+              <label className="form-label">{t('createTimes.basicInfo.notes')}</label>
               <textarea
                 className="form-textarea"
                 value={formData.notes}
                 onChange={(e) => handleInputChange('notes', e.target.value)}
-                placeholder="Adaugă note despre performanță, condiții, etc."
+                placeholder={t('createTimes.basicInfo.notesPlaceholder')}
                 rows={3}
               />
             </div>
@@ -335,8 +345,8 @@ const CreateSwimmingTimes = () => {
         {/* Search and Filter Section */}
         <div className="form-section">
           <div className="section-header">
-            <h2>🔍 Caută și Filtrează Evenimente</h2>
-            <p>Găsește rapid evenimentele pentru care vrei să adaugi timpii</p>
+            <h2>{t('createTimes.search.title')}</h2>
+            <p>{t('createTimes.search.description')}</p>
           </div>
 
           <div className="search-controls">
@@ -344,7 +354,7 @@ const CreateSwimmingTimes = () => {
               <input
                 type="text"
                 className="search-input"
-                placeholder="Caută evenimente (ex. 100m, liber, fluture)..."
+                placeholder={t('createTimes.search.placeholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -357,9 +367,10 @@ const CreateSwimmingTimes = () => {
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category === 'all' ? 'Toate Categoriile' : category}
+                <option value="all">{t('createTimes.search.allCategories')}</option>
+                {categories.slice(1).map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
                   </option>
                 ))}
               </select>
@@ -370,7 +381,7 @@ const CreateSwimmingTimes = () => {
                   checked={showOnlyFilled}
                   onChange={(e) => setShowOnlyFilled(e.target.checked)}
                 />
-                <span>Doar timpii completați</span>
+                <span>{t('createTimes.search.onlyFilled')}</span>
               </label>
 
               <button
@@ -379,15 +390,18 @@ const CreateSwimmingTimes = () => {
                 onClick={clearAllTimes}
                 disabled={filledTimesCount === 0}
               >
-                Șterge toate timpii
+                {t('createTimes.search.clearAll')}
               </button>
             </div>
           </div>
 
           <div className="search-results-info">
             <span>
-              Se afișează {filteredEvents.length} din {swimmingEvents.length} evenimente
-              {filledTimesCount > 0 && ` • ${filledTimesCount} timpii completați`}
+              {t('createTimes.search.showingResults', { 
+                showing: filteredEvents.length, 
+                total: swimmingEvents.length 
+              })}
+              {filledTimesCount > 0 && ` • ${filledTimesCount} ${t('createTimes.timesCompleted')}`}
             </span>
           </div>
         </div>
@@ -395,13 +409,13 @@ const CreateSwimmingTimes = () => {
         {/* Swimming Times */}
         <div className="form-section">
           <div className="section-header">
-            <h2>⏱️ Timpii de Înot</h2>
-            <p>Introduce timpii în formatul MM:SS.CC (ex: 1:23.45 sau 01:23.45)</p>
+            <h2>{t('createTimes.times.title')}</h2>
+            <p>{t('createTimes.times.formatInfo')}</p>
           </div>
 
           {filteredEvents.length === 0 ? (
             <div className="no-events-message">
-              <p>Nu s-au găsit evenimente care să corespundă criteriilor de căutare.</p>
+              <p>{t('createTimes.times.noEvents')}</p>
               <button 
                 type="button" 
                 className="reset-filters-btn"
@@ -411,7 +425,7 @@ const CreateSwimmingTimes = () => {
                   setShowOnlyFilled(false);
                 }}
               >
-                Resetează filtrele
+                {t('createTimes.times.resetFilters')}
               </button>
             </div>
           ) : (
@@ -436,7 +450,7 @@ const CreateSwimmingTimes = () => {
                       type="button"
                       className="clear-time-btn"
                       onClick={() => handleInputChange(event.key, '')}
-                      title="Șterge timpul"
+                      title={t('createTimes.times.clearTime')}
                     >
                       ×
                     </button>
@@ -454,21 +468,21 @@ const CreateSwimmingTimes = () => {
             className="btn-secondary"
             onClick={() => {
               if (advancedSwimmerId) {
-                navigate(`/admin/advanced-swimmers/${advancedSwimmerId}/details`);
+                navigate(`/${lang}/admin/advanced-swimmers/${advancedSwimmerId}/details`);
               } else {
-                navigate('/admin/swimming-times');
+                navigate(`/${lang}/admin/swimming-times`);
               }
             }}
             disabled={isLoading}
           >
-            Anulează
+            {t('createTimes.cancelButton')}
           </button>
           <button 
             type="submit" 
             className="btn-primary"
             disabled={isLoading || success || filledTimesCount === 0}
           >
-            {isLoading ? 'Se salvează...' : success ? 'Salvat (Mock)!' : `Salvează Timpii (${filledTimesCount})`}
+            {isLoading ? t('createTimes.saving') : success ? t('createTimes.saved') : t('createTimes.saveButton', { count: filledTimesCount })}
           </button>
         </div>
       </form>

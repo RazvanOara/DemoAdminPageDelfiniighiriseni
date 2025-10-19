@@ -1,119 +1,32 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from "react-router-dom";
 import "./ViewAdvancedSwimmer.css";
 
-// ADD: Mock swimmers data
+// Mock data (unchanged)
 const MOCK_SWIMMERS = {
-  '1': {
-    id: 1,
-    cursantId: 1,
-    cursantNume: 'Popescu Alex',
-    maxHeartRate: 195,
-    restingHeartRate: 60,
-    thresholdHeartRate: 170,
-    createdAt: '2024-09-15T10:00:00'
-  },
-  '2': {
-    id: 2,
-    cursantId: 2,
-    cursantNume: 'Ionescu David',
-    maxHeartRate: 188,
-    restingHeartRate: 65,
-    thresholdHeartRate: 164,
-    createdAt: '2024-09-20T14:30:00'
-  },
-  '3': {
-    id: 3,
-    cursantId: 3,
-    cursantNume: 'Georgescu Sofia',
-    maxHeartRate: 192,
-    restingHeartRate: 58,
-    thresholdHeartRate: 167,
-    createdAt: '2024-09-25T11:15:00'
-  }
+  '1': { id: 1, cursantId: 1, cursantNume: 'Popescu Alex', maxHeartRate: 195, restingHeartRate: 60, thresholdHeartRate: 170, createdAt: '2024-09-15T10:00:00' },
+  '2': { id: 2, cursantId: 2, cursantNume: 'Ionescu David', maxHeartRate: 188, restingHeartRate: 65, thresholdHeartRate: 164, createdAt: '2024-09-20T14:30:00' },
+  '3': { id: 3, cursantId: 3, cursantNume: 'Georgescu Sofia', maxHeartRate: 192, restingHeartRate: 58, thresholdHeartRate: 167, createdAt: '2024-09-25T11:15:00' }
 };
 
-// ADD: Mock swimming times
 const MOCK_SWIMMING_TIMES = {
   '1': [
-    {
-      id: 1,
-      cursantId: 1,
-      recordedDate: '2024-10-01',
-      poolLength: 25,
-      competitionName: 'Campionatul Județean',
-      freestyle50m: 26.45,
-      freestyle100m: 58.12,
-      backstroke50m: 30.22,
-      breaststroke100m: 72.34,
-      isPersonalBest: true
-    },
-    {
-      id: 2,
-      cursantId: 1,
-      recordedDate: '2024-09-20',
-      poolLength: 25,
-      competitionName: null,
-      freestyle50m: 27.10,
-      freestyle100m: 59.45,
-      freestyle200m: 128.90,
-      isPersonalBest: false
-    },
-    {
-      id: 3,
-      cursantId: 1,
-      recordedDate: '2024-09-10',
-      poolLength: 25,
-      competitionName: null,
-      freestyle50m: 27.50,
-      freestyle100m: 60.20,
-      butterfly50m: 31.15,
-      isPersonalBest: false
-    }
+    { id: 1, cursantId: 1, recordedDate: '2024-10-01', poolLength: 25, competitionName: 'Campionatul Județean', freestyle50m: 26.45, freestyle100m: 58.12, backstroke50m: 30.22, breaststroke100m: 72.34, isPersonalBest: true },
+    { id: 2, cursantId: 1, recordedDate: '2024-09-20', poolLength: 25, competitionName: null, freestyle50m: 27.10, freestyle100m: 59.45, freestyle200m: 128.90, isPersonalBest: false },
+    { id: 3, cursantId: 1, recordedDate: '2024-09-10', poolLength: 25, competitionName: null, freestyle50m: 27.50, freestyle100m: 60.20, butterfly50m: 31.15, isPersonalBest: false }
   ],
-  '2': [
-    {
-      id: 4,
-      cursantId: 2,
-      recordedDate: '2024-09-28',
-      poolLength: 50,
-      competitionName: 'Cupa României',
-      freestyle100m: 55.30,
-      freestyle200m: 120.45,
-      backstroke100m: 65.20,
-      isPersonalBest: true
-    }
-  ],
+  '2': [{ id: 4, cursantId: 2, recordedDate: '2024-09-28', poolLength: 50, competitionName: 'Cupa României', freestyle100m: 55.30, freestyle200m: 120.45, backstroke100m: 65.20, isPersonalBest: true }],
   '3': [
-    {
-      id: 5,
-      cursantId: 3,
-      recordedDate: '2024-10-02',
-      poolLength: 25,
-      competitionName: null,
-      freestyle50m: 28.90,
-      breaststroke50m: 35.40,
-      breaststroke100m: 75.80,
-      butterfly50m: 32.10,
-      isPersonalBest: true
-    },
-    {
-      id: 6,
-      cursantId: 3,
-      recordedDate: '2024-09-22',
-      poolLength: 25,
-      competitionName: 'Concurs Local',
-      freestyle50m: 29.20,
-      breaststroke50m: 36.10,
-      im100m: 68.50,
-      isPersonalBest: false
-    }
+    { id: 5, cursantId: 3, recordedDate: '2024-10-02', poolLength: 25, competitionName: null, freestyle50m: 28.90, breaststroke50m: 35.40, breaststroke100m: 75.80, butterfly50m: 32.10, isPersonalBest: true },
+    { id: 6, cursantId: 3, recordedDate: '2024-09-22', poolLength: 25, competitionName: 'Concurs Local', freestyle50m: 29.20, breaststroke50m: 36.10, im100m: 68.50, isPersonalBest: false }
   ]
 };
 
 const ViewAdvancedSwimmer = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id, lang } = useParams();
   
   const [swimmer, setSwimmer] = useState(null);
   const [swimmingTimes, setSwimmingTimes] = useState([]);
@@ -132,23 +45,23 @@ const ViewAdvancedSwimmer = () => {
   });
 
   const swimmingEvents = [
-    { key: 'freestyle50m', label: 'Liber 50m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle100m', label: 'Liber 100m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle200m', label: 'Liber 200m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle400m', label: 'Liber 400m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle800m', label: 'Liber 800m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle1500m', label: 'Liber 1500m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'backstroke50m', label: 'Spate 50m', icon: '🏊‍♀️', category: 'Spate' },
-    { key: 'backstroke100m', label: 'Spate 100m', icon: '🏊‍♀️', category: 'Spate' },
-    { key: 'backstroke200m', label: 'Spate 200m', icon: '🏊‍♀️', category: 'Spate' },
-    { key: 'breaststroke50m', label: 'Bras 50m', icon: '🤽‍♂️', category: 'Bras' },
-    { key: 'breaststroke100m', label: 'Bras 100m', icon: '🤽‍♂️', category: 'Bras' },
-    { key: 'breaststroke200m', label: 'Bras 200m', icon: '🤽‍♂️', category: 'Bras' },
-    { key: 'butterfly50m', label: 'Fluture 50m', icon: '🦋', category: 'Fluture' },
-    { key: 'butterfly100m', label: 'Fluture 100m', icon: '🦋', category: 'Fluture' },
-    { key: 'butterfly200m', label: 'Fluture 200m', icon: '🦋', category: 'Fluture' },
-    { key: 'im100m', label: 'Mixt 100m', icon: '🏆', category: 'Mixt' },
-    { key: 'im200m', label: 'Mixt 200m', icon: '🏆', category: 'Mixt' }
+    { key: 'freestyle50m', label: t('viewSwimmer.events.freestyle50'), icon: '🏊‍♂️', category: t('viewSwimmer.categories.freestyle') },
+    { key: 'freestyle100m', label: t('viewSwimmer.events.freestyle100'), icon: '🏊‍♂️', category: t('viewSwimmer.categories.freestyle') },
+    { key: 'freestyle200m', label: t('viewSwimmer.events.freestyle200'), icon: '🏊‍♂️', category: t('viewSwimmer.categories.freestyle') },
+    { key: 'freestyle400m', label: t('viewSwimmer.events.freestyle400'), icon: '🏊‍♂️', category: t('viewSwimmer.categories.freestyle') },
+    { key: 'freestyle800m', label: t('viewSwimmer.events.freestyle800'), icon: '🏊‍♂️', category: t('viewSwimmer.categories.freestyle') },
+    { key: 'freestyle1500m', label: t('viewSwimmer.events.freestyle1500'), icon: '🏊‍♂️', category: t('viewSwimmer.categories.freestyle') },
+    { key: 'backstroke50m', label: t('viewSwimmer.events.backstroke50'), icon: '🏊‍♀️', category: t('viewSwimmer.categories.backstroke') },
+    { key: 'backstroke100m', label: t('viewSwimmer.events.backstroke100'), icon: '🏊‍♀️', category: t('viewSwimmer.categories.backstroke') },
+    { key: 'backstroke200m', label: t('viewSwimmer.events.backstroke200'), icon: '🏊‍♀️', category: t('viewSwimmer.categories.backstroke') },
+    { key: 'breaststroke50m', label: t('viewSwimmer.events.breaststroke50'), icon: '🤽‍♂️', category: t('viewSwimmer.categories.breaststroke') },
+    { key: 'breaststroke100m', label: t('viewSwimmer.events.breaststroke100'), icon: '🤽‍♂️', category: t('viewSwimmer.categories.breaststroke') },
+    { key: 'breaststroke200m', label: t('viewSwimmer.events.breaststroke200'), icon: '🤽‍♂️', category: t('viewSwimmer.categories.breaststroke') },
+    { key: 'butterfly50m', label: t('viewSwimmer.events.butterfly50'), icon: '🦋', category: t('viewSwimmer.categories.butterfly') },
+    { key: 'butterfly100m', label: t('viewSwimmer.events.butterfly100'), icon: '🦋', category: t('viewSwimmer.categories.butterfly') },
+    { key: 'butterfly200m', label: t('viewSwimmer.events.butterfly200'), icon: '🦋', category: t('viewSwimmer.categories.butterfly') },
+    { key: 'im100m', label: t('viewSwimmer.events.im100'), icon: '🏆', category: t('viewSwimmer.categories.im') },
+    { key: 'im200m', label: t('viewSwimmer.events.im200'), icon: '🏆', category: t('viewSwimmer.categories.im') }
   ];
 
   const formatTime = (seconds) => {
@@ -161,7 +74,6 @@ const ViewAdvancedSwimmer = () => {
     return `${minutes.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}.${centiseconds.toString().padStart(2, '0')}`;
   };
 
-  // REPLACED: Fetch with mock data loading
   useEffect(() => {
     const fetchAllData = () => {
       setIsLoading(true);
@@ -179,18 +91,13 @@ const ViewAdvancedSwimmer = () => {
           const times = MOCK_SWIMMING_TIMES[mockSwimmer.cursantId] || [];
           setSwimmingTimes(times);
 
-          // Calculate statistics
           const totalRecords = times.length;
           const personalBestsCount = times.filter(t => t.isPersonalBest).length;
           const competitionTimesCount = times.filter(t => t.competitionName).length;
           
-          setStatistics({
-            totalRecords,
-            personalBestsCount,
-            competitionTimesCount
-          });
+          setStatistics({ totalRecords, personalBestsCount, competitionTimesCount });
         } else {
-          setError("Nu s-a găsit înotătorul.");
+          setError(t('viewSwimmer.errors.notFound'));
         }
         
         setIsLoading(false);
@@ -198,7 +105,7 @@ const ViewAdvancedSwimmer = () => {
     };
 
     fetchAllData();
-  }, [id]);
+  }, [id, t]);
 
   const calculateHeartRateZones = (maxHr, restingHr) => {
     if (!maxHr || !restingHr) return null;
@@ -212,45 +119,37 @@ const ViewAdvancedSwimmer = () => {
     };
   };
 
-  // DISABLED: Update swimmer (mock - does nothing)
   const handleUpdateSwimmer = () => {
     const maxHr = parseInt(heartRateData.maxHeartRate);
     const restingHr = parseInt(heartRateData.restingHeartRate);
     const thresholdHr = parseInt(heartRateData.thresholdHeartRate);
 
     if (maxHr < 120 || maxHr > 220) {
-      setError('Frecvența cardiacă maximă trebuie să fie între 120 și 220 bpm');
+      setError(t('viewSwimmer.validation.maxHrRange'));
       return;
     }
     if (restingHr < 30 || restingHr > 100) {
-      setError('Frecvența cardiacă de repaus trebuie să fie între 30 și 100 bpm');
+      setError(t('viewSwimmer.validation.restingHrRange'));
       return;
     }
     if (thresholdHr < 100 || thresholdHr > 200) {
-      setError('Frecvența cardiacă prag trebuie să fie între 100 și 200 bpm');
+      setError(t('viewSwimmer.validation.thresholdHrRange'));
       return;
     }
     if (restingHr >= maxHr) {
-      setError('Frecvența cardiacă de repaus trebuie să fie mai mică decât cea maximă');
+      setError(t('viewSwimmer.validation.restingLessThanMax'));
       return;
     }
 
-    // Mock update - just update state
-    setSwimmer({
-      ...swimmer,
-      maxHeartRate: maxHr,
-      restingHeartRate: restingHr,
-      thresholdHeartRate: thresholdHr
-    });
+    setSwimmer({ ...swimmer, maxHeartRate: maxHr, restingHeartRate: restingHr, thresholdHeartRate: thresholdHr });
     setEditMode(false);
     setError(null);
-    alert('Date actualizate cu succes (mock)!');
+    alert(t('viewSwimmer.success.dataUpdated'));
   };
 
-  // DISABLED: Delete swimmer (mock - just navigates back)
   const handleDeleteSwimmer = () => {
-    if (window.confirm('Sunteți sigur că doriți să ștergeți acest profil de înotător avansat? (Mock - nu va șterge efectiv)')) {
-      navigate('/admin/advanced-swimmers');
+    if (window.confirm(t('viewSwimmer.confirmDelete'))) {
+      navigate(`/${lang}/admin/advanced-swimmers`);
     }
   };
 
@@ -270,7 +169,7 @@ const ViewAdvancedSwimmer = () => {
 
   const SimpleGraph = ({ eventKey, eventLabel }) => {
     const data = getEventData(eventKey);
-    if (data.length < 2) return <p>Nu sunt suficiente date pentru grafic</p>;
+    if (data.length < 2) return <p>{t('viewSwimmer.graph.notEnoughData')}</p>;
 
     const minTime = Math.min(...data.map(d => d.time));
     const maxTime = Math.max(...data.map(d => d.time));
@@ -278,7 +177,7 @@ const ViewAdvancedSwimmer = () => {
 
     return (
       <div className="simple-graph">
-        <h4>{eventLabel} - Evoluție Timpii</h4>
+        <h4>{eventLabel} - {t('viewSwimmer.graph.evolution')}</h4>
         <div className="graph-container">
           <div className="graph-area">
             {data.map((point, index) => {
@@ -316,7 +215,7 @@ const ViewAdvancedSwimmer = () => {
       <div className="swimmer-details-container">
         <div className="loading-state">
           <div className="loading-spinner">🔄</div>
-          <p>Se încarcă datele...</p>
+          <p>{t('viewSwimmer.loading')}</p>
         </div>
       </div>
     );
@@ -327,10 +226,10 @@ const ViewAdvancedSwimmer = () => {
       <div className="swimmer-details-container">
         <div className="error-state">
           <div className="error-icon">⚠️</div>
-          <h3>Eroare</h3>
+          <h3>{t('viewSwimmer.error')}</h3>
           <p>{error}</p>
-          <button className="btn-primary" onClick={() => navigate("/admin/advanced-swimmers")}>
-            Înapoi la Lista
+          <button className="btn-primary" onClick={() => navigate(`/${lang}/admin/advanced-swimmers`)}>
+            {t('viewSwimmer.backToList')}
           </button>
         </div>
       </div>
@@ -344,26 +243,26 @@ const ViewAdvancedSwimmer = () => {
   return (
     <div className="swimmer-details-container">
       <div className="details-header">
-        <button className="back-btn" onClick={() => navigate("/admin/advanced-swimmers")}>
-          ← Înapoi la Lista
+        <button className="back-btn" onClick={() => navigate(`/${lang}/admin/advanced-swimmers`)}>
+          ← {t('viewSwimmer.backToList')}
         </button>
         <div className="header-content">
           <div className="swimmer-info">
-            <h1 className="swimmer-name">{swimmer?.cursantNume || `Cursant ID: ${swimmer?.cursantId}`} (Demo)</h1>
-            <p className="swimmer-subtitle">Profil Înotător Avansat - Date mock</p>
+            <h1 className="swimmer-name">{swimmer?.cursantNume || `${t('viewSwimmer.studentId')}: ${swimmer?.cursantId}`} ({t('viewSwimmer.demo')})</h1>
+            <p className="swimmer-subtitle">{t('viewSwimmer.subtitle')}</p>
             <div className="swimmer-badges">
               <span className="badge">ID: {swimmer.id}</span>
-              <span className="badge">Cursant: {swimmer.cursantId}</span>
-              <span className="badge">Creat: {new Date(swimmer.createdAt).toLocaleDateString('ro-RO')}</span>
+              <span className="badge">{t('viewSwimmer.student')}: {swimmer.cursantId}</span>
+              <span className="badge">{t('viewSwimmer.created')}: {new Date(swimmer.createdAt).toLocaleDateString('ro-RO')}</span>
             </div>
           </div>
         </div>
         <div className="header-actions">
           <button 
             className="btn-secondary"
-            onClick={() => navigate(`/admin/swimming-times/create?cursantId=${swimmer.cursantId}`)}
+            onClick={() => navigate(`/${lang}/admin/swimming-times/create?cursantId=${swimmer.cursantId}`)}
           >
-            ➕ Adaugă Timp
+            ➕ {t('viewSwimmer.addTime')}
           </button>
           <button 
             className={`btn-edit ${editMode ? 'active' : ''}`}
@@ -372,10 +271,10 @@ const ViewAdvancedSwimmer = () => {
               setError(null);
             }}
           >
-            ✏️ {editMode ? 'Anulează' : 'Editează'}
+            ✏️ {editMode ? t('viewSwimmer.cancel') : t('viewSwimmer.edit')}
           </button>
           <button className="btn-danger" onClick={handleDeleteSwimmer}>
-            🗑️ Șterge (Mock)
+            🗑️ {t('viewSwimmer.deleteMock')}
           </button>
         </div>
       </div>
@@ -392,19 +291,19 @@ const ViewAdvancedSwimmer = () => {
           className={`tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          📊 Prezentare Generală
+          📊 {t('viewSwimmer.tabs.overview')}
         </button>
         <button 
           className={`tab-btn ${activeTab === 'times' ? 'active' : ''}`}
           onClick={() => setActiveTab('times')}
         >
-          ⏱️ Timpii de Înot ({swimmingTimes.length})
+          ⏱️ {t('viewSwimmer.tabs.times')} ({swimmingTimes.length})
         </button>
         <button 
           className={`tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
           onClick={() => setActiveTab('analytics')}
         >
-          📈 Analize și Grafice
+          📈 {t('viewSwimmer.tabs.analytics')}
         </button>
       </div>
 
@@ -414,8 +313,8 @@ const ViewAdvancedSwimmer = () => {
             <div className="cards-grid">
               <div className="info-card heart-rate-card">
                 <div className="card-header">
-                  <h3>Frecvență Cardiacă</h3>
-                  {editMode && <span className="edit-indicator">Mod Editare</span>}
+                  <h3>{t('viewSwimmer.overview.heartRate')}</h3>
+                  {editMode && <span className="edit-indicator">{t('viewSwimmer.overview.editMode')}</span>}
                 </div>
                 <div className="heart-rate-stats">
                   <div className="hr-stat">
@@ -427,16 +326,13 @@ const ViewAdvancedSwimmer = () => {
                           min="120"
                           max="220"
                           value={heartRateData.maxHeartRate}
-                          onChange={(e) => setHeartRateData({
-                            ...heartRateData,
-                            maxHeartRate: e.target.value
-                          })}
+                          onChange={(e) => setHeartRateData({ ...heartRateData, maxHeartRate: e.target.value })}
                           className="edit-input"
                         />
                       ) : (
                         <span className="hr-value">{swimmer.maxHeartRate}</span>
                       )}
-                      <span className="hr-label">HR Max (bpm)</span>
+                      <span className="hr-label">{t('viewSwimmer.overview.hrMax')}</span>
                     </div>
                   </div>
                   <div className="hr-stat">
@@ -448,16 +344,13 @@ const ViewAdvancedSwimmer = () => {
                           min="30"
                           max="100"
                           value={heartRateData.restingHeartRate}
-                          onChange={(e) => setHeartRateData({
-                            ...heartRateData,
-                            restingHeartRate: e.target.value
-                          })}
+                          onChange={(e) => setHeartRateData({ ...heartRateData, restingHeartRate: e.target.value })}
                           className="edit-input"
                         />
                       ) : (
                         <span className="hr-value">{swimmer.restingHeartRate}</span>
                       )}
-                      <span className="hr-label">HR Repaus (bpm)</span>
+                      <span className="hr-label">{t('viewSwimmer.overview.hrResting')}</span>
                     </div>
                   </div>
                   <div className="hr-stat">
@@ -469,23 +362,20 @@ const ViewAdvancedSwimmer = () => {
                           min="100"
                           max="200"
                           value={heartRateData.thresholdHeartRate}
-                          onChange={(e) => setHeartRateData({
-                            ...heartRateData,
-                            thresholdHeartRate: e.target.value
-                          })}
+                          onChange={(e) => setHeartRateData({ ...heartRateData, thresholdHeartRate: e.target.value })}
                           className="edit-input"
                         />
                       ) : (
                         <span className="hr-value">{swimmer.thresholdHeartRate}</span>
                       )}
-                      <span className="hr-label">HR Prag (bpm)</span>
+                      <span className="hr-label">{t('viewSwimmer.overview.hrThreshold')}</span>
                     </div>
                   </div>
                 </div>
                 {editMode && (
                   <div className="edit-actions">
                     <button className="btn-save" onClick={handleUpdateSwimmer} disabled={isLoading}>
-                      {isLoading ? 'Se salvează...' : '💾 Salvează (Mock)'}
+                      {isLoading ? t('viewSwimmer.overview.saving') : `💾 ${t('viewSwimmer.overview.saveMock')}`}
                     </button>
                   </div>
                 )}
@@ -494,32 +384,32 @@ const ViewAdvancedSwimmer = () => {
               {zones && (
                 <div className="info-card zones-card">
                   <div className="card-header">
-                    <h3>Zone de Antrenament</h3>
+                    <h3>{t('viewSwimmer.overview.trainingZones')}</h3>
                   </div>
                   <div className="zones-grid">
                     <div className="zone-item zone-1">
                       <span className="zone-number">Z1</span>
-                      <span className="zone-name">Recuperare</span>
+                      <span className="zone-name">{t('viewSwimmer.zones.recovery')}</span>
                       <span className="zone-range">{zones.zone1.min}-{zones.zone1.max} bpm</span>
                     </div>
                     <div className="zone-item zone-2">
                       <span className="zone-number">Z2</span>
-                      <span className="zone-name">Aerob Ușor</span>
+                      <span className="zone-name">{t('viewSwimmer.zones.lightAerobic')}</span>
                       <span className="zone-range">{zones.zone2.min}-{zones.zone2.max} bpm</span>
                     </div>
                     <div className="zone-item zone-3">
                       <span className="zone-number">Z3</span>
-                      <span className="zone-name">Aerob</span>
+                      <span className="zone-name">{t('viewSwimmer.zones.aerobic')}</span>
                       <span className="zone-range">{zones.zone3.min}-{zones.zone3.max} bpm</span>
                     </div>
                     <div className="zone-item zone-4">
                       <span className="zone-number">Z4</span>
-                      <span className="zone-name">Prag</span>
+                      <span className="zone-name">{t('viewSwimmer.zones.threshold')}</span>
                       <span className="zone-range">{zones.zone4.min}-{zones.zone4.max} bpm</span>
                     </div>
                     <div className="zone-item zone-5">
                       <span className="zone-number">Z5</span>
-                      <span className="zone-name">Anaerob</span>
+                      <span className="zone-name">{t('viewSwimmer.zones.anaerobic')}</span>
                       <span className="zone-range">{zones.zone5.min}-{zones.zone5.max} bpm</span>
                     </div>
                   </div>
@@ -529,23 +419,23 @@ const ViewAdvancedSwimmer = () => {
               {statistics && (
                 <div className="info-card stats-card">
                   <div className="card-header">
-                    <h3>Statistici Înot</h3>
+                    <h3>{t('viewSwimmer.overview.swimmingStats')}</h3>
                   </div>
                   <div className="stats-grid">
                     <div className="stat-item">
                       <span className="stat-icon">📊</span>
                       <span className="stat-value">{statistics.totalRecords}</span>
-                      <span className="stat-label">Total Timpii</span>
+                      <span className="stat-label">{t('viewSwimmer.overview.totalTimes')}</span>
                     </div>
                     <div className="stat-item">
                       <span className="stat-icon">🏆</span>
                       <span className="stat-value">{statistics.personalBestsCount}</span>
-                      <span className="stat-label">Recorduri</span>
+                      <span className="stat-label">{t('viewSwimmer.overview.records')}</span>
                     </div>
                     <div className="stat-item">
                       <span className="stat-icon">🏅</span>
                       <span className="stat-value">{statistics.competitionTimesCount}</span>
-                      <span className="stat-label">Competiții</span>
+                      <span className="stat-label">{t('viewSwimmer.overview.competitions')}</span>
                     </div>
                   </div>
                 </div>
@@ -559,13 +449,13 @@ const ViewAdvancedSwimmer = () => {
             {swimmingTimes.length === 0 ? (
               <div className="empty-state">
                 <div className="empty-icon">⏱️</div>
-                <h3>Nu sunt timpii înregistrați</h3>
-                <p>Acest înotător nu are încă timpii înregistrați.</p>
+                <h3>{t('viewSwimmer.times.noTimes')}</h3>
+                <p>{t('viewSwimmer.times.noTimesDescription')}</p>
                 <button 
                   className="btn-primary"
-                  onClick={() => navigate(`/admin/swimming-times/create?cursantId=${swimmer.cursantId}`)}
+                  onClick={() => navigate(`/${lang}/admin/swimming-times/create?cursantId=${swimmer.cursantId}`)}
                 >
-                  ➕ Adaugă Primul Timp
+                  ➕ {t('viewSwimmer.times.addFirst')}
                 </button>
               </div>
             ) : (
@@ -601,7 +491,7 @@ const ViewAdvancedSwimmer = () => {
                 ))}
                 {swimmingTimes.length > 10 && (
                   <div className="show-more-card">
-                    <p>Și încă {swimmingTimes.length - 10} timpii...</p>
+                    <p>{t('viewSwimmer.times.andMore', { count: swimmingTimes.length - 10 })}</p>
                   </div>
                 )}
               </div>
@@ -614,8 +504,8 @@ const ViewAdvancedSwimmer = () => {
             {swimmingTimes.length === 0 ? (
               <div className="empty-state">
                 <div className="empty-icon">📈</div>
-                <h3>Nu sunt date pentru analize</h3>
-                <p>Adaugă mai multe timpii pentru a vedea grafice și analize.</p>
+                <h3>{t('viewSwimmer.analytics.noData')}</h3>
+                <p>{t('viewSwimmer.analytics.noDataDescription')}</p>
               </div>
             ) : (
               <div className="personal-bests-grid">
@@ -641,21 +531,21 @@ const ViewAdvancedSwimmer = () => {
                       
                       <div className="event-stats">
                         <div className="stat-row">
-                          <span className="stat-label">🏆 Cel mai bun:</span>
+                          <span className="stat-label">🏆 {t('viewSwimmer.analytics.bestTime')}:</span>
                           <span className="stat-value">{formatTime(bestTime[event.key])}</span>
                         </div>
                         <div className="stat-row">
-                          <span className="stat-label">📅 Cel mai recent:</span>
+                          <span className="stat-label">📅 {t('viewSwimmer.analytics.mostRecent')}:</span>
                           <span className="stat-value">{formatTime(latestTime[event.key])}</span>
                         </div>
                         <div className="stat-row">
-                          <span className="stat-label">📊 Total înregistrări:</span>
+                          <span className="stat-label">📊 {t('viewSwimmer.analytics.totalRecords')}:</span>
                           <span className="stat-value">{timesForEvent.length}</span>
                         </div>
                       </div>
 
                       <div className="all-times-section">
-                        <h5>Toate timpii ({timesForEvent.length}):</h5>
+                        <h5>{t('viewSwimmer.analytics.allTimes', { count: timesForEvent.length })}:</h5>
                         <div className="times-list-analytics">
                           {timesForEvent.slice(0, 5).map((time, index) => (
                             <div key={time.id} className="time-row">
@@ -668,7 +558,7 @@ const ViewAdvancedSwimmer = () => {
                           ))}
                           {timesForEvent.length > 5 && (
                             <div className="more-times">
-                              +{timesForEvent.length - 5} timpii în plus
+                              {t('viewSwimmer.analytics.moreTimes', { count: timesForEvent.length - 5 })}
                             </div>
                           )}
                         </div>
@@ -681,7 +571,7 @@ const ViewAdvancedSwimmer = () => {
                           setShowGraph(!showGraph || selectedEvent !== event.key);
                         }}
                       >
-                        {showGraph && selectedEvent === event.key ? 'Ascunde Graficul' : '📈 Arată Graficul'}
+                        {showGraph && selectedEvent === event.key ? t('viewSwimmer.analytics.hideGraph') : `📈 ${t('viewSwimmer.analytics.showGraph')}`}
                       </button>
                       
                       {showGraph && selectedEvent === event.key && (

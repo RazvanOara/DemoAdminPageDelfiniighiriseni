@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-// DELETED: import { API_BASE_URL } from '../../utils/config';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './AdminLayout.css';
 
-
 const AdminLayout = ({ children }) => {
+  const { t, i18n } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { lang } = useParams();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const hamburgerRef = useRef(null);
 
-  // Close mobile menu when clicking outside
+  // Helper function to create language-aware links
+  const createLink = (path) => `/${lang || i18n.language || 'ro'}${path}`;
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -30,10 +34,8 @@ const AdminLayout = ({ children }) => {
     }
   }, [mobileMenuOpen]);
 
-  // SIMPLIFIED: Remove API call, just show alert
   const handleLogout = () => {
-    if (window.confirm('Aceasta este o versiune demo. Logout-ul nu este funcțional.')) {
-      // In demo mode, just reload the page
+    if (window.confirm(t('adminLayout.logout.confirmDemo'))) {
       window.location.reload();
     }
   };
@@ -42,32 +44,49 @@ const AdminLayout = ({ children }) => {
     setMobileMenuOpen(false);
   };
 
-  // Get page title based on current route
+  // Helper function to check if path is active
+  const isActive = (path) => {
+    const pathParts = location.pathname.split('/').filter(p => p);
+    if (pathParts.length > 0 && (pathParts[0] === 'ro' || pathParts[0] === 'en')) {
+      pathParts.shift();
+    }
+    const currentPath = '/' + pathParts.join('/');
+    return currentPath === path;
+  };
+
   const getPageTitle = () => {
-    switch(location.pathname) {
+    const pathParts = location.pathname.split('/').filter(p => p);
+    if (pathParts.length > 0 && (pathParts[0] === 'ro' || pathParts[0] === 'en')) {
+      pathParts.shift();
+    }
+    const pathWithoutLang = '/' + pathParts.join('/');
+    
+    switch(pathWithoutLang) {
       case '/admin': 
-        return 'Dashboard Admin';
+        return t('adminLayout.pageTitle.dashboard');
       case '/admin/traininghub/sessionManager': 
-        return 'Sesiune de antrenament';
+        return t('adminLayout.pageTitle.trainingSession');
       case '/admin/users': 
-        return 'Gestiune Cursanți';
+        return t('adminLayout.pageTitle.students');
       case '/admin/traininghub': 
-        return 'Centru de Antrenament';
+        return t('adminLayout.pageTitle.trainingHub');
       case '/admin/advanced-swimmers': 
-        return 'Înotători Avansați';
+        return t('adminLayout.pageTitle.advancedSwimmers');
       case '/admin/groups':
-        return 'Gestionare Grupuri';
+        return t('adminLayout.pageTitle.groups');
       case '/admin/consimtamant': 
-        return 'Consimțământ GDPR';
+        return t('adminLayout.pageTitle.gdprConsent');
       case '/admin/system': 
-        return 'Informații Sistem';
+        return t('adminLayout.pageTitle.systemInfo');
       case '/admin/announcements': 
-        return 'Evenimente';
+        return t('adminLayout.pageTitle.announcements');
+      case '/admin/about-demo':
+        return t('adminLayout.pageTitle.aboutDemo');
       default: 
-        if (location.pathname.startsWith('/admin/traininghub')) {
-          return 'Centru de Antrenament';
+        if (pathWithoutLang.startsWith('/admin/traininghub')) {
+          return t('adminLayout.pageTitle.trainingHub');
         }
-        return 'Admin Panel';
+        return t('adminLayout.pageTitle.adminPanel');
     }
   };
 
@@ -91,79 +110,77 @@ const AdminLayout = ({ children }) => {
           ref={mobileMenuRef}
           className={`mobile-admin-menu ${mobileMenuOpen ? 'active' : ''}`}
         >
-
-<Link 
-  to="/admin/about-demo" 
-  className={`mobile-nav-link about-demo-link ${location.pathname === '/admin/about-demo' ? 'active' : ''}`}
-  onClick={() => handleNavigation('/admin/about-demo')}
->
-  ℹ️ Despre Demo
-</Link>
-
+          <Link 
+            to={createLink('/admin/about-demo')}
+            className={`mobile-nav-link about-demo-link ${isActive('/admin/about-demo') ? 'active' : ''}`}
+            onClick={() => handleNavigation('/admin/about-demo')}
+          >
+            ℹ️ {t('adminLayout.nav.aboutDemo')}
+          </Link>
 
           <div className="mobile-nav-links">
             <Link 
-              to="/admin" 
-              className={`mobile-nav-link ${location.pathname === '/admin' ? 'active' : ''}`}
+              to={createLink('/admin')}
+              className={`mobile-nav-link ${isActive('/admin') ? 'active' : ''}`}
               onClick={() => handleNavigation('/admin')}  
             >
-              📊 Dashboard
+              📊 {t('adminLayout.nav.dashboard')}
             </Link>
             <Link 
-              to="/admin/users" 
-              className={`mobile-nav-link ${location.pathname === '/admin/users' ? 'active' : ''}`}
+              to={createLink('/admin/users')}
+              className={`mobile-nav-link ${isActive('/admin/users') ? 'active' : ''}`}
               onClick={() => handleNavigation('/admin/users')}
             >
-              👥 Cursanți
+              👥 {t('adminLayout.nav.students')}
             </Link>
             <Link 
-              to="/admin/traininghub/sessionManager"
-              className={`mobile-nav-link ${location.pathname === '/admin/traininghub/sessionManager' ? 'active' : ''}`}
+              to={createLink('/admin/traininghub/sessionManager')}
+              className={`mobile-nav-link ${isActive('/admin/traininghub/sessionManager') ? 'active' : ''}`}
               onClick={() => handleNavigation('/admin/traininghub/sessionManager')}
             >
-              📅 Sesiune de antrenament
+              📅 {t('adminLayout.nav.trainingSession')}
             </Link>
             <Link 
-              to="/admin/traininghub"
-              className={`mobile-nav-link ${location.pathname === '/admin/traininghub' ? 'active' : ''}`}
+              to={createLink('/admin/traininghub')}
+              className={`mobile-nav-link ${isActive('/admin/traininghub') ? 'active' : ''}`}
               onClick={() => handleNavigation('/admin/traininghub')}
             >
-              📅 Centru Antrenament
+              📅 {t('adminLayout.nav.trainingHub')}
             </Link>
             <Link 
-              to="/admin/advanced-swimmers" 
-              className={`mobile-nav-link ${location.pathname === '/admin/advanced-swimmers' ? 'active' : ''}`}
+              to={createLink('/admin/advanced-swimmers')}
+              className={`mobile-nav-link ${isActive('/admin/advanced-swimmers') ? 'active' : ''}`}
               onClick={() => handleNavigation('/admin/advanced-swimmers')}
             >
-              🏊‍♂️ Înotători Avansați
+              🏊‍♂️ {t('adminLayout.nav.advancedSwimmers')}
             </Link>
             <Link 
-              to="/admin/groups" 
-              className={`mobile-nav-link ${location.pathname === '/admin/groups' ? 'active' : ''}`}
+              to={createLink('/admin/groups')}
+              className={`mobile-nav-link ${isActive('/admin/groups') ? 'active' : ''}`}
               onClick={() => handleNavigation('/admin/groups')}
             >
-              👥 Grupuri
+              👥 {t('adminLayout.nav.groups')}
             </Link>
             <Link 
-              to="/admin/announcements" 
-              className={`mobile-nav-link ${location.pathname === '/admin/announcements' ? 'active' : ''}`}
+              to={createLink('/admin/announcements')}
+              className={`mobile-nav-link ${isActive('/admin/announcements') ? 'active' : ''}`}
               onClick={() => handleNavigation('/admin/announcements')}
             >
-              📢 Evenimente
+              📢 {t('adminLayout.nav.announcements')}
             </Link>
             <Link 
-              to="/admin/consimtamant" 
-              className={`mobile-nav-link ${location.pathname === '/admin/consimtamant' ? 'active' : ''}`}
+              to={createLink('/admin/consimtamant')}
+              className={`mobile-nav-link ${isActive('/admin/consimtamant') ? 'active' : ''}`}
               onClick={() => handleNavigation('/admin/consimtamant')}
             >
-              📜 Consimțământ GDPR
+              📜 {t('adminLayout.nav.gdprConsent')}
             </Link>
             <Link 
-              to="/admin/system" 
-              className={`mobile-nav-link ${location.pathname === '/admin/system' ? 'active' : ''}`}
+              to={createLink('/admin/system')}
+              className={`mobile-nav-link ${isActive('/admin/system') ? 'active' : ''}`}
               onClick={() => handleNavigation('/admin/system')}
             >
-              ⚙️ Sistem
+              ⚙️ {t('adminLayout.nav.system')}
             </Link>
           </div>
           
@@ -174,7 +191,7 @@ const AdminLayout = ({ children }) => {
               handleLogout();
             }}
           >
-            🚪 Logout (Demo)
+            🚪 {t('adminLayout.logout.button')}
           </button>
         </div>
       </div>
@@ -182,95 +199,94 @@ const AdminLayout = ({ children }) => {
       {/* Desktop Navigation */}
       <nav className="admin-nav">
         <div className="admin-nav-header">
-          <h2>Admin Panel (Demo)</h2>
+          <h2>{t('adminLayout.header.title')}</h2>
         </div>
         <ul className="admin-nav-menu">
+          <li>
+            <Link 
+              to={createLink('/admin/about-demo')}
+              className={`about-demo-link ${isActive('/admin/about-demo') ? 'active' : ''}`}
+            >
+              ℹ️ {t('adminLayout.nav.aboutDemo')}
+            </Link>
+          </li>
 
-        <li>
-  <Link 
-    to="/admin/about-demo" 
-    className={`about-demo-link ${location.pathname === '/admin/about-demo' ? 'active' : ''}`}
-  >
-    ℹ️ Despre Demo
-  </Link>
-</li>
-
           <li>
             <Link 
-              to="/admin" 
-              className={location.pathname === '/admin' ? 'active' : ''}
+              to={createLink('/admin')}
+              className={isActive('/admin') ? 'active' : ''}
             >
-              Dashboard
+              {t('adminLayout.nav.dashboard')}
             </Link>
           </li>
           <li>
             <Link 
-              to="/admin/users" 
-              className={location.pathname === '/admin/users' ? 'active' : ''}
+              to={createLink('/admin/users')}
+              className={isActive('/admin/users') ? 'active' : ''}
             >
-              Cursanți
+              {t('adminLayout.nav.students')}
             </Link>
           </li>
           <li>
             <Link 
-              to="/admin/traininghub/sessionManager"
-              className={location.pathname === '/admin/traininghub/sessionManager' ? 'active' : ''}
+              to={createLink('/admin/traininghub/sessionManager')}
+              className={isActive('/admin/traininghub/sessionManager') ? 'active' : ''}
             >
-              Sesiune de antrenament
+              {t('adminLayout.nav.trainingSession')}
             </Link>
           </li>
           <li>
             <Link 
-              to="/admin/traininghub"
-              className={location.pathname === '/admin/traininghub' ? 'active' : ''}
+              to={createLink('/admin/traininghub')}
+              className={isActive('/admin/traininghub') ? 'active' : ''}
             >
-              Centru de Antrenament
+              {t('adminLayout.nav.trainingHub')}
             </Link>
           </li>
           <li>
             <Link 
-              to="/admin/advanced-swimmers" 
-              className={location.pathname === '/admin/advanced-swimmers' ? 'active' : ''}
+              to={createLink('/admin/advanced-swimmers')}
+              className={isActive('/admin/advanced-swimmers') ? 'active' : ''}
             >
-              Înotători Avansați
+              {t('adminLayout.nav.advancedSwimmers')}
             </Link>
           </li>
           <li>
             <Link 
-              to="/admin/groups" 
-              className={location.pathname === '/admin/groups' ? 'active' : ''}
+              to={createLink('/admin/groups')}
+              className={isActive('/admin/groups') ? 'active' : ''}
             >
-              Grupuri
+              {t('adminLayout.nav.groups')}
             </Link>
           </li>
           <li>
             <Link 
-              to="/admin/announcements" 
-              className={location.pathname === '/admin/announcements' ? 'active' : ''}
+              to={createLink('/admin/announcements')}
+              className={isActive('/admin/announcements') ? 'active' : ''}
             >
-              Evenimente
+              {t('adminLayout.nav.announcements')}
             </Link>
           </li>
           <li>
             <Link 
-              to="/admin/consimtamant" 
-              className={location.pathname === '/admin/consimtamant' ? 'active' : ''}
+              to={createLink('/admin/consimtamant')}
+              className={isActive('/admin/consimtamant') ? 'active' : ''}
             >
-              Consimțământ GDPR
+              {t('adminLayout.nav.gdprConsent')}
             </Link>
           </li>
           <li>
             <Link 
-              to="/admin/system" 
-              className={location.pathname === '/admin/system' ? 'active' : ''}
+              to={createLink('/admin/system')}
+              className={isActive('/admin/system') ? 'active' : ''}
             >
-              Informații Sistem
+              {t('adminLayout.nav.systemInfo')}
             </Link>
           </li>
         </ul>
         <div className="admin-nav-footer">
           <button className="logout-btn" onClick={handleLogout}>
-            Logout (Demo)
+            {t('adminLayout.logout.button')}
           </button>
         </div>
       </nav>

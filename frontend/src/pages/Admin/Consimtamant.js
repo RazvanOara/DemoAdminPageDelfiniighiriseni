@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import "./Consimtamant.css";
 
 // Mock consents data
@@ -48,7 +50,9 @@ const MOCK_CONSENTS = [
 ];
 
 const ConsimtamantTable = () => {
+  const { t } = useTranslation();
   const [consents, setConsents] = useState([]);
+  const { lang } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCards, setExpandedCards] = useState(new Set());
@@ -80,7 +84,7 @@ const ConsimtamantTable = () => {
   );
 
   const handleGDPRClick = () => {
-    window.location.href = '/admin/gdpr';
+    window.location.href = `/${lang}/admin/gdpr`;
   };
 
   const toggleCard = (id) => {
@@ -100,19 +104,19 @@ const ConsimtamantTable = () => {
       <div className="consimtamant-container">
         <div className="consimtamant-header">
           <div className="header-content">
-            <h1>Consimțământ GDPR (Demo)</h1>
-            <p className="subtitle">Vizualizează toate consimțămintele GDPR înregistrate - Date mock</p>
+            <h1>{t('consents.pageTitle')}</h1>
+            <p className="subtitle">{t('consents.pageSubtitle')}</p>
           </div>
           <button onClick={handleGDPRClick} className="btn-gdpr">
             <span className="btn-icon">📜</span>
-            Gestionare GDPR
+            {t('consents.gdprButton')}
           </button>
         </div>
 
         <div className="search-container">
           <input
             type="text"
-            placeholder="Caută după nume..."
+            placeholder={t('consents.searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
@@ -125,18 +129,18 @@ const ConsimtamantTable = () => {
         {isLoading ? (
           <div className="loading-state">
             <div className="spinner"></div>
-            <p>Se încarcă consimțămintele...</p>
+            <p>{t('consents.loading')}</p>
           </div>
         ) : filteredConsents.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">📋</div>
             <p className="empty-title">
-              {searchTerm ? "Nu au fost găsite rezultate" : "Nu există consimțăminte înregistrate"}
+              {searchTerm ? t('consents.emptyState.noResults') : t('consents.emptyState.noConsents')}
             </p>
             <p className="empty-subtitle">
               {searchTerm
-                ? "Încearcă să modifici termenul de căutare"
-                : "Consimțămintele vor apărea aici când utilizatorii completează formularul"}
+                ? t('consents.emptyState.modifySearch')
+                : t('consents.emptyState.willAppear')}
             </p>
           </div>
         ) : (
@@ -145,20 +149,20 @@ const ConsimtamantTable = () => {
             <table className="consimtamant-table">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Nume Prenume</th>
-                  <th>Data Acord</th>
-                  <th>IP Dispozitiv</th>
-                  <th>Versiune GDPR</th>
+                  <th>{t('consents.table.id')}</th>
+                  <th>{t('consents.table.fullName')}</th>
+                  <th>{t('consents.table.agreementDate')}</th>
+                  <th>{t('consents.table.deviceIp')}</th>
+                  <th>{t('consents.table.gdprVersion')}</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredConsents.map((consent) => (
                   <tr key={consent.id}>
-                    <td data-label="ID">
+                    <td data-label={t('consents.table.id')}>
                       <span className="id-badge">{consent.id}</span>
                     </td>
-                    <td data-label="Nume Prenume">
+                    <td data-label={t('consents.table.fullName')}>
                       <div className="user-info">
                         <div className="avatar">
                           {consent.fullName?.charAt(0).toUpperCase() || "?"}
@@ -166,7 +170,7 @@ const ConsimtamantTable = () => {
                         <span>{consent.fullName}</span>
                       </div>
                     </td>
-                    <td data-label="Data Acord">
+                    <td data-label={t('consents.table.agreementDate')}>
                       {consent.agreementDate
                         ? new Date(consent.agreementDate).toLocaleString("ro-RO", {
                             dateStyle: "medium",
@@ -174,10 +178,10 @@ const ConsimtamantTable = () => {
                           })
                         : "-"}
                     </td>
-                    <td data-label="IP Dispozitiv">
+                    <td data-label={t('consents.table.deviceIp')}>
                       <span className="ip-badge">{consent.deviceIp || "-"}</span>
                     </td>
-                    <td data-label="Versiune GDPR">
+                    <td data-label={t('consents.table.gdprVersion')}>
                       <span className="version-badge">v{consent.gdprVersion || "N/A"}</span>
                     </td>
                   </tr>
@@ -221,7 +225,7 @@ const ConsimtamantTable = () => {
                     
                     <div className={`mobile-card-content ${isExpanded ? 'show' : ''}`}>
                       <div className="mobile-info-row">
-                        <span className="mobile-label">DATA ACORD</span>
+                        <span className="mobile-label">{t('consents.mobile.agreementDate')}</span>
                         <span className="mobile-value">
                           {consent.agreementDate
                             ? new Date(consent.agreementDate).toLocaleString("ro-RO", {
@@ -232,11 +236,11 @@ const ConsimtamantTable = () => {
                         </span>
                       </div>
                       <div className="mobile-info-row">
-                        <span className="mobile-label">IP DISPOZITIV</span>
+                        <span className="mobile-label">{t('consents.mobile.deviceIp')}</span>
                         <span className="mobile-value ip-badge">{consent.deviceIp || "-"}</span>
                       </div>
                       <div className="mobile-info-row">
-                        <span className="mobile-label">VERSIUNE GDPR</span>
+                        <span className="mobile-label">{t('consents.mobile.gdprVersion')}</span>
                         <span className="version-badge">v{consent.gdprVersion || "N/A"}</span>
                       </div>
                     </div>
@@ -247,9 +251,9 @@ const ConsimtamantTable = () => {
 
             <div className="results-counter">
               <p>
-                Se afișează <span className="highlight">{filteredConsents.length}</span>{" "}
-                {filteredConsents.length === 1 ? "rezultat" : "rezultate"}
-                {searchTerm && " (filtrat)"}
+                {t('consents.resultsCounter.showing')} <span className="highlight">{filteredConsents.length}</span>{" "}
+                {filteredConsents.length === 1 ? t('consents.resultsCounter.resultSingular') : t('consents.resultsCounter.resultPlural')}
+                {searchTerm && ` ${t('consents.resultsCounter.filtered')}`}
               </p>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import './AdvancedSwimmers.css';
 
 // Mock data for advanced swimmers
@@ -64,7 +65,9 @@ const MOCK_GROUPS = [
 ];
 
 const AdvancedSwimmers = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const { lang } = useParams();
   const [advancedSwimmers, setAdvancedSwimmers] = useState([]);
   const [groups, setGroups] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -190,7 +193,7 @@ const AdvancedSwimmers = () => {
     // Handle card header click - navigate on mobile, expand on desktop
     const handleCardHeaderClick = () => {
       if (isMobile()) {
-        navigate(`/admin/advanced-swimmers/${swimmer.id}/details`);
+        navigate(`/${lang}/admin/advanced-swimmers/${swimmer.id}/details`);
       } else {
         toggleCardExpansion(swimmer.id);
       }
@@ -203,7 +206,7 @@ const AdvancedSwimmers = () => {
           onClick={handleCardHeaderClick}
           style={{ cursor: 'pointer' }}
         >
-          <h3 className="swimmer-title">{swimmer.cursantNume || `Cursant ID: ${swimmer.cursantId}`}</h3>
+          <h3 className="swimmer-title">{swimmer.cursantNume || `${t('advancedSwimmers.card.studentId')}: ${swimmer.cursantId}`}</h3>
           <span className="swimmer-id-badge">ID: {swimmer.id}</span>
           <span className="expand-indicator">▼</span>
         </div>
@@ -212,24 +215,24 @@ const AdvancedSwimmers = () => {
           <div className="quick-stat">
             <span className="quick-stat-icon">❤️</span>
             <span className="quick-stat-value">{swimmer.maxHeartRate}</span>
-            <span className="quick-stat-label">Max</span>
+            <span className="quick-stat-label">{t('advancedSwimmers.card.max')}</span>
           </div>
           <div className="quick-stat">
             <span className="quick-stat-icon">💤</span>
             <span className="quick-stat-value">{swimmer.restingHeartRate}</span>
-            <span className="quick-stat-label">Repaus</span>
+            <span className="quick-stat-label">{t('advancedSwimmers.card.resting')}</span>
           </div>
           <div className="quick-stat">
             <span className="quick-stat-icon">🎯</span>
             <span className="quick-stat-value">{swimmer.thresholdHeartRate}</span>
-            <span className="quick-stat-label">Prag</span>
+            <span className="quick-stat-label">{t('advancedSwimmers.card.threshold')}</span>
           </div>
         </div>
         
         <div className="swimmer-expandable-content">
           <div className="swimmer-expandable-inner">
             <div className="swimmer-meta">
-              <span className="swimmer-created">Creat: {new Date(swimmer.createdAt).toLocaleDateString('ro-RO')}</span>
+              <span className="swimmer-created">{t('advancedSwimmers.card.created')}: {new Date(swimmer.createdAt).toLocaleDateString('ro-RO')}</span>
             </div>
             
             {swimmer.groupId && (
@@ -240,7 +243,7 @@ const AdvancedSwimmers = () => {
                   color: groups.find(g => g.id === swimmer.groupId)?.color || '#00d4ff'
                 }}>
                   <span style={{ color: groups.find(g => g.id === swimmer.groupId)?.color || '#00d4ff' }}>
-                    👥 {groups.find(g => g.id === swimmer.groupId)?.name || 'Grup'}
+                    👥 {groups.find(g => g.id === swimmer.groupId)?.name || t('advancedSwimmers.card.group')}
                   </span>
                 </span>
               </div>
@@ -251,28 +254,28 @@ const AdvancedSwimmers = () => {
                 <span className="stat-icon">❤️</span>
                 <div className="stat-content">
                   <span className="stat-value">{swimmer.maxHeartRate}</span>
-                  <span className="stat-label">HR Max (bpm)</span>
+                  <span className="stat-label">{t('advancedSwimmers.card.hrMax')}</span>
                 </div>
               </div>
               <div className="stat-item">
                 <span className="stat-icon">💤</span>
                 <div className="stat-content">
                   <span className="stat-value">{swimmer.restingHeartRate}</span>
-                  <span className="stat-label">HR Repaus (bpm)</span>
+                  <span className="stat-label">{t('advancedSwimmers.card.hrResting')}</span>
                 </div>
               </div>
               <div className="stat-item">
                 <span className="stat-icon">🎯</span>
                 <div className="stat-content">
                   <span className="stat-value">{swimmer.thresholdHeartRate}</span>
-                  <span className="stat-label">HR Prag (bpm)</span>
+                  <span className="stat-label">{t('advancedSwimmers.card.hrThreshold')}</span>
                 </div>
               </div>
             </div>
             
             {zones && (
               <div className="swimmer-zones">
-                <h4>Zone de Antrenament</h4>
+                <h4>{t('advancedSwimmers.card.trainingZones')}</h4>
                 <div className="zones-grid">
                   <span className="zone-tag zone-1">Z1: {zones.zone1.min}-{zones.zone1.max}</span>
                   <span className="zone-tag zone-2">Z2: {zones.zone2.min}-{zones.zone2.max}</span>
@@ -288,11 +291,11 @@ const AdvancedSwimmers = () => {
                 className="action-btn view-more-btn"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`/admin/advanced-swimmers/${swimmer.id}/details`);
+                  navigate(`/${lang}/admin/advanced-swimmers/${swimmer.id}/details`);
                 }}
               >
                 <span className="btn-icon">👁️</span>
-                Vezi Mai Mult
+                {t('advancedSwimmers.card.viewMore')}
               </button>
             </div>
           </div>
@@ -306,23 +309,24 @@ const AdvancedSwimmers = () => {
       {/* Header */}
       <div className="swimmers-header">
         <div className="header-content">
-          <h1 className="page-title">Înotători Avansați (Demo)</h1>
-          <p className="page-subtitle">Gestionează profilurile înotătorilor cu monitorizare avansată - Date mock</p>
+          <h1 className="page-title">{t('advancedSwimmers.pageTitle')}</h1>
+          <p className="page-subtitle">{t('advancedSwimmers.pageSubtitle')}</p>
         </div>
         <div className="header-actions">
           <button 
             className="btn-secondary"
-            onClick={() => navigate('/admin/swimming-times')}
+           onClick={() => navigate(`/${lang}/admin/swimming-times`)}
           >
             <span className="btn-icon">⏱️</span>
-            Timpii de Înot
+            {t('advancedSwimmers.buttons.swimmingTimes')}
           </button>
           <button 
             className="btn-primary"
-            onClick={() => navigate('/admin/advanced-swimmers/create')}
+            onClick={() => navigate(`/${lang}/admin/advanced-swimmers/create`)}
+
           >
             <span className="btn-icon">➕</span>
-            Adaugă Înotător Avansat
+            {t('advancedSwimmers.buttons.addSwimmer')}
           </button>
         </div>
       </div>
@@ -333,7 +337,7 @@ const AdvancedSwimmers = () => {
           <span className="stat-icon">🏊‍♂️</span>
           <div className="stat-content">
             <span className="stat-value">{filteredSwimmers.length}</span>
-            <span className="stat-label">Total Înotători</span>
+            <span className="stat-label">{t('advancedSwimmers.stats.totalSwimmers')}</span>
           </div>
         </div>
         <div className="stat-card">
@@ -342,14 +346,14 @@ const AdvancedSwimmers = () => {
             <span className="stat-value">
               {advancedSwimmers.filter(s => s.groupId).length}
             </span>
-            <span className="stat-label">În Grupuri</span>
+            <span className="stat-label">{t('advancedSwimmers.stats.inGroups')}</span>
           </div>
         </div>
         <div className="stat-card">
           <span className="stat-icon">📊</span>
           <div className="stat-content">
             <span className="stat-value">{groups.length}</span>
-            <span className="stat-label">Grupuri Active</span>
+            <span className="stat-label">{t('advancedSwimmers.stats.activeGroups')}</span>
           </div>
         </div>
       </div>
@@ -358,28 +362,28 @@ const AdvancedSwimmers = () => {
       <div className="swimmers-filters">
         <div className="filters-row">
           <div className="filter-group">
-            <label className="filter-label">Zona HR Max:</label>
+            <label className="filter-label">{t('advancedSwimmers.filters.hrMaxZone')}:</label>
             <select 
               className="filter-select"
               value={filters.heartRateRange}
               onChange={(e) => handleFilterChange('heartRateRange', e.target.value)}
             >
-              <option value="">Toate Zonele</option>
-              <option value="LOW">Scăzută (&lt;170)</option>
-              <option value="MEDIUM">Medie (170-190)</option>
-              <option value="HIGH">Înaltă (&gt;190)</option>
+              <option value="">{t('advancedSwimmers.filters.allZones')}</option>
+              <option value="LOW">{t('advancedSwimmers.filters.lowZone')}</option>
+              <option value="MEDIUM">{t('advancedSwimmers.filters.mediumZone')}</option>
+              <option value="HIGH">{t('advancedSwimmers.filters.highZone')}</option>
             </select>
           </div>
           
           <div className="filter-group">
-            <label className="filter-label">Grup:</label>
+            <label className="filter-label">{t('advancedSwimmers.filters.group')}:</label>
             <select 
               className="filter-select"
               value={filters.groupId}
               onChange={(e) => handleFilterChange('groupId', e.target.value)}
             >
-              <option value="">Fără filtru</option>
-              <option value="NONE">Fără Grup</option>
+              <option value="">{t('advancedSwimmers.filters.noFilter')}</option>
+              <option value="NONE">{t('advancedSwimmers.filters.noGroup')}</option>
               {groups.map(group => (
                 <option key={group.id} value={group.id}>
                   {group.name}
@@ -389,11 +393,11 @@ const AdvancedSwimmers = () => {
           </div>
           
           <div className="filter-group search-group">
-            <label className="filter-label">Căutare:</label>
+            <label className="filter-label">{t('advancedSwimmers.filters.search')}:</label>
             <input 
               type="text" 
               className="filter-input" 
-              placeholder="Caută înotători..."
+              placeholder={t('advancedSwimmers.filters.searchPlaceholder')}
               value={filters.search}
               onChange={(e) => handleFilterChange('search', e.target.value)}
             />
@@ -405,32 +409,33 @@ const AdvancedSwimmers = () => {
             disabled={!filters.heartRateRange && !filters.search && !filters.groupId}
           >
             <span className="btn-icon">🗑️</span>
-            Șterge Filtrele
+            {t('advancedSwimmers.filters.clearFilters')}
           </button>
         </div>
         
         {/* Active filters display */}
         {(filters.heartRateRange || filters.search || filters.groupId) && (
           <div className="active-filters">
-            <span className="active-filters-label">Filtre active:</span>
+            <span className="active-filters-label">{t('advancedSwimmers.filters.activeFilters')}:</span>
             {filters.heartRateRange && (
               <span className="filter-tag">
-                Zona HR Max: {
-                  filters.heartRateRange === 'LOW' ? 'Scăzută' :
-                  filters.heartRateRange === 'MEDIUM' ? 'Medie' : 'Înaltă'
+                {t('advancedSwimmers.filters.hrMaxZone')}: {
+                  filters.heartRateRange === 'LOW' ? t('advancedSwimmers.filters.low') :
+                  filters.heartRateRange === 'MEDIUM' ? t('advancedSwimmers.filters.medium') : 
+                  t('advancedSwimmers.filters.high')
                 }
                 <button onClick={() => handleFilterChange('heartRateRange', '')}>×</button>
               </span>
             )}
             {filters.groupId && (
               <span className="filter-tag">
-                Grup: {filters.groupId === 'NONE' ? 'Fără Grup' : groups.find(g => g.id === parseInt(filters.groupId))?.name}
+                {t('advancedSwimmers.filters.group')}: {filters.groupId === 'NONE' ? t('advancedSwimmers.filters.noGroup') : groups.find(g => g.id === parseInt(filters.groupId))?.name}
                 <button onClick={() => handleFilterChange('groupId', '')}>×</button>
               </span>
             )}
             {filters.search && (
               <span className="filter-tag">
-                Căutare: "{filters.search}"
+                {t('advancedSwimmers.filters.search')}: "{filters.search}"
                 <button onClick={() => handleFilterChange('search', '')}>×</button>
               </span>
             )}
@@ -443,24 +448,24 @@ const AdvancedSwimmers = () => {
         {isLoading ? (
           <div className="loading-state">
             <div className="loading-spinner">🔄</div>
-            <p>Se încarcă înotătorii avansați...</p>
+            <p>{t('advancedSwimmers.loading')}</p>
           </div>
         ) : filteredSwimmers.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">🏊‍♂️</div>
-            <h3>Nu au fost găsiți înotători avansați</h3>
+            <h3>{t('advancedSwimmers.emptyState.title')}</h3>
             <p>
               {advancedSwimmers.length === 0 
-                ? "Nu ai încă înotători avansați creați. Începe prin a adăuga primul!"
-                : "Încearcă să modifici filtrele pentru a vedea mai multe rezultate."
+                ? t('advancedSwimmers.emptyState.noSwimmers')
+                : t('advancedSwimmers.emptyState.noResults')
               }
             </p>
             <button 
               className="btn-primary"
-              onClick={() => navigate('/admin/advanced-swimmers/create')}
+              onClick={() => navigate(`/${lang}/admin/advanced-swimmers/create`)}
             >
               <span className="btn-icon">➕</span>
-              Adaugă Primul Înotător
+              {t('advancedSwimmers.emptyState.addFirst')}
             </button>
           </div>
         ) : (
@@ -476,8 +481,11 @@ const AdvancedSwimmers = () => {
       {!isLoading && filteredSwimmers.length > 0 && (
         <div className="results-info">
           <p>
-            Afișez {filteredSwimmers.length} din {advancedSwimmers.length} înotători avansați
-            {(filters.heartRateRange || filters.search || filters.groupId) && " (filtrați)"}
+            {t('advancedSwimmers.resultsInfo', {
+              showing: filteredSwimmers.length,
+              total: advancedSwimmers.length
+            })}
+            {(filters.heartRateRange || filters.search || filters.groupId) && ` ${t('advancedSwimmers.filtered')}`}
           </p>
         </div>
       )}

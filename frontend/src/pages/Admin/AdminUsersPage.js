@@ -1,144 +1,144 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import UserCard from './UserCard';
 import Notification from './Notification';
 import ConfirmationModal from '../../components/ConfrimationAlert/ConfirmationModal';
-// DELETED: import { API_BASE_URL } from '../../utils/config';
 import './AdminUsersPage.css';
 import './Notification.css';  
 import '../../components/ConfrimationAlert/ConfirmationModal.css'; 
 import { useLocation } from 'react-router-dom';
 
-// ADD: Mock data for users
-const MOCK_INSCRIERI = [
+const MOCK_REGISTRATIONS = [
   {
-    cursant: {
+    student: {
       id: 1,
-      numeComplet: 'Popescu Ion',
-      numeCopil: 'Popescu Alex',
+      fullName: 'Popescu Ion',
+      childName: 'Popescu Alex',
       email: 'ion.popescu@email.com',
-      telefon: '0722111222',
-      dataInregistrarii: '2024-10-01T10:30:00',
-      dataExpirarii: '2025-10-10T10:30:00',
+      phone: '0722111222',
+      registrationDate: '2024-10-01T10:30:00',
+      expirationDate: '2025-10-10T10:30:00',
       expired: false
     },
-    program: [
-      { zi: 'Luni', ora: '15:30' },
-      { zi: 'Miercuri', ora: '15:30' }
+    schedule: [
+      { day: 'Luni', time: '15:30' },
+      { day: 'Miercuri', time: '15:30' }
     ]
   },
   {
-    cursant: {
+    student: {
       id: 2,
-      numeComplet: 'Ionescu Maria',
-      numeCopil: 'Ionescu David',
+      fullName: 'Ionescu Maria',
+      childName: 'Ionescu David',
       email: 'maria.ionescu@email.com',
-      telefon: '0733222333',
-      dataInregistrarii: '2024-09-28T14:20:00',
-      dataExpirarii: '2024-10-28T14:20:00',
+      phone: '0733222333',
+      registrationDate: '2024-09-28T14:20:00',
+      expirationDate: '2024-10-28T14:20:00',
       expired: false
     },
-    program: [
-      { zi: 'Marți', ora: '16:30' },
-      { zi: 'Joi', ora: '16:30' }
+    schedule: [
+      { day: 'Marți', time: '16:30' },
+      { day: 'Joi', time: '16:30' }
     ]
   },
   {
-    cursant: {
+    student: {
       id: 3,
-      numeComplet: 'Georgescu Andrei',
-      numeCopil: 'Georgescu Sofia',
+      fullName: 'Georgescu Andrei',
+      childName: 'Georgescu Sofia',
       email: 'andrei.georgescu@email.com',
-      telefon: '0744333444',
-      dataInregistrarii: '2024-09-25T09:15:00',
-      dataExpirarii: '2025-10-25T09:15:00',
+      phone: '0744333444',
+      registrationDate: '2024-09-25T09:15:00',
+      expirationDate: '2025-10-25T09:15:00',
       expired: false
     },
-    program: [
-      { zi: 'Luni', ora: '17:30' },
-      { zi: 'Vineri', ora: '17:30' }
+    schedule: [
+      { day: 'Luni', time: '17:30' },
+      { day: 'Vineri', time: '17:30' }
     ]
   },
   {
-    cursant: {
+    student: {
       id: 4,
-      numeComplet: 'Popa Elena',
-      numeCopil: 'Popa Mihai',
+      fullName: 'Popa Elena',
+      childName: 'Popa Mihai',
       email: 'elena.popa@email.com',
-      telefon: '0755444555',
-      dataInregistrarii: '2024-09-20T16:45:00',
-      dataExpirarii: '2024-09-30T16:45:00',
+      phone: '0755444555',
+      registrationDate: '2024-09-20T16:45:00',
+      expirationDate: '2024-09-30T16:45:00',
       expired: true
     },
-    program: [
-      { zi: 'Miercuri', ora: '18:30 (avansați)' }
+    schedule: [
+      { day: 'Miercuri', time: '18:30 (avansați)' }
     ]
   },
   {
-    cursant: {
+    student: {
       id: 5,
-      numeComplet: 'Dumitrescu Alex',
-      numeCopil: 'Dumitrescu Ioana',
+      fullName: 'Dumitrescu Alex',
+      childName: 'Dumitrescu Ioana',
       email: 'alex.dumitrescu@email.com',
-      telefon: '0766555666',
-      dataInregistrarii: '2024-09-18T11:00:00',
-      dataExpirarii: '2024-10-18T11:00:00',
+      phone: '0766555666',
+      registrationDate: '2024-09-18T11:00:00',
+      expirationDate: '2024-10-18T11:00:00',
       expired: false
     },
-    program: [
-      { zi: 'Luni', ora: '19:30' },
-      { zi: 'Joi', ora: '19:30' }
+    schedule: [
+      { day: 'Luni', time: '19:30' },
+      { day: 'Joi', time: '19:30' }
     ]
   },
   {
-    cursant: {
+    student: {
       id: 6,
-      numeComplet: 'Stan Cristina',
-      numeCopil: 'Stan Gabriel',
+      fullName: 'Stan Cristina',
+      childName: 'Stan Gabriel',
       email: 'cristina.stan@email.com',
-      telefon: '0777666777',
-      dataInregistrarii: '2024-08-15T13:30:00',
-      dataExpirarii: '2024-09-15T13:30:00',
+      phone: '0777666777',
+      registrationDate: '2024-08-15T13:30:00',
+      expirationDate: '2024-09-15T13:30:00',
       expired: true
     },
-    program: [
-      { zi: 'Marți', ora: '15:30' }
+    schedule: [
+      { day: 'Marți', time: '15:30' }
     ]
   },
   {
-    cursant: {
+    student: {
       id: 7,
-      numeComplet: 'Marin Gabriel',
-      numeCopil: 'Marin Ana',
+      fullName: 'Marin Gabriel',
+      childName: 'Marin Ana',
       email: 'gabriel.marin@email.com',
-      telefon: '0788777888',
-      dataInregistrarii: '2024-09-10T10:00:00',
-      dataExpirarii: '2024-10-10T10:00:00',
+      phone: '0788777888',
+      registrationDate: '2024-09-10T10:00:00',
+      expirationDate: '2024-10-10T10:00:00',
       expired: false
     },
-    program: [
-      { zi: 'Vineri', ora: '16:30' }
+    schedule: [
+      { day: 'Vineri', time: '16:30' }
     ]
   },
   {
-    cursant: {
+    student: {
       id: 8,
-      numeComplet: 'Radu Ioana',
-      numeCopil: 'Radu Andrei',
+      fullName: 'Radu Ioana',
+      childName: 'Radu Andrei',
       email: 'ioana.radu@email.com',
-      telefon: '0799888999',
-      dataInregistrarii: '2024-08-05T15:20:00',
-      dataExpirarii: '2024-09-05T15:20:00',
+      phone: '0799888999',
+      registrationDate: '2024-08-05T15:20:00',
+      expirationDate: '2024-09-05T15:20:00',
       expired: true
     },
-    program: [
-      { zi: 'Luni', ora: '16:30' },
-      { zi: 'Miercuri', ora: '16:30' }
+    schedule: [
+      { day: 'Luni', time: '16:30' },
+      { day: 'Miercuri', time: '16:30' }
     ]
   }
 ];
 
 const AdminUsersPage = () => {
-  const [inscrieri, setInscrieri] = useState([]);
+  const { t } = useTranslation();
+  const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [exportLoading, setExportLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -154,7 +154,6 @@ const AdminUsersPage = () => {
     }
   }, [location.state]);
 
-  // Notification state
   const [notification, setNotification] = useState({
     show: false,
     type: 'info',
@@ -162,7 +161,6 @@ const AdminUsersPage = () => {
     message: ''
   });
 
-  // Confirmation modal state
   const [confirmModal, setConfirmModal] = useState({
     show: false,
     title: '',
@@ -183,16 +181,13 @@ const AdminUsersPage = () => {
     setNotification(prev => ({ ...prev, show: false }));
   };
 
-  // REPLACED: Export function with mock alert
   const handleExport = async (format = 'csv') => {
     setExportLoading(true);
 
-    // Simulate export delay
     setTimeout(() => {
-      // Create mock CSV content
-      const headers = 'Nume Cursant,Nume Copil,Telefon,Email,Data Inregistrarii,Status\n';
-      const rows = inscrieri.map(i => 
-        `${i.cursant.numeComplet},${i.cursant.numeCopil || 'N/A'},${i.cursant.telefon},${i.cursant.email},${i.cursant.dataInregistrarii},${i.cursant.expired ? 'Expirat' : 'Activ'}`
+      const headers = `${t('adminUsers.export.headers.studentName')},${t('adminUsers.export.headers.childName')},${t('adminUsers.export.headers.phone')},${t('adminUsers.export.headers.email')},${t('adminUsers.export.headers.registrationDate')},${t('adminUsers.export.headers.status')}\n`;
+      const rows = registrations.map(reg => 
+        `${reg.student.fullName},${reg.student.childName || 'N/A'},${reg.student.phone},${reg.student.email},${reg.student.registrationDate},${reg.student.expired ? t('adminUsers.status.expired') : t('adminUsers.status.active')}`
       ).join('\n');
       
       const csvContent = headers + rows;
@@ -208,114 +203,98 @@ const AdminUsersPage = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
 
-      showNotification('success', 'Export Realizat', `Fișierul ${filename} a fost descărcat cu succes (date mock).`);
+      showNotification('success', t('adminUsers.notifications.exportSuccess.title'), t('adminUsers.notifications.exportSuccess.message', { filename }));
       setExportLoading(false);
     }, 800);
   };
 
-  // REPLACED: Fetch with mock data loading
-  const fetchInscrieri = async () => {
+  const fetchRegistrations = async () => {
     setLoading(true);
     
-    // Simulate loading delay
     setTimeout(() => {
-      setInscrieri(MOCK_INSCRIERI);
+      setRegistrations(MOCK_REGISTRATIONS);
       
-      // Show success notification only if it was a manual refresh
-      if (inscrieri.length > 0) {
-        showNotification('success', 'Actualizare completă', 'Lista de cursanți a fost actualizată cu succes (date mock).');
+      if (registrations.length > 0) {
+        showNotification('success', t('adminUsers.notifications.updateSuccess.title'), t('adminUsers.notifications.updateSuccess.message'));
       }
       
       setLoading(false);
     }, 500);
   };
 
-  // REPLACED: Delete with mock implementation
   const handleDelete = async (id) => {
-    const student = inscrieri.find(i => i.cursant.id === id);
-    const studentName = student ? student.cursant.numeComplet : 'acest cursant';
+    const studentData = registrations.find(reg => reg.student.id === id);
+    const studentName = studentData ? studentData.student.fullName : t('adminUsers.deleteModal.defaultStudentName');
     
     setConfirmModal({
       show: true,
-      title: 'Confirmare ștergere',
-      message: `Sigur doriți să ștergeți pe ${studentName}? Această acțiune nu poate fi anulată și toate datele asociate vor fi pierdute permanent.`,
+      title: t('adminUsers.deleteModal.title'),
+      message: t('adminUsers.deleteModal.message', { studentName }),
       onConfirm: () => performDelete(id, studentName)
     });
   };
 
-  // SIMPLIFIED: No API call - persists until refresh
   const performDelete = async (id, studentName) => {
     setConfirmModal({ show: false, title: '', message: '', onConfirm: null });
 
-    // Simulate deletion delay
     setTimeout(() => {
-      // Remove from state
-      setInscrieri(prev => prev.filter(c => c.cursant.id !== id));
+      setRegistrations(prev => prev.filter(reg => reg.student.id !== id));
       
-      // Remove from mock data source so it persists until refresh
-      const mockIndex = MOCK_INSCRIERI.findIndex(m => m.cursant.id === id);
+      const mockIndex = MOCK_REGISTRATIONS.findIndex(mock => mock.student.id === id);
       if (mockIndex !== -1) {
-        MOCK_INSCRIERI.splice(mockIndex, 1);
+        MOCK_REGISTRATIONS.splice(mockIndex, 1);
       }
       
-      showNotification('success', 'Cursant șters', `${studentName} a fost șters cu succes. Modificarea va persista până la refresh.`);
+      showNotification('success', t('adminUsers.notifications.deleteSuccess.title'), t('adminUsers.notifications.deleteSuccess.message', { studentName }));
     }, 300);
   };
 
-  // DISABLED: Status update does nothing in demo mode
-  const handleStatusUpdate = (cursantId, newExpiredStatus, newDataExpirarii, newDataInregistrarii) => {
-    // Do nothing - button is disabled in demo mode
+  const handleStatusUpdate = (studentId, newExpiredStatus, newExpirationDate, newRegistrationDate) => {
     return;
   };
 
-  // Filter and sort inscriptions
-  const getFilteredAndSortedInscrieri = () => {
-    let filtered = [...inscrieri];
+  const getFilteredAndSortedRegistrations = () => {
+    let filtered = [...registrations];
   
-    // Filter by search term
     if (searchTerm) {
-      filtered = filtered.filter(inscriere => {
-        const nume = inscriere.cursant.numeComplet || '';
-        const telefon = inscriere.cursant.telefon || '';
+      filtered = filtered.filter(registration => {
+        const name = registration.student.fullName || '';
+        const phone = registration.student.phone || '';
         
-        return nume.toLowerCase().includes(searchTerm.toLowerCase()) ||
-               telefon.includes(searchTerm);
+        return name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+               phone.includes(searchTerm);
       });
     }
   
-    // Filter by status
     if (filterStatus !== 'all') {
-      filtered = filtered.filter(inscriere =>
-        filterStatus === 'active' ? !inscriere.cursant.expired : inscriere.cursant.expired
+      filtered = filtered.filter(registration =>
+        filterStatus === 'active' ? !registration.student.expired : registration.student.expired
       );
     }
   
-    // Sort
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'oldest':
-          return new Date(a.cursant.dataInregistrarii || 0) - new Date(b.cursant.dataInregistrarii || 0);
+          return new Date(a.student.registrationDate || 0) - new Date(b.student.registrationDate || 0);
         case 'name':
-          const nameA = a.cursant.numeComplet || '';
-          const nameB = b.cursant.numeComplet || '';
+          const nameA = a.student.fullName || '';
+          const nameB = b.student.fullName || '';
           return nameA.localeCompare(nameB);
         case 'newest':
         default:
-          return new Date(b.cursant.dataInregistrarii || 0) - new Date(a.cursant.dataInregistrarii || 0);
+          return new Date(b.student.registrationDate || 0) - new Date(a.student.registrationDate || 0);
       }
     });
 
-    // Filter by day
     if (filterDay !== 'all') {
-      filtered = filtered.filter(inscriere =>
-        inscriere.program?.some(p => p.zi === filterDay)
+      filtered = filtered.filter(registration =>
+        registration.schedule?.some(scheduleItem => scheduleItem.day === filterDay)
       );
     }
 
-    // Filter by hour
     if (filterHour !== 'all') {
-      filtered = filtered.filter(inscriere =>
-        inscriere.program?.some(p => p.ora === filterHour)
+      filtered = filtered.filter(registration =>
+        registration.schedule?.some(scheduleItem => scheduleItem.time === filterHour)
       );
     }
   
@@ -323,37 +302,35 @@ const AdminUsersPage = () => {
   };
 
   useEffect(() => {
-    fetchInscrieri();
+    fetchRegistrations();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const filteredInscrieri = getFilteredAndSortedInscrieri();
+  const filteredRegistrations = getFilteredAndSortedRegistrations();
 
-  // Export buttons component
   const ExportButtons = () => (
     <div className="export-section">
-      <h3>Export Date (Mock)</h3>
+      <h3>{t('adminUsers.export.title')}</h3>
       <div className="export-buttons">
         <button
           onClick={() => handleExport('csv')}
           disabled={exportLoading}
           className="export-btn csv-btn"
         >
-          {exportLoading ? 'Se exportă...' : '📊 Export CSV'}
+          {exportLoading ? t('adminUsers.export.exporting') : t('adminUsers.export.csvButton')}
         </button>
       </div>
       <p className="export-info">
-        Exportul conține: Nume Cursant, Nume Părinte, Telefon (date demonstrative)
+        {t('adminUsers.export.info')}
       </p>
     </div>
   );
 
-  if (loading) return <div className="loading">Se încarcă cursanții...</div>;
+  if (loading) return <div className="loading">{t('adminUsers.loading')}</div>;
 
   return (
     <div className="admin-users-page">
 
-      {/* Notification Component */}
       <Notification
         type={notification.type}
         title={notification.title}
@@ -363,49 +340,46 @@ const AdminUsersPage = () => {
         autoClose={5000}
       />
 
-      {/* Confirmation Modal */}
       <ConfirmationModal
         isOpen={confirmModal.show}
         title={confirmModal.title}
         message={confirmModal.message}
         type="danger"
-        confirmText="Șterge"
-        cancelText="Anulează"
+        confirmText={t('adminUsers.deleteModal.confirmButton')}
+        cancelText={t('adminUsers.deleteModal.cancelButton')}
         onConfirm={confirmModal.onConfirm}
         onCancel={() => setConfirmModal({ show: false, title: '', message: '', onConfirm: null })}
       />
 
-      {/* Desktop Page Header - becomes mobile filter buttons */}
       <div className="page-header">
-        <h1>Gestiune Cursanți (Demo)</h1>
+        <h1>{t('adminUsers.pageTitle')}</h1>
         <div className="stats">
           <span 
             className={`stat ${filterStatus === 'all' ? 'active' : ''}`}
             onClick={() => setFilterStatus('all')}
           >
-            Total: {inscrieri.length}
+            {t('adminUsers.stats.total')}: {registrations.length}
           </span>
           <span 
             className={`stat ${filterStatus === 'active' ? 'active' : ''}`}
             onClick={() => setFilterStatus('active')}
           >
-            Activi: {inscrieri.filter(i => !i.cursant.expired).length}
+            {t('adminUsers.stats.active')}: {registrations.filter(reg => !reg.student.expired).length}
           </span>
           <span 
             className={`stat ${filterStatus === 'expired' ? 'active' : ''}`}
             onClick={() => setFilterStatus('expired')}
           >
-            Expirați: {inscrieri.filter(i => i.cursant.expired).length}
+            {t('adminUsers.stats.expired')}: {registrations.filter(reg => reg.student.expired).length}
           </span>
         </div>
       </div>
 
-      {/* Desktop Filters Section */}
       <div className="filters-section">
         <div className="search-box">
           <input
             type="text"
-            placeholder="Caută după nume sau telefon..."
+            placeholder={t('adminUsers.searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
@@ -418,9 +392,9 @@ const AdminUsersPage = () => {
             onChange={(e) => setFilterStatus(e.target.value)}
             className="filter-select"
           >
-            <option value="all">Toți cursanții</option>
-            <option value="active">Doar activi</option>
-            <option value="expired">Doar expirați</option>
+            <option value="all">{t('adminUsers.filters.allStudents')}</option>
+            <option value="active">{t('adminUsers.filters.activeOnly')}</option>
+            <option value="expired">{t('adminUsers.filters.expiredOnly')}</option>
           </select>
 
           <select
@@ -428,9 +402,9 @@ const AdminUsersPage = () => {
             onChange={(e) => setSortBy(e.target.value)}
             className="sort-select"
           >
-            <option value="newest">Cei mai noi</option>
-            <option value="oldest">Cei mai vechi</option>
-            <option value="name">Sortare alfabetică</option>
+            <option value="newest">{t('adminUsers.sort.newest')}</option>
+            <option value="oldest">{t('adminUsers.sort.oldest')}</option>
+            <option value="name">{t('adminUsers.sort.alphabetical')}</option>
           </select>
 
           <select
@@ -438,12 +412,12 @@ const AdminUsersPage = () => {
             onChange={(e) => setFilterDay(e.target.value)}
             className="filter-select"
           >
-            <option value="all">Toate zilele</option>
-            <option value="Luni">Luni</option>
-            <option value="Marți">Marți</option>
-            <option value="Miercuri">Miercuri</option>
-            <option value="Joi">Joi</option>
-            <option value="Vineri">Vineri</option>
+            <option value="all">{t('adminUsers.filters.allDays')}</option>
+            <option value="Luni">{t('adminUsers.days.monday')}</option>
+            <option value="Marți">{t('adminUsers.days.tuesday')}</option>
+            <option value="Miercuri">{t('adminUsers.days.wednesday')}</option>
+            <option value="Joi">{t('adminUsers.days.thursday')}</option>
+            <option value="Vineri">{t('adminUsers.days.friday')}</option>
           </select>
 
           <select
@@ -451,7 +425,7 @@ const AdminUsersPage = () => {
             onChange={(e) => setFilterHour(e.target.value)}
             className="filter-select"
           >
-            <option value="all">Toate orele</option>
+            <option value="all">{t('adminUsers.filters.allHours')}</option>
             <option value="15:30">15:30</option>
             <option value="16:30">16:30</option>
             <option value="17:30">17:30</option>
@@ -460,39 +434,60 @@ const AdminUsersPage = () => {
           </select>
 
           <button
-            onClick={fetchInscrieri}
+            onClick={fetchRegistrations}
             className="refresh-btn"
             disabled={loading}
           >
-            {loading ? 'Se încarcă...' : 'Reîmprospătează'}
+            {loading ? t('adminUsers.refreshing') : t('adminUsers.refreshButton')}
           </button>
         </div>
       </div>
 
-      {/* Export Section */}
       <ExportButtons />
 
       <div className="results-info">
-        Se afișează {filteredInscrieri.length} din {inscrieri.length} cursanți
+        {t('adminUsers.resultsInfo', { 
+          showing: filteredRegistrations.length, 
+          total: registrations.length 
+        })}
       </div>
 
       <div className="users-grid">
-        {filteredInscrieri.length > 0 ? (
-          filteredInscrieri.map((inscriere, index) => (
-            <React.Fragment key={inscriere.cursant.id || index}>
-              {/* Desktop Card - will be hidden on mobile via CSS */}
-              <UserCard
-                inscriere={inscriere}
-                onDelete={handleDelete}
-                onStatusUpdate={handleStatusUpdate}
-              />
-            </React.Fragment>
-          ))
+        {filteredRegistrations.length > 0 ? (
+          filteredRegistrations.map((registration, index) => {
+            // Transform back to old format for UserCard compatibility
+            const inscriereFormat = {
+              cursant: {
+                id: registration.student.id,
+                numeComplet: registration.student.fullName,
+                numeCopil: registration.student.childName,
+                email: registration.student.email,
+                telefon: registration.student.phone,
+                dataInregistrarii: registration.student.registrationDate,
+                dataExpirarii: registration.student.expirationDate,
+                expired: registration.student.expired
+              },
+              program: registration.schedule.map(s => ({
+                zi: s.day,
+                ora: s.time
+              }))
+            };
+            
+            return (
+              <React.Fragment key={registration.student.id || index}>
+                <UserCard
+                  inscriere={inscriereFormat}
+                  onDelete={handleDelete}
+                  onStatusUpdate={handleStatusUpdate}
+                />
+              </React.Fragment>
+            );
+          })
         ) : (
           <div className="no-results">
             {searchTerm || filterStatus !== 'all' 
-              ? 'Nu s-au găsit cursanți care să corespundă criteriilor de căutare.'
-              : 'Nu există cursanți înregistrați în sistem.'
+              ? t('adminUsers.noResultsFiltered')
+              : t('adminUsers.noResultsEmpty')
             }
           </div>
         )}

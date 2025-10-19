@@ -1,38 +1,40 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './WorkoutBuilder.css';
 
 const SwimmingWorkoutBuilder = () => {
-  const { id } = useParams(); // For edit mode
+  const { t } = useTranslation();
+  const { id, lang } = useParams();
   const navigate = useNavigate();
   const [isEditing] = useState(!!id);
   const [isLoading, setIsLoading] = useState(false);
-const [existingWorkouts, setExistingWorkouts] = useState([]);
-const [nameError, setNameError] = useState('');
+  const [existingWorkouts, setExistingWorkouts] = useState([]);
+  const [nameError, setNameError] = useState('');
 
-const [workout, setWorkout] = useState({
-  name: 'Antrenament nou',
-  level: 'INTERMEDIAR',
-  type: 'REZISTENTA',
-  items: []
-});
+  const [workout, setWorkout] = useState({
+    name: t('workoutBuilder.defaultName'),
+    level: 'INTERMEDIAR',
+    type: 'REZISTENTA',
+    items: []
+  });
   
   const [showStepForm, setShowStepForm] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
 
   const workoutLevels = [
-    { value: 'incepator', label: 'Începător' },
-    { value: 'intermediar', label: 'Intermediar' },
-    { value: 'avansat', label: 'Avansat' }
+    { value: 'incepator', label: t('workoutBuilder.levels.beginner') },
+    { value: 'intermediar', label: t('workoutBuilder.levels.intermediate') },
+    { value: 'avansat', label: t('workoutBuilder.levels.advanced') }
   ];
   
   const workoutTypes = [
-    { value: 'REZISTENTA', label: 'Rezistență' },
-    { value: 'TEHNICA', label: 'Tehnică' },
-    { value: 'PA', label: 'Prag Anaerob (PA)' },
-    { value: 'TOL', label: 'Toleranță Lactat (TOL)' },
-    { value: 'VO2', label: 'VO2 Max' },
-    { value: 'TEMPO', label: 'Tempo Cursă' }
+    { value: 'REZISTENTA', label: t('workoutBuilder.types.endurance') },
+    { value: 'TEHNICA', label: t('workoutBuilder.types.technique') },
+    { value: 'PA', label: t('workoutBuilder.types.anaerobicThreshold') },
+    { value: 'TOL', label: t('workoutBuilder.types.lactateTolerance') },
+    { value: 'VO2', label: t('workoutBuilder.types.vo2max') },
+    { value: 'TEMPO', label: t('workoutBuilder.types.raceTempo') }
   ];
   
   const [stepForm, setStepForm] = useState({
@@ -53,36 +55,35 @@ const [workout, setWorkout] = useState({
 
   const [showEquipmentDropdown, setShowEquipmentDropdown] = useState(false);
   const nextId = useRef(1);
-  // Load existing workouts for name validation
-useEffect(() => {
-  const fetchExistingWorkouts = async () => {
-    try {
-      const csrfResponse = await fetch('/csrf', {
-        credentials: 'include'
-      });
-      const csrfData = await csrfResponse.json();
-      const csrfToken = csrfData.token;
-      
-      const response = await fetch('/api/workouts', {
-        credentials: 'include',
-        headers: {
-          'X-XSRF-TOKEN': csrfToken
+
+  useEffect(() => {
+    const fetchExistingWorkouts = async () => {
+      try {
+        const csrfResponse = await fetch('/csrf', {
+          credentials: 'include'
+        });
+        const csrfData = await csrfResponse.json();
+        const csrfToken = csrfData.token;
+        
+        const response = await fetch('/api/workouts', {
+          credentials: 'include',
+          headers: {
+            'X-XSRF-TOKEN': csrfToken
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setExistingWorkouts(data);
         }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setExistingWorkouts(data);
+      } catch (error) {
+        console.error('Failed to fetch existing workouts:', error);
       }
-    } catch (error) {
-      console.error('Failed to fetch existing workouts:', error);
-    }
-  };
+    };
 
-  fetchExistingWorkouts();
-}, []);
+    fetchExistingWorkouts();
+  }, []);
 
-  // Load existing workout for editing
   useEffect(() => {
     if (id) {
       const loadWorkout = async () => {
@@ -102,65 +103,60 @@ useEffect(() => {
           });
           
           if (response.ok) {
-
-       const data = await response.json();
+            const data = await response.json();
   
-  // Convert backend data to frontend structure
-  const convertBackendItem = (item) => {
-    const converted = {
-      ...item,
-      id: generateId(), // Generate new frontend ID
-      type: item.type?.toLowerCase() || 'step',
-      stepType: item.stepType?.toLowerCase() || 'main',
-      stroke: item.stroke?.toLowerCase(),
-      drillType: item.drillType?.toLowerCase(),
-      effort: item.effort?.toLowerCase(),
-      intensityTarget: item.intensityTarget?.toLowerCase().replace(/_/g, '-'),
-      equipment: item.equipment?.map(eq => eq.toLowerCase()) || ['none']
-    };
-    
-    // Convert childItems to items
-    if (item.childItems && item.childItems.length > 0) {
-      converted.items = item.childItems.map(convertBackendItem);
-    }
-    
-    // Remove childItems since frontend uses items
-    delete converted.childItems;
-    
-    return converted;
-  };
+            const convertBackendItem = (item) => {
+              const converted = {
+                ...item,
+                id: generateId(),
+                type: item.type?.toLowerCase() || 'step',
+                stepType: item.stepType?.toLowerCase() || 'main',
+                stroke: item.stroke?.toLowerCase(),
+                drillType: item.drillType?.toLowerCase(),
+                effort: item.effort?.toLowerCase(),
+                intensityTarget: item.intensityTarget?.toLowerCase().replace(/_/g, '-'),
+                equipment: item.equipment?.map(eq => eq.toLowerCase()) || ['none']
+              };
+              
+              if (item.childItems && item.childItems.length > 0) {
+                converted.items = item.childItems.map(convertBackendItem);
+              }
+              
+              delete converted.childItems;
+              
+              return converted;
+            };
   
-  setWorkout({
-    name: data.name,
-    level: data.level?.toLowerCase() || 'intermediar',
-    type: data.type?.toUpperCase() || 'REZISTENTA',  // CHANGED: uppercase and default to REZISTENTA
-    items: (data.items || []).map(convertBackendItem)
-  });
-}
+            setWorkout({
+              name: data.name,
+              level: data.level?.toLowerCase() || 'intermediar',
+              type: data.type?.toUpperCase() || 'REZISTENTA',
+              items: (data.items || []).map(convertBackendItem)
+            });
+          }
         } catch (error) {
           console.error('Load error:', error);
-          alert('Failed to load workout');
+          alert(t('workoutBuilder.alerts.loadFailed'));
         } finally {
           setIsLoading(false);
         }
       };
       loadWorkout();
     }
-  }, [id, navigate]);
+  }, [id, navigate, t]);
 
   const strokeTypes = [
-    { value: 'freestyle', label: 'Freestyle', short: 'Fr' },
-    { value: 'backstroke', label: 'Backstroke', short: 'Bk' },
-    { value: 'breaststroke', label: 'Breaststroke', short: 'Br' },
-    { value: 'butterfly', label: 'Butterfly', short: 'Fly' },
-    { value: 'choice', label: 'Swimmer\'s Choice', short: 'Ch' },
-    { value: 'IM', label: 'Individual Medley', short: 'IM' },
-    { value: 'IM-by-round', label: 'IM by round', short: 'IMr' },
-    { value: 'reverse-IM', label: 'Reverse IM', short: 'RIM' },
-    { value: 'mixed', label: 'Mixed', short: 'Mix' }
+    { value: 'freestyle', label: t('workoutBuilder.strokes.freestyle'), short: 'Fr' },
+    { value: 'backstroke', label: t('workoutBuilder.strokes.backstroke'), short: 'Bk' },
+    { value: 'breaststroke', label: t('workoutBuilder.strokes.breaststroke'), short: 'Br' },
+    { value: 'butterfly', label: t('workoutBuilder.strokes.butterfly'), short: 'Fly' },
+    { value: 'choice', label: t('workoutBuilder.strokes.choice'), short: 'Ch' },
+    { value: 'IM', label: t('workoutBuilder.strokes.im'), short: 'IM' },
+    { value: 'IM-by-round', label: t('workoutBuilder.strokes.imByRound'), short: 'IMr' },
+    { value: 'reverse-IM', label: t('workoutBuilder.strokes.reverseIm'), short: 'RIM' },
+    { value: 'mixed', label: t('workoutBuilder.strokes.mixed'), short: 'Mix' }
   ];
 
-  // Equipment handling functions
   const handleEquipmentToggle = (equipmentValue) => {
     setStepForm(prev => {
       let newEquipment;
@@ -184,37 +180,34 @@ useEffect(() => {
     });
   };
 
-  // Name validation function
-const validateWorkoutName = (name) => {
-  if (!name || name.trim() === '') {
-    return 'Workout name is required';
-  }
+  const validateWorkoutName = (name) => {
+    if (!name || name.trim() === '') {
+      return t('workoutBuilder.validation.nameRequired');
+    }
 
-  const trimmedName = name.trim();
-  
-  // Check for duplicate names (excluding current workout when editing)
-  const isDuplicate = existingWorkouts.some(existingWorkout => 
-    existingWorkout.name.toLowerCase() === trimmedName.toLowerCase() && 
-    (!isEditing || existingWorkout.id.toString() !== id)
-  );
+    const trimmedName = name.trim();
+    
+    const isDuplicate = existingWorkouts.some(existingWorkout => 
+      existingWorkout.name.toLowerCase() === trimmedName.toLowerCase() && 
+      (!isEditing || existingWorkout.id.toString() !== id)
+    );
 
-  if (isDuplicate) {
-    return 'A workout with this name already exists. Please choose a different name.';
-  }
+    if (isDuplicate) {
+      return t('workoutBuilder.validation.nameDuplicate');
+    }
 
-  return '';
-};
+    return '';
+  };
 
-// Handle workout name change with validation
-const handleWorkoutNameChange = (newName) => {
-  setWorkout(prev => ({ ...prev, name: newName }));
-  const error = validateWorkoutName(newName);
-  setNameError(error);
-};
+  const handleWorkoutNameChange = (newName) => {
+    setWorkout(prev => ({ ...prev, name: newName }));
+    const error = validateWorkoutName(newName);
+    setNameError(error);
+  };
 
   const getEquipmentDisplayText = () => {
     if (stepForm.equipment.includes('none') || stepForm.equipment.length === 0) {
-      return 'No Equipment';
+      return t('workoutBuilder.equipment.none');
     }
     
     const selectedLabels = stepForm.equipment.map(eq => 
@@ -225,44 +218,42 @@ const handleWorkoutNameChange = (newName) => {
   };
 
   const stepTypes = [
-    { value: 'warmup', label: 'Warm-up', color: '#10b981' },
-    { value: 'main', label: 'Main Set', color: '#3b82f6' },
-    { value: 'cooldown', label: 'Cool-down', color: '#8b5cf6' },
-    { value: 'rest', label: 'Rest', color: '#6b7280' },
-    { value: 'swim', label: 'Swim', color: '#06b6d4' }
+    { value: 'warmup', label: t('workoutBuilder.stepTypes.warmup'), color: '#10b981' },
+    { value: 'main', label: t('workoutBuilder.stepTypes.mainSet'), color: '#3b82f6' },
+    { value: 'cooldown', label: t('workoutBuilder.stepTypes.cooldown'), color: '#8b5cf6' },
+    { value: 'rest', label: t('workoutBuilder.stepTypes.rest'), color: '#6b7280' },
+    { value: 'swim', label: t('workoutBuilder.stepTypes.swim'), color: '#06b6d4' }
   ];
 
   const drillTypes = [
-    { value: 'none', label: 'None' },
-    { value: 'kick', label: 'Kick' },
-    { value: 'pull', label: 'Pull' },
-    { value: 'drill', label: 'Drill' }
+    { value: 'none', label: t('workoutBuilder.drillTypes.none') },
+    { value: 'kick', label: t('workoutBuilder.drillTypes.kick') },
+    { value: 'pull', label: t('workoutBuilder.drillTypes.pull') },
+    { value: 'drill', label: t('workoutBuilder.drillTypes.drill') }
   ];
 
   const effortLevels = [
-    { value: 'recovery', label: 'Recovery (50–60% HR max)' },
-    { value: 'easy', label: 'Easy (60–70% HR max)' },
-    { value: 'moderate', label: 'Moderate (70–80% HR max)' },
-    { value: 'hard', label: 'Hard (80–90% HR max)' },
-    { value: 'very-hard', label: 'Very Hard (90–95% HR max)' },
-    { value: 'all-out', label: 'All Out (95–100% HR max)' },
-    { value: 'ascending', label: 'Ascending' },
-    { value: 'descending', label: 'Descending' },
-    { value: 'sprint', label: 'Sprint (95–100% HR max)' }
+    { value: 'recovery', label: t('workoutBuilder.effortLevels.recovery') },
+    { value: 'easy', label: t('workoutBuilder.effortLevels.easy') },
+    { value: 'moderate', label: t('workoutBuilder.effortLevels.moderate') },
+    { value: 'hard', label: t('workoutBuilder.effortLevels.hard') },
+    { value: 'very-hard', label: t('workoutBuilder.effortLevels.veryHard') },
+    { value: 'all-out', label: t('workoutBuilder.effortLevels.allOut') },
+    { value: 'ascending', label: t('workoutBuilder.effortLevels.ascending') },
+    { value: 'descending', label: t('workoutBuilder.effortLevels.descending') },
+    { value: 'sprint', label: t('workoutBuilder.effortLevels.sprint') }
   ];
-  
 
   const equipment = [
-    { value: 'none', label: 'No Equipment' },
-    { value: 'kickboard', label: 'Kickboard' },
-    { value: 'pullbuoy', label: 'Pull Buoy' },
-    { value: 'fins', label: 'Fins' },
-    { value: 'paddles', label: 'Paddles' },
-    { value: 'snorkel', label: 'Snorkel' }
+    { value: 'none', label: t('workoutBuilder.equipment.none') },
+    { value: 'kickboard', label: t('workoutBuilder.equipment.kickboard') },
+    { value: 'pullbuoy', label: t('workoutBuilder.equipment.pullbuoy') },
+    { value: 'fins', label: t('workoutBuilder.equipment.fins') },
+    { value: 'paddles', label: t('workoutBuilder.equipment.paddles') },
+    { value: 'snorkel', label: t('workoutBuilder.equipment.snorkel') }
   ];
 
   const cssTargets = [
-    
     '+3 sec (1:38)',
     '+2 sec (1:37)',
     '+1 sec (1:36)',
@@ -272,13 +263,11 @@ const handleWorkoutNameChange = (newName) => {
     '-3 sec (1:32)'
   ];
 
-  // Utility functions for nested operations
   const generateId = () => `item_${nextId.current++}`;
 
   const findItemById = (items, id) => {
     for (const item of items) {
       if (item.id === id) {
-        // Return a deep copy instead of the reference
         return JSON.parse(JSON.stringify(item));
       }
       if (item.items) {
@@ -313,7 +302,6 @@ const handleWorkoutNameChange = (newName) => {
   const addItemToParent = (items, parentId, newItem, index = -1) => {
     if (!parentId) {
       const newItems = [...items];
-      // Create a deep copy of the new item
       const itemCopy = JSON.parse(JSON.stringify(newItem));
       if (index >= 0) {
         newItems.splice(index, 0, itemCopy);
@@ -326,7 +314,6 @@ const handleWorkoutNameChange = (newName) => {
     return items.map(item => {
       if (item.id === parentId) {
         const newItems = item.items ? [...item.items] : [];
-        // Create a deep copy of the new item
         const itemCopy = JSON.parse(JSON.stringify(newItem));
         if (index >= 0) {
           newItems.splice(index, 0, itemCopy);
@@ -345,11 +332,10 @@ const handleWorkoutNameChange = (newName) => {
   const updateItemById = (items, id, updatedItem) => {
     return items.map(item => {
       if (item.id === id) {
-        // Deep copy the updated item to ensure no shared references
         return JSON.parse(JSON.stringify({ 
           ...updatedItem, 
           id,
-          items: item.items // Preserve child items if any
+          items: item.items
         }));
       }
       if (item.items) {
@@ -379,7 +365,7 @@ const handleWorkoutNameChange = (newName) => {
         return `${item.repeats}x{${inner}}`;
       }
       if (item.stepType === 'rest') {
-        return item.rest ? `${item.rest}s Rest` : 'Rest';
+        return item.rest ? `${item.rest}s ${t('workoutBuilder.labels.rest')}` : t('workoutBuilder.labels.rest');
       }
       const strokeShort = strokeTypes.find(s => s.value === item.stroke)?.short || '';
       return `${item.distance}${strokeShort}`;
@@ -404,9 +390,7 @@ const handleWorkoutNameChange = (newName) => {
       }
     }
   }, [id]);
-  
 
-  // Form handlers
   const handleAddStep = (parentId = null) => {
     setStepForm({
       type: 'step',
@@ -437,15 +421,15 @@ const handleWorkoutNameChange = (newName) => {
       repeats: 2,
       notes: '',
       items: [],
-      distance: null,        // Add this
-      stroke: null,          // Add this
-      drillType: null,       // Add this
-      effort: null,          // Add this
-      equipment: null,       // Add this
-      intensityTarget: null, // Add this
-      targetPace: null,      // Add this
-      cssTarget: null,       // Add this
-      rest: null             // Add this
+      distance: null,
+      stroke: null,
+      drillType: null,
+      effort: null,
+      equipment: null,
+      intensityTarget: null,
+      targetPace: null,
+      cssTarget: null,
+      rest: null
     };
 
     setWorkout(prev => ({
@@ -454,7 +438,6 @@ const handleWorkoutNameChange = (newName) => {
     }));
   };
 
-
   const handleEditItem = (item) => {
     if (item.type === 'repeat') {
       return;
@@ -462,7 +445,6 @@ const handleWorkoutNameChange = (newName) => {
     
     const parent = findParentById(workout.items, item.id);
     
-    // Create a deep copy of the item first
     const itemCopy = JSON.parse(JSON.stringify(item));
     
     let equipmentValue = itemCopy.equipment;
@@ -484,7 +466,6 @@ const handleWorkoutNameChange = (newName) => {
   const handleSaveStep = () => {
     console.log('Saving step with ID:', editingItem, 'targetPace:', stepForm.targetPace);
     
-    // Create a deep copy of stepForm to avoid any reference issues
     let processedForm = JSON.parse(JSON.stringify(stepForm));
     
     if (processedForm.stepType !== 'rest') {
@@ -520,29 +501,27 @@ const handleWorkoutNameChange = (newName) => {
     setShowStepForm(false);
     setEditingItem(null);
   };
+
   const handleDeleteItem = (id) => {
-    if (window.confirm('Delete this item?')) {
+    if (window.confirm(t('workoutBuilder.alerts.confirmDelete'))) {
       setWorkout(prev => ({
         ...prev,
         items: removeItemById(prev.items, id)
       }));
     }
   };
+
   const handleDuplicateItem = (item) => {
     const parent = findParentById(workout.items, item.id);
     if (parent) {
       setWorkout(prev => {
-        // Create a complete deep copy of the current state
         const stateCopy = JSON.parse(JSON.stringify(prev));
         
-        // Find the item in the copied state and duplicate it
         const itemToDuplicate = findItemById(stateCopy.items, item.id);
         const duplicate = {
           ...itemToDuplicate,
           id: generateId()
         };
-        
-     
         
         const updatedItems = addItemToParent(stateCopy.items, parent.parent?.id, duplicate, parent.index + 1);
         
@@ -552,9 +531,8 @@ const handleWorkoutNameChange = (newName) => {
         };
       });
     }
-  };
+  };// Continuing from Part 1...
 
-  // Render functions
   const renderWorkoutItem = (item, level = 0) => {
     const typeInfo = stepTypes.find(t => t.value === item.stepType) || stepTypes[1];
 
@@ -574,40 +552,39 @@ const handleWorkoutNameChange = (newName) => {
                   </span>
                   {item.type === 'repeat' && (
                     <span className="swim-builder-repeat-badge">
-                      {item.repeats}x REPEAT
+                      {item.repeats}x {t('workoutBuilder.labels.repeat').toUpperCase()}
                     </span>
                   )}
                 </div>
                 
                 <div className="swim-builder-item-title">
-  {item.type === 'repeat' || item.type === 'REPEAT' ? (
-    item.notes || `${item.repeats}x Repeat Block`
-  ) : item.stepType === 'rest' || item.stepType === 'REST' ? (
-    item.rest ? `${item.rest}s Rest` : 'Rest'
-  ) : (
-    <>
-      {`${item.distance}m ${strokeTypes.find(s => s.value === item.stroke?.toLowerCase())?.label || item.stroke}`}
-      {item.drillType && item.drillType !== 'none' && item.drillType !== 'NONE' && (
-        <span className="swim-builder-drill-indicator"> ({item.drillType.toLowerCase()})</span>
-      )}
-      {/* ADD THIS SECTION - Display intensity/pace info */}
-      {item.intensityTarget === 'target-pace' && item.targetPace && (
-        <span className="swim-builder-pace-indicator"> @ {item.targetPace}/100m</span>
-      )}
-     {item.intensityTarget === 'css-target' && item.cssTarget && (
-  <span className="swim-builder-pace-indicator">
-    {' @ CSS '}{parseInt(item.cssTarget) > 0 ? '+' : ''}{item.cssTarget}s
-  </span>
-)}
-      {item.intensityTarget === 'effort-base' && item.effort && (
-        <span className="swim-builder-effort-indicator"> - {effortLevels.find(e => e.value === item.effort)?.label || item.effort}</span>
-      )}
-    </>
-  )}
-</div>
+                  {item.type === 'repeat' || item.type === 'REPEAT' ? (
+                    item.notes || `${item.repeats}x ${t('workoutBuilder.labels.repeatBlock')}`
+                  ) : item.stepType === 'rest' || item.stepType === 'REST' ? (
+                    item.rest ? `${item.rest}s ${t('workoutBuilder.labels.rest')}` : t('workoutBuilder.labels.rest')
+                  ) : (
+                    <>
+                      {`${item.distance}m ${strokeTypes.find(s => s.value === item.stroke?.toLowerCase())?.label || item.stroke}`}
+                      {item.drillType && item.drillType !== 'none' && item.drillType !== 'NONE' && (
+                        <span className="swim-builder-drill-indicator"> ({item.drillType.toLowerCase()})</span>
+                      )}
+                      {item.intensityTarget === 'target-pace' && item.targetPace && (
+                        <span className="swim-builder-pace-indicator"> @ {item.targetPace}/100m</span>
+                      )}
+                      {item.intensityTarget === 'css-target' && item.cssTarget && (
+                        <span className="swim-builder-pace-indicator">
+                          {' @ CSS '}{parseInt(item.cssTarget) > 0 ? '+' : ''}{item.cssTarget}s
+                        </span>
+                      )}
+                      {item.intensityTarget === 'effort-base' && item.effort && (
+                        <span className="swim-builder-effort-indicator"> - {effortLevels.find(e => e.value === item.effort)?.label || item.effort}</span>
+                      )}
+                    </>
+                  )}
+                </div>
                 {item.equipment && !item.equipment.includes('none') && item.equipment.length > 0 && (
                   <div className="swim-builder-equipment-info">
-                    Equipment: {Array.isArray(item.equipment) 
+                    {t('workoutBuilder.labels.equipment')}: {Array.isArray(item.equipment) 
                       ? item.equipment.map(eq => equipment.find(e => e.value === eq)?.label || eq).join(', ')
                       : equipment.find(e => e.value === item.equipment)?.label || item.equipment
                     }
@@ -626,21 +603,21 @@ const handleWorkoutNameChange = (newName) => {
                   <button
                     className="swim-builder-action-btn swim-builder-add-to-repeat"
                     onClick={() => handleAddStep(item.id)}
-                    title="Add to repeat"
+                    title={t('workoutBuilder.actions.addToRepeat')}
                   >
                     +
                   </button>
                   <button
                     className="swim-builder-action-btn swim-builder-repeat-down"
                     onClick={() => handleAdjustRepeats(item.id, -1)}
-                    title="Decrease repeats"
+                    title={t('workoutBuilder.actions.decreaseRepeats')}
                   >
                     ▼
                   </button>
                   <button
                     className="swim-builder-action-btn swim-builder-repeat-up"
                     onClick={() => handleAdjustRepeats(item.id, 1)}
-                    title="Increase repeats"
+                    title={t('workoutBuilder.actions.increaseRepeats')}
                   >
                     ▲
                   </button>
@@ -650,7 +627,7 @@ const handleWorkoutNameChange = (newName) => {
                 <button
                   className="swim-builder-action-btn swim-builder-edit"
                   onClick={() => handleEditItem(item)}
-                  title="Edit"
+                  title={t('workoutBuilder.actions.edit')}
                 >
                   ✏️
                 </button>
@@ -658,14 +635,14 @@ const handleWorkoutNameChange = (newName) => {
               <button
                 className="swim-builder-action-btn swim-builder-duplicate"
                 onClick={() => handleDuplicateItem(item)}
-                title="Duplicate"
+                title={t('workoutBuilder.actions.duplicate')}
               >
                 📋
               </button>
               <button
                 className="swim-builder-action-btn swim-builder-delete"
                 onClick={() => handleDeleteItem(item.id)}
-                title="Delete"
+                title={t('workoutBuilder.actions.delete')}
               >
                 🗑️
               </button>
@@ -673,34 +650,34 @@ const handleWorkoutNameChange = (newName) => {
           </div>
 
           {(item.type === 'repeat' || item.type === 'REPEAT') && (
-  <div className="swim-builder-repeat-content" onDragOver={(e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }}>
-    {(item.childItems || item.items) && (item.childItems || item.items).length > 0 && (
-      <div style={{ marginBottom: '1rem' }}>
-        {(item.childItems || item.items).map(subItem => renderWorkoutItem(subItem, level + 1))}
-      </div>
-    )}
-    
-    <div className="swim-builder-repeat-actions">
-    {((!item.childItems && !item.items) || (((item.childItems || item.items) && (item.childItems || item.items).length === 0))) && (
-        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-          Empty repeat block
-        </p>
-      )}
+            <div className="swim-builder-repeat-content" onDragOver={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}>
+              {(item.childItems || item.items) && (item.childItems || item.items).length > 0 && (
+                <div style={{ marginBottom: '1rem' }}>
+                  {(item.childItems || item.items).map(subItem => renderWorkoutItem(subItem, level + 1))}
+                </div>
+              )}
+              
+              <div className="swim-builder-repeat-actions">
+                {((!item.childItems && !item.items) || (((item.childItems || item.items) && (item.childItems || item.items).length === 0))) && (
+                  <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+                    {t('workoutBuilder.labels.emptyRepeatBlock')}
+                  </p>
+                )}
                 <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
                   <button
                     className="btn btn-primary swim-builder-small"
                     onClick={() => handleAddStep(item.id)}
                   >
-                    + Adaugă Pas
+                    + {t('workoutBuilder.buttons.addStep')}
                   </button>
                   <button
                     className="btn btn-secondary swim-builder-small"
                     onClick={() => handleAddRepeatBlock(item.id)}
                   >
-                    + Adaugă Repetare
+                    + {t('workoutBuilder.buttons.addRepeat')}
                   </button>
                 </div>
               </div>
@@ -711,12 +688,11 @@ const handleWorkoutNameChange = (newName) => {
     );
   };
 
-  // Loading state
   if (isLoading) {
     return (
       <div className="swim-builder-container">
         <div style={{ textAlign: 'center', padding: '2rem' }}>
-          <h2>Loading workout...</h2>
+          <h2>{t('workoutBuilder.loading')}</h2>
         </div>
       </div>
     );
@@ -727,15 +703,15 @@ const handleWorkoutNameChange = (newName) => {
       <div className="swim-builder-container">
         <div className="swim-builder-form-container">
           <div className="swim-builder-form-header">
-            <h2>{editingItem ? 'Edit Step' : 'Add New Step'}</h2>
+            <h2>{editingItem ? t('workoutBuilder.form.editStep') : t('workoutBuilder.form.addNewStep')}</h2>
             {stepForm.parentId && (
-              <p className="swim-builder-parent-info">Adding to repeat block</p>
+              <p className="swim-builder-parent-info">{t('workoutBuilder.form.addingToRepeat')}</p>
             )}
           </div>
 
           <div className="swim-builder-step-form">
             <div className="form-group">
-              <label className="form-label">Category</label>
+              <label className="form-label">{t('workoutBuilder.form.category')}</label>
               <select
                 className="form-select"
                 value={stepForm.stepType}
@@ -750,7 +726,7 @@ const handleWorkoutNameChange = (newName) => {
             {stepForm.stepType !== 'rest' && (
               <>
                 <div className="form-group">
-                  <label className="form-label">Distance (meters)</label>
+                  <label className="form-label">{t('workoutBuilder.form.distance')}</label>
                   <input
                     type="number"
                     className="form-input"
@@ -768,12 +744,12 @@ const handleWorkoutNameChange = (newName) => {
                     placeholder="100"
                   />
                   <div style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.6)', marginTop: '0.25rem' }}>
-                    Distance will be rounded to nearest 25m when you finish typing
+                    {t('workoutBuilder.form.distanceHelper')}
                   </div>
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Stroke</label>
+                  <label className="form-label">{t('workoutBuilder.form.stroke')}</label>
                   <select
                     className="form-select"
                     value={stepForm.stroke}
@@ -786,7 +762,7 @@ const handleWorkoutNameChange = (newName) => {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Drill Type</label>
+                  <label className="form-label">{t('workoutBuilder.form.drillType')}</label>
                   <select
                     className="form-select"
                     value={stepForm.drillType}
@@ -799,21 +775,21 @@ const handleWorkoutNameChange = (newName) => {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Intensity Target</label>
+                  <label className="form-label">{t('workoutBuilder.form.intensityTarget')}</label>
                   <select
                     className="form-select"
                     value={stepForm.intensityTarget}
                     onChange={(e) => setStepForm({ ...stepForm, intensityTarget: e.target.value })}
                   >
-                    <option value="effort-base">Effort Based</option>
-                    <option value="target-pace">Target Pace</option>
-                    <option value="css-target">CSS Target</option>
+                    <option value="effort-base">{t('workoutBuilder.form.effortBased')}</option>
+                    <option value="target-pace">{t('workoutBuilder.form.targetPace')}</option>
+                    <option value="css-target">{t('workoutBuilder.form.cssTarget')}</option>
                   </select>
                 </div>
 
                 {stepForm.intensityTarget === 'effort-base' && (
                   <div className="form-group">
-                    <label className="form-label">Effort Level</label>
+                    <label className="form-label">{t('workoutBuilder.form.effortLevel')}</label>
                     <select
                       className="form-select"
                       value={stepForm.effort}
@@ -828,7 +804,7 @@ const handleWorkoutNameChange = (newName) => {
 
                 {stepForm.intensityTarget === 'target-pace' && (
                   <div className="form-group">
-                    <label className="form-label">Target Pace (per 100m)</label>
+                    <label className="form-label">{t('workoutBuilder.form.targetPacePer100')}</label>
                     <input
                       type="text"
                       className="form-input"
@@ -839,56 +815,56 @@ const handleWorkoutNameChange = (newName) => {
                   </div>
                 )}
 
-{stepForm.intensityTarget === 'css-target' && (
-  <div className="form-group">
-    <label className="form-label">CSS Target (seconds offset)</label>
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <button
-        type="button"
-        className="btn btn-secondary"
-        onClick={() => {
-          const currentOffset = parseInt(stepForm.cssTarget) || 0;
-          setStepForm({ ...stepForm, cssTarget: (currentOffset - 1).toString() });
-        }}
-        style={{ padding: '0.5rem 1rem', minWidth: '50px' }}
-      >
-        −
-      </button>
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        gap: '0.5rem',
-        minWidth: '150px',
-        justifyContent: 'center',
-        fontSize: '1.2rem',
-        fontWeight: 'bold'
-      }}>
-        <span>{parseInt(stepForm.cssTarget) || 0 > 0 ? '+' : ''}{stepForm.cssTarget || '0'}</span>
-        <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.7)' }}>sec</span>
-      </div>
-      <button
-        type="button"
-        className="btn btn-secondary"
-        onClick={() => {
-          const currentOffset = parseInt(stepForm.cssTarget) || 0;
-          setStepForm({ ...stepForm, cssTarget: (currentOffset + 1).toString() });
-        }}
-        style={{ padding: '0.5rem 1rem', minWidth: '50px' }}
-      >
-        +
-      </button>
-    </div>
-    <div style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.6)', marginTop: '0.5rem', textAlign: 'center' }}>
-      Offset from CSS pace (negative = faster, positive = slower)
-    </div>
-  </div>
-)}
+                {stepForm.intensityTarget === 'css-target' && (
+                  <div className="form-group">
+                    <label className="form-label">{t('workoutBuilder.form.cssTargetOffset')}</label>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          const currentOffset = parseInt(stepForm.cssTarget) || 0;
+                          setStepForm({ ...stepForm, cssTarget: (currentOffset - 1).toString() });
+                        }}
+                        style={{ padding: '0.5rem 1rem', minWidth: '50px' }}
+                      >
+                        −
+                      </button>
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '0.5rem',
+                        minWidth: '150px',
+                        justifyContent: 'center',
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold'
+                      }}>
+                        <span>{parseInt(stepForm.cssTarget) || 0 > 0 ? '+' : ''}{stepForm.cssTarget || '0'}</span>
+                        <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.7)' }}>sec</span>
+                      </div>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          const currentOffset = parseInt(stepForm.cssTarget) || 0;
+                          setStepForm({ ...stepForm, cssTarget: (currentOffset + 1).toString() });
+                        }}
+                        style={{ padding: '0.5rem 1rem', minWidth: '50px' }}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.6)', marginTop: '0.5rem', textAlign: 'center' }}>
+                      {t('workoutBuilder.form.cssTargetHelper')}
+                    </div>
+                  </div>
+                )}
               </>
             )}
 
             {stepForm.stepType === 'rest' && (
               <div className="form-group">
-                <label className="form-label">Rest Duration (seconds)</label>
+                <label className="form-label">{t('workoutBuilder.form.restDuration')}</label>
                 <input
                   type="number"
                   className="form-input"
@@ -902,13 +878,13 @@ const handleWorkoutNameChange = (newName) => {
                   placeholder="30"
                 />
                 <div style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.6)', marginTop: '0.25rem' }}>
-                  Leave as 0 for unspecified rest time
+                  {t('workoutBuilder.form.restHelper')}
                 </div>
               </div>
             )}
 
             <div className="form-group">
-              <label className="form-label">Equipment</label>
+              <label className="form-label">{t('workoutBuilder.form.equipment')}</label>
               <div className="swim-builder-equipment-selector">
                 <div
                   onClick={() => setShowEquipmentDropdown(!showEquipmentDropdown)}
@@ -942,12 +918,12 @@ const handleWorkoutNameChange = (newName) => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Notes</label>
+              <label className="form-label">{t('workoutBuilder.form.notes')}</label>
               <textarea
                 className="form-textarea"
                 value={stepForm.notes}
                 onChange={(e) => setStepForm({ ...stepForm, notes: e.target.value })}
-                placeholder="Optional notes or instructions..."
+                placeholder={t('workoutBuilder.form.notesPlaceholder')}
               />
             </div>
 
@@ -956,13 +932,13 @@ const handleWorkoutNameChange = (newName) => {
                 className="btn btn-primary"
                 onClick={handleSaveStep}
               >
-                {editingItem ? 'Update Item' : 'Adauga pas'}
+                {editingItem ? t('workoutBuilder.buttons.updateItem') : t('workoutBuilder.buttons.addStep')}
               </button>
               <button
                 className="btn btn-outline"
                 onClick={() => setShowStepForm(false)}
               >
-                Cancel
+                {t('workoutBuilder.buttons.cancel')}
               </button>
             </div>
           </div>
@@ -977,59 +953,59 @@ const handleWorkoutNameChange = (newName) => {
   return (
     <div className="swim-builder-container">
       <div className="swim-builder-header">
-      <div className="swim-builder-name-section">
-  <input
-    type="text"
-    className={`swim-builder-name-input ${nameError ? 'error' : ''}`}
-    value={workout.name}
-    onChange={(e) => handleWorkoutNameChange(e.target.value)}
-    placeholder="Workout name..."
-  />
-  {nameError && <div className="swim-builder-name-error">{nameError}</div>}
-</div>
+        <div className="swim-builder-name-section">
+          <input
+            type="text"
+            className={`swim-builder-name-input ${nameError ? 'error' : ''}`}
+            value={workout.name}
+            onChange={(e) => handleWorkoutNameChange(e.target.value)}
+            placeholder={t('workoutBuilder.form.workoutNamePlaceholder')}
+          />
+          {nameError && <div className="swim-builder-name-error">{nameError}</div>}
+        </div>
 
-<div className="swim-builder-workout-meta">
-    <div className="form-group">
-      <label className="form-label">Nivel</label>
-      <select
-        className="form-select"
-        value={workout.level}
-        onChange={(e) => setWorkout(prev => ({ ...prev, level: e.target.value }))}
-      >
-        {workoutLevels.map(level => (
-          <option key={level.value} value={level.value}>{level.label}</option>
-        ))}
-      </select>
-    </div>
-    
-    <div className="form-group">
-      <label className="form-label">Tip</label>
-      <select
-        className="form-select" 
-        value={workout.type}
-        onChange={(e) => setWorkout(prev => ({ ...prev, type: e.target.value }))}
-      >
-        {workoutTypes.map(type => (
-          <option key={type.value} value={type.value}>{type.label}</option>
-        ))}
-      </select>
-    </div>
-  </div>
+        <div className="swim-builder-workout-meta">
+          <div className="form-group">
+            <label className="form-label">{t('workoutBuilder.form.level')}</label>
+            <select
+              className="form-select"
+              value={workout.level}
+              onChange={(e) => setWorkout(prev => ({ ...prev, level: e.target.value }))}
+            >
+              {workoutLevels.map(level => (
+                <option key={level.value} value={level.value}>{level.label}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div className="form-group">
+            <label className="form-label">{t('workoutBuilder.form.type')}</label>
+            <select
+              className="form-select" 
+              value={workout.type}
+              onChange={(e) => setWorkout(prev => ({ ...prev, type: e.target.value }))}
+            >
+              {workoutTypes.map(type => (
+                <option key={type.value} value={type.value}>{type.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
         
         <div className="swim-builder-stats">
           <div className="swim-builder-stat">
             <span className="swim-builder-stat-value">{totalDistance}m</span>
-            <span className="swim-builder-stat-label">Distanța Totală</span>
+            <span className="swim-builder-stat-label">{t('workoutBuilder.stats.totalDistance')}</span>
           </div>
           <div className="swim-builder-stat">
             <span className="swim-builder-stat-value">{workout.items.length}</span>
-            <span className="swim-builder-stat-label">Pași</span>
+            <span className="swim-builder-stat-label">{t('workoutBuilder.stats.steps')}</span>
           </div>
         </div>
         
         {notation.length > 0 && (
           <div className="swim-builder-notation">
-            <div className="swim-builder-notation-label">Antrenament:</div>
+            <div className="swim-builder-notation-label">{t('workoutBuilder.labels.workout')}:</div>
             <div className="swim-builder-notation-text">{notation.join(' + ')}</div>
           </div>
         )}
@@ -1039,14 +1015,14 @@ const handleWorkoutNameChange = (newName) => {
         {workout.items.length === 0 ? (
           <div className="swim-builder-empty-workout">
             <div className="swim-builder-empty-icon">🏊‍♂️</div>
-            <h3>Nici un pas adăugat incă</h3>
-            <p>Începe crearea antrenamentului</p>
+            <h3>{t('workoutBuilder.empty.title')}</h3>
+            <p>{t('workoutBuilder.empty.subtitle')}</p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <button className="btn btn-primary swim-builder-large" onClick={() => handleAddStep()}>
-                Adaugă Pas
+                {t('workoutBuilder.buttons.addStep')}
               </button>
               <button className="btn btn-secondary swim-builder-large" onClick={() => handleAddRepeatBlock()}>
-                Adaugă Repetare
+                {t('workoutBuilder.buttons.addRepeat')}
               </button>
             </div>
           </div>
@@ -1056,10 +1032,10 @@ const handleWorkoutNameChange = (newName) => {
             <div className="swim-builder-add-item-section">
               <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                 <button className="btn btn-primary" onClick={() => handleAddStep()}>
-                  + Adaugă Pas
+                  + {t('workoutBuilder.buttons.addStep')}
                 </button>
                 <button className="btn btn-secondary" onClick={() => handleAddRepeatBlock()}>
-                  + Adaugă Repetare
+                  + {t('workoutBuilder.buttons.addRepeat')}
                 </button>
               </div>
             </div>
@@ -1069,17 +1045,17 @@ const handleWorkoutNameChange = (newName) => {
 
       {workout.items.length > 0 && (
         <div className="swim-builder-footer">
-      <button
-  className="btn btn-primary"
-  disabled={isLoading || !!nameError}
-  onClick={async () => {
-    // Final validation before save
-    const finalNameError = validateWorkoutName(workout.name);
-    if (finalNameError) {
-      setNameError(finalNameError);
-      alert(finalNameError);
-      return;
-    }
+          <button
+            className="btn btn-primary"
+            disabled={isLoading || !!nameError}
+            onClick={async () => {
+              const finalNameError = validateWorkoutName(workout.name);
+              if (finalNameError) {
+                setNameError(finalNameError);
+                alert(finalNameError);
+                return;
+              }
+
               try {
                 const csrfResponse = await fetch('/csrf', {
                   credentials: 'include'
@@ -1087,54 +1063,49 @@ const handleWorkoutNameChange = (newName) => {
                 const csrfData = await csrfResponse.json();
                 const csrfToken = csrfData.token;
                 
-          // Function to convert frontend enum values to backend format
-const convertToBackendEnum = (value) => {
-  if (!value) return value;
-  return value.toString().toUpperCase().replace(/-/g, '_');
-};
+                const convertToBackendEnum = (value) => {
+                  if (!value) return value;
+                  return value.toString().toUpperCase().replace(/-/g, '_');
+                };
 
-// Function to process a single item
-// Function to process a single item
-const processItem = (item) => {
-  const processed = {
-    type: convertToBackendEnum(item.type),
-    stepType: convertToBackendEnum(item.stepType),
-    repeats: item.repeats || 1,
-    notes: item.notes || ''
-  };
+                const processItem = (item) => {
+                  const processed = {
+                    type: convertToBackendEnum(item.type),
+                    stepType: convertToBackendEnum(item.stepType),
+                    repeats: item.repeats || 1,
+                    notes: item.notes || ''
+                  };
 
-  // Only add these fields for non-repeat items
-  if (item.type !== 'repeat') {
-    processed.distance = item.distance;
-    processed.stroke = convertToBackendEnum(item.stroke);
-    processed.drillType = convertToBackendEnum(item.drillType);
-    processed.effort = convertToBackendEnum(item.effort);
-    processed.intensityTarget = convertToBackendEnum(item.intensityTarget);
-    processed.targetPace = item.targetPace;
-    processed.cssTarget = item.cssTarget;
-    processed.rest = item.rest;
-    processed.equipment = Array.isArray(item.equipment) 
-      ? item.equipment.map(eq => convertToBackendEnum(eq)) 
-      : convertToBackendEnum(item.equipment);
-  }
+                  if (item.type !== 'repeat') {
+                    processed.distance = item.distance;
+                    processed.stroke = convertToBackendEnum(item.stroke);
+                    processed.drillType = convertToBackendEnum(item.drillType);
+                    processed.effort = convertToBackendEnum(item.effort);
+                    processed.intensityTarget = convertToBackendEnum(item.intensityTarget);
+                    processed.targetPace = item.targetPace;
+                    processed.cssTarget = item.cssTarget;
+                    processed.rest = item.rest;
+                    processed.equipment = Array.isArray(item.equipment) 
+                      ? item.equipment.map(eq => convertToBackendEnum(eq)) 
+                      : convertToBackendEnum(item.equipment);
+                  }
 
-  // Handle child items (use items, not both items and childItems)
-  if (item.items && item.items.length > 0) {
-    processed.childItems = item.items.map(childItem => processItem(childItem));
-  }
-  
-  // Remove frontend ID
-  delete processed.id;
-  
-  return processed;
-};
-              const workoutData = {
-                name: workout.name,
-                level: workout.level?.toUpperCase(),
-                type: workout.type?.toUpperCase(),
-                description: `Total Distance: ${totalDistance}m | Notation: ${notation.join(' + ')}`,
-                items: workout.items.map(item => processItem(item))
-              };
+                  if (item.items && item.items.length > 0) {
+                    processed.childItems = item.items.map(childItem => processItem(childItem));
+                  }
+                  
+                  delete processed.id;
+                  
+                  return processed;
+                };
+
+                const workoutData = {
+                  name: workout.name,
+                  level: workout.level?.toUpperCase(),
+                  type: workout.type?.toUpperCase(),
+                  description: `${t('workoutBuilder.stats.totalDistance')}: ${totalDistance}m | ${t('workoutBuilder.labels.notation')}: ${notation.join(' + ')}`,
+                  items: workout.items.map(item => processItem(item))
+                };
               
                 const url = isEditing ? `/api/workouts/${id}` : '/api/workouts';
                 const method = isEditing ? 'PUT' : 'POST';
@@ -1151,25 +1122,25 @@ const processItem = (item) => {
 
                 if (true) {
                   const savedWorkout = await response.json();
-                  alert(`Workout ${isEditing ? 'updated' : 'saved'} successfully! ID: ${savedWorkout.id}`);
-                  navigate('/admin/traininghub/workouts');
+                  alert(t(isEditing ? 'workoutBuilder.alerts.updateSuccess' : 'workoutBuilder.alerts.saveSuccess', { id: savedWorkout.id }));
+                  navigate(`/${lang}/admin/traininghub/workouts`);
                 } else {
                   const errorText = await response.text();
                   try {
                     const error = JSON.parse(errorText);
-                    alert(`Error: ${error.error || 'Failed to save workout'}`);
+                    alert(`${t('workoutBuilder.alerts.error')}: ${error.error || t('workoutBuilder.alerts.saveFailed')}`);
                   } catch {
-                    alert(`Error: ${response.status} - ${errorText}`);
+                    alert(`${t('workoutBuilder.alerts.error')}: ${response.status} - ${errorText}`);
                   }
                 }
               } catch (error) {
                 console.error('Save error:', error);
-                alert('Antrenament salvat cu succes');
-                navigate('/admin/traininghub/workouts');
+                alert(t('workoutBuilder.alerts.saveSuccessGeneric'));
+                navigate(`/${lang}/admin/traininghub/workouts`);
               }
             }}
           >
-            {isLoading ? 'Loading...' : (isEditing ? 'Actualizează Antrenament' : 'Salvează Antrenament')}
+            {isLoading ? t('workoutBuilder.buttons.loading') : (isEditing ? t('workoutBuilder.buttons.updateWorkout') : t('workoutBuilder.buttons.saveWorkout'))}
           </button>
           <button
             className="btn btn-outline"
@@ -1189,7 +1160,7 @@ const processItem = (item) => {
               URL.revokeObjectURL(url);
             }}
           >
-            Export JSON
+            {t('workoutBuilder.buttons.exportJson')}
           </button>
         </div>
       )}

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { API_BASE_URL } from '../../utils/config';
 import './UserCard.css';
 
 const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
+  const { t } = useTranslation();
   const { numeComplet, email, telefon, id, dataNasterii, dataInregistrarii, expired } = inscriere.cursant;
   const [isToggling, setIsToggling] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -21,7 +23,7 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
       age--;
     }
-    return `${age} ani`;
+    return `${age} ${t('userCard.years')}`;
   };
 
   const calculateDaysUntilExpiration = (expirationDate) => {
@@ -79,10 +81,17 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
 
     } catch (error) {
       console.error('Error toggling expired status:', error);
-      alert('Eroare la actualizarea statusului. Încercați din nou.');
+      alert(t('userCard.errors.updateStatus'));
     } finally {
       setIsToggling(false);
     }
+  };
+
+  const getDaysRemainingText = () => {
+    if (!expirationInfo) return '';
+    if (expirationInfo.days === 0) return t('userCard.expiresTraday');
+    if (expirationInfo.days === 1) return t('userCard.oneDayRemaining');
+    return t('userCard.daysRemaining', { days: expirationInfo.days });
   };
 
   return (
@@ -93,23 +102,23 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
           <div className="mobile-name-section">
             <h3 className="user-name">{numeComplet}</h3>
             <span className={`mobile-status-badge ${expired ? 'expired' : 'active'}`}>
-              {expired ? 'Expirat' : 'Activ'}
+              {expired ? t('userCard.status.expired') : t('userCard.status.active')}
             </span>
           </div>
           <div className="mobile-quick-info">
-  <span className="mobile-info-item">
-    📞 <a 
-      href={`tel:${formatPhoneForCall(telefon)}`} 
-      className="mobile-phone-link"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {telefon || 'N/A'}
-    </a>
-  </span>
-  <span className="mobile-info-item">
-    🎂 {calculateAge(dataNasterii)}
-  </span>
-</div>
+            <span className="mobile-info-item">
+              📞 <a 
+                href={`tel:${formatPhoneForCall(telefon)}`} 
+                className="mobile-phone-link"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {telefon || 'N/A'}
+              </a>
+            </span>
+            <span className="mobile-info-item">
+              🎂 {calculateAge(dataNasterii)}
+            </span>
+          </div>
         </div>
         <div className="mobile-expand-icon">
           <svg 
@@ -130,7 +139,7 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
         <h3 className="user-name">{numeComplet}</h3>
         <div className="user-status">
           <span className={`status-badge ${expired ? 'expired' : 'active'}`}>
-            {expired ? 'Expirat' : 'Activ'}
+            {expired ? t('userCard.status.expired') : t('userCard.status.active')}
           </span>
         </div>
       </div>
@@ -139,7 +148,7 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
       <div className={`card-details ${isExpanded ? 'show' : ''}`}>
         <div className="user-info">
           <div className="info-row">
-            <span className="info-label">Email:</span>
+            <span className="info-label">{t('userCard.labels.email')}:</span>
             <span className="info-value">
               {email ? (
                 <a href={`mailto:${email}`} className="contact-link">
@@ -151,7 +160,7 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
             </span>
           </div>
           <div className="info-row">
-            <span className="info-label">Telefon:</span>
+            <span className="info-label">{t('userCard.labels.phone')}:</span>
             <span className="info-value">
               {telefon ? (
                 <a href={`tel:${formatPhoneForCall(telefon)}`} className="contact-link phone-link">
@@ -163,32 +172,30 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
             </span>
           </div>
           <div className="info-row">
-            <span className="info-label">Varsta:</span>
+            <span className="info-label">{t('userCard.labels.age')}:</span>
             <span className="info-value">{calculateAge(dataNasterii)}</span>
           </div>
           <div className="info-row">
-            <span className="info-label">Data nasterii:</span>
+            <span className="info-label">{t('userCard.labels.birthDate')}:</span>
             <span className="info-value">{formatDate(dataNasterii)}</span>
           </div>
           <div className="info-row">
-            <span className="info-label">Data inregistrarii:</span>
+            <span className="info-label">{t('userCard.labels.registrationDate')}:</span>
             <span className="info-value">{formatDate(dataInregistrarii)}</span>
           </div>
 
           {!expired && expirationInfo && (
             <div className="info-row">
-              <span className="info-label">Zile ramase:</span>
+              <span className="info-label">{t('userCard.labels.daysRemaining')}:</span>
               <span className={`info-value expiration-${expirationInfo.status}`}>
-                {expirationInfo.days === 0 ? 'Expiră azi!' : 
-                 expirationInfo.days === 1 ? '1 zi rămasă' :
-                 `${expirationInfo.days} zile rămase`}
+                {getDaysRemainingText()}
               </span>
             </div>
           )}
 
           {inscriere.contact && (
             <div className="info-row">
-              <span className="info-label">Contact:</span>
+              <span className="info-label">{t('userCard.labels.contact')}:</span>
               <span className="info-value">
                 {inscriere.contact.persoanaContact} ({inscriere.contact.calitate})
               </span>
@@ -197,24 +204,24 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
         </div>
 
         <div className="program-section">
-          <h4>Program</h4>
+          <h4>{t('userCard.program.title')}</h4>
           {inscriere.program && inscriere.program.length > 0 ? (
             <ul className="program-list">
               {inscriere.program.map((p, i) => (
                 <li key={i} className="program-item">
                   <span className="day">{p.zi}</span>
                   <span className="time">{p.ora}</span>
-                  <span className="instructor">cu {p.instructor}</span>
+                  <span className="instructor">{t('userCard.program.with')} {p.instructor}</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="no-program">Nu există program înregistrat</p>
+            <p className="no-program">{t('userCard.program.noProgram')}</p>
           )}
         </div>
 
         <div className="documents-section">
-          <h4>Documente</h4>
+          <h4>{t('userCard.documents.title')}</h4>
           <div className="document-links">
             <a 
               href={`${API_BASE_URL}/api/admin/pdf/inscriere/${id}`} 
@@ -222,7 +229,7 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
               rel="noreferrer"
               className="document-link"
             >
-              📄 Fișă de înscriere
+              📄 {t('userCard.documents.registrationForm')}
             </a>
             <a 
               href={`${API_BASE_URL}/api/admin/pdf/declaratie/${id}`} 
@@ -230,7 +237,7 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
               rel="noreferrer"
               className="document-link"
             >
-              📋 Declarație
+              📋 {t('userCard.documents.declaration')}
             </a>
             <a 
               href={`${API_BASE_URL}/api/admin/pdf/adeverinta/${id}`} 
@@ -238,25 +245,27 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
               rel="noreferrer"
               className="document-link"
             >
-              🏥 Adeverință medicală
+              🏥 {t('userCard.documents.medicalCertificate')}
             </a>
           </div>
         </div>
 
         <div className="user-actions">
           <button 
-           
+            onClick={handleToggleExpired}
             className={`toggle-btn ${expired ? 'activate-btn' : 'expire-btn'}`}
             disabled={isToggling}
           >
-            {isToggling ? 'Se actualizează...' : expired ? '🔄 Activează' : '⏰ Marchează expirat'}
+            {isToggling ? t('userCard.actions.updating') : 
+             expired ? `🔄 ${t('userCard.actions.activate')}` : 
+             `⏰ ${t('userCard.actions.markExpired')}`}
           </button>
           
           <button 
             onClick={() => onDelete(id)}
             className="delete-btn"
           >
-            🗑️ Șterge
+            🗑️ {t('userCard.actions.delete')}
           </button>
         </div>
       </div>

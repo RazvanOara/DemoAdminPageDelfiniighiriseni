@@ -1,42 +1,41 @@
 import React, { useState, useEffect } from "react";
-// DELETED: import { API_BASE_URL } from "../../utils/config";
+import { useTranslation } from 'react-i18next';
 import "./AdminAnnouncementsPage.css";
 
-// ADD: Mock announcements data
 let MOCK_ANNOUNCEMENTS = [
   {
     id: 1,
-    title: "Competiție Națională de Înot",
-    subtitle: "Participă la cel mai mare eveniment al anului",
-    content: "Ne bucurăm să anunțăm organizarea competiției naționale de înot pentru toate categoriile de vârstă. Pregătește-te pentru performanțe de excepție!",
+    title: "announcements.mockData.competition.title",
+    subtitle: "announcements.mockData.competition.subtitle",
+    content: "announcements.mockData.competition.content",
     imageUrl: "https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=800",
     category: "COMPETITION",
     eventDate: "2024-11-15",
     startTime: "09:00",
     endTime: "18:00",
-    location: "Complexul Sportiv Național",
+    location: "announcements.mockData.competition.location",
     priority: 90,
     isActive: true
   },
   {
     id: 2,
-    title: "Antrenament Special - Tehnici Avansate",
-    subtitle: "Pentru înotători nivel avansat",
-    content: "Sesiune specială de antrenament dedicată tehnicilor avansate de înot. Coordonator: antrenor Popescu Gabriel.",
+    title: "announcements.mockData.training.title",
+    subtitle: "announcements.mockData.training.subtitle",
+    content: "announcements.mockData.training.content",
     imageUrl: "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800",
     category: "TRAINING",
     eventDate: "2024-10-25",
     startTime: "17:00",
     endTime: "19:00",
-    location: "Piscina Olimpică",
+    location: "announcements.mockData.training.location",
     priority: 70,
     isActive: true
   },
   {
     id: 3,
-    title: "Închidere Temporară pentru Întreținere",
-    subtitle: "Lucrări de modernizare",
-    content: "Vă informăm că în perioada 10-12 noiembrie, piscina va fi închisă pentru lucrări de întreținere și modernizare. Mulțumim pentru înțelegere!",
+    title: "announcements.mockData.maintenance.title",
+    subtitle: "announcements.mockData.maintenance.subtitle",
+    content: "announcements.mockData.maintenance.content",
     imageUrl: "",
     category: "GENERAL",
     eventDate: "2024-11-10",
@@ -48,21 +47,22 @@ let MOCK_ANNOUNCEMENTS = [
   },
   {
     id: 4,
-    title: "Serată de Vară - Înot Recreativ",
-    subtitle: "Event finalizat",
-    content: "Mulțumim tuturor participanților la serata de vară! A fost un eveniment de neuitat.",
+    title: "announcements.mockData.summerEvent.title",
+    subtitle: "announcements.mockData.summerEvent.subtitle",
+    content: "announcements.mockData.summerEvent.content",
     imageUrl: "https://images.unsplash.com/photo-1576610616656-d3aa5d1f4534?w=800",
     category: "EVENT",
     eventDate: "2024-08-20",
     startTime: "19:00",
     endTime: "22:00",
-    location: "Piscina Exterioară",
+    location: "announcements.mockData.summerEvent.location",
     priority: 30,
     isActive: false
   }
 ];
 
 const AdminAnnouncementsPage = () => {
+  const { t } = useTranslation();
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -84,13 +84,18 @@ const AdminAnnouncementsPage = () => {
   const [editingId, setEditingId] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  // REPLACED: Fetch with mock data loading
   const fetchAnnouncements = async () => {
     setLoading(true);
     
-    // Simulate loading delay
     setTimeout(() => {
-      setAnnouncements([...MOCK_ANNOUNCEMENTS]);
+      const translatedAnnouncements = MOCK_ANNOUNCEMENTS.map(announcement => ({
+        ...announcement,
+        title: t(announcement.title),
+        subtitle: t(announcement.subtitle),
+        content: t(announcement.content),
+        location: announcement.location ? t(announcement.location) : ""
+      }));
+      setAnnouncements(translatedAnnouncements);
       setError(null);
       setLoading(false);
     }, 500);
@@ -98,7 +103,7 @@ const AdminAnnouncementsPage = () => {
 
   useEffect(() => {
     fetchAnnouncements();
-  }, []);
+  }, [t]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -108,34 +113,30 @@ const AdminAnnouncementsPage = () => {
     }));
   };
 
-  // REPLACED: Image upload with mock implementation
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
-      alert('Tip de fișier neacceptat. Folosiți JPEG, PNG sau GIF.');
+      alert(t('announcements.alerts.invalidFileType'));
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert('Fișierul este prea mare. Dimensiunea maximă: 5MB.');
+      alert(t('announcements.alerts.fileTooLarge'));
       return;
     }
   
     setUploading(true);
     
-    // Simulate upload delay and create mock URL
     setTimeout(() => {
-      // Create a local URL for the uploaded image
       const mockUrl = URL.createObjectURL(file);
       setFormData((prev) => ({ ...prev, imageUrl: mockUrl }));
       setUploading(false);
     }, 1000);
   };
 
-  // REPLACED: Submit with mock implementation
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -153,26 +154,21 @@ const AdminAnnouncementsPage = () => {
       isActive: formData.isActive,
     };
 
-    // Simulate save delay
     setTimeout(() => {
       if (editingId) {
-        // Update existing announcement
         const index = MOCK_ANNOUNCEMENTS.findIndex(a => a.id === editingId);
         if (index !== -1) {
           MOCK_ANNOUNCEMENTS[index] = { ...payload, id: editingId };
         }
-        alert("Anunț actualizat cu succes (demo)!");
+        alert(t('announcements.alerts.updateSuccess'));
       } else {
-        // Create new announcement
         const newId = Math.max(...MOCK_ANNOUNCEMENTS.map(a => a.id), 0) + 1;
         MOCK_ANNOUNCEMENTS.push({ ...payload, id: newId });
-        alert("Anunț creat cu succes (demo)!");
+        alert(t('announcements.alerts.createSuccess'));
       }
 
-      // Refresh list
       fetchAnnouncements();
 
-      // Reset form
       setFormData({
         title: "",
         subtitle: "",
@@ -207,18 +203,16 @@ const AdminAnnouncementsPage = () => {
     setEditingId(announcement.id);
   };
 
-  // REPLACED: Delete with mock implementation
   const handleDelete = async (id) => {
-    if (!window.confirm("Sigur doriți să ștergeți acest anunț?")) return;
+    if (!window.confirm(t('announcements.alerts.confirmDelete'))) return;
 
-    // Simulate delete delay
     setTimeout(() => {
       const index = MOCK_ANNOUNCEMENTS.findIndex(a => a.id === id);
       if (index !== -1) {
         MOCK_ANNOUNCEMENTS.splice(index, 1);
       }
       fetchAnnouncements();
-      alert("Anunț șters cu succes (demo)!");
+      alert(t('announcements.alerts.deleteSuccess'));
     }, 300);
   };
 
@@ -242,16 +236,15 @@ const AdminAnnouncementsPage = () => {
   return (
     <div className="admin-announcements">
       <div className="admin-announcements-header">
-        <h1>Administrare Anunțuri (Demo)</h1>
-        <p>Creează și gestionează anunțuri pentru clubul tău de înot - Versiune cu date mock</p>
+        <h1>{t('announcements.header.title')}</h1>
+        <p>{t('announcements.header.subtitle')}</p>
       </div>
 
-      {/* FORM */}
       <div className="announcement-form">
-        <h2>{editingId ? "Editează Anunțul" : "Creează Anunț Nou"}</h2>
+        <h2>{editingId ? t('announcements.form.editTitle') : t('announcements.form.createTitle')}</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Titlu *</label>
+            <label className="form-label">{t('announcements.form.title')} *</label>
             <input
               className="form-input"
               name="title"
@@ -259,24 +252,24 @@ const AdminAnnouncementsPage = () => {
               onChange={handleChange}
               required
               maxLength={200}
-              placeholder="Introdu titlul anunțului"
+              placeholder={t('announcements.form.titlePlaceholder')}
             />
           </div>
 
           <div className="form-group">
-            <label className="form-label">Subtitlu</label>
+            <label className="form-label">{t('announcements.form.subtitle')}</label>
             <input
               className="form-input"
               name="subtitle"
               value={formData.subtitle}
               onChange={handleChange}
               maxLength={300}
-              placeholder="Subtitlu opțional"
+              placeholder={t('announcements.form.subtitlePlaceholder')}
             />
           </div>
 
           <div className="form-group">
-            <label className="form-label">Conținut *</label>
+            <label className="form-label">{t('announcements.form.content')} *</label>
             <textarea
               className="form-textarea"
               name="content"
@@ -285,12 +278,12 @@ const AdminAnnouncementsPage = () => {
               required
               maxLength={2000}
               rows={5}
-              placeholder="Introdu conținutul anunțului"
+              placeholder={t('announcements.form.contentPlaceholder')}
             />
           </div>
 
           <div className="form-group">
-            <label className="form-label">Încarcă Imagine (Mock - Doar Previzualizare Locală)</label>
+            <label className="form-label">{t('announcements.form.uploadImage')}</label>
             <input
               type="file"
               accept="image/jpeg,image/jpg,image/png,image/gif"
@@ -298,23 +291,23 @@ const AdminAnnouncementsPage = () => {
               className="form-input"
               disabled={uploading}
             />
-            {uploading && <p className="uploading-text">Se încarcă imaginea...</p>}
+            {uploading && <p className="uploading-text">{t('announcements.form.uploading')}</p>}
             {formData.imageUrl && (
               <div className="image-preview">
-                <img src={formData.imageUrl} alt="previzualizare" />
+                <img src={formData.imageUrl} alt={t('announcements.form.preview')} />
                 <button 
                   type="button" 
                   onClick={() => setFormData(prev => ({ ...prev, imageUrl: "" }))}
                   className="btn btn-outline"
                 >
-                  Elimină Imaginea
+                  {t('announcements.form.removeImage')}
                 </button>
               </div>
             )}
           </div>
 
           <div className="form-group">
-            <label className="form-label">Categorie *</label>
+            <label className="form-label">{t('announcements.form.category')} *</label>
             <select
               className="form-select"
               name="category"
@@ -322,15 +315,15 @@ const AdminAnnouncementsPage = () => {
               onChange={handleChange}
               required
             >
-              <option value="GENERAL">General</option>
-              <option value="COMPETITION">Competiție</option>
-              <option value="TRAINING">Antrenament</option>
-              <option value="EVENT">Eveniment</option>
+              <option value="GENERAL">{t('announcements.categories.general')}</option>
+              <option value="COMPETITION">{t('announcements.categories.competition')}</option>
+              <option value="TRAINING">{t('announcements.categories.training')}</option>
+              <option value="EVENT">{t('announcements.categories.event')}</option>
             </select>
           </div>
 
           <div className="form-group">
-            <label className="form-label">Data Evenimentului</label>
+            <label className="form-label">{t('announcements.form.eventDate')}</label>
             <input
               type="date"
               name="eventDate"
@@ -342,7 +335,7 @@ const AdminAnnouncementsPage = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Ora de Început</label>
+              <label className="form-label">{t('announcements.form.startTime')}</label>
               <input
                 type="time"
                 name="startTime"
@@ -352,7 +345,7 @@ const AdminAnnouncementsPage = () => {
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Ora de Sfârșit</label>
+              <label className="form-label">{t('announcements.form.endTime')}</label>
               <input
                 type="time"
                 name="endTime"
@@ -364,11 +357,11 @@ const AdminAnnouncementsPage = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Locație</label>
+            <label className="form-label">{t('announcements.form.location')}</label>
             <input
               className="form-input"
               name="location"
-              placeholder="Locația evenimentului"
+              placeholder={t('announcements.form.locationPlaceholder')}
               value={formData.location}
               onChange={handleChange}
               maxLength={200}
@@ -376,7 +369,7 @@ const AdminAnnouncementsPage = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Prioritate (0-100)</label>
+            <label className="form-label">{t('announcements.form.priority')}</label>
             <input
               type="number"
               className="form-input"
@@ -397,37 +390,36 @@ const AdminAnnouncementsPage = () => {
                 checked={formData.isActive}
                 onChange={handleChange}
               />
-              <label htmlFor="isActive">Activ</label>
+              <label htmlFor="isActive">{t('announcements.form.active')}</label>
             </div>
           )}
 
           <div className="form-actions">
             <button type="submit" className="btn btn-primary" disabled={uploading}>
-              {editingId ? "Actualizează" : "Creează"} Anunțul
+              {editingId ? t('announcements.buttons.update') : t('announcements.buttons.create')}
             </button>
             {editingId && (
               <button type="button" onClick={cancelEdit} className="btn btn-secondary">
-                Anulează
+                {t('announcements.buttons.cancel')}
               </button>
             )}
           </div>
         </form>
       </div>
 
-      {/* LIST */}
       {loading ? (
-        <div className="announcements-loading">Se încarcă anunțurile...</div>
+        <div className="announcements-loading">{t('announcements.loading')}</div>
       ) : error ? (
         <div className="announcements-error">
           <p>{error}</p>
           <button onClick={fetchAnnouncements} className="btn btn-secondary">
-            Încearcă Din Nou
+            {t('announcements.buttons.retry')}
           </button>
         </div>
       ) : (
         <div className="announcements-list">
           {announcements.length === 0 ? (
-            <p className="no-announcements">Nu există anunțuri încă. Creează primul!</p>
+            <p className="no-announcements">{t('announcements.empty')}</p>
           ) : (
             announcements.map((a) => (
               <div key={a.id} className="announcement-card">
@@ -437,19 +429,19 @@ const AdminAnnouncementsPage = () => {
                 <p className="content">{a.content}</p>
                 <div className="announcement-meta">
                   {a.eventDate && (
-                    <p><strong>Data:</strong> {a.eventDate} {a.startTime && a.endTime && `| ${a.startTime} - ${a.endTime}`}</p>
+                    <p><strong>{t('announcements.card.date')}:</strong> {a.eventDate} {a.startTime && a.endTime && `| ${a.startTime} - ${a.endTime}`}</p>
                   )}
-                  {a.location && <p><strong>Locație:</strong> {a.location}</p>}
-                  <p><strong>Categorie:</strong> {a.category}</p>
-                  <p><strong>Prioritate:</strong> {a.priority || 0}</p>
-                  <p><strong>Status:</strong> {a.isActive !== false ? "Activ" : "Inactiv"}</p>
+                  {a.location && <p><strong>{t('announcements.card.location')}:</strong> {a.location}</p>}
+                  <p><strong>{t('announcements.card.category')}:</strong> {t(`announcements.categories.${a.category.toLowerCase()}`)}</p>
+                  <p><strong>{t('announcements.card.priority')}:</strong> {a.priority || 0}</p>
+                  <p><strong>{t('announcements.card.status')}:</strong> {a.isActive !== false ? t('announcements.status.active') : t('announcements.status.inactive')}</p>
                 </div>
                 <div className="announcement-actions">
                   <button className="btn btn-secondary" onClick={() => handleEdit(a)}>
-                    Editează
+                    {t('announcements.buttons.edit')}
                   </button>
                   <button className="btn btn-outline" onClick={() => handleDelete(a.id)}>
-                    Șterge
+                    {t('announcements.buttons.delete')}
                   </button>
                 </div>
               </div>

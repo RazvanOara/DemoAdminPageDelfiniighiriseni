@@ -1,26 +1,61 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 const AboutDemo = () => {
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { lang } = useParams();
   const [expandedSection, setExpandedSection] = useState(null);
 
   const toggleSection = (id) => {
     setExpandedSection(expandedSection === id ? null : id);
   };
 
+  const changeLanguage = (newLang) => {
+    // Get current path without language
+    const pathParts = location.pathname.split('/').filter(p => p);
+    
+    // Remove current language if it exists
+    if (pathParts.length > 0 && (pathParts[0] === 'ro' || pathParts[0] === 'en')) {
+      pathParts.shift();
+    }
+    
+    // Build new path with new language
+    const newPath = `/${newLang}/${pathParts.join('/')}`;
+    
+    // Change i18n language and navigate
+    i18n.changeLanguage(newLang);
+    navigate(newPath);
+  };
+
+  // Helper function to create language-aware links
+  const createLink = (path) => `/${lang || 'ro'}${path}`;
+
   const sections = [
     {
       id: "users",
       icon: "👥",
-      title: "Înregistrări / Cursanți",
+      title: t('aboutDemo.sections.users.title'),
       color: "#4F46E5",
-      link: "/admin/users",
+      link: createLink('/admin/users'),
       content: (
         <>
-          <p>Păstrează toate datele despre cei înscriși la club, inclusiv documentele autogenerate (<em>fișa de înscriere</em>, <em>declarație pe propria răspundere</em>) și <em>adeverința medicală</em>.</p>
+          <p>
+            {t('aboutDemo.sections.users.intro')}
+            <em>{t('aboutDemo.sections.users.enrollmentForm')}</em>, <em>{t('aboutDemo.sections.users.declaration')}</em>, <em>{t('aboutDemo.sections.users.medicalCert')}</em>.
+          </p>
           <ul>
-            <li>Cursanții pot fi <strong>filtrați</strong> după criterii specifice.</li>
-            <li>Expiră automat după o perioadă prestabilită sau pot fi marcați manual ca <strong>expirați</strong> ori șterși definitiv.</li>
-            <li>Toți cursanții pot fi <strong>exportați</strong> într-un fișier CSV pentru raportare.</li>
+            <li>
+              {t('aboutDemo.sections.users.canBeFiltered')} <strong>{t('aboutDemo.sections.users.filtered')}</strong> {t('aboutDemo.sections.users.afterCriteria')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.users.expiresAuto')} <strong>{t('aboutDemo.sections.users.expired')}</strong> {t('aboutDemo.sections.users.orDeleted')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.users.allCanExport')} <strong>{t('aboutDemo.sections.users.exported')}</strong> {t('aboutDemo.sections.users.csvReport')}
+            </li>
           </ul>
         </>
       )
@@ -28,18 +63,30 @@ const AboutDemo = () => {
     {
       id: "sessions",
       icon: "📅",
-      title: "Sesiuni de Antrenament",
+      title: t('aboutDemo.sections.sessions.title'),
       color: "#10B981",
-      link: "/admin/traininghub/sessionManager",
+      link: createLink('/admin/traininghub/sessionManager'),
       content: (
         <>
-          <p>O sesiune de antrenament reprezintă <strong>activitatea dintr-o zi</strong>.</p>
+          <p>
+            {t('aboutDemo.sections.sessions.intro')} <strong>{t('aboutDemo.sections.sessions.dayActivity')}</strong>.
+          </p>
           <ul>
-            <li>Poți vizualiza sesiunile <strong>planificate dintr-un plan</strong> sau create <em>ad-hoc</em>.</li>
-            <li>Fiecare sesiune are <strong>ora de desfășurare</strong> stabilită.</li>
-            <li>Pentru sesiunile din plan, <strong>înotătorii sau grupele</strong> sunt deja alocate; pentru cele ad-hoc, se adaugă manual.</li>
-            <li>Această pagină conține <strong>antrenamentele efective</strong> ale planurilor. În secțiunea de <em>Planuri</em> se definesc doar tipurile de antrenamente necesare pentru fiecare zi.</li>
-            <li>Navigarea se poate face <strong>pe zile</strong> sau prin iconița de calendar 📆 pentru a sări rapid la o dată anume.</li>
+            <li>
+              {t('aboutDemo.sections.sessions.canView')} <strong>{t('aboutDemo.sections.sessions.planned')}</strong> {t('aboutDemo.sections.sessions.orAdHoc')} <em>{t('aboutDemo.sections.sessions.adHoc')}</em>.
+            </li>
+            <li>
+              {t('aboutDemo.sections.sessions.eachHasTime')} <strong>{t('aboutDemo.sections.sessions.scheduledTime')}</strong> {t('aboutDemo.sections.sessions.established')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.sessions.forPlanSessions')} <strong>{t('aboutDemo.sections.sessions.swimmersGroups')}</strong> {t('aboutDemo.sections.sessions.alreadyAllocated')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.sessions.pageContains')} <strong>{t('aboutDemo.sections.sessions.actualWorkouts')}</strong> {t('aboutDemo.sections.sessions.ofPlans')} <em>{t('aboutDemo.sections.sessions.plansSection')}</em> {t('aboutDemo.sections.sessions.onlyDefineTypes')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.sessions.navigationDays')} <strong>{t('aboutDemo.sections.sessions.onDays')}</strong> {t('aboutDemo.sections.sessions.orCalendar')}
+            </li>
           </ul>
         </>
       )
@@ -47,16 +94,24 @@ const AboutDemo = () => {
     {
       id: "traininghub",
       icon: "🏊",
-      title: "Centru de Antrenament",
+      title: t('aboutDemo.sections.traininghub.title'),
       color: "#F59E0B",
-      link: "/admin/traininghub",
+      link: createLink('/admin/traininghub'),
       content: (
         <>
-          <p>Pagina principală a modulului de antrenament, unde sunt afișate <strong>statistici generale</strong>.</p>
+          <p>
+            {t('aboutDemo.sections.traininghub.intro')} <strong>{t('aboutDemo.sections.traininghub.generalStats')}</strong>.
+          </p>
           <ul>
-            <li>Oferă <strong>acțiuni rapide</strong>: creare antrenament, accesare planuri.</li>
-            <li>Vizualizezi <strong>competițiile viitoare</strong> și <strong>seturile de verificare</strong> planificate în planuri.</li>
-            <li>Afișează <strong>ultimele antrenamente</strong> adăugate.</li>
+            <li>
+              {t('aboutDemo.sections.traininghub.offers')} <strong>{t('aboutDemo.sections.traininghub.quickActions')}</strong>: {t('aboutDemo.sections.traininghub.createWorkout')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.traininghub.youView')} <strong>{t('aboutDemo.sections.traininghub.upcomingComps')}</strong> {t('aboutDemo.sections.traininghub.and')} <strong>{t('aboutDemo.sections.traininghub.testSets')}</strong> {t('aboutDemo.sections.traininghub.plannedInPlans')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.traininghub.displays')} <strong>{t('aboutDemo.sections.traininghub.latestWorkouts')}</strong> {t('aboutDemo.sections.traininghub.added')}
+            </li>
           </ul>
         </>
       )
@@ -64,64 +119,88 @@ const AboutDemo = () => {
     {
       id: "workouts",
       icon: "📋",
-      title: "Antrenamente",
+      title: t('aboutDemo.sections.workouts.title'),
       color: "#EF4444",
-      link: "/admin/traininghub/workouts",
+      link: createLink('/admin/traininghub/workouts'),
       content: (
         <>
-          <p>Pagina afișează toate <strong>antrenamentele existente</strong>, care pot fi <strong>filtrate</strong> sau <strong>căutate</strong>.</p>
+          <p>
+            {t('aboutDemo.sections.workouts.intro')} <strong>{t('aboutDemo.sections.workouts.existingWorkouts')}</strong>, {t('aboutDemo.sections.workouts.whichCan')} <strong>{t('aboutDemo.sections.workouts.filtered')}</strong> {t('aboutDemo.sections.workouts.or')} <strong>{t('aboutDemo.sections.workouts.searched')}</strong>.
+          </p>
           <ul>
-            <li>Pentru fiecare antrenament există acțiuni: <em>editare</em>, <em>duplicare</em>, <em>vizualizare pentru print</em>, <em>ștergere</em>.</li>
-            <li><strong>Crearea unui antrenament</strong> se face prin click pe <em>"Creează Antrenament"</em>.</li>
-            <li>Un antrenament poate avea <strong>niveluri</strong>: Începător, Intermediar, Avansat.</li>
-            <li>Tipuri disponibile: <em>Rezistență</em>, <em>Tehnică</em>, <em>Tempo</em>, <em>VO2max</em>, <em>Sprint</em>, <em>Recuperare</em>.</li>
+            <li>
+              {t('aboutDemo.sections.workouts.forEachWorkout')} <em>{t('aboutDemo.sections.workouts.edit')}</em>, <em>{t('aboutDemo.sections.workouts.duplicate')}</em>, <em>{t('aboutDemo.sections.workouts.viewPrint')}</em>, <em>{t('aboutDemo.sections.workouts.delete')}</em>.
+            </li>
+            <li>
+              <strong>{t('aboutDemo.sections.workouts.creating')}</strong> {t('aboutDemo.sections.workouts.viaClick')} <em>"{t('aboutDemo.sections.workouts.createWorkout')}"</em>.
+            </li>
+            <li>
+              {t('aboutDemo.sections.workouts.canHaveLevels')} <strong>{t('aboutDemo.sections.workouts.levels')}</strong>: {t('aboutDemo.sections.workouts.beginner')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.workouts.typesAvailable')} <em>{t('aboutDemo.sections.workouts.endurance')}</em>, <em>{t('aboutDemo.sections.workouts.technique')}</em>, <em>{t('aboutDemo.sections.workouts.tempo')}</em>, <em>{t('aboutDemo.sections.workouts.vo2max')}</em>, <em>{t('aboutDemo.sections.workouts.sprint')}</em>, <em>{t('aboutDemo.sections.workouts.recovery')}</em>.
+            </li>
           </ul>
           <div style={styles.detailsBox}>
-            <h4 style={styles.detailsTitle}>Fiecare pas are:</h4>
+            <h4 style={styles.detailsTitle}>{t('aboutDemo.sections.workouts.eachStepHas')}</h4>
             <ul>
-              <li>Categoria: Warm-up, Main Set, Swim, Cooldown</li>
-              <li>Distanța (multiplu de 25m) – pentru a introduce rapid: selectează câmpul și scrie noua valoare</li>
-              <li>Stil: Freestyle, Backstroke, Breaststroke, Butterfly etc.</li>
-              <li>Tip drill: Kick, Pull, Drill</li>
-              <li>Intensitate: Effort-based (HR), Pace-based, CSS (Critical Swim Speed)</li>
-              <li>Echipament: Paddles, Pull buoy, Fins, Snorkel etc.</li>
-              <li>Notițe</li>
+              <li>{t('aboutDemo.sections.workouts.category')}</li>
+              <li>{t('aboutDemo.sections.workouts.distance')}</li>
+              <li>{t('aboutDemo.sections.workouts.style')}</li>
+              <li>{t('aboutDemo.sections.workouts.drillType')}</li>
+              <li>{t('aboutDemo.sections.workouts.intensity')}</li>
+              <li>{t('aboutDemo.sections.workouts.equipment')}</li>
+              <li>{t('aboutDemo.sections.workouts.notes')}</li>
             </ul>
           </div>
-          <p><strong>Repetări:</strong> se adaugă cu <em>"Adaugă Repetare"</em>, creând un bloc unde poți introduce mai mulți pași sau alte repetări.</p>
+          <p>
+            <strong>{t('aboutDemo.sections.workouts.repetitions')}</strong> {t('aboutDemo.sections.workouts.addedWith')} <em>"{t('aboutDemo.sections.workouts.addRepetition')}"</em>, {t('aboutDemo.sections.workouts.creatingBlock')}
+          </p>
         </>
       )
     },
     {
       id: "plans",
       icon: "🗂️",
-      title: "Planuri",
+      title: t('aboutDemo.sections.plans.title'),
       color: "#8B5CF6",
-      link: "/admin/traininghub/plans",
+      link: createLink('/admin/traininghub/plans'),
       content: (
         <>
-          <p>Se accesează din <strong>Centru de Antrenament → Planuri</strong>.</p>
-          <p>Sunt afișate <strong>planurile curente</strong>. Crearea unui plan se face prin <em>"Creează plan nou"</em>.</p>
+          <p>
+            {t('aboutDemo.sections.plans.accessedFrom')} <strong>{t('aboutDemo.sections.plans.trainingHub')}</strong>.
+          </p>
+          <p>
+            {t('aboutDemo.sections.plans.displayedCurrent')} <strong>{t('aboutDemo.sections.plans.currentPlans')}</strong>. {t('aboutDemo.sections.plans.creatingPlan')} <em>"{t('aboutDemo.sections.plans.createNewPlan')}"</em>.
+          </p>
           <div style={styles.detailsBox}>
-            <h4 style={styles.detailsTitle}>Un plan conține:</h4>
+            <h4 style={styles.detailsTitle}>{t('aboutDemo.sections.plans.planContains')}</h4>
             <ul>
-              <li>Nume și descriere</li>
-              <li>Data de start și de sfârșit</li>
-              <li>Status: Draft, Activ, Pauză, Completat</li>
-              <li>Fazele macro (Acumulare, Intensificare, Realizare, Descărcare, Tranziție)</li>
-              <li>Competiții cheie și obiective</li>
+              <li>{t('aboutDemo.sections.plans.nameDesc')}</li>
+              <li>{t('aboutDemo.sections.plans.startEndDate')}</li>
+              <li>{t('aboutDemo.sections.plans.status')}</li>
+              <li>{t('aboutDemo.sections.plans.macroPhases')}</li>
+              <li>{t('aboutDemo.sections.plans.keyComps')}</li>
             </ul>
           </div>
           <ul>
-            <li>Sunt prezentate <strong>teoretic</strong> fazele macro, tipurile de antrenament și zonele de frecvență cardiacă.</li>
-            <li><strong>Planificare calendar:</strong> asignarea pe săptămâni a fazelor macro și tipurilor de antrenamente pe zile.</li>
-            <li>Se pot adăuga sportivi individuali sau <strong>întregi grupe</strong> la plan.</li>
-            <li><em>Antrenamentele efective</em> se adaugă ulterior din secțiunea <strong>Sesiuni de antrenament</strong>.</li>
+            <li>
+              {t('aboutDemo.sections.plans.presentedTheoretically')} <strong>{t('aboutDemo.sections.plans.theoretically')}</strong> {t('aboutDemo.sections.plans.macroTypes')}
+            </li>
+            <li>
+              <strong>{t('aboutDemo.sections.plans.calendarPlanning')}</strong> {t('aboutDemo.sections.plans.weekAssignment')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.plans.canAddIndividual')} <strong>{t('aboutDemo.sections.plans.entireGroups')}</strong> {t('aboutDemo.sections.plans.toPlan')}
+            </li>
+            <li>
+              <em>{t('aboutDemo.sections.plans.actualWorkouts')}</em> {t('aboutDemo.sections.plans.addedLater')} <strong>{t('aboutDemo.sections.plans.trainingSessions')}</strong>.
+            </li>
           </ul>
           <div style={styles.warningCard}>
             <span style={styles.warningIcon}>⚠️</span>
             <div>
-              <strong>Atenție:</strong> Pentru a testa planificarea în calendar, trebuie să accesezi un plan deja creat și să alegi <em>"Editează"</em>. În versiunea demo, această opțiune nu este disponibilă în faza de creare.
+              <strong>{t('aboutDemo.sections.plans.warningAttention')}</strong> {t('aboutDemo.sections.plans.toTestPlanning')} <em>"{t('aboutDemo.sections.plans.edit')}"</em>. {t('aboutDemo.sections.plans.notAvailableDemo')}
             </div>
           </div>
         </>
@@ -130,25 +209,31 @@ const AboutDemo = () => {
     {
       id: "advanced",
       icon: "🥇",
-      title: "Înotători Avansați",
+      title: t('aboutDemo.sections.advanced.title'),
       color: "#EC4899",
-      link: "/admin/advanced-swimmers",
+      link: createLink('/admin/advanced-swimmers'),
       content: (
         <>
-          <p>Inițial, orice nou cursant <strong>nu are această funcționalitate activă</strong>.</p>
+          <p>
+            {t('aboutDemo.sections.advanced.initially')} <strong>{t('aboutDemo.sections.advanced.noFeatureActive')}</strong>.
+          </p>
           <ul>
-            <li>Pentru a-l transforma în <strong>înotător avansat</strong>, se selectează din lista de cursanți obișnuiți.</li>
-            <li>După activare, se pot asigna <strong>sesiuni de antrenament</strong>, <strong>zone de antrenament</strong> și alte detalii specifice.</li>
+            <li>
+              {t('aboutDemo.sections.advanced.toTransform')} <strong>{t('aboutDemo.sections.advanced.advancedSwimmer')}</strong>, {t('aboutDemo.sections.advanced.selectFromList')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.advanced.afterActivation')} <strong>{t('aboutDemo.sections.advanced.trainingSessions')}</strong>, <strong>{t('aboutDemo.sections.advanced.trainingZones')}</strong> {t('aboutDemo.sections.advanced.specificDetails')}
+            </li>
           </ul>
           <div style={styles.detailsBox}>
-            <h4 style={styles.detailsTitle}>Se configurează parametri precum:</h4>
+            <h4 style={styles.detailsTitle}>{t('aboutDemo.sections.advanced.configureParams')}</h4>
             <ul>
-              <li><em>HR maxim</em></li>
-              <li><em>Prag</em></li>
-              <li><em>Repaus</em></li>
+              <li><em>{t('aboutDemo.sections.advanced.hrMax')}</em></li>
+              <li><em>{t('aboutDemo.sections.advanced.threshold')}</em></li>
+              <li><em>{t('aboutDemo.sections.advanced.rest')}</em></li>
             </ul>
             <p style={{marginTop: '0.5rem', fontSize: '0.9rem', color: '#94a3b8'}}>
-              Valorile sunt calculate <strong>automat în funcție de vârstă</strong>, dar pot fi introduse manual.
+              {t('aboutDemo.sections.advanced.valuesCalculated')} <strong>{t('aboutDemo.sections.advanced.autoByAge')}</strong>, {t('aboutDemo.sections.advanced.canBeManual')}
             </p>
           </div>
         </>
@@ -157,21 +242,25 @@ const AboutDemo = () => {
     {
       id: "groups",
       icon: "👨‍👩‍👧‍👦",
-      title: "Grupuri",
+      title: t('aboutDemo.sections.groups.title'),
       color: "#06B6D4",
-      link: "/admin/groups",
+      link: createLink('/admin/groups'),
       content: (
         <>
-          <p>Înotătorii avansați pot fi <strong>organizați în grupuri</strong> pentru o gestionare mai eficientă.</p>
+          <p>
+            {t('aboutDemo.sections.groups.canBeOrganized')} <strong>{t('aboutDemo.sections.groups.organized')}</strong> {t('aboutDemo.sections.groups.efficientManagement')}
+          </p>
           <ul>
-            <li>Grupurile permit <strong>asignarea mai rapidă</strong> a planurilor și sesiunilor de antrenament.</li>
+            <li>
+              {t('aboutDemo.sections.groups.groupsAllow')} <strong>{t('aboutDemo.sections.groups.fasterAssignment')}</strong> {t('aboutDemo.sections.groups.plansAndSessions')}
+            </li>
           </ul>
           <div style={styles.detailsBox}>
-            <h4 style={styles.detailsTitle}>Fiecare grup are:</h4>
+            <h4 style={styles.detailsTitle}>{t('aboutDemo.sections.groups.eachGroupHas')}</h4>
             <ul>
-              <li><em>Denumire</em></li>
-              <li><em>Culoare</em> (pentru diferențiere vizuală)</li>
-              <li><em>Descriere</em></li>
+              <li><em>{t('aboutDemo.sections.groups.name')}</em></li>
+              <li><em>{t('aboutDemo.sections.groups.color')}</em> {t('aboutDemo.sections.groups.visualDiff')}</li>
+              <li><em>{t('aboutDemo.sections.groups.description')}</em></li>
             </ul>
           </div>
         </>
@@ -180,15 +269,19 @@ const AboutDemo = () => {
     {
       id: "announcements",
       icon: "📢",
-      title: "Evenimente",
+      title: t('aboutDemo.sections.announcements.title'),
       color: "#14B8A6",
-      link: "/admin/announcements",
+      link: createLink('/admin/announcements'),
       content: (
         <>
-          <p>Administratorul poate <strong>crea evenimente</strong> ce vor apărea pe pagina principală.</p>
+          <p>
+            {t('aboutDemo.sections.announcements.adminCanCreate')} <strong>{t('aboutDemo.sections.announcements.createEvents')}</strong> {t('aboutDemo.sections.announcements.appearOnMain')}
+          </p>
           <ul>
-            <li>Evenimentele pot fi competiții, anunțuri sau activități speciale.</li>
-            <li>Se pot adăuga detalii precum: <em>titlu</em>, <em>descriere</em>, <em>data și ora</em>, <em>locație</em>, <em>imagine</em>.</li>
+            <li>{t('aboutDemo.sections.announcements.canBeComps')}</li>
+            <li>
+              {t('aboutDemo.sections.announcements.canAddDetails')} <em>{t('aboutDemo.sections.announcements.title')}</em>, <em>{t('aboutDemo.sections.announcements.description')}</em>, <em>{t('aboutDemo.sections.announcements.dateTime')}</em>, <em>{t('aboutDemo.sections.announcements.location')}</em>, <em>{t('aboutDemo.sections.announcements.image')}</em>.
+            </li>
           </ul>
         </>
       )
@@ -196,36 +289,44 @@ const AboutDemo = () => {
     {
       id: "gdpr",
       icon: "📜",
-      title: "GDPR",
+      title: t('aboutDemo.sections.gdpr.title'),
       color: "#64748B",
-      link: "/admin/consimtamant",
+      link: createLink('/admin/consimtamant'),
       content: (
         <>
-          <p>În această pagină sunt accesibile <strong>consimțămintele utilizatorilor</strong>.</p>
+          <p>
+            {t('aboutDemo.sections.gdpr.inThisPage')} <strong>{t('aboutDemo.sections.gdpr.userConsents')}</strong>.
+          </p>
           <div style={styles.detailsBox}>
-            <h4 style={styles.detailsTitle}>Include semnătura digitală, care conține:</h4>
+            <h4 style={styles.detailsTitle}>{t('aboutDemo.sections.gdpr.includesSignature')}</h4>
             <ul>
-              <li>Adresa IP</li>
-              <li>Data și ora exactă</li>
-              <li>Versiunea de GDPR acceptată</li>
+              <li>{t('aboutDemo.sections.gdpr.ipAddress')}</li>
+              <li>{t('aboutDemo.sections.gdpr.exactDateTime')}</li>
+              <li>{t('aboutDemo.sections.gdpr.gdprVersion')}</li>
             </ul>
           </div>
-          <p>Administratorul poate ține evidența și actualiza versiunile de GDPR.</p>
+          <p>{t('aboutDemo.sections.gdpr.adminCanTrack')}</p>
         </>
       )
     },
     {
       id: "system",
       icon: "⚙️",
-      title: "Informații Sistem",
+      title: t('aboutDemo.sections.system.title'),
       color: "#6366F1",
-      link: "/admin/system",
+      link: createLink('/admin/system'),
       content: (
         <>
-          <p>Pagina oferă acces administratorului la <strong>informațiile esențiale despre server</strong>.</p>
+          <p>
+            {t('aboutDemo.sections.system.pageOffers')} <strong>{t('aboutDemo.sections.system.essentialInfo')}</strong>.
+          </p>
           <ul>
-            <li>Conține <strong>date tehnice utile</strong> pentru monitorizare și mentenanță.</li>
-            <li>Poate fi folosită pentru <strong>depanare</strong> și pentru verificarea stării generale a sistemului.</li>
+            <li>
+              {t('aboutDemo.sections.system.containsTechnical')} <strong>{t('aboutDemo.sections.system.technicalData')}</strong> {t('aboutDemo.sections.system.monitoring')}
+            </li>
+            <li>
+              {t('aboutDemo.sections.system.canBeUsed')} <strong>{t('aboutDemo.sections.system.troubleshooting')}</strong> {t('aboutDemo.sections.system.checkingState')}
+            </li>
           </ul>
         </>
       )
@@ -236,27 +337,38 @@ const AboutDemo = () => {
     <div style={styles.container}>
       <style>{cssString}</style>
 
-      {/* Hero Section */}
-      <div style={styles.hero}>
-        <div style={styles.heroIconWrapper}>
-          <div style={styles.heroIcon}>ℹ️</div>
-        </div>
-        <h1 style={styles.heroTitle}>Despre Această Versiune Demo</h1>
-        <p style={styles.heroSubtitle}>
-          Ghid complet pentru funcționalitățile platformei de management
-        </p>
+      {/* Language Selector */}
+      <div style={styles.languageSelector}>
+        <button 
+          onClick={() => changeLanguage('ro')}
+          style={{
+            ...styles.langButton,
+            ...(i18n.language === 'ro' ? styles.langButtonActive : {})
+          }}
+        >
+          🇷🇴 RO
+        </button>
+        <button 
+          onClick={() => changeLanguage('en')}
+          style={{
+            ...styles.langButton,
+            ...(i18n.language === 'en' ? styles.langButtonActive : {})
+          }}
+        >
+          🇬🇧 EN
+        </button>
       </div>
 
       {/* Read First Alert */}
       <div style={styles.alertBox}>
         <div style={styles.alertHeader}>
           <span style={styles.alertIcon}>📌</span>
-          <h2 style={styles.alertTitle}>Citește mai întâi</h2>
+          <h2 style={styles.alertTitle}>{t('aboutDemo.readFirst')}</h2>
         </div>
         <div style={styles.alertContent}>
-          <p>Această pagină îți arată unde găsești principalele secțiuni ale platformei demo.</p>
+          <p>{t('aboutDemo.alertIntro')}</p>
           <p>
-            Interfața este destinată <strong>administratorilor</strong>. Pentru versiunea live, vizitează:{" "}
+            {t('aboutDemo.alertAdminNote')} <strong>{t('aboutDemo.administrators')}</strong>. {t('aboutDemo.alertLiveVersion')}{" "}
             <a 
               href="https://delfiniighiriseni.ro" 
               target="_blank" 
@@ -267,20 +379,20 @@ const AboutDemo = () => {
             </a>
           </p>
           <div style={styles.warningBox}>
-            <strong>⚠️ Toate datele afișate sunt doar pentru exemplificare:</strong>
+            <strong>⚠️ {t('aboutDemo.warningTitle')}</strong>
             <ul style={styles.warningList}>
-              <li>nu se pot crea înregistrări reale,</li>
-              <li>nu se pot edita sau șterge date,</li>
-              <li>operațiile sunt doar simulate.</li>
+              <li>{t('aboutDemo.warningNoCreate')}</li>
+              <li>{t('aboutDemo.warningNoEdit')}</li>
+              <li>{t('aboutDemo.warningSimulated')}</li>
             </ul>
           </div>
           <p style={{marginTop: '1rem'}}>
-            Mai jos găsești prezentarea funcționalităților, împreună cu <strong>linkuri rapide</strong> către fiecare secțiune.
+            {t('aboutDemo.alertFooter')} <strong>{t('aboutDemo.quickLinks')}</strong> {t('aboutDemo.toEachSection')}
           </p>
         </div>
       </div>
 
-      {/* Sections Grid - Mobile Optimized */}
+      {/* Sections Grid */}
       <div style={styles.sectionsContainer}>
         {sections.map((section, index) => (
           <div 
@@ -333,7 +445,7 @@ const AboutDemo = () => {
                 style={{...styles.viewButton, backgroundColor: section.color}}
                 onClick={(e) => e.stopPropagation()}
               >
-                ➡️ Vezi pagina
+                ➡️ {t('aboutDemo.viewPage')}
               </a>
             </div>
           </div>
@@ -344,7 +456,7 @@ const AboutDemo = () => {
       <div style={styles.footer}>
         <div style={styles.footerIcon}>🚀</div>
         <p style={styles.footerText}>
-          Navighează prin secțiuni și explorează funcționalitățile platformei
+          {t('aboutDemo.footerText')}
         </p>
       </div>
     </div>
@@ -361,42 +473,39 @@ const styles = {
     minHeight: "100vh",
     color: "#e2e8f0"
   },
-  hero: {
-    textAlign: "center",
-    padding: "2.5rem 1.5rem",
-    margin: "0 1rem 2rem",
-    background: "linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.1))",
-    borderRadius: "20px",
-    border: "1px solid rgba(99, 102, 241, 0.3)",
+  languageSelector: {
+    position: "fixed",
+    top: "1rem",
+    right: "1rem",
+    display: "flex",
+    gap: "0.5rem",
+    zIndex: 1000,
+    background: "rgba(30, 41, 59, 0.95)",
+    padding: "0.5rem",
+    borderRadius: "12px",
+    border: "1px solid rgba(148, 163, 184, 0.2)",
     backdropFilter: "blur(10px)",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)"
+    boxShadow: "0 4px 16px rgba(0, 0, 0, 0.3)"
   },
-  heroIconWrapper: {
-    display: "inline-block",
-    padding: "1rem",
-    background: "rgba(99, 102, 241, 0.1)",
-    borderRadius: "20px",
-    marginBottom: "1rem"
-  },
-  heroIcon: {
-    fontSize: "3rem",
-    animation: "float 3s ease-in-out infinite"
-  },
-  heroTitle: {
-    fontSize: "clamp(1.75rem, 5vw, 2.5rem)",
-    fontWeight: "800",
-    background: "linear-gradient(135deg, #6366f1, #a855f7)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    marginBottom: "0.75rem",
-    lineHeight: "1.2"
-  },
-  heroSubtitle: {
-    fontSize: "clamp(0.95rem, 3vw, 1.1rem)",
+  langButton: {
+    padding: "0.5rem 1rem",
+    background: "transparent",
+    border: "1px solid rgba(148, 163, 184, 0.3)",
+    borderRadius: "8px",
     color: "#94a3b8",
-    maxWidth: "600px",
-    margin: "0 auto",
-    lineHeight: "1.6"
+    cursor: "pointer",
+    fontSize: "0.9rem",
+    fontWeight: "600",
+    transition: "all 0.3s ease",
+    display: "flex",
+    alignItems: "center",
+    gap: "0.25rem"
+  },
+  langButtonActive: {
+    background: "linear-gradient(135deg, #6366f1, #a855f7)",
+    color: "white",
+    border: "1px solid transparent",
+    boxShadow: "0 2px 8px rgba(99, 102, 241, 0.4)"
   },
   alertBox: {
     background: "linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.06))",
@@ -654,25 +763,36 @@ const cssString = `
       filter: brightness(1.1);
     }
     
-    .hero {
-      margin: 0 2rem 3rem !important;
-      padding: 3rem 2rem !important;
-    }
-    
     .alertBox {
       margin: 0 2rem 3rem !important;
       padding: 1.5rem !important;
+    }
+    
+    .langButton:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
   }
   
   @media (max-width: 480px) {
     .cardHeaderContent {
       flex-direction: row;
-      align-items: center;
+      alignItems: center;
     }
     
     .cardIcon {
       font-size: 1.75rem !important;
+    }
+    
+    .languageSelector {
+      top: 0.5rem !important;
+      right: 0.5rem !important;
+      padding: 0.4rem !important;
+    }
+    
+    .langButton {
+      padding: 0.4rem 0.75rem !important;
+      font-size: 0.85rem !important;
     }
   }
 `;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-// Date mock pentru simulare
 const mockData = [
   {
     cursant: {
@@ -20,7 +20,7 @@ const mockData = [
   {
     cursant: {
       numeComplet: 'Georgescu Alex',
-      dataInregistrarii: '2025-08-01T09:00:00',
+      dataInregistrarii: '2025-09-01T09:00:00',
       expired: false
     }
   },
@@ -62,7 +62,9 @@ const mockData = [
 ];
 
 const AdminDashboard = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const { lang } = useParams();
   const [stats, setStats] = useState({
     totalUsers: 0,
     activeUsers: 0,
@@ -78,7 +80,6 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     try {
-      // Simulează delay-ul API
       await new Promise(resolve => setTimeout(resolve, 800));
       
       const data = mockData;
@@ -87,7 +88,6 @@ const AdminDashboard = () => {
       const activeUsers = data.filter(i => !i.cursant.expired).length;
       const expiredUsers = data.filter(i => i.cursant.expired).length;
       
-      // Obține utilizatorii care expiră în curând (în următoarele 7 zile)
       const now = new Date();
       const expiringUsers = data.filter(i => {
         if (i.cursant.expired) return false;
@@ -134,9 +134,9 @@ const AdminDashboard = () => {
   const ActivityItem = ({ user, type }) => {
     const timeAgo = (date) => {
       const seconds = Math.floor((new Date() - new Date(date)) / 1000);
-      if (seconds < 3600) return `Acum ${Math.floor(seconds / 60)} minute`;
-      if (seconds < 86400) return `Acum ${Math.floor(seconds / 3600)} ore`;
-      return `Acum ${Math.floor(seconds / 86400)} zile`;
+      if (seconds < 3600) return t('dashboard.timeAgo.minutes', { count: Math.floor(seconds / 60) });
+      if (seconds < 86400) return t('dashboard.timeAgo.hours', { count: Math.floor(seconds / 3600) });
+      return t('dashboard.timeAgo.days', { count: Math.floor(seconds / 86400) });
     };
 
     return (
@@ -147,7 +147,7 @@ const AdminDashboard = () => {
         <div className="activity-details">
           <div className="activity-name">{user.cursant.numeComplet}</div>
           <div className="activity-action">
-            {type === 'new' ? 'Înregistrare nouă' : 'Expirare apropiată'}
+            {type === 'new' ? t('dashboard.activity.newRegistration') : t('dashboard.activity.expiringNear')}
           </div>
         </div>
         <div className="activity-time">{timeAgo(user.cursant.dataInregistrarii)}</div>
@@ -159,7 +159,7 @@ const AdminDashboard = () => {
     return (
       <div className="dashboard-loading">
         <div className="spinner"></div>
-        <p>Se încarcă dashboard-ul...</p>
+        <p>{t('dashboard.loading')}</p>
       </div>
     );
   }
@@ -522,7 +522,6 @@ const AdminDashboard = () => {
           opacity: 0.3;
         }
 
-        /* Mobile Responsive */
         @media (max-width: 768px) {
           .mission-control {
             padding: 1rem;
@@ -603,43 +602,41 @@ const AdminDashboard = () => {
         }
       `}</style>
 
-      {/* Secțiunea Hero */}
       <div className="hero-section">
         <div className="hero-content">
-          <h1 className="hero-title">Centrul Tău de Comandă</h1>
-          <p className="hero-subtitle">Centrul tău de comandă pentru managementul înotului</p>
+          <h1 className="hero-title">{t('dashboard.hero.title')}</h1>
+          <p className="hero-subtitle">{t('dashboard.hero.subtitle')}</p>
           
           <div className="hero-stats">
             <div className="hero-stat">
               <span className="hero-stat-value">{stats.totalUsers}</span>
-              <span className="hero-stat-label">Total Cursanți</span>
+              <span className="hero-stat-label">{t('dashboard.hero.totalStudents')}</span>
             </div>
             <div className="hero-stat">
               <span className="hero-stat-value">{stats.activeUsers}</span>
-              <span className="hero-stat-label">Activi</span>
+              <span className="hero-stat-label">{t('dashboard.hero.active')}</span>
             </div>
             <div className="hero-stat">
               <span className="hero-stat-value">
                 {stats.totalUsers > 0 ? Math.round((stats.activeUsers / stats.totalUsers) * 100) : 0}%
               </span>
-              <span className="hero-stat-label">Rată Activitate</span>
+              <span className="hero-stat-label">{t('dashboard.hero.activityRate')}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Secțiunea Alerte */}
       {stats.expiringUsers && stats.expiringUsers.length > 0 && (
         <div className="alerts-section">
           <div 
             className="alert-card"
-            onClick={() => navigate('/admin/users', { state: { filterStatus: 'expiring' } })}
+            onClick={() => navigate(`/${lang}/admin/users`, { state: { filterStatus: 'expiring' } })}
           >
             <div className="alert-icon">⚠️</div>
             <div className="alert-content">
-              <div className="alert-title">Atenție Necesară</div>
+              <div className="alert-title">{t('dashboard.alert.title')}</div>
               <div className="alert-description">
-                {stats.expiringUsers.length} înregistrări expiră în următoarele 7 zile
+                {t('dashboard.alert.description', { count: stats.expiringUsers.length })}
               </div>
             </div>
             <div className="card-arrow">→</div>
@@ -647,54 +644,52 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* Navigare Rapidă */}
       <div className="quick-nav-grid">
         <QuickNavCard
           icon="🏊"
           value={stats.activeUsers}
-          title="Cursanți Activi"
-          subtitle="Gestionează înotători"
+          title={t('dashboard.quickNav.activeStudents.title')}
+          subtitle={t('dashboard.quickNav.activeStudents.subtitle')}
           color="#00d4ff"
-          onClick={() => navigate('/admin/users')}
+          onClick={() => navigate(`/${lang}/admin/users`)}
         />
         
         <QuickNavCard
           icon="📋"
-          value="Hub"
-          title="Training Hub"
-          subtitle="Planuri și programe"
+          value={t('dashboard.quickNav.trainingHub.value')}
+          title={t('dashboard.quickNav.trainingHub.title')}
+          subtitle={t('dashboard.quickNav.trainingHub.subtitle')}
           color="#00ff88"
-          onClick={() => navigate('/admin/traininghub')}
+          onClick={() => navigate(`/${lang}/admin/traininghub`)}
         />
         
         <QuickNavCard
           icon="📅"
-          value="Azi"
-          title="Sesiuni Antrenament"
-          subtitle="Programul zilei"
+          value={t('dashboard.quickNav.trainingSessions.value')}
+          title={t('dashboard.quickNav.trainingSessions.title')}
+          subtitle={t('dashboard.quickNav.trainingSessions.subtitle')}
           color="#ff6b6b"
-          onClick={() => navigate('/admin/traininghub/sessionManager')}
+          onClick={() => navigate(`/${lang}/admin/traininghub/sessionManager`)}
         />
         
         <QuickNavCard
           icon="📢"
-          value="Anunțuri"
-          title="Comunicare"
-          subtitle="Gestionează mesaje"
+          value={t('dashboard.quickNav.announcements.value')}
+          title={t('dashboard.quickNav.announcements.title')}
+          subtitle={t('dashboard.quickNav.announcements.subtitle')}
           color="#ffd93d"
           onClick={() => navigate('/admin/announcements')}
         />
       </div>
 
-      {/* Feed Activitate */}
       <div className="activity-feed">
         <div className="section-header">
-          <h2 className="section-title">Activitate Recentă</h2>
+          <h2 className="section-title">{t('dashboard.recentActivity.title')}</h2>
           <button 
             className="view-all-btn"
-            onClick={() => navigate('/admin/users')}
+            onClick={() => navigate(`/${lang}/admin/users`)}
           >
-            Vezi tot →
+            {t('dashboard.recentActivity.viewAll')} →
           </button>
         </div>
 
@@ -706,7 +701,7 @@ const AdminDashboard = () => {
           ) : (
             <div className="empty-state">
               <div className="empty-state-icon">📭</div>
-              <p>Nicio activitate recentă</p>
+              <p>{t('dashboard.recentActivity.empty')}</p>
             </div>
           )}
         </div>

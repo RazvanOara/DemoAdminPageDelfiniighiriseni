@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// DELETED: import { API_BASE_URL } from '../../utils/config';
+import { useTranslation } from 'react-i18next';
 import './SystemInfo.css';
 
 // ADD: Mock system info data
@@ -94,6 +94,7 @@ const MOCK_SYSTEM_INFO = {
 };
 
 const SystemInfo = () => {
+  const { t } = useTranslation();
   const [systemInfo, setSystemInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -173,7 +174,7 @@ const SystemInfo = () => {
       <div className="system-info">
         <div className="loading-state">
           <div className="loading-spinner">🔄</div>
-          <p>Se încarcă informațiile de sistem...</p>
+          <p>{t('systemInfo.loading')}</p>
         </div>
       </div>
     );
@@ -183,13 +184,13 @@ const SystemInfo = () => {
     return (
       <div className="system-info error-state">
         <div className="system-header">
-          <h2>Informații Sistem (Demo)</h2>
+          <h2>{t('systemInfo.pageTitle')}</h2>
         </div>
         <div className="error-message">
           <span className="error-icon">⚠️</span>
           <span>{error}</span>
           <button onClick={fetchSystemInfo} className="retry-btn">
-            Încearcă din nou
+            {t('systemInfo.retryButton')}
           </button>
         </div>
       </div>
@@ -200,28 +201,28 @@ const SystemInfo = () => {
     <div className="tab-content">
       <div className="metrics-grid">
         <MetricCard
-          title="Versiune Aplicație"
+          title={t('systemInfo.overview.appVersion')}
           value={systemInfo.application?.version}
           subtitle={`Spring Boot ${systemInfo.application?.springBootVersion}`}
           icon="📱"
         />
         <MetricCard
-          title="Timp Funcționare"
+          title={t('systemInfo.overview.uptime')}
           value={systemInfo.application?.uptime}
-          subtitle={`Start: ${systemInfo.application?.startTime}`}
+          subtitle={`${t('systemInfo.overview.start')}: ${systemInfo.application?.startTime}`}
           icon="⏱️"
         />
         <MetricCard
-          title="Utilizare Memorie"
+          title={t('systemInfo.overview.memoryUsage')}
           value={systemInfo.memory?.heapPercentage}
           subtitle={`${systemInfo.memory?.heapUsed} / ${systemInfo.memory?.heapMax}`}
           status={getStatusColor(systemInfo.memory?.heapPercentage, { good: 60, warning: 80 })}
           icon="💾"
         />
         <MetricCard
-          title="Baza de Date"
+          title={t('systemInfo.overview.database')}
           value={systemInfo.database?.status}
-          subtitle={`${systemInfo.database?.responseTime} | ${systemInfo.database?.cursantCount} înregistrări`}
+          subtitle={`${systemInfo.database?.responseTime} | ${systemInfo.database?.cursantCount} ${t('systemInfo.overview.records')}`}
           status={systemInfo.database?.status === 'Connected' ? 'good' : 'critical'}
           icon="🗄️"
         />
@@ -229,27 +230,27 @@ const SystemInfo = () => {
 
       <div className="overview-sections">
         <div className="overview-section">
-          <h3>Performanță Sistem</h3>
+          <h3>{t('systemInfo.overview.systemPerformance')}</h3>
           <div className="performance-metrics">
             {systemInfo.operatingSystem?.systemCpuLoad && (
               <ProgressBar
                 value={systemInfo.operatingSystem.systemCpuLoad}
                 max={100}
-                label="CPU Sistem"
+                label={t('systemInfo.overview.systemCpu')}
                 status={getStatusColor(systemInfo.operatingSystem.systemCpuLoad, { good: 50, warning: 80 })}
               />
             )}
             <ProgressBar
               value={systemInfo.memory?.heapPercentage}
               max={100}
-              label="Memorie Heap"
+              label={t('systemInfo.overview.heapMemory')}
               status={getStatusColor(systemInfo.memory?.heapPercentage, { good: 60, warning: 80 })}
             />
             {systemInfo.disk?.roots?.[0] && (
               <ProgressBar
                 value={systemInfo.disk.roots[0].usagePercentage}
                 max={100}
-                label="Disk Principal"
+                label={t('systemInfo.overview.primaryDisk')}
                 status={getStatusColor(systemInfo.disk.roots[0].usagePercentage, { good: 70, warning: 85 })}
               />
             )}
@@ -257,19 +258,19 @@ const SystemInfo = () => {
         </div>
 
         <div className="overview-section">
-          <h3>Activitate Recentă</h3>
+          <h3>{t('systemInfo.overview.recentActivity')}</h3>
           <div className="activity-list">
             <div className="activity-item">
               <span className="activity-icon">🔄</span>
-              <span>Ultima actualizare: {new Date().toLocaleTimeString('ro-RO')}</span>
+              <span>{t('systemInfo.overview.lastUpdate')}: {new Date().toLocaleTimeString('ro-RO')}</span>
             </div>
             <div className="activity-item">
               <span className="activity-icon">🗃️</span>
-              <span>Colectări GC: {systemInfo.garbageCollection?.totalCollections}</span>
+              <span>{t('systemInfo.overview.gcCollections')}: {systemInfo.garbageCollection?.totalCollections}</span>
             </div>
             <div className="activity-item">
               <span className="activity-icon">🧵</span>
-              <span>Thread-uri active: {systemInfo.threads?.currentThreadCount}</span>
+              <span>{t('systemInfo.overview.activeThreads')}: {systemInfo.threads?.currentThreadCount}</span>
             </div>
           </div>
         </div>
@@ -281,25 +282,25 @@ const SystemInfo = () => {
     <div className="tab-content">
       <div className="memory-overview">
         <div className="memory-section">
-          <h3>Memorie Heap</h3>
+          <h3>{t('systemInfo.memory.heapMemory')}</h3>
           <div className="memory-details">
             <ProgressBar
               value={systemInfo.memory?.heapPercentage}
               max={100}
-              label="Utilizare Heap"
+              label={t('systemInfo.memory.heapUsage')}
               status={getStatusColor(systemInfo.memory?.heapPercentage, { good: 60, warning: 80 })}
             />
             <div className="memory-stats">
               <div className="memory-stat">
-                <span className="stat-label">Utilizată:</span>
+                <span className="stat-label">{t('systemInfo.memory.used')}:</span>
                 <span className="stat-value">{systemInfo.memory?.heapUsed}</span>
               </div>
               <div className="memory-stat">
-                <span className="stat-label">Alocată:</span>
+                <span className="stat-label">{t('systemInfo.memory.committed')}:</span>
                 <span className="stat-value">{systemInfo.memory?.heapCommitted}</span>
               </div>
               <div className="memory-stat">
-                <span className="stat-label">Maximă:</span>
+                <span className="stat-label">{t('systemInfo.memory.max')}:</span>
                 <span className="stat-value">{systemInfo.memory?.heapMax}</span>
               </div>
             </div>
@@ -307,18 +308,18 @@ const SystemInfo = () => {
         </div>
 
         <div className="memory-section">
-          <h3>Memorie Non-Heap</h3>
+          <h3>{t('systemInfo.memory.nonHeapMemory')}</h3>
           <div className="memory-stats">
             <div className="memory-stat">
-              <span className="stat-label">Utilizată:</span>
+              <span className="stat-label">{t('systemInfo.memory.used')}:</span>
               <span className="stat-value">{systemInfo.memory?.nonHeapUsed}</span>
             </div>
             <div className="memory-stat">
-              <span className="stat-label">Alocată:</span>
+              <span className="stat-label">{t('systemInfo.memory.committed')}:</span>
               <span className="stat-value">{systemInfo.memory?.nonHeapCommitted}</span>
             </div>
             <div className="memory-stat">
-              <span className="stat-label">Maximă:</span>
+              <span className="stat-label">{t('systemInfo.memory.max')}:</span>
               <span className="stat-value">{systemInfo.memory?.nonHeapMax}</span>
             </div>
           </div>
@@ -327,7 +328,7 @@ const SystemInfo = () => {
 
       {systemInfo.memory?.pools && (
         <div className="memory-pools">
-          <h3>Pool-uri de Memorie</h3>
+          <h3>{t('systemInfo.memory.memoryPools')}</h3>
           <div className="pools-grid">
             {systemInfo.memory.pools.map((pool, index) => (
               <div key={index} className="pool-card">
@@ -337,10 +338,10 @@ const SystemInfo = () => {
                 </div>
                 <div className="pool-stats">
                   <div className="pool-stat">
-                    <span>Utilizat: {pool.used}</span>
+                    <span>{t('systemInfo.memory.used')}: {pool.used}</span>
                   </div>
                   <div className="pool-stat">
-                    <span>Maxim: {pool.max}</span>
+                    <span>{t('systemInfo.memory.max')}: {pool.max}</span>
                   </div>
                 </div>
               </div>
@@ -355,25 +356,25 @@ const SystemInfo = () => {
     <div className="tab-content">
       <div className="performance-grid">
         <div className="performance-section">
-          <h3>CPU & Sistem</h3>
+          <h3>{t('systemInfo.performance.cpuAndSystem')}</h3>
           <div className="performance-metrics">
             {systemInfo.operatingSystem?.systemCpuLoad && (
               <MetricCard
-                title="CPU Sistem"
+                title={t('systemInfo.performance.systemCpu')}
                 value={systemInfo.operatingSystem.systemCpuLoad}
                 status={getStatusColor(systemInfo.operatingSystem.systemCpuLoad, { good: 50, warning: 80 })}
               />
             )}
             {systemInfo.operatingSystem?.processCpuLoad && (
               <MetricCard
-                title="CPU Proces"
+                title={t('systemInfo.performance.processCpu')}
                 value={systemInfo.operatingSystem.processCpuLoad}
                 status={getStatusColor(systemInfo.operatingSystem.processCpuLoad, { good: 50, warning: 80 })}
               />
             )}
             {systemInfo.operatingSystem?.systemLoadAverage && (
               <MetricCard
-                title="Load Average"
+                title={t('systemInfo.performance.loadAverage')}
                 value={systemInfo.operatingSystem.systemLoadAverage}
               />
             )}
@@ -381,25 +382,25 @@ const SystemInfo = () => {
         </div>
 
         <div className="performance-section">
-          <h3>Thread-uri</h3>
+          <h3>{t('systemInfo.performance.threads')}</h3>
           <div className="thread-info">
             <div className="thread-stats">
               <MetricCard
-                title="Thread-uri Curente"
+                title={t('systemInfo.performance.currentThreads')}
                 value={systemInfo.threads?.currentThreadCount}
               />
               <MetricCard
-                title="Thread-uri Daemon"
+                title={t('systemInfo.performance.daemonThreads')}
                 value={systemInfo.threads?.daemonThreadCount}
               />
               <MetricCard
-                title="Vârf Thread-uri"
+                title={t('systemInfo.performance.peakThreads')}
                 value={systemInfo.threads?.peakThreadCount}
               />
             </div>
             {systemInfo.threads?.threadStates && (
               <div className="thread-states">
-                <h4>Stări Thread-uri</h4>
+                <h4>{t('systemInfo.performance.threadStates')}</h4>
                 <div className="thread-states-grid">
                   {Object.entries(systemInfo.threads.threadStates).map(([state, count]) => (
                     <div key={state} className="thread-state">
@@ -414,7 +415,7 @@ const SystemInfo = () => {
         </div>
 
         <div className="performance-section">
-          <h3>Garbage Collection</h3>
+          <h3>{t('systemInfo.performance.garbageCollection')}</h3>
           <div className="gc-info">
             {systemInfo.garbageCollection?.collectors && (
               <div className="gc-collectors">
@@ -425,10 +426,10 @@ const SystemInfo = () => {
                     </div>
                     <div className="gc-stats">
                       <div className="gc-stat">
-                        <span>Colectări: {collector.collectionCount}</span>
+                        <span>{t('systemInfo.performance.collections')}: {collector.collectionCount}</span>
                       </div>
                       <div className="gc-stat">
-                        <span>Timp: {collector.collectionTime}</span>
+                        <span>{t('systemInfo.performance.time')}: {collector.collectionTime}</span>
                       </div>
                     </div>
                   </div>
@@ -446,29 +447,29 @@ const SystemInfo = () => {
       <div className="database-overview">
         <div className="db-status-card">
           <div className="db-status-header">
-            <h3>Status Conexiune</h3>
+            <h3>{t('systemInfo.database.connectionStatus')}</h3>
             <span className={`db-status-indicator ${systemInfo.database?.status === 'Connected' ? 'connected' : 'error'}`}>
-              {systemInfo.database?.status === 'Connected' ? '🟢 Conectată' : '🔴 Eroare'}
+              {systemInfo.database?.status === 'Connected' ? `🟢 ${t('systemInfo.database.connected')}` : `🔴 ${t('systemInfo.database.error')}`}
             </span>
           </div>
           
           <div className="db-metrics">
             <MetricCard
-              title="Timp Răspuns"
+              title={t('systemInfo.database.responseTime')}
               value={systemInfo.database?.responseTime}
               status={systemInfo.database?.responseTime && parseInt(systemInfo.database.responseTime) < 100 ? 'good' : 
                      systemInfo.database?.responseTime && parseInt(systemInfo.database.responseTime) < 500 ? 'warning' : 'critical'}
             />
             <MetricCard
-              title="Înregistrări Cursanți"
+              title={t('systemInfo.database.studentRecords')}
               value={systemInfo.database?.cursantCount}
             />
             <MetricCard
-              title="Anunțuri"
+              title={t('systemInfo.database.announcements')}
               value={systemInfo.database?.announcementCount}
             />
             <MetricCard
-              title="Mărime Estimată"
+              title={t('systemInfo.database.estimatedSize')}
               value={systemInfo.database?.estimatedSize}
             />
           </div>
@@ -481,23 +482,23 @@ const SystemInfo = () => {
     <div className="tab-content">
       <div className="system-overview">
         <div className="system-section">
-          <h3>Sistem de Operare</h3>
+          <h3>{t('systemInfo.system.operatingSystem')}</h3>
           <div className="system-details">
             <div className="system-info-grid">
               <div className="info-item">
-                <span className="info-label">Nume:</span>
+                <span className="info-label">{t('systemInfo.system.name')}:</span>
                 <span className="info-value">{systemInfo.operatingSystem?.name}</span>
               </div>
               <div className="info-item">
-                <span className="info-label">Versiune:</span>
+                <span className="info-label">{t('systemInfo.system.version')}:</span>
                 <span className="info-value">{systemInfo.operatingSystem?.version}</span>
               </div>
               <div className="info-item">
-                <span className="info-label">Arhitectură:</span>
+                <span className="info-label">{t('systemInfo.system.architecture')}:</span>
                 <span className="info-value">{systemInfo.operatingSystem?.architecture}</span>
               </div>
               <div className="info-item">
-                <span className="info-label">Procesoare:</span>
+                <span className="info-label">{t('systemInfo.system.processors')}:</span>
                 <span className="info-value">{systemInfo.operatingSystem?.availableProcessors}</span>
               </div>
             </div>
@@ -505,23 +506,23 @@ const SystemInfo = () => {
         </div>
 
         <div className="system-section">
-          <h3>Java Virtual Machine</h3>
+          <h3>{t('systemInfo.system.jvm')}</h3>
           <div className="jvm-details">
             <div className="system-info-grid">
               <div className="info-item">
-                <span className="info-label">Versiune Java:</span>
+                <span className="info-label">{t('systemInfo.system.javaVersion')}:</span>
                 <span className="info-value">{systemInfo.jvm?.javaVersion}</span>
               </div>
               <div className="info-item">
-                <span className="info-label">Vendor:</span>
+                <span className="info-label">{t('systemInfo.system.vendor')}:</span>
                 <span className="info-value">{systemInfo.jvm?.javaVendor}</span>
               </div>
               <div className="info-item">
-                <span className="info-label">Nume JVM:</span>
+                <span className="info-label">{t('systemInfo.system.jvmName')}:</span>
                 <span className="info-value">{systemInfo.jvm?.jvmName}</span>
               </div>
               <div className="info-item">
-                <span className="info-label">Versiune JVM:</span>
+                <span className="info-label">{t('systemInfo.system.jvmVersion')}:</span>
                 <span className="info-value">{systemInfo.jvm?.jvmVersion}</span>
               </div>
             </div>
@@ -530,22 +531,22 @@ const SystemInfo = () => {
 
         {systemInfo.operatingSystem?.totalPhysicalMemory && (
           <div className="system-section">
-            <h3>Resurse Fizice</h3>
+            <h3>{t('systemInfo.system.physicalResources')}</h3>
             <div className="resource-metrics">
               <MetricCard
-                title="Memorie Fizică Totală"
+                title={t('systemInfo.system.totalPhysicalMemory')}
                 value={systemInfo.operatingSystem.totalPhysicalMemory}
               />
               <MetricCard
-                title="Memorie Fizică Liberă"
+                title={t('systemInfo.system.freePhysicalMemory')}
                 value={systemInfo.operatingSystem.freePhysicalMemory}
               />
               <MetricCard
-                title="Swap Total"
+                title={t('systemInfo.system.totalSwap')}
                 value={systemInfo.operatingSystem.totalSwapSpace}
               />
               <MetricCard
-                title="Swap Liber"
+                title={t('systemInfo.system.freeSwap')}
                 value={systemInfo.operatingSystem.freeSwapSpace}
               />
             </div>
@@ -559,14 +560,14 @@ const SystemInfo = () => {
     <div className="tab-content">
       <div className="network-overview">
         <div className="network-basic">
-          <h3>Informații de Bază</h3>
+          <h3>{t('systemInfo.network.basicInfo')}</h3>
           <div className="network-basic-info">
             <MetricCard
-              title="Hostname"
+              title={t('systemInfo.network.hostname')}
               value={systemInfo.network?.hostname || 'N/A'}
             />
             <MetricCard
-              title="Adresă IP"
+              title={t('systemInfo.network.ipAddress')}
               value={systemInfo.network?.hostAddress || 'N/A'}
             />
           </div>
@@ -574,7 +575,7 @@ const SystemInfo = () => {
 
         {systemInfo.network?.interfaces && (
           <div className="network-interfaces">
-            <h3>Interfețe de Rețea</h3>
+            <h3>{t('systemInfo.network.networkInterfaces')}</h3>
             <div className="interfaces-grid">
               {systemInfo.network.interfaces.map((networkInterface, index) => (
                 <div key={index} className="interface-card">
@@ -601,7 +602,7 @@ const SystemInfo = () => {
       <div className="disk-overview">
         {systemInfo.disk?.roots && (
           <div className="disk-roots">
-            <h3>Volume Disk</h3>
+            <h3>{t('systemInfo.disk.diskVolumes')}</h3>
             <div className="disk-roots-grid">
               {systemInfo.disk.roots.map((root, index) => (
                 <div key={index} className="disk-root-card">
@@ -615,21 +616,21 @@ const SystemInfo = () => {
                   <ProgressBar
                     value={root.usagePercentage}
                     max={100}
-                    label="Utilizare"
+                    label={t('systemInfo.disk.usage')}
                     status={getStatusColor(root.usagePercentage, { good: 70, warning: 85 })}
                   />
                   
                   <div className="disk-details">
                     <div className="disk-stat">
-                      <span className="stat-label">Total:</span>
+                      <span className="stat-label">{t('systemInfo.disk.total')}:</span>
                       <span className="stat-value">{root.totalSpace}</span>
                     </div>
                     <div className="disk-stat">
-                      <span className="stat-label">Liber:</span>
+                      <span className="stat-label">{t('systemInfo.disk.free')}:</span>
                       <span className="stat-value">{root.freeSpace}</span>
                     </div>
                     <div className="disk-stat">
-                      <span className="stat-label">Utilizabil:</span>
+                      <span className="stat-label">{t('systemInfo.disk.usable')}:</span>
                       <span className="stat-value">{root.usableSpace}</span>
                     </div>
                   </div>
@@ -641,15 +642,15 @@ const SystemInfo = () => {
 
         {systemInfo.disk?.applicationDataSize && (
           <div className="application-disk">
-            <h3>Date Aplicație</h3>
+            <h3>{t('systemInfo.disk.applicationData')}</h3>
             <div className="app-disk-metrics">
               <MetricCard
-                title="Mărime Date"
+                title={t('systemInfo.disk.dataSize')}
                 value={systemInfo.disk.applicationDataSize}
                 icon="📁"
               />
               <MetricCard
-                title="Număr Fișiere"
+                title={t('systemInfo.disk.fileCount')}
                 value={systemInfo.disk.applicationFileCount}
                 icon="📄"
               />
@@ -663,29 +664,29 @@ const SystemInfo = () => {
   return (
     <div className="system-info">
       <div className="system-header">
-        <h2>Informații Sistem (Demo)</h2>
+        <h2>{t('systemInfo.pageTitle')}</h2>
         <div className="header-actions">
           {loading ? (
-            <div className="system-loading">Se actualizează...</div>
+            <div className="system-loading">{t('systemInfo.updating')}</div>
           ) : (
             <div className="last-update">
-              Ultima actualizare: {new Date().toLocaleTimeString('ro-RO')}
+              {t('systemInfo.lastUpdate')}: {new Date().toLocaleTimeString('ro-RO')}
             </div>
           )}
           <button onClick={fetchSystemInfo} className="refresh-btn" disabled={loading}>
-            {loading ? 'Se actualizează...' : 'Actualizează'}
+            {loading ? t('systemInfo.updating') : t('systemInfo.refresh')}
           </button>
         </div>
       </div>
 
       <div className="system-tabs">
-        <TabButton id="overview" label="Prezentare Generală" icon="📊" isActive={activeTab === 'overview'} onClick={setActiveTab} />
-        <TabButton id="memory" label="Memorie" icon="💾" isActive={activeTab === 'memory'} onClick={setActiveTab} />
-        <TabButton id="performance" label="Performanță" icon="⚡" isActive={activeTab === 'performance'} onClick={setActiveTab} />
-        <TabButton id="database" label="Baza de Date" icon="🗄️" isActive={activeTab === 'database'} onClick={setActiveTab} />
-        <TabButton id="system" label="Sistem" icon="🖥️" isActive={activeTab === 'system'} onClick={setActiveTab} />
-        <TabButton id="network" label="Rețea" icon="🌐" isActive={activeTab === 'network'} onClick={setActiveTab} />
-        <TabButton id="disk" label="Disk" icon="💿" isActive={activeTab === 'disk'} onClick={setActiveTab} />
+        <TabButton id="overview" label={t('systemInfo.tabs.overview')} icon="📊" isActive={activeTab === 'overview'} onClick={setActiveTab} />
+        <TabButton id="memory" label={t('systemInfo.tabs.memory')} icon="💾" isActive={activeTab === 'memory'} onClick={setActiveTab} />
+        <TabButton id="performance" label={t('systemInfo.tabs.performance')} icon="⚡" isActive={activeTab === 'performance'} onClick={setActiveTab} />
+        <TabButton id="database" label={t('systemInfo.tabs.database')} icon="🗄️" isActive={activeTab === 'database'} onClick={setActiveTab} />
+        <TabButton id="system" label={t('systemInfo.tabs.system')} icon="🖥️" isActive={activeTab === 'system'} onClick={setActiveTab} />
+        <TabButton id="network" label={t('systemInfo.tabs.network')} icon="🌐" isActive={activeTab === 'network'} onClick={setActiveTab} />
+        <TabButton id="disk" label={t('systemInfo.tabs.disk')} icon="💿" isActive={activeTab === 'disk'} onClick={setActiveTab} />
       </div>
 
       <div className="system-content">

@@ -1,156 +1,151 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './Plans.css';
 import './Planificare.css';
 
 const Plans = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { planId } = useParams();
+  const { lang } = useParams();
   const [activeView, setActiveView] = useState('overview');
   const [plans, setPlans] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
-// Date mock pentru planuri
-const mockPlans = [
-  {
-    id: 1,
-    name: 'Sezon Competițional 2025',
-    description: 'Plan complet de pregătire pentru sezonul competițional principal, incluzând toate fazele macro.',
-    startDate: '2025-09-01',
-    endDate: '2026-02-28',
-    status: 'Active',
-    goals: 'Construirea bazei aerobe, creșterea intensității progresive și atingerea vârfului de formă pentru Campionatul Național.',
-    macroPhases: ['accumulation', 'intensification', 'realization', 'taper', 'transition'],
-    keyRaces: [
-      { 
-        name: 'Concurs Regional', 
-        raceDate: '2025-11-10', 
-        raceType: 'tuneup', 
-        description: 'Primul test intermediar al sezonului'
-      },
-      { 
-        name: 'Campionatul Național', 
-        raceDate: '2026-02-15', 
-        raceType: 'target', 
-        description: 'Competiția principală a sezonului'
-      }
-    ],
-    participants: [
-      { participantType: 'INDIVIDUAL', cursantId: 1, name: 'Marcel Popescu' },
-      { participantType: 'INDIVIDUAL', cursantId: 2, name: 'Delia Tuc' },
-      { participantType: 'GROUP', groupId: 101, name: 'Juniori' }
-    ]
-  },
-  {
-    id: 2,
-    name: 'Plan Off-Season / Recuperare',
-    description: 'Plan de tranziție și refacere activă după sezonul competițional, cu accent pe tehnică și volum redus.',
-    startDate: '2026-03-01',
-    endDate: '2026-04-15',
-    status: 'Draft',
-    goals: 'Recuperare fizică și mentală, corectarea tehnicii și pregătire pentru următorul ciclu.',
-    macroPhases: ['accumulation','transition'],
-    keyRaces: [
-      { 
-        name: 'Set de Test 400m', 
-        raceDate: '2026-04-10', 
-        raceType: 'testset', 
-        description: 'Evaluare a nivelului post-sezon'
-      }
-    ],
-    participants: [
-      { participantType: 'GROUP', groupId: 101, name: 'Grup Juniori' }
-    ]
-  }
-];
 
-  
-    // Date mock pentru participanți
-    const mockSwimmers = [
-      { id: 1, nume: 'Înotător 1' },
-      { id: 2, nume: 'Înotător 2' },
-      { id: 3, nume: 'Înotător 3' }
-    ];
-  
-    const mockGroups = [
-      { id: 101, name: 'Grup Juniori', swimmerCount: 10, swimmerNames: ['A', 'B', 'C'] },
-      { id: 102, name: 'Grup Seniori', swimmerCount: 8, swimmerNames: ['X', 'Y', 'Z'] }
-    ];
-  
-  
-  // Training types with recovery requirements
-  const trainingTypes = {
-    REZ: { name: 'Rezistență', zone: '1-2', hrRange: '50-70%', recovery: 0, color: '#4CAF50' },
-    TEHNICA: { name: 'Tehnică', zone: '1-2', hrRange: '50-70%', recovery: 0, color: '#2196F3' },
-    PA: { name: 'Prag Anaerob', zone: '3', hrRange: '70-80%', recovery: 1, color: '#FF9800' },
-    TOL: { name: 'Toleranță la lactat', zone: '4', hrRange: '80-90%', recovery: 2, color: '#F44336' },
-    VO2: { name: 'VO2 Max', zone: '5', hrRange: '90-100%', recovery: 3, color: '#9C27B0' },
-    TEMPO: { name: 'Tempo Cursă', zone: '6', hrRange: '100-110%', recovery: 3, color: '#E91E63' }
-  };
+  const mockPlans = useMemo(() => [
+    {
+      id: 1,
+      name: t('plans.mockPlans.competitiveSeason'),
+      description: t('plans.mockPlans.competitiveSeasonDesc'),
+      startDate: '2025-09-01',
+      endDate: '2026-02-28',
+      status: 'Active',
+      goals: t('plans.mockPlans.competitiveSeasonGoals'),
+      macroPhases: ['accumulation', 'intensification', 'realization', 'taper', 'transition'],
+      keyRaces: [
+        { 
+          name: t('plans.mockPlans.regionalCompetition'), 
+          raceDate: '2025-11-10', 
+          raceType: 'tuneup', 
+          description: t('plans.mockPlans.regionalCompetitionDesc')
+        },
+        { 
+          name: t('plans.mockPlans.nationalChampionship'), 
+          raceDate: '2026-02-15', 
+          raceType: 'target', 
+          description: t('plans.mockPlans.nationalChampionshipDesc')
+        }
+      ],
+      participants: [
+        { participantType: 'INDIVIDUAL', cursantId: 1, name: 'Marcel Popescu' },
+        { participantType: 'INDIVIDUAL', cursantId: 2, name: 'Delia Tuc' },
+        { participantType: 'GROUP', groupId: 101, name: 'Juniori' }
+      ]
+    },
+    {
+      id: 2,
+      name: t('plans.mockPlans.offSeasonPlan'),
+      description: t('plans.mockPlans.offSeasonPlanDesc'),
+      startDate: '2026-03-01',
+      endDate: '2026-04-15',
+      status: 'Draft',
+      goals: t('plans.mockPlans.offSeasonPlanGoals'),
+      macroPhases: ['accumulation','transition'],
+      keyRaces: [
+        { 
+          name: t('plans.mockPlans.testSet400m'), 
+          raceDate: '2026-04-10', 
+          raceType: 'testset', 
+          description: t('plans.mockPlans.testSet400mDesc')
+        }
+      ],
+      participants: [
+        { participantType: 'GROUP', groupId: 101, name: 'Grup Juniori' }
+      ]
+    }
+  ], [t]);
 
-  // Heart rate zones
-  const hrZones = [
-    { zone: 1, range: '50-60%', description: 'Recuperare - Incălzire și relaxare', color: '#4CAF50' },
-    { zone: 2, range: '60-70%', description: 'Ardere grăsimi - Rezistență', color: '#8BC34A' },
-    { zone: 3, range: '70-80%', description: 'Aerobică - Capacitate cardiovasculară (PA)', color: '#FF9800' },
-    { zone: 4, range: '80-90%', description: 'Intensitate înaltă - Prag anaerob (TOL)', color: '#F44336' },
-    { zone: 5, range: '90-100%', description: 'Intensitate maximă (VO2)', color: '#9C27B0' },
-    { zone: 6, range: '100-110%', description: 'Tempo cursă (TEMPO)', color: '#E91E63' }
+  const mockSwimmers = [
+    { id: 1, nume: t('plans.mockData.swimmer1') },
+    { id: 2, nume: t('plans.mockData.swimmer2') },
+    { id: 3, nume: t('plans.mockData.swimmer3') }
   ];
 
-  // Predefined macro-phases
+  const mockGroups = [
+    { id: 101, name: t('plans.mockData.juniorGroup'), swimmerCount: 10, swimmerNames: ['A', 'B', 'C'] },
+    { id: 102, name: t('plans.mockData.seniorGroup'), swimmerCount: 8, swimmerNames: ['X', 'Y', 'Z'] }
+  ];
+
+  const trainingTypes = {
+    REZ: { name: t('plans.trainingTypes.endurance'), zone: '1-2', hrRange: '50-70%', recovery: 0, color: '#4CAF50' },
+    TEHNICA: { name: t('plans.trainingTypes.technique'), zone: '1-2', hrRange: '50-70%', recovery: 0, color: '#2196F3' },
+    PA: { name: t('plans.trainingTypes.anaerobicThreshold'), zone: '3', hrRange: '70-80%', recovery: 1, color: '#FF9800' },
+    TOL: { name: t('plans.trainingTypes.lactateTolerance'), zone: '4', hrRange: '80-90%', recovery: 2, color: '#F44336' },
+    VO2: { name: t('plans.trainingTypes.vo2max'), zone: '5', hrRange: '90-100%', recovery: 3, color: '#9C27B0' },
+    TEMPO: { name: t('plans.trainingTypes.raceTempo'), zone: '6', hrRange: '100-110%', recovery: 3, color: '#E91E63' }
+  };
+
+  const hrZones = [
+    { zone: 1, range: '50-60%', description: t('plans.hrZones.zone1'), color: '#4CAF50' },
+    { zone: 2, range: '60-70%', description: t('plans.hrZones.zone2'), color: '#8BC34A' },
+    { zone: 3, range: '70-80%', description: t('plans.hrZones.zone3'), color: '#FF9800' },
+    { zone: 4, range: '80-90%', description: t('plans.hrZones.zone4'), color: '#F44336' },
+    { zone: 5, range: '90-100%', description: t('plans.hrZones.zone5'), color: '#9C27B0' },
+    { zone: 6, range: '100-110%', description: t('plans.hrZones.zone6'), color: '#E91E63' }
+  ];
+
   const availableMacroPhases = [
     { 
       id: 'accumulation', 
-      name: 'Acumulare', 
-      description: 'Fază centrată pe volum pentru construirea bazei aerobe',
-      duration: '4-6 săptămâni',
+      name: t('plans.macroPhases.accumulation.name'), 
+      description: t('plans.macroPhases.accumulation.description'),
+      duration: t('plans.macroPhases.accumulation.duration'),
       color: '#4CAF50'
     },
     { 
       id: 'intensification', 
-      name: 'Intensificare', 
-      description: 'Fază de antrenament de înaltă intensitate',
-      duration: '2-4 săptămâni',
+      name: t('plans.macroPhases.intensification.name'), 
+      description: t('plans.macroPhases.intensification.description'),
+      duration: t('plans.macroPhases.intensification.duration'),
       color: '#FF9800'
     },
     { 
       id: 'realization', 
-      name: 'Realizare', 
-      description: 'Pregătire specifică competiției',
-      duration: '1-2 săptămâni',
+      name: t('plans.macroPhases.realization.name'), 
+      description: t('plans.macroPhases.realization.description'),
+      duration: t('plans.macroPhases.realization.duration'),
       color: '#F44336'
     },
     { 
       id: 'taper', 
-      name: 'Descărcarea', 
-      description: 'Reducerea volumului înaintea competiției',
-      duration: '1-3 săptămâni',
+      name: t('plans.macroPhases.taper.name'), 
+      description: t('plans.macroPhases.taper.description'),
+      duration: t('plans.macroPhases.taper.duration'),
       color: '#9C27B0'
     },
     { 
       id: 'transition', 
-      name: 'Tranziție', 
-      description: 'Recuperare activă și regenerare',
-      duration: '2-4 săptămâni',
+      name: t('plans.macroPhases.transition.name'), 
+      description: t('plans.macroPhases.transition.description'),
+      duration: t('plans.macroPhases.transition.duration'),
       color: '#607D8B'
     }
   ];
 
-  // Race types
   const raceTypes = [
-    { id: 'target', name: 'Cursă Țintă', description: 'Obiectivul principal al competiției' },
-    { id: 'tuneup', name: 'Concurs de Pregătire', description: 'Competiție de pregătire' },
-    { id: 'testset', name: 'Set de Test', description: 'Evaluare de antrenament' }
+    { id: 'target', name: t('plans.raceTypes.target'), description: t('plans.raceTypes.targetDesc') },
+    { id: 'tuneup', name: t('plans.raceTypes.tuneup'), description: t('plans.raceTypes.tuneupDesc') },
+    { id: 'testset', name: t('plans.raceTypes.testset'), description: t('plans.raceTypes.testsetDesc') }
   ];
 
-  // Form state
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     startDate: '',
     endDate: '',
-    status: 'DRAFT', // ADD THIS
+    status: 'DRAFT',
     macroPhases: [],
     keyRaces: [],
     athlete: '',
@@ -159,26 +154,18 @@ const mockPlans = [
     weeklyPattern: {},
     participants: [] 
   });
-  // Calendar view state
+
   const [calendarView, setCalendarView] = useState('phases');
   const [selectedWeek, setSelectedWeek] = useState(null);
-  
-  // Phase assignment state
   const [selectedPhaseForCalendar, setSelectedPhaseForCalendar] = useState(null);
   const [phaseStartWeek, setPhaseStartWeek] = useState('');
   const [phaseEndWeek, setPhaseEndWeek] = useState('');
-
-  // Participant state
   const [selectedParticipantType, setSelectedParticipantType] = useState('INDIVIDUAL');
   const [availableSwimmers, setAvailableSwimmers] = useState([]);
   const [availableGroups, setAvailableGroups] = useState([]);
-
-  // Alert and validation state
   const [recoveryAlert, setRecoveryAlert] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
 
-  // Load specific plan for editing
-  // Load specific plan for editing
   const loadPlanForEdit = (id) => {
     const plan = mockPlans.find(p => p.id === parseInt(id));
     if (!plan) return;
@@ -202,25 +189,21 @@ const mockPlans = [
     setActiveView('create');
   };
 
-
-  // Phase assignment functions
   const assignPhaseToWeeks = (phaseId, startWeek, endWeek) => {
     const start = parseInt(startWeek);
     const end = parseInt(endWeek);
     
-    // Check for overlaps with existing phases
     const hasOverlap = Object.entries(formData.phaseCalendar).some(([existingPhaseId, assignment]) => {
-      if (existingPhaseId === phaseId) return false; // Skip self
+      if (existingPhaseId === phaseId) return false;
       
       const existingStart = assignment.startWeek;
       const existingEnd = assignment.endWeek;
       
-      // Check if ranges overlap
       return (start <= existingEnd && end >= existingStart);
     });
     
     if (hasOverlap) {
-      alert('Fazele nu se pot suprapune! Alege un interval diferit.');
+      alert(t('plans.alerts.phasesCannotOverlap'));
       return;
     }
     
@@ -245,13 +228,11 @@ const mockPlans = [
     }
   };
 
-  // Recovery period validation
   const validateRecoveryPeriods = (weekNumber, dayIndex, trainingType) => {
     if (!trainingType || ['REZ', 'TEHNICA'].includes(trainingType)) return { valid: true };
     
     const highIntensityTypes = ['PA', 'TOL', 'VO2', 'TEMPO'];
     
-    // Find the most recent high-intensity training before this day
     for (let checkWeek = weekNumber; checkWeek >= 1; checkWeek--) {
       const weekPattern = formData.weeklyPattern[checkWeek];
       if (!weekPattern) continue;
@@ -266,37 +247,47 @@ const mockPlans = [
           const daysBetween = calculateDaysBetween(checkWeek, checkDay, weekNumber, dayIndex);
           
           if (daysBetween <= requiredRecovery) {
-            const dayNames = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Duminică'];
+            const dayNames = [
+              t('plans.days.monday'),
+              t('plans.days.tuesday'),
+              t('plans.days.wednesday'),
+              t('plans.days.thursday'),
+              t('plans.days.friday'),
+              t('plans.days.saturday'),
+              t('plans.days.sunday')
+            ];
             return {
               valid: false,
-              violations: [`Recuperare insuficientă după ${trainingTypes[dayTraining]?.name} din ${dayNames[checkDay]} (Săpt. ${checkWeek}). Necesită ${requiredRecovery} zi${requiredRecovery > 1 ? 'le' : ''} de recuperare.`],
+              violations: [t('plans.recovery.insufficientRecovery', {
+                training: trainingTypes[dayTraining]?.name,
+                day: dayNames[checkDay],
+                week: checkWeek,
+                days: requiredRecovery,
+                daysLabel: requiredRecovery > 1 ? t('plans.recovery.days') : t('plans.recovery.day')
+              })],
               recoveryNeeded: requiredRecovery
             };
           }
           
-          // Found recent session with sufficient recovery
           return { valid: true };
         }
       }
     }
     
-    return { valid: true }; // No recent high-intensity training found
+    return { valid: true };
   };
 
-  // Helper function to calculate days between two dates
   const calculateDaysBetween = (fromWeek, fromDay, toWeek, toDay) => {
     if (fromWeek === toWeek) {
       return toDay - fromDay;
     }
     
-    // Calculate total days more simply
     const fromTotalDays = (fromWeek - 1) * 7 + fromDay;
     const toTotalDays = (toWeek - 1) * 7 + toDay;
     
     return toTotalDays - fromTotalDays;
   };
 
-  // Weekly training setter with validation
   const setWeeklyTraining = (weekNumber, dayIndex, trainingType) => {
     if (trainingType && !['REZ', 'TEHNICA', ''].includes(trainingType)) {
       const validation = validateRecoveryPeriods(weekNumber, dayIndex, trainingType);
@@ -308,7 +299,6 @@ const mockPlans = [
           violations: validation.violations,
           onConfirm: () => {
             setRecoveryAlert(null);
-            // Proceed with setting the training
             setFormData(prev => ({
               ...prev,
               weeklyPattern: {
@@ -328,7 +318,6 @@ const mockPlans = [
       }
     }
     
-    // Normal flow - no validation issues
     setFormData(prev => ({
       ...prev,
       weeklyPattern: {
@@ -341,16 +330,15 @@ const mockPlans = [
     }));
   };
 
-  // Race validation
   const validateRaces = () => {
     const errors = {};
     
     formData.keyRaces.forEach((race, index) => {
       if (!race.name || race.name.trim() === '') {
-        errors[`race_${index}_name`] = 'Numele competiției este obligatoriu';
+        errors[`race_${index}_name`] = t('plans.validation.raceNameRequired');
       }
       if (!race.date) {
-        errors[`race_${index}_date`] = 'Data competiției este obligatorie';
+        errors[`race_${index}_date`] = t('plans.validation.raceDateRequired');
       }
     });
     
@@ -358,7 +346,6 @@ const mockPlans = [
     return Object.keys(errors).length === 0;
   };
 
-  // Generate weeks from start and end date
   const generateWeeks = (startDate, endDate) => {
     if (!startDate || !endDate) return [];
     
@@ -366,7 +353,6 @@ const mockPlans = [
     const start = new Date(startDate);
     const end = new Date(endDate);
     
-    // Adjust to Monday of the first week
     const firstMonday = new Date(start);
     firstMonday.setDate(start.getDate() - start.getDay() + 1);
     
@@ -393,7 +379,15 @@ const mockPlans = [
 
   const generateDaysForWeek = (weekStart) => {
     const days = [];
-    const dayNames = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Duminică'];
+    const dayNames = [
+      t('plans.days.monday'),
+      t('plans.days.tuesday'),
+      t('plans.days.wednesday'),
+      t('plans.days.thursday'),
+      t('plans.days.friday'),
+      t('plans.days.saturday'),
+      t('plans.days.sunday')
+    ];
     
     for (let i = 0; i < 7; i++) {
       const day = new Date(weekStart);
@@ -412,14 +406,11 @@ const mockPlans = [
     setSelectedWeek(weekNumber);
   };
 
-  // Fetch participants data
   useEffect(() => {
     setAvailableSwimmers(mockSwimmers);
     setAvailableGroups(mockGroups);
   }, []);
 
-
-  // Participant management
   const addParticipant = (type, id) => {
     if (!id) return;
     
@@ -432,7 +423,6 @@ const mockPlans = [
         : availableGroups.find(g => g.id === parseInt(id))?.name
     };
     
-    // Check if already added
     const exists = formData.participants.some(p => 
       (p.participantType === type && 
        ((type === 'INDIVIDUAL' && p.cursantId === parseInt(id)) || 
@@ -454,54 +444,49 @@ const mockPlans = [
     }));
   };
 
-  // Fetch plans from API
   useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {
       setPlans(mockPlans);
       setIsLoading(false);
-    }, 500); // mic delay ca să simulezi fetch
+    }, 500);
   }, []);
 
- 
-useEffect(() => {
- 
-  if (planId && !editMode) {
-    loadPlanForEdit(planId);
-  }
-}, [planId, editMode]);
-
-  // Add this after your other useEffects
-useEffect(() => {
-  if (editMode && formData.participants.length > 0 && availableSwimmers.length > 0) {
-    const needsEnrichment = formData.participants.some(p => !p.name || p.name.startsWith('Cursant ID:') || p.name.startsWith('Grup ID:'));
-    
-    if (needsEnrichment) {
-      setFormData(prev => ({
-        ...prev,
-        participants: prev.participants.map(participant => {
-          if (participant.name && !participant.name.startsWith('Cursant ID:') && !participant.name.startsWith('Grup ID:')) {
-            return participant;
-          }
-          
-          if (participant.participantType === 'INDIVIDUAL') {
-            const swimmer = availableSwimmers.find(s => s.id === participant.cursantId);
-            return { ...participant, name: swimmer?.nume || `Cursant ID: ${participant.cursantId}` };
-          }
-          
-          if (participant.participantType === 'GROUP') {
-            const group = availableGroups.find(g => g.id === participant.groupId);
-            return { ...participant, name: group?.name || `Grup ID: ${participant.groupId}` };
-          }
-          
-          return participant;
-        })
-      }));
+  useEffect(() => {
+    if (planId && !editMode) {
+      loadPlanForEdit(planId);
     }
-  }
-}, [availableSwimmers, availableGroups, editMode, formData.participants.length]);
+  }, [planId, editMode]);
 
-  // Form handlers
+  useEffect(() => {
+    if (editMode && formData.participants.length > 0 && availableSwimmers.length > 0) {
+      const needsEnrichment = formData.participants.some(p => !p.name || p.name.startsWith('Cursant ID:') || p.name.startsWith('Grup ID:'));
+      
+      if (needsEnrichment) {
+        setFormData(prev => ({
+          ...prev,
+          participants: prev.participants.map(participant => {
+            if (participant.name && !participant.name.startsWith('Cursant ID:') && !participant.name.startsWith('Grup ID:')) {
+              return participant;
+            }
+            
+            if (participant.participantType === 'INDIVIDUAL') {
+              const swimmer = availableSwimmers.find(s => s.id === participant.cursantId);
+              return { ...participant, name: swimmer?.nume || `Cursant ID: ${participant.cursantId}` };
+            }
+            
+            if (participant.participantType === 'GROUP') {
+              const group = availableGroups.find(g => g.id === participant.groupId);
+              return { ...participant, name: group?.name || `Grup ID: ${participant.groupId}` };
+            }
+            
+            return participant;
+          })
+        }));
+      }
+    }
+  }, [availableSwimmers, availableGroups, editMode, formData.participants.length]);
+
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
@@ -540,7 +525,6 @@ useEffect(() => {
       )
     }));
     
-    // Clear validation error when user starts typing
     if (field === 'date' && value) {
       setValidationErrors(prev => ({
         ...prev,
@@ -565,7 +549,7 @@ useEffect(() => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateRaces()) {
-      alert('Te rugăm să completezi toate câmpurile obligatorii pentru competiții.');
+      alert(t('plans.alerts.fillAllRequired'));
       return;
     }
     
@@ -596,7 +580,6 @@ useEffect(() => {
         participants: formData.participants
       };
       
-      // Choose endpoint based on edit mode
       const url = editMode ? `/api/plans/${planId}` : '/api/plans';
       const method = editMode ? 'PUT' : 'POST';
       
@@ -614,14 +597,11 @@ useEffect(() => {
         const resultPlan = await response.json();
         
         if (editMode) {
-          // Update existing plan in list
           setPlans(prev => prev.map(p => p.id === planId ? resultPlan : p));
         } else {
-          // Add new plan to list
           setPlans(prev => [...prev, resultPlan]);
         }
         
-        // Reset form and return to overview
         setFormData({
           name: '', description: '', startDate: '', endDate: '',
           macroPhases: [], keyRaces: [], athlete: '', goals: '',
@@ -630,7 +610,7 @@ useEffect(() => {
         
         setEditMode(false);
         setActiveView('overview');
-        navigate('/admin/traininghub/plans');
+        navigate(`/${lang}/admin/traininghub/plans`);
       } else {
         const errorData = await response.json();
         console.error('Failed to save plan:', errorData);
@@ -642,7 +622,6 @@ useEffect(() => {
     }
   };
 
-  // Utility functions
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('ro-RO', {
       day: '2-digit',
@@ -667,17 +646,17 @@ useEffect(() => {
     const diffTime = Math.abs(end - start);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     const weeks = Math.floor(diffDays / 7);
-    return `${weeks} săptămâni`;
+    return t('plans.duration.weeks', { count: weeks });
   };
+  // Continuing from Part 1...
 
-  // Render phase calendar
   const renderPhaseCalendar = () => {
     const weeks = generateWeeks(formData.startDate, formData.endDate);
     
     return (
       <div className="phase-calendar">
         <div className="calendar-header">
-          <h4>Asignare Faze Macro pe Săptămâni</h4>
+          <h4>{t('plans.form.assignMacroPhases')}</h4>
           <div className="selected-phases">
             {formData.macroPhases.map(phaseId => {
               const phase = availableMacroPhases.find(p => p.id === phaseId);
@@ -693,7 +672,7 @@ useEffect(() => {
                   </div>
                   {assignment && (
                     <span className="week-range">
-                      Săpt. {assignment.startWeek} - {assignment.endWeek}
+                      {t('plans.form.week')} {assignment.startWeek} - {assignment.endWeek}
                     </span>
                   )}
                 </div>
@@ -716,7 +695,7 @@ useEffect(() => {
                 onClick={() => handleWeekClick(week.number)}
               >
                 <div className="week-header">
-                  <span className="week-number">Săpt. {week.number}</span>
+                  <span className="week-number">{t('plans.form.week')} {week.number}</span>
                   <span className="week-dates">
                     {week.startDate.toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit' })} - 
                     {week.endDate.toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit' })}
@@ -740,40 +719,38 @@ useEffect(() => {
         {selectedPhaseForCalendar && (
           <div className="phase-assignment-modal">
             <div className="modal-content">
-              <h4>Asignează {availableMacroPhases.find(p => p.id === selectedPhaseForCalendar)?.name}</h4>
+              <h4>{t('plans.form.assignPhase', { phase: availableMacroPhases.find(p => p.id === selectedPhaseForCalendar)?.name })}</h4>
               <div className="week-selector">
                 <div className="form-row">
                   <div className="form-group">
-                    <label>Săptămâna de început</label>
+                    <label>{t('plans.form.startWeek')}</label>
                     <select 
                       className="form-select"
                       value={phaseStartWeek}
                       onChange={(e) => setPhaseStartWeek(e.target.value)}
                     >
-                      <option value="">Selectează...</option>
+                      <option value="">{t('plans.form.selectStartWeek')}</option>
                       {weeks.filter(week => {
-                        // Filter out weeks that are already assigned to other phases
                         return !Object.entries(formData.phaseCalendar).some(([phaseId, assignment]) => {
                           if (phaseId === selectedPhaseForCalendar) return false;
                           return week.number >= assignment.startWeek && week.number <= assignment.endWeek;
                         });
                       }).map(week => (
                         <option key={week.number} value={week.number}>
-                          Săptămâna {week.number}
+                          {t('plans.form.weekShort')} {week.number}
                         </option>
                       ))}
                     </select>
                   </div>
                   <div className="form-group">
-                    <label>Săptămâna de sfârșit</label>
+                    <label>{t('plans.form.endWeek')}</label>
                     <select 
                       className="form-select"
                       value={phaseEndWeek}
                       onChange={(e) => setPhaseEndWeek(e.target.value)}
                     >
-                      <option value="">Selectează...</option>
+                      <option value="">{t('plans.form.selectStartWeek')}</option>
                       {weeks.filter(week => {
-                        // Only show weeks >= start week and not assigned to other phases
                         const startWeekNum = parseInt(phaseStartWeek);
                         if (!startWeekNum || week.number < startWeekNum) return false;
                         
@@ -783,7 +760,7 @@ useEffect(() => {
                         });
                       }).map(week => (
                         <option key={week.number} value={week.number}>
-                          Săptămâna {week.number}
+                          {t('plans.form.weekShort')} {week.number}
                         </option>
                       ))}
                     </select>
@@ -791,7 +768,7 @@ useEffect(() => {
                 </div>
                 <div className="modal-actions">
                   <button type="button" onClick={() => setSelectedPhaseForCalendar(null)}>
-                    Anulează
+                    {t('plans.form.cancel')}
                   </button>
                   <button 
                     type="button" 
@@ -799,7 +776,7 @@ useEffect(() => {
                     onClick={() => assignPhaseToWeeks(selectedPhaseForCalendar, phaseStartWeek, phaseEndWeek)}
                     disabled={!phaseStartWeek || !phaseEndWeek}
                   >
-                    Asignează
+                    {t('plans.form.assign')}
                   </button>
                 </div>
               </div>
@@ -810,14 +787,13 @@ useEffect(() => {
     );
   };
 
-  // Render weekly training
   const renderWeeklyTraining = () => {
     const weeks = generateWeeks(formData.startDate, formData.endDate);
     
     return (
       <div className="weekly-training">
         <div className="training-legend">
-          <h4>Tipuri de Antrenament</h4>
+          <h4>{t('plans.form.trainingTypesLegend')}</h4>
           <div className="legend-grid">
             {Object.entries(trainingTypes).map(([key, type]) => (
               <div key={key} className="legend-item">
@@ -841,7 +817,7 @@ useEffect(() => {
             return (
               <div key={week.number} className="week-training-card">
                 <div className="week-training-header">
-                  <span className="week-number">Săptămâna {week.number}</span>
+                  <span className="week-number">{t('plans.form.weekShort')} {week.number}</span>
                   {assignedPhase && (
                     <span 
                       className="week-phase-indicator"
@@ -872,7 +848,7 @@ useEffect(() => {
                             backgroundColor: currentTraining ? trainingTypes[currentTraining]?.color + '33' : 'transparent'
                           }}
                         >
-                          <option value="">Rest</option>
+                          <option value="">{t('plans.form.rest')}</option>
                           {Object.entries(trainingTypes).map(([key, type]) => (
                             <option key={key} value={key}>{key}</option>
                           ))}
@@ -889,33 +865,32 @@ useEffect(() => {
     );
   };
 
-  // Render overview
   const renderOverview = () => (
     <div className="plans-overview">
       <div className="overview-header">
         <div className="header-content">
-          <h2 className="page-title">Planuri de Antrenament</h2>
-          <p className="page-subtitle">Gestionează programele pe termen lung și pregătirea pentru competiții</p>
+          <h2 className="page-title">{t('plans.overview.title')}</h2>
+          <p className="page-subtitle">{t('plans.overview.subtitle')}</p>
         </div>
         <button 
           className="btn-primary"
           onClick={() => setActiveView('create')}
         >
           <span className="btn-icon">➕</span>
-          Creează Plan Nou
+          {t('plans.overview.createNewPlan')}
         </button>
       </div>
 
       {plans.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">📋</div>
-          <h3>Nu există planuri create</h3>
-          <p>Începe prin a crea primul tău plan de antrenament pentru gestionarea eficientă a pregătirii.</p>
+          <h3>{t('plans.overview.emptyState.title')}</h3>
+          <p>{t('plans.overview.emptyState.description')}</p>
           <button 
             className="btn-primary"
             onClick={() => setActiveView('create')}
           >
-            Creează Primul Plan
+            {t('plans.overview.emptyState.createFirst')}
           </button>
         </div>
       ) : (
@@ -938,22 +913,22 @@ useEffect(() => {
               <div className="plan-card-body">
                 <div className="plan-dates">
                   <div className="date-item">
-                    <span className="date-label">Start:</span>
+                    <span className="date-label">{t('plans.card.start')}</span>
                     <span className="date-value">{formatDate(plan.startDate)}</span>
                   </div>
                   <div className="date-item">
-                    <span className="date-label">Sfârșit:</span>
+                    <span className="date-label">{t('plans.card.end')}</span>
                     <span className="date-value">{formatDate(plan.endDate)}</span>
                   </div>
                   <div className="date-item">
-                    <span className="date-label">Durată:</span>
+                    <span className="date-label">{t('plans.card.duration')}</span>
                     <span className="date-value">{calculatePlanDuration(plan.startDate, plan.endDate)}</span>
                   </div>
                 </div>
 
                 <div className="plan-progress">
                   <div className="progress-header">
-                    <span className="progress-label">Progres</span>
+                    <span className="progress-label">{t('plans.card.progress')}</span>
                     <span className="progress-value">{plan.progress || 0}%</span>
                   </div>
                   <div className="progress-bar">
@@ -965,30 +940,30 @@ useEffect(() => {
                 </div>
 
                 <div className="plan-phases">
-  <span className="phases-label">Faze Macro:</span>
-  <div className="phases-list">
-    {(plan.macroPhases || []).map((phaseId, index) => {
-      const phase = availableMacroPhases.find(p => p.id === phaseId);
-      
-      if (!phase) {
-        return <span key={index} style={{color: 'red'}}>Missing: {phaseId}</span>;
-      }
-      
-      return (
-        <span 
-          key={phaseId}
-          className="phase-badge"
-          style={{ backgroundColor: phase.color }}
-        >
-          {phase.name}
-        </span>
-      );
-    })}
-  </div>
-</div>
+                  <span className="phases-label">{t('plans.card.macroPhases')}</span>
+                  <div className="phases-list">
+                    {(plan.macroPhases || []).map((phaseId, index) => {
+                      const phase = availableMacroPhases.find(p => p.id === phaseId);
+                      
+                      if (!phase) {
+                        return <span key={index} style={{color: 'red'}}>Missing: {phaseId}</span>;
+                      }
+                      
+                      return (
+                        <span 
+                          key={phaseId}
+                          className="phase-badge"
+                          style={{ backgroundColor: phase.color }}
+                        >
+                          {phase.name}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
 
                 <div className="plan-races">
-                  <span className="races-label">Competiții Cheie:</span>
+                  <span className="races-label">{t('plans.card.keyRaces')}</span>
                   <div className="races-list">
                     {(plan.keyRaces || []).map((race, index) => (
                       <div key={index} className="race-item">
@@ -1008,12 +983,12 @@ useEffect(() => {
                   className="btn-secondary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/admin/traininghub/edit-plan/${plan.id}`);
+                    navigate(`/${lang}/admin/traininghub/edit-plan/${plan.id}`);
                   }}
                 >
-                  Editează
+                  {t('plans.card.edit')}
                 </button>
-                <button className="btn-outline">Vezi Detalii</button>
+                <button className="btn-outline">{t('plans.card.viewDetails')}</button>
               </div>
             </div>
           ))}
@@ -1022,7 +997,6 @@ useEffect(() => {
     </div>
   );
 
-  // Render create plan
   const renderCreatePlan = () => (
     <div className="create-plan">
       <div className="create-plan-header">
@@ -1031,48 +1005,48 @@ useEffect(() => {
           onClick={() => {
             setActiveView('overview');
             setEditMode(false);
-            navigate('/admin/traininghub/plans');
+            navigate(`/${lang}/admin/traininghub/plans`);
           }}
         >
-          ← Înapoi
+          {t('plans.form.back')}
         </button>
         <h2 className="page-title">
-          {editMode ? 'Editează Planul' : 'Creează Plan Nou'}
+          {editMode ? t('plans.form.editTitle') : t('plans.form.createTitle')}
         </h2>
       </div>
 
       <form onSubmit={handleSubmit} className="create-plan-form">
         <div className="form-section">
-          <h3 className="section-title">Informații Generale</h3>
+          <h3 className="section-title">{t('plans.form.generalInfo')}</h3>
           
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Nume Plan *</label>
+              <label className="form-label">{t('plans.form.planName')}</label>
               <input
                 type="text"
                 className="form-input"
                 value={formData.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
-                placeholder="ex. Campionatul Național 2025"
+                placeholder={t('plans.form.planNamePlaceholder')}
                 required
               />
             </div>
           </div>
 
           <div className="form-group">
-            <label className="form-label">Descriere</label>
+            <label className="form-label">{t('plans.form.description')}</label>
             <textarea
               className="form-textarea"
               value={formData.description}
               onChange={(e) => handleInputChange('description', e.target.value)}
-              placeholder="Descrierea planului de antrenament..."
+              placeholder={t('plans.form.descriptionPlaceholder')}
               rows="3"
             />
           </div>
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Data de Start *</label>
+              <label className="form-label">{t('plans.form.startDate')}</label>
               <input
                 type="date"
                 className="form-input"
@@ -1083,7 +1057,7 @@ useEffect(() => {
             </div>
             
             <div className="form-group">
-              <label className="form-label">Data de Sfârșit *</label>
+              <label className="form-label">{t('plans.form.endDate')}</label>
               <input
                 type="date"
                 className="form-input"
@@ -1095,26 +1069,26 @@ useEffect(() => {
             </div>
           </div>
           <div className="form-row">
-  <div className="form-group">
-    <label className="form-label">Status Plan</label>
-    <select
-      className="form-select"
-      value={formData.status}
-      onChange={(e) => handleInputChange('status', e.target.value)}
-    >
-      <option value="Draft">Draft</option>
-      <option value="Active">Activ</option>
-      <option value="Paused">Pauzat</option>
-      <option value="Completed">Completat</option>
-    </select>
-  </div>
-  </div>
+            <div className="form-group">
+              <label className="form-label">{t('plans.form.planStatus')}</label>
+              <select
+                className="form-select"
+                value={formData.status}
+                onChange={(e) => handleInputChange('status', e.target.value)}
+              >
+                <option value="Draft">{t('plans.form.statusDraft')}</option>
+                <option value="Active">{t('plans.form.statusActive')}</option>
+                <option value="Paused">{t('plans.form.statusPaused')}</option>
+                <option value="Completed">{t('plans.form.statusCompleted')}</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <div className="form-section">
-          <h3 className="section-title">Faze Macro</h3>
+          <h3 className="section-title">{t('plans.form.macroPhases')}</h3>
           <p className="section-description">
-            Selectează fazele macro care vor fi incluse în acest plan de antrenament
+            {t('plans.form.macroPhasesDesc')}
           </p>
           
           <div className="macro-phases-grid">
@@ -1142,16 +1116,16 @@ useEffect(() => {
         </div>
 
         <div className="form-section">
-          <h3 className="section-title">Competiții Cheie</h3>
+          <h3 className="section-title">{t('plans.form.keyRaces')}</h3>
           <p className="section-description">
-            Adaugă competițiile importante, verificările și testele din cadrul planului
+            {t('plans.form.keyRacesDesc')}
           </p>
           
           <div className="key-races-section">
             {formData.keyRaces.map((race, index) => (
               <div key={race.id} className="race-form-item">
                 <div className="race-form-header">
-                  <h4>Competiția {index + 1}</h4>
+                  <h4>{t('plans.form.competition')} {index + 1}</h4>
                   <button 
                     type="button"
                     className="remove-race-btn"
@@ -1163,13 +1137,13 @@ useEffect(() => {
                 
                 <div className="race-form-row">
                   <div className="form-group">
-                    <label className="form-label">Nume Competiție *</label>
+                    <label className="form-label">{t('plans.form.competitionName')}</label>
                     <input
                       type="text"
                       className={`form-input ${validationErrors[`race_${index}_name`] ? 'error' : ''}`}
                       value={race.name}
                       onChange={(e) => updateKeyRace(index, 'name', e.target.value)}
-                      placeholder="ex. Campionatul Național"
+                      placeholder={t('plans.form.competitionNamePlaceholder')}
                     />
                     {validationErrors[`race_${index}_name`] && (
                       <span className="error-message">{validationErrors[`race_${index}_name`]}</span>
@@ -1177,7 +1151,7 @@ useEffect(() => {
                   </div>
                   
                   <div className="form-group">
-                    <label className="form-label">Data *</label>
+                    <label className="form-label">{t('plans.form.date')}</label>
                     <input
                       type="date"
                       className={`form-input ${validationErrors[`race_${index}_date`] ? 'error' : ''}`}
@@ -1192,7 +1166,7 @@ useEffect(() => {
                   </div>
                   
                   <div className="form-group">
-                    <label className="form-label">Tip</label>
+                    <label className="form-label">{t('plans.form.type')}</label>
                     <select
                       className="form-select"
                       value={race.type}
@@ -1208,13 +1182,13 @@ useEffect(() => {
                 </div>
                 
                 <div className="form-group">
-                  <label className="form-label">Descriere</label>
+                  <label className="form-label">{t('plans.form.description')}</label>
                   <input
                     type="text"
                     className="form-input"
                     value={race.description}
                     onChange={(e) => updateKeyRace(index, 'description', e.target.value)}
-                    placeholder="Obiective specifice pentru această competiție"
+                    placeholder={t('plans.form.descriptionPlaceholder')}
                   />
                 </div>
               </div>
@@ -1225,28 +1199,28 @@ useEffect(() => {
               className="add-race-btn"
               onClick={addKeyRace}
             >
-              + Adaugă Competiție
+              {t('plans.form.addCompetition')}
             </button>
           </div>
         </div>
 
         <div className="form-section">
-          <h3 className="section-title">Obiective și Zone de Antrenament</h3>
+          <h3 className="section-title">{t('plans.form.goalsAndZones')}</h3>
           
           <div className="form-group">
-            <label className="form-label">Obiective Planului</label>
+            <label className="form-label">{t('plans.form.planGoals')}</label>
             <textarea
               className="form-textarea"
               value={formData.goals}
               onChange={(e) => handleInputChange('goals', e.target.value)}
-              placeholder="Definește obiectivele specifice ale acestui plan..."
+              placeholder={t('plans.form.planGoalsPlaceholder')}
               rows="4"
             />
           </div>
 
           <div className="reference-sections">
             <div className="hr-zones-reference">
-              <h4 className="reference-title">Zone de Frecvență Cardiacă</h4>
+              <h4 className="reference-title">{t('plans.form.hrZones')}</h4>
               <div className="zones-grid">
                 {hrZones.map(zone => (
                   <div key={zone.zone} className="zone-card">
@@ -1256,7 +1230,7 @@ useEffect(() => {
                         style={{ backgroundColor: zone.color }}
                       ></div>
                       <div className="zone-info">
-                        <span className="zone-number">Zona {zone.zone}</span>
+                        <span className="zone-number">{t('plans.form.zone')} {zone.zone}</span>
                         <span className="zone-range">{zone.range}</span>
                       </div>
                     </div>
@@ -1267,7 +1241,7 @@ useEffect(() => {
             </div>
 
             <div className="training-types-reference">
-              <h4 className="reference-title">Tipuri de Antrenament</h4>
+              <h4 className="reference-title">{t('plans.form.trainingTypes')}</h4>
               <div className="training-types-grid">
                 {Object.entries(trainingTypes).map(([key, type]) => (
                   <div key={key} className="training-type-card">
@@ -1283,18 +1257,18 @@ useEffect(() => {
                     </div>
                     <div className="type-details">
                       <div className="type-detail-item">
-                        <span className="detail-label">Zona:</span>
+                        <span className="detail-label">{t('plans.form.trainingTypeZone')}</span>
                         <span className="detail-value">{type.zone}</span>
                       </div>
                       <div className="type-detail-item">
-                        <span className="detail-label">FC:</span>
+                        <span className="detail-label">{t('plans.form.trainingTypeHR')}</span>
                         <span className="detail-value">{type.hrRange}</span>
                       </div>
                       {type.recovery > 0 && (
                         <div className="type-detail-item">
-                          <span className="detail-label">Recuperare:</span>
+                          <span className="detail-label">{t('plans.form.trainingTypeRecovery')}</span>
                           <span className="detail-value">
-                            {type.recovery} zi{type.recovery > 1 ? 'le' : ''}
+                            {type.recovery} {type.recovery > 1 ? t('plans.recovery.days') : t('plans.recovery.day')}
                           </span>
                         </div>
                       )}
@@ -1306,12 +1280,11 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* Calendar Planning Section */}
         {formData.startDate && formData.endDate && formData.macroPhases.length > 0 && (
           <div className="form-section">
-            <h3 className="section-title">Planificare Calendar</h3>
+            <h3 className="section-title">{t('plans.form.calendarPlanning')}</h3>
             <p className="section-description">
-              Asignează fazele macro la săptămânile specifice și configurează antrenamentele săptămânale
+              {t('plans.form.calendarPlanningDesc')}
             </p>
 
             <div className="calendar-controls">
@@ -1321,14 +1294,14 @@ useEffect(() => {
                   className={`toggle-btn ${calendarView === 'phases' ? 'active' : ''}`}
                   onClick={() => setCalendarView('phases')}
                 >
-                  Faze Macro
+                  {t('plans.form.macroPhaseView')}
                 </button>
                 <button
                   type="button"
                   className={`toggle-btn ${calendarView === 'weekly' ? 'active' : ''}`}
                   onClick={() => setCalendarView('weekly')}
                 >
-                  Antrenamente Săptămânale
+                  {t('plans.form.weeklyTrainingView')}
                 </button>
               </div>
             </div>
@@ -1338,11 +1311,10 @@ useEffect(() => {
           </div>
         )}
 
-        {/* Participants Section */}
         <div className="form-section">
-          <h3 className="section-title">Participanți</h3>
+          <h3 className="section-title">{t('plans.form.participants')}</h3>
           <p className="section-description">
-            Asignează înotători individuali sau grupuri întregi la acest plan de antrenament
+            {t('plans.form.participantsDesc')}
           </p>
           
           <div className="participants-section">
@@ -1352,14 +1324,14 @@ useEffect(() => {
                 className={`type-btn ${selectedParticipantType === 'INDIVIDUAL' ? 'active' : ''}`}
                 onClick={() => setSelectedParticipantType('INDIVIDUAL')}
               >
-                Înotători Individuali
+                {t('plans.form.individualSwimmers')}
               </button>
               <button
                 type="button"
                 className={`type-btn ${selectedParticipantType === 'GROUP' ? 'active' : ''}`}
                 onClick={() => setSelectedParticipantType('GROUP')}
               >
-                Grupuri
+                {t('plans.form.groups')}
               </button>
             </div>
             
@@ -1370,7 +1342,7 @@ useEffect(() => {
                   onChange={(e) => addParticipant('INDIVIDUAL', e.target.value)}
                   value=""
                 >
-                  <option value="">Selectează un înotător...</option>
+                  <option value="">{t('plans.form.selectSwimmer')}</option>
                   {availableSwimmers.map(swimmer => (
                     <option key={swimmer.id} value={swimmer.id}>
                       {swimmer.nume}
@@ -1387,10 +1359,10 @@ useEffect(() => {
                   onChange={(e) => addParticipant('GROUP', e.target.value)}
                   value=""
                 >
-                  <option value="">Selectează un grup...</option>
+                  <option value="">{t('plans.form.selectGroup')}</option>
                   {availableGroups.map(group => (
                     <option key={group.id} value={group.id}>
-                      {group.name} ({group.swimmerCount} înotători: {group.swimmerNames.join(', ')}{group.swimmerCount > 3 ? '...' : ''})
+                      {group.name} ({group.swimmerCount} {t('plans.form.swimmers')}: {group.swimmerNames.join(', ')}{group.swimmerCount > 3 ? '...' : ''})
                     </option>
                   ))}
                 </select>
@@ -1399,7 +1371,7 @@ useEffect(() => {
                   {availableGroups.map(group => (
                     <div key={group.id} className="group-preview-card">
                       <h5>{group.name}</h5>
-                      <p>{group.swimmerCount} înotători</p>
+                      <p>{group.swimmerCount} {t('plans.form.swimmers')}</p>
                       <small>{group.swimmerNames.join(', ')}{group.swimmerCount > 3 ? '...' : ''}</small>
                     </div>
                   ))}
@@ -1410,7 +1382,7 @@ useEffect(() => {
             <div className="selected-participants">
               {formData.participants && formData.participants.map((participant, index) => (
                 <div key={index} className="participant-tag">
-                  <span>{participant.participantType === 'INDIVIDUAL' ? 'Înotător' : 'Grup'}: {participant.name}</span>
+                  <span>{participant.participantType === 'INDIVIDUAL' ? t('plans.form.swimmer') : t('plans.form.group')}: {participant.name}</span>
                   <button
                     type="button"
                     onClick={() => removeParticipant(index)}
@@ -1431,10 +1403,10 @@ useEffect(() => {
             onClick={() => {
               setActiveView('overview');
               setEditMode(false);
-              navigate('/admin/traininghub/plans');
+              navigate(`/${lang}/admin/traininghub/plans`);
             }}
           >
-            Anulează
+            {t('plans.form.cancelButton')}
           </button>
           <button 
             type="submit"
@@ -1442,31 +1414,32 @@ useEffect(() => {
             disabled={isLoading}
           >
             {isLoading 
-              ? (editMode ? 'Se actualizează...' : 'Se creează...') 
-              : (editMode ? 'Actualizează Planul' : 'Creează Planul')
+              ? (editMode ? t('plans.form.updating') : t('plans.form.creating')) 
+              : (editMode ? t('plans.form.updatePlan') : t('plans.form.createPlan'))
             }
           </button>
         </div>
       </form>
 
-      {/* Recovery Alert Modal */}
       {recoveryAlert && (
         <div className="recovery-alert-modal">
           <div className="alert-modal-content">
             <div className="alert-header">
               <div className="alert-icon">⚠️</div>
-              <h3>Atenție - Perioadă de Recuperare</h3>
+              <h3>{t('plans.recoveryModal.title')}</h3>
             </div>
             
             <div className="alert-body">
               <p className="alert-main-message">
-                <strong>{trainingTypes[recoveryAlert.trainingType]?.name}</strong> necesită {' '}
-                <strong>{recoveryAlert.recoveryNeeded} {recoveryAlert.recoveryNeeded === 1 ? 'zi' : 'zile'}</strong> {' '}
-                de recuperare după antrenamente intense.
+                {t('plans.recoveryModal.requiresRecovery', {
+                  training: trainingTypes[recoveryAlert.trainingType]?.name,
+                  days: recoveryAlert.recoveryNeeded,
+                  daysLabel: recoveryAlert.recoveryNeeded === 1 ? t('plans.recovery.day') : t('plans.recovery.days')
+                })}
               </p>
               
               <div className="alert-violations">
-                <p className="violations-title">Conflicte detectate:</p>
+                <p className="violations-title">{t('plans.recoveryModal.conflictsDetected')}</p>
                 <ul className="violations-list">
                   {recoveryAlert.violations.map((violation, index) => (
                     <li key={index}>{violation}</li>
@@ -1475,7 +1448,7 @@ useEffect(() => {
               </div>
               
               <div className="alert-recommendation">
-                <p>Se recomandă să programezi zilele de recuperare (REZ, TEHNICĂ sau Odihnă) între antrenamentele intense pentru a preveni suprasolicitarea și accidentările.</p>
+                <p>{t('plans.recoveryModal.recommendation')}</p>
               </div>
             </div>
             
@@ -1485,14 +1458,14 @@ useEffect(() => {
                 className="alert-btn alert-btn-cancel"
                 onClick={recoveryAlert.onCancel}
               >
-                Anulează
+                {t('plans.form.cancelButton')}
               </button>
               <button 
                 type="button" 
                 className="alert-btn alert-btn-confirm"
                 onClick={recoveryAlert.onConfirm}
               >
-                Continuă oricum
+                {t('plans.recoveryModal.continueAnyway')}
               </button>
             </div>
           </div>
@@ -1503,28 +1476,27 @@ useEffect(() => {
 
   return (
     <div className="plans-container">
-      {/* Navigation Bar */}
       <div className="planificare-header">
         <nav className="planificare-nav">
           <button 
             className="nav-tab"
-            onClick={() => navigate('/admin/traininghub')}
+            onClick={() => navigate(`/${lang}/admin/traininghub`)}
           >
             <span className="tab-icon">📊</span>
-            Tablou de Bord
+            {t('planificare.nav.dashboard')}
           </button>
           <button 
             className="nav-tab"
-            onClick={() => navigate('/admin/traininghub/workouts')}
+            onClick={() => navigate(`/${lang}/admin/traininghub/workouts`)}
           >
             <span className="tab-icon">🏊</span>
-            Antrenamente
+            {t('planificare.nav.workouts')}
           </button>
           <button 
             className="nav-tab active"
           >
             <span className="tab-icon">📋</span>
-            Planuri
+            {t('planificare.nav.plans')}
           </button>
         </nav>
       </div>

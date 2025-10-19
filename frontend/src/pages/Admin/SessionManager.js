@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import './SessionManager.css';
 import SwimmerFeedbackModal from './Training/SwimmerFeedbackModal';
-// Mock data
+
+// Mock data (unchanged)
 let MOCK_PLANS = [
   {
     id: 1,
-    name: 'Plan Competițional - Grupa A',
+    name: 'Plan 1',
     status: 'Active',
     participants: [
       { participantType: 'GROUP', groupId: 1, groupColor: '#00d4ff' }
@@ -27,7 +29,7 @@ let MOCK_PLANS = [
   },
   {
     id: 2,
-    name: 'Plan Tehnic - Grupa B',
+    name: 'Plan 2',
     status: 'Active',
     participants: [
       { participantType: 'GROUP', groupId: 2, groupColor: '#ff6b6b' }
@@ -88,6 +90,7 @@ const useIsMobile = () => {
 };
 
 const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout, isPastDate }) => {
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
@@ -120,7 +123,7 @@ const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout, isPastDa
             onClick={() => onSelect(null)}
             disabled={disabled}
           >
-            {isMobile ? '✏️' : 'Schimbă'}
+            {isMobile ? '✏️' : t('sessionManager.change')}
           </button>
         )}
       </div>
@@ -132,7 +135,7 @@ const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout, isPastDa
       <div className={`selected-workout-display ${isMobile ? 'mobile' : ''}`}>
         <div className="workout-info">
           <div className="workout-name" style={{ color: '#999' }}>
-            Niciun antrenament
+            {t('sessionManager.noWorkout')}
           </div>
         </div>
       </div>
@@ -144,7 +147,7 @@ const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout, isPastDa
       <input
         type="text"
         className="workout-search-input"
-        placeholder={isMobile ? 'Caută...' : 'Caută antrenament...'}
+        placeholder={isMobile ? t('sessionManager.searchShort') : t('sessionManager.searchWorkout')}
         value={search}
         onChange={(e) => {
           setSearch(e.target.value);
@@ -179,7 +182,7 @@ const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout, isPastDa
             ))
           ) : (
             <div className="no-results">
-              {search ? 'Niciun antrenament găsit' : 'Nu există antrenamente disponibile'}
+              {search ? t('sessionManager.noWorkoutFound') : t('sessionManager.noWorkoutsAvailable')}
             </div>
           )}
         </div>
@@ -189,8 +192,19 @@ const WorkoutSearch = ({ workouts, onSelect, disabled, selectedWorkout, isPastDa
 };
 
 const SwimmerRow = ({ swimmer, status, onStatusChange, sessionExists, isPastDate }) => {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [expanded, setExpanded] = useState(false);
+
+  const getStatusText = (status) => {
+    const statusMap = {
+      'present': t('sessionManager.status.present'),
+      'absent': t('sessionManager.status.absent'),
+      'late': t('sessionManager.status.late'),
+      'injured': t('sessionManager.status.injured')
+    };
+    return statusMap[status] || status;
+  };
 
   if (isMobile) {
     return (
@@ -215,14 +229,14 @@ const SwimmerRow = ({ swimmer, status, onStatusChange, sessionExists, isPastDate
                 onChange={(e) => onStatusChange(e.target.value)}
                 className="status-select-mobile"
               >
-                <option value="present">Prezent</option>
-                <option value="absent">Absent</option>
-                <option value="late">Întârziat</option>
-                <option value="injured">Accidentat</option>
+                <option value="present">{t('sessionManager.status.present')}</option>
+                <option value="absent">{t('sessionManager.status.absent')}</option>
+                <option value="late">{t('sessionManager.status.late')}</option>
+                <option value="injured">{t('sessionManager.status.injured')}</option>
               </select>
             )}
             <button className="btn-rate-swimmer-mobile">
-              ⭐ Evaluează
+              ⭐ {t('sessionManager.evaluate')}
             </button>
           </div>
         )}
@@ -236,7 +250,7 @@ const SwimmerRow = ({ swimmer, status, onStatusChange, sessionExists, isPastDate
         <span className="swimmer-name">{swimmer.name}</span>
         {sessionExists && (
           <span className={`swimmer-status-badge status-${status}`}>
-            {status === 'present' ? 'Prezent' : status === 'absent' ? 'Absent' : status === 'late' ? 'Întârziat' : 'Accidentat'}
+            {getStatusText(status)}
           </span>
         )}
       </div>
@@ -247,14 +261,14 @@ const SwimmerRow = ({ swimmer, status, onStatusChange, sessionExists, isPastDate
             onChange={(e) => onStatusChange(e.target.value)}
             className="status-select"
           >
-            <option value="present">Prezent</option>
-            <option value="absent">Absent</option>
-            <option value="late">Întârziat</option>
-            <option value="injured">Accidentat</option>
+            <option value="present">{t('sessionManager.status.present')}</option>
+            <option value="absent">{t('sessionManager.status.absent')}</option>
+            <option value="late">{t('sessionManager.status.late')}</option>
+            <option value="injured">{t('sessionManager.status.injured')}</option>
           </select>
         )}
         {sessionExists && (
-          <button className="btn-rate-swimmer" title="Evaluează înotătorul">
+          <button className="btn-rate-swimmer" title={t('sessionManager.evaluateSwimmer')}>
             ⭐
           </button>
         )}
@@ -264,6 +278,7 @@ const SwimmerRow = ({ swimmer, status, onStatusChange, sessionExists, isPastDate
 };
 
 const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpdate, isPastDate }) => {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [expanded, setExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -323,7 +338,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
     if (isPastDate) return;
 
     if (!workout) {
-      if (existingSession && window.confirm('Sigur vrei să schimbi antrenamentul?')) {
+      if (existingSession && window.confirm(t('sessionManager.confirmChangeWorkout'))) {
         const sessionKey = `plan-${plan.id}`;
         delete MOCK_SESSIONS[sessionKey];
         setSelectedWorkout(null);
@@ -389,7 +404,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
       <div className={`plan-card-mobile ${isPastDate ? 'past-date' : ''}`} style={{ borderLeftColor: groupColor }}>
         {isPastDate && (
           <div className="past-date-banner-mobile">
-            📅 Dată trecută
+            📅 {t('sessionManager.pastDate')}
           </div>
         )}
         
@@ -402,7 +417,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
                   {plan.currentDay.trainingType}
                 </span>
                 <span className="week-info-mobile">
-                  Săptămâna {plan.currentDay.weekNumber} • Ziua {plan.currentDay.dayOfWeek}
+                  {t('sessionManager.week')} {plan.currentDay.weekNumber} • {t('sessionManager.day')} {plan.currentDay.dayOfWeek}
                 </span>
               </div>
             )}
@@ -413,7 +428,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
         {expanded && (
           <div className="plan-card-mobile-content">
             <div className="mobile-compact-row">
-              <span className="mobile-label">Ora</span>
+              <span className="mobile-label">{t('sessionManager.time')}</span>
               <input 
                 type="time" 
                 value={sessionTime}
@@ -433,7 +448,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
             </div>
 
             <div className="mobile-section">
-              <span className="mobile-label">Antrenament</span>
+              <span className="mobile-label">{t('sessionManager.workout')}</span>
               <WorkoutSearch
                 workouts={availableWorkouts}
                 onSelect={handleWorkoutSelect}
@@ -446,7 +461,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
             <div className="mobile-section">
               <div className="swimmers-header-mobile">
                 <span className="mobile-label">
-                  Înotători ({filteredSwimmers.length})
+                  {t('sessionManager.swimmers')} ({filteredSwimmers.length})
                 </span>
               </div>
 
@@ -465,7 +480,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
                     ))
                   ) : (
                     <div className="no-swimmers-mobile">
-                      {swimmerSearch ? 'Niciun înotător găsit' : 'Niciun înotător în acest plan'}
+                      {swimmerSearch ? t('sessionManager.noSwimmerFound') : t('sessionManager.noSwimmersInPlan')}
                     </div>
                   )}
                 </div>
@@ -475,11 +490,11 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
             {existingSession && (
               <div className="action-buttons-mobile">
                 <button className="btn-mobile btn-secondary-mobile">
-                  ⏱️ Notează timpi
+                  ⏱️ {t('sessionManager.recordTimes')}
                 </button>
                 {!isPastDate && (
                   <button className="btn-mobile btn-primary-mobile">
-                    🏊 Sesiune Live
+                    🏊 {t('sessionManager.liveSession')}
                   </button>
                 )}
               </div>
@@ -500,7 +515,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
     <div className={`plan-card ${isPastDate ? 'past-date' : ''}`} style={{ borderLeftColor: groupColor }}>
       {isPastDate && (
         <div className="past-date-banner">
-          <span>📅 Această dată este în trecut - modificările sunt limitate</span>
+          <span>📅 {t('sessionManager.pastDateBanner')}</span>
         </div>
       )}
       
@@ -515,7 +530,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
                 {plan.currentDay.trainingType}
               </span>
               <span className="plan-badge week-badge">
-                Săptămâna {plan.currentDay.weekNumber} • Ziua {plan.currentDay.dayOfWeek}
+                {t('sessionManager.week')} {plan.currentDay.weekNumber} • {t('sessionManager.day')} {plan.currentDay.dayOfWeek}
               </span>
             </div>
           )}
@@ -524,7 +539,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
 
       <div className="workout-assignment-section">
         <div className="time-input-row">
-          <label className="section-label">Ora</label>
+          <label className="section-label">{t('sessionManager.time')}</label>
           <div className="time-input-with-button">
             <input 
               type="time" 
@@ -539,12 +554,12 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
                 onClick={handleTimeChange}
                 disabled={isLoading}
               >
-                Actualizează
+                {t('sessionManager.update')}
               </button>
             )}
           </div>
         </div>
-        <label className="section-label">Antrenament</label>
+        <label className="section-label">{t('sessionManager.workout')}</label>
         <WorkoutSearch
           workouts={availableWorkouts}
           onSelect={handleWorkoutSelect}
@@ -557,12 +572,12 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
       <div className="swimmers-section">
         <div className="swimmers-header">
           <label className="section-label">
-            Înotători ({filteredSwimmers.length})
+            {t('sessionManager.swimmers')} ({filteredSwimmers.length})
           </label>
           <input
             type="text"
             className="swimmer-search-input"
-            placeholder="Caută înotător..."
+            placeholder={t('sessionManager.searchSwimmer')}
             value={swimmerSearch}
             onChange={(e) => setSwimmerSearch(e.target.value)}
           />
@@ -582,7 +597,7 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
             ))
           ) : (
             <div className="no-swimmers">
-              {swimmerSearch ? 'Niciun înotător găsit' : 'Niciun înotător în acest plan'}
+              {swimmerSearch ? t('sessionManager.noSwimmerFound') : t('sessionManager.noSwimmersInPlan')}
             </div>
           )}
         </div>
@@ -591,11 +606,11 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
       {existingSession && (
         <div className="action-buttons">
           <button className="btn btn-secondary">
-            Notează timpi
+            {t('sessionManager.recordTimes')}
           </button>
           {!isPastDate && (
             <button className="btn btn-primary">
-              Sesiune Live
+              {t('sessionManager.liveSession')}
             </button>
           )}
         </div>
@@ -608,9 +623,8 @@ const PlanCard = ({ plan, existingSession, availableWorkouts, allSwimmers, onUpd
       )}
     </div>
   );
-};
-
-const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, onRemove, canRemove, existingSession, isPastDate }) => {
+};const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, onRemove, canRemove, existingSession, isPastDate }) => {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [expanded, setExpanded] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(
@@ -666,7 +680,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
     if (isPastDate) return;
 
     if (!workout) {
-      if (sessionId && window.confirm('Sigur vrei să ștergi această sesiune?')) {
+      if (sessionId && window.confirm(t('sessionManager.confirmDeleteSession'))) {
         delete MOCK_SESSIONS[`adhoc-${sessionId}`];
         setSelectedWorkout(null);
         setSessionId(null);
@@ -752,15 +766,15 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
       <div className={`plan-card-mobile adhoc-mobile ${isPastDate ? 'past-date' : ''}`}>
         {isPastDate && (
           <div className="past-date-banner-mobile">
-            📅 Dată trecută
+            📅 {t('sessionManager.pastDate')}
           </div>
         )}
         
         <div className="plan-card-mobile-header" onClick={() => setExpanded(!expanded)}>
           <div className="plan-card-mobile-title">
-            <h3>Sesiune ad-hoc</h3>
+            <h3>{t('sessionManager.adHocSession')}</h3>
             <span className="type-badge-mobile adhoc-badge-mobile">
-              LIBER
+              {t('sessionManager.free')}
             </span>
           </div>
           <div className="header-actions-mobile">
@@ -782,7 +796,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
         {expanded && (
           <div className="plan-card-mobile-content">
             <div className="mobile-compact-row">
-              <span className="mobile-label">Ora</span>
+              <span className="mobile-label">{t('sessionManager.time')}</span>
               <input 
                 type="time" 
                 value={sessionTime}
@@ -802,7 +816,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
             </div>
 
             <div className="mobile-section">
-              <span className="mobile-label">Antrenament</span>
+              <span className="mobile-label">{t('sessionManager.workout')}</span>
               <WorkoutSearch
                 workouts={availableWorkouts}
                 onSelect={handleWorkoutSelect}
@@ -817,14 +831,14 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
                 <div className="mobile-section">
                   <div className="swimmers-header-mobile">
                     <span className="mobile-label">
-                      Înotători ({addedSwimmers.length})
+                      {t('sessionManager.swimmers')} ({addedSwimmers.length})
                     </span>
                     {!isPastDate && (
                       <div className="swimmer-search-container-mobile" ref={dropdownRef}>
                         <input
                           type="text"
                           className="swimmer-search-input-mobile"
-                          placeholder="Adaugă înotător..."
+                          placeholder={t('sessionManager.addSwimmer')}
                           value={swimmerSearch}
                           onChange={(e) => {
                             setSwimmerSearch(e.target.value);
@@ -846,7 +860,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
                               ))
                             ) : (
                               <div className="no-results">
-                                {swimmerSearch ? 'Niciun înotător găsit' : 'Nu mai sunt înotători disponibili'}
+                                {swimmerSearch ? t('sessionManager.noSwimmerFound') : t('sessionManager.noMoreSwimmers')}
                               </div>
                             )}
                           </div>
@@ -870,7 +884,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
                         ))
                       ) : (
                         <div className="no-swimmers-mobile">
-                          Niciun înotător adăugat
+                          {t('sessionManager.noSwimmersAdded')}
                         </div>
                       )}
                     </div>
@@ -879,11 +893,11 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
 
                 <div className="action-buttons-mobile">
                   <button className="btn-mobile btn-secondary-mobile">
-                    ⏱️ Notează timpi
+                    ⏱️ {t('sessionManager.recordTimes')}
                   </button>
                   {!isPastDate && (
                     <button className="btn-mobile btn-primary-mobile">
-                      🏊 Sesiune Live
+                      🏊 {t('sessionManager.liveSession')}
                     </button>
                   )}
                 </div>
@@ -905,7 +919,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
     <div className={`plan-card adhoc-card ${isPastDate ? 'past-date' : ''}`}>
       {isPastDate && (
         <div className="past-date-banner">
-          <span>📅 Această dată este în trecut - modificările sunt limitate</span>
+          <span>📅 {t('sessionManager.pastDateBanner')}</span>
         </div>
       )}
       
@@ -913,10 +927,10 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
         <div className="plan-title-section">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-              <h3>Sesiune ad-hoc</h3>
+              <h3>{t('sessionManager.adHocSession')}</h3>
               <div className="plan-badges">
                 <span className="plan-badge type-badge adhoc-badge">
-                  LIBER
+                  {t('sessionManager.free')}
                 </span>
               </div>
             </div>
@@ -924,7 +938,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
               <button 
                 className="btn-remove-adhoc"
                 onClick={onRemove}
-                title="Șterge sesiunea"
+                title={t('sessionManager.deleteSession')}
               >
                 ✕
               </button>
@@ -935,7 +949,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
 
       <div className="workout-assignment-section">
         <div className="time-input-row">
-          <label className="section-label">Ora</label>
+          <label className="section-label">{t('sessionManager.time')}</label>
           <div className="time-input-with-button">
             <input 
               type="time" 
@@ -950,12 +964,12 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
                 onClick={handleTimeChange}
                 disabled={isLoading}
               >
-                Actualizează
+                {t('sessionManager.update')}
               </button>
             )}
           </div>
         </div>
-        <label className="section-label">Antrenament</label>
+        <label className="section-label">{t('sessionManager.workout')}</label>
         <WorkoutSearch
           workouts={availableWorkouts}
           onSelect={handleWorkoutSelect}
@@ -970,14 +984,14 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
           <div className="swimmers-section">
             <div className="swimmers-header">
               <label className="section-label">
-                Înotători ({addedSwimmers.length})
+                {t('sessionManager.swimmers')} ({addedSwimmers.length})
               </label>
               {!isPastDate && (
                 <div className="swimmer-search-container" ref={dropdownRef}>
                   <input
                     type="text"
                     className="swimmer-search-input"
-                    placeholder="Adaugă înotător..."
+                    placeholder={t('sessionManager.addSwimmer')}
                     value={swimmerSearch}
                     onChange={(e) => {
                       setSwimmerSearch(e.target.value);
@@ -999,7 +1013,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
                         ))
                       ) : (
                         <div className="no-results">
-                          {swimmerSearch ? 'Niciun înotător găsit' : 'Nu mai sunt înotători disponibili'}
+                          {swimmerSearch ? t('sessionManager.noSwimmerFound') : t('sessionManager.noMoreSwimmers')}
                         </div>
                       )}
                     </div>
@@ -1022,7 +1036,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
                 ))
               ) : (
                 <div className="no-swimmers">
-                  Niciun înotător adăugat
+                  {t('sessionManager.noSwimmersAdded')}
                 </div>
               )}
             </div>
@@ -1030,11 +1044,11 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
 
           <div className="action-buttons">
             <button className="btn btn-secondary">
-              Notează timpi
+              {t('sessionManager.recordTimes')}
             </button>
             {!isPastDate && (
               <button className="btn btn-primary">
-                Sesiune Live
+                {t('sessionManager.liveSession')}
               </button>
             )}
           </div>
@@ -1051,6 +1065,7 @@ const AdHocSession = ({ availableWorkouts, allSwimmers, selectedDate, onUpdate, 
 };
 
 const SessionManager = () => {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
@@ -1152,7 +1167,7 @@ const SessionManager = () => {
 
   const handleAddAdHocSession = () => {
     if (isPastDate) {
-      alert('Nu poți adăuga sesiuni pentru date trecute');
+      alert(t('sessionManager.cannotAddPastSession'));
       return;
     }
     setAdHocSessions([...adHocSessions, { id: Date.now() }]);
@@ -1160,12 +1175,12 @@ const SessionManager = () => {
 
   const handleRemoveAdHocSession = (adHocSessionObj) => {
     if (isPastDate) {
-      alert('Nu poți șterge sesiuni pentru date trecute');
+      alert(t('sessionManager.cannotDeletePastSession'));
       return;
     }
 
     if (adHocSessionObj.session?.id) {
-      if (!window.confirm('Sigur vrei să ștergi această sesiune?')) {
+      if (!window.confirm(t('sessionManager.confirmDeleteSession'))) {
         return;
       }
       
@@ -1181,7 +1196,7 @@ const SessionManager = () => {
       <div className="session-manager">
         <div className="loading">
           <div className="spinner"></div>
-          <p>Se încarcă...</p>
+          <p>{t('sessionManager.loading')}</p>
         </div>
       </div>
     );
@@ -1193,7 +1208,7 @@ const SessionManager = () => {
         <div className="error-message">
           <p>{error}</p>
           <button className="btn btn-primary" onClick={loadData}>
-            Reîncearcă
+            {t('sessionManager.retry')}
           </button>
         </div>
       </div>
@@ -1203,7 +1218,7 @@ const SessionManager = () => {
   return (
     <div className={`session-manager ${isMobile ? 'mobile' : ''}`}>
       <header className={`session-header ${isMobile ? 'mobile' : ''}`}>
-        <h1>{isMobile ? 'Sesiuni' : 'Sesiuni de antrenament'}</h1>
+        <h1>{isMobile ? t('sessionManager.sessionsShort') : t('sessionManager.trainingSessions')}</h1>
 
         <div className={`date-navigation ${isMobile ? 'mobile' : ''}`}>
           <button className="btn-nav" onClick={handlePreviousDay}>
@@ -1282,14 +1297,14 @@ const SessionManager = () => {
             {!isPastDate && (
               <div className={`add-adhoc-container ${isMobile ? 'mobile' : ''}`}>
                 <button className="btn-add-adhoc" onClick={handleAddAdHocSession}>
-                  + {isMobile ? 'Ad-hoc' : 'Adaugă sesiune ad-hoc'}
+                  + {isMobile ? t('sessionManager.adHocShort') : t('sessionManager.addAdHocSession')}
                 </button>
               </div>
             )}
           </div>
         ) : (
           <div className="empty-state">
-            <p>Nu există planuri active pentru această dată</p>
+            <p>{t('sessionManager.noActivePlans')}</p>
             <div className={`plans-grid ${isMobile ? 'mobile' : ''}`}>
               {adHocSessions.map((session) => (
                 <AdHocSession
@@ -1307,7 +1322,7 @@ const SessionManager = () => {
               {!isPastDate && (
                 <div className={`add-adhoc-container ${isMobile ? 'mobile' : ''}`}>
                   <button className="btn-add-adhoc" onClick={handleAddAdHocSession}>
-                    + {isMobile ? 'Ad-hoc' : 'Adaugă sesiune ad-hoc'}
+                    + {isMobile ? t('sessionManager.adHocShort') : t('sessionManager.addAdHocSession')}
                   </button>
                 </div>
               )}

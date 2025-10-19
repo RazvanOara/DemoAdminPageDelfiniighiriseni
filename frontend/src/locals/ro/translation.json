@@ -1,0 +1,1789 @@
+{"planificare": {
+  "nav": {
+    "dashboard": "Tablou de Bord",
+    "workouts": "Antrenamente",
+    "plans": "Planuri"
+  },
+  "dashboard": {
+    "title": "Centrul de Programare",
+    "subtitle": "Gestionează programele și antrenamentele tale"
+  },
+  "stats": {
+    "totalWorkouts": "Total Antrenamente",
+    "totalDistanceSubtext": "{{distance}}km distanță totală",
+    "totalVolume": "Volum Total",
+    "avgDurationSubtext": "{{duration}} min per antrenament",
+    "avgDistance": "Distanță Medie",
+    "perWorkout": "per antrenament",
+    "avgIntensity": "Intensitate Medie",
+    "intensityScale": "1=Începător, 3=Avansat",
+    "weeklyVolume": "Volum Săptămânal",
+    "estimatedAverage": "medie estimată",
+    "recentActivity": "Activitate Recentă",
+    "workoutsIn7Days": "antrenamente în 7 zile"
+  },
+  "sections": {
+    "coachRecommendations": "💡 Recomandări pentru Antrenor",
+    "quickActions": "Acțiuni Rapide",
+    "upcomingRaces": "Competiții Viitoare",
+    "trainingSummary": "📋 Sumar Planificare",
+    "recentWorkouts": "Antrenamente Recente"
+  },
+  "quickActions": {
+    "createWorkout": {
+      "title": "Creează Antrenament",
+      "description": "Construiește un antrenament nou cu seturile și intervalele dorite"
+    },
+    "advancedPlanning": {
+      "title": "Planificare Avansată",
+      "description": "Creează planuri pe termen lung pentru competiții și periodizare"
+    },
+    "analytics": {
+      "title": "Analize și Statistici",
+      "description": "Vizualizează progresul și metricile de performanță"
+    }
+  },
+  "insights": {
+    "strokeDistribution": "Distribuție Stiluri de Înot",
+    "typeDistribution": "Distribuție pe Tipuri",
+    "difficultyBreakdown": "Niveluri de Dificultate",
+    "addVariety": "Consideră adăugarea mai multei varietăți în tipurile de antrenament",
+    "lowIntensity": "Intensitatea medie este scăzută - poate e timpul pentru provocări mai mari",
+    "noRecentWorkouts": "Niciun antrenament nou în ultima săptămână",
+    "singleStroke": "Toate antrenamentele folosesc {{stroke}} - adaugă varietate de stiluri",
+    "excellentVolume": "Volum săptămânal excelent pentru progres consistent"
+  },
+  "summary": {
+    "predominantType": "Tipul Predominant",
+    "workouts": "{{count}} antrenamente",
+    "monthlyActivity": "Activitate Lunară",
+    "workoutsLast30Days": "antrenamente în ultimele 30 zile",
+    "progression": "Progresie",
+    "advancedWorkouts": "antrenamente avansate",
+    "avgDuration": "Durată Medie",
+    "perTrainingSession": "per sesiune de antrenament"
+  },
+  "buttons": {
+    "viewAll": "Vezi Toate"
+  },
+  "gettingStarted": {
+    "title": "Să începem!",
+    "description": "Nu ai încă antrenamente create. Începe prin a crea primul tău antrenament pentru a începe să vezi statistici și analize utile.",
+    "createFirst": "Creează Primul Antrenament"
+  },
+  "labels": {
+    "modified": "Modificat",
+    "noDataAvailable": "Nu există date disponibile",
+    "plan": "Plan"
+  },
+  "time": {
+    "today": "astăzi",
+    "day": "zi",
+    "days": "zile"
+  },
+  "units": {
+    "minutes": "min"
+  },
+  "raceTypes": {
+    "target": "🎯 Cursă Țintă",
+    "tuneup": "🏃 Pregătire",
+    "test": "📊 Test"
+  },
+  "workoutTypes": {
+    "sprint": "Sprint",
+    "endurance": "Rezistență",
+    "technical": "Tehnic",
+    "recovery": "Recuperare",
+    "general": "General"
+  },
+  "difficulties": {
+    "beginner": "Începător",
+    "intermediate": "Intermediar",
+    "advanced": "Avansat"
+  },
+  "strokes": {
+    "freestyle": "Craul",
+    "backstroke": "Spate",
+    "breaststroke": "Bras",
+    "butterfly": "Fluture",
+    "im": "Mixt",
+    "imByRound": "Mixt pe Ture",
+    "reverseIm": "Mixt Invers",
+    "choice": "La Alegere",
+    "mixed": "Mixt"
+  },
+  "mockWorkouts": {
+    "sprintIntervals": "Intervale Sprint Craul",
+    "techniqueDrills": "Tehnică și Exerciții",
+    "longDistance": "Anduranță Distanță Lungă",
+    "butterflyPower": "Seturi Fluture Putere",
+    "mixedMedley": "Antrenament Mixt Poliatlon"
+  },
+  "mockPlans": {
+    "competitionPrep": "Plan Pregătire Competițională",
+    "nationalChampionship": "Campionatul Național de Înot",
+    "regionalQualifiers": "Calificări Regionale",
+    "techniqueSeason": "Sezon Tehnică și Corecții"
+  }
+},
+
+"plans": {
+  "mockPlans": {
+    "competitiveSeason": "Sezon Competițional 2025",
+    "competitiveSeasonDesc": "Plan complet de pregătire pentru sezonul competițional principal, incluzând toate fazele macro.",
+    "competitiveSeasonGoals": "Construirea bazei aerobe, creșterea intensității progresive și atingerea vârfului de formă pentru Campionatul Național.",
+    "regionalCompetition": "Concurs Regional",
+    "regionalCompetitionDesc": "Primul test intermediar al sezonului",
+    "nationalChampionship": "Campionatul Național",
+    "nationalChampionshipDesc": "Competiția principală a sezonului",
+    "offSeasonPlan": "Plan Off-Season / Recuperare",
+    "offSeasonPlanDesc": "Plan de tranziție și refacere activă după sezonul competițional, cu accent pe tehnică și volum redus.",
+    "offSeasonPlanGoals": "Recuperare fizică și mentală, corectarea tehnicii și pregătire pentru următorul ciclu.",
+    "testSet400m": "Set de Test 400m",
+    "testSet400mDesc": "Evaluare a nivelului post-sezon"
+  },
+  "mockData": {
+    "swimmer1": "Înotător 1",
+    "swimmer2": "Înotător 2",
+    "swimmer3": "Înotător 3",
+    "juniorGroup": "Grup Juniori",
+    "seniorGroup": "Grup Seniori"
+  },
+  "trainingTypes": {
+    "endurance": "Rezistență",
+    "technique": "Tehnică",
+    "anaerobicThreshold": "Prag Anaerob",
+    "lactateTolerance": "Toleranță la lactat",
+    "vo2max": "VO2 Max",
+    "raceTempo": "Tempo Cursă"
+  },
+  "hrZones": {
+    "zone1": "Recuperare - Incălzire și relaxare",
+    "zone2": "Ardere grăsimi - Rezistență",
+    "zone3": "Aerobică - Capacitate cardiovasculară (PA)",
+    "zone4": "Intensitate înaltă - Prag anaerob (TOL)",
+    "zone5": "Intensitate maximă (VO2)",
+    "zone6": "Tempo cursă (TEMPO)"
+  },
+  "macroPhases": {
+    "accumulation": {
+      "name": "Acumulare",
+      "description": "Fază centrată pe volum pentru construirea bazei aerobe",
+      "duration": "4-6 săptămâni"
+    },
+    "intensification": {
+      "name": "Intensificare",
+      "description": "Fază de antrenament de înaltă intensitate",
+      "duration": "2-4 săptămâni"
+    },
+    "realization": {
+      "name": "Realizare",
+      "description": "Pregătire specifică competiției",
+      "duration": "1-2 săptămâni"
+    },
+    "taper": {
+      "name": "Descărcarea",
+      "description": "Reducerea volumului înaintea competiției",
+      "duration": "1-3 săptămâni"
+    },
+    "transition": {
+      "name": "Tranziție",
+      "description": "Recuperare activă și regenerare",
+      "duration": "2-4 săptămâni"
+    }
+  },
+  "raceTypes": {
+    "target": "Cursă Țintă",
+    "targetDesc": "Obiectivul principal al competiției",
+    "tuneup": "Concurs de Pregătire",
+    "tuneupDesc": "Competiție de pregătire",
+    "testset": "Set de Test",
+    "testsetDesc": "Evaluare de antrenament"
+  },
+  "days": {
+    "monday": "Luni",
+    "tuesday": "Marți",
+    "wednesday": "Miercuri",
+    "thursday": "Joi",
+    "friday": "Vineri",
+    "saturday": "Sâmbătă",
+    "sunday": "Duminică"
+  },
+  "alerts": {
+    "phasesCannotOverlap": "Fazele nu se pot suprapune! Alege un interval diferit.",
+    "fillAllRequired": "Te rugăm să completezi toate câmpurile obligatorii pentru competiții."
+  },
+  "recovery": {
+    "insufficientRecovery": "Recuperare insuficientă după {{training}} din {{day}} (Săpt. {{week}}). Necesită {{days}} {{daysLabel}} de recuperare.",
+    "day": "zi",
+    "days": "zile"
+  },
+  "validation": {
+    "raceNameRequired": "Numele competiției este obligatoriu",
+    "raceDateRequired": "Data competiției este obligatorie"
+  },
+  "duration": {
+    "weeks": "{{count}} săptămâni"
+  },
+  "overview": {
+    "title": "Planuri de Antrenament",
+    "subtitle": "Gestionează programele pe termen lung și pregătirea pentru competiții",
+    "createNewPlan": "Creează Plan Nou",
+    "emptyState": {
+      "title": "Nu există planuri create",
+      "description": "Începe prin a crea primul tău plan de antrenament pentru gestionarea eficientă a pregătirii.",
+      "createFirst": "Creează Primul Plan"
+    }
+  },
+  "card": {
+    "start": "Start:",
+    "end": "Sfârșit:",
+    "duration": "Durată:",
+    "progress": "Progres",
+    "macroPhases": "Faze Macro:",
+    "keyRaces": "Competiții Cheie:",
+    "edit": "Editează",
+    "viewDetails": "Vezi Detalii"
+  },
+  "form": {
+    "back": "← Înapoi",
+    "createTitle": "Creează Plan Nou",
+    "editTitle": "Editează Planul",
+    "generalInfo": "Informații Generale",
+    "planName": "Nume Plan *",
+    "planNamePlaceholder": "ex. Campionatul Național 2025",
+    "description": "Descriere",
+    "descriptionPlaceholder": "Descrierea planului de antrenament...",
+    "startDate": "Data de Start *",
+    "endDate": "Data de Sfârșit *",
+    "planStatus": "Status Plan",
+    "statusDraft": "Draft",
+    "statusActive": "Activ",
+    "statusPaused": "Pauzat",
+    "statusCompleted": "Completat",
+    "macroPhases": "Faze Macro",
+    "macroPhasesDesc": "Selectează fazele macro care vor fi incluse în acest plan de antrenament",
+    "keyRaces": "Competiții Cheie",
+    "keyRacesDesc": "Adaugă competițiile importante, verificările și testele din cadrul planului",
+    "competition": "Competiția",
+    "competitionName": "Nume Competiție *",
+    "competitionNamePlaceholder": "ex. Campionatul Național",
+    "date": "Data *",
+    "type": "Tip",
+    "addCompetition": "+ Adaugă Competiție",
+    "goalsAndZones": "Obiective și Zone de Antrenament",
+    "planGoals": "Obiective Planului",
+    "planGoalsPlaceholder": "Definește obiectivele specifice ale acestui plan...",
+    "hrZones": "Zone de Frecvență Cardiacă",
+    "zone": "Zona",
+    "trainingTypes": "Tipuri de Antrenament",
+    "trainingTypeZone": "Zona:",
+    "trainingTypeHR": "FC:",
+    "trainingTypeRecovery": "Recuperare:",
+    "calendarPlanning": "Planificare Calendar",
+    "calendarPlanningDesc": "Asignează fazele macro la săptămânile specifice și configurează antrenamentele săptămânale",
+    "macroPhaseView": "Faze Macro",
+    "weeklyTrainingView": "Antrenamente Săptămânale",
+    "assignMacroPhases": "Asignare Faze Macro pe Săptămâni",
+    "week": "Săpt.",
+    "weekShort": "Săptămâna",
+    "selectStartWeek": "Selectează...",
+    "startWeek": "Săptămâna de început",
+    "endWeek": "Săptămâna de sfârșit",
+    "cancel": "Anulează",
+    "assign": "Asignează",
+    "assignPhase": "Asignează {{phase}}",
+    "trainingTypesLegend": "Tipuri de Antrenament",
+    "rest": "Rest",
+    "participants": "Participanți",
+    "participantsDesc": "Asignează înotători individuali sau grupuri întregi la acest plan de antrenament",
+    "individualSwimmers": "Înotători Individuali",
+    "groups": "Grupuri",
+    "selectSwimmer": "Selectează un înotător...",
+    "selectGroup": "Selectează un grup...",
+    "swimmer": "Înotător",
+    "group": "Grup",
+    "swimmers": "înotători",
+    "cancelButton": "Anulează",
+    "creating": "Se creează...",
+    "updating": "Se actualizează...",
+    "createPlan": "Creează Planul",
+    "updatePlan": "Actualizează Planul"
+  },
+  "recoveryModal": {
+    "title": "Atenție - Perioadă de Recuperare",
+    "requiresRecovery": "{{training}} necesită {{days}} {{daysLabel}} de recuperare după antrenamente intense.",
+    "conflictsDetected": "Conflicte detectate:",
+    "recommendation": "Se recomandă să programezi zilele de recuperare (REZ, TEHNICĂ sau Odihnă) între antrenamentele intense pentru a preveni suprasolicitarea și accidentările.",
+    "continueAnyway": "Continuă oricum"
+  }
+},
+
+"workoutBuilder": {
+  "defaultName": "Antrenament nou",
+  "loading": "Se încarcă antrenamentul...",
+  "levels": {
+    "beginner": "Începător",
+    "intermediate": "Intermediar",
+    "advanced": "Avansat"
+  },
+  "types": {
+    "endurance": "Rezistență",
+    "technique": "Tehnică",
+    "anaerobicThreshold": "Prag Anaerob (PA)",
+    "lactateTolerance": "Toleranță Lactat (TOL)",
+    "vo2max": "VO2 Max",
+    "raceTempo": "Tempo Cursă"
+  },
+  "strokes": {
+    "freestyle": "Freestyle",
+    "backstroke": "Backstroke",
+    "breaststroke": "Breaststroke",
+    "butterfly": "Butterfly",
+    "choice": "Swimmer's Choice",
+    "im": "Individual Medley",
+    "imByRound": "IM by round",
+    "reverseIm": "Reverse IM",
+    "mixed": "Mixed"
+  },
+  "stepTypes": {
+    "warmup": "Warm-up",
+    "mainSet": "Main Set",
+    "cooldown": "Cool-down",
+    "rest": "Rest",
+    "swim": "Swim"
+  },
+  "drillTypes": {
+    "none": "None",
+    "kick": "Kick",
+    "pull": "Pull",
+    "drill": "Drill"
+  },
+  "effortLevels": {
+    "recovery": "Recovery (50–60% HR max)",
+    "easy": "Easy (60–70% HR max)",
+    "moderate": "Moderate (70–80% HR max)",
+    "hard": "Hard (80–90% HR max)",
+    "veryHard": "Very Hard (90–95% HR max)",
+    "allOut": "All Out (95–100% HR max)",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "sprint": "Sprint (95–100% HR max)"
+  },
+  "equipment": {
+    "none": "No Equipment",
+    "kickboard": "Kickboard",
+    "pullbuoy": "Pull Buoy",
+    "fins": "Fins",
+    "paddles": "Paddles",
+    "snorkel": "Snorkel"
+  },
+  "labels": {
+    "repeat": "Repeat",
+    "repeatBlock": "Repeat Block",
+    "rest": "Rest",
+    "equipment": "Equipment",
+    "emptyRepeatBlock": "Empty repeat block",
+    "workout": "Antrenament",
+    "notation": "Notation"
+  },
+  "stats": {
+    "totalDistance": "Distanța Totală",
+    "steps": "Pași"
+  },
+  "actions": {
+    "addToRepeat": "Add to repeat",
+    "decreaseRepeats": "Decrease repeats",
+    "increaseRepeats": "Increase repeats",
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "delete": "Delete"
+  },
+  "buttons": {
+    "addStep": "Adaugă Pas",
+    "addRepeat": "Adaugă Repetare",
+    "updateItem": "Update Item",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "updateWorkout": "Actualizează Antrenament",
+    "saveWorkout": "Salvează Antrenament",
+    "exportJson": "Export JSON"
+  },
+  "form": {
+    "editStep": "Edit Step",
+    "addNewStep": "Add New Step",
+    "addingToRepeat": "Adding to repeat block",
+    "category": "Category",
+    "distance": "Distance (meters)",
+    "distanceHelper": "Distance will be rounded to nearest 25m when you finish typing",
+    "stroke": "Stroke",
+    "drillType": "Drill Type",
+    "intensityTarget": "Intensity Target",
+    "effortBased": "Effort Based",
+    "targetPace": "Target Pace",
+    "cssTarget": "CSS Target",
+    "effortLevel": "Effort Level",
+    "targetPacePer100": "Target Pace (per 100m)",
+    "cssTargetOffset": "CSS Target (seconds offset)",
+    "cssTargetHelper": "Offset from CSS pace (negative = faster, positive = slower)",
+    "restDuration": "Rest Duration (seconds)",
+    "restHelper": "Leave as 0 for unspecified rest time",
+    "equipment": "Equipment",
+    "notes": "Notes",
+    "notesPlaceholder": "Optional notes or instructions...",
+    "workoutNamePlaceholder": "Workout name...",
+    "level": "Nivel",
+    "type": "Tip"
+  },
+  "empty": {
+    "title": "Nici un pas adăugat incă",
+    "subtitle": "Începe crearea antrenamentului"
+  },
+  "validation": {
+    "nameRequired": "Workout name is required",
+    "nameDuplicate": "A workout with this name already exists. Please choose a different name."
+  },
+  "alerts": {
+    "loadFailed": "Failed to load workout",
+    "confirmDelete": "Delete this item?",
+    "saveSuccess": "Workout saved successfully! ID: {{id}}",
+    "updateSuccess": "Workout updated successfully! ID: {{id}}",
+    "saveSuccessGeneric": "Antrenament salvat cu succes",
+    "error": "Error",
+    "saveFailed": "Failed to save workout"
+  }
+}
+,
+"workouts": {
+  "header": {
+    "title": "Biblioteca de Antrenamente",
+    "subtitle": "Creează, editează și gestionează sesiunile de antrenament",
+    "createWorkout": "Creează Antrenament"
+  },
+  "stats": {
+    "totalWorkouts": "Total Antrenamente",
+    "totalMeters": "Metri Totali",
+    "trainingHours": "Ore de Antrenament"
+  },
+  "filters": {
+    "type": "Tip",
+    "allTypes": "Toate Tipurile",
+    "difficulty": "Dificultate",
+    "allLevels": "Toate Nivelele",
+    "search": "Căutare",
+    "searchPlaceholder": "Caută antrenamente...",
+    "clearFilters": "Șterge Filtrele",
+    "activeFilters": "Filtre active"
+  },
+  "types": {
+    "sprint": "Sprint",
+    "endurance": "Rezistență",
+    "technical": "Tehnic",
+    "recovery": "Recuperare",
+    "general": "General"
+  },
+  "difficulties": {
+    "beginner": "Începător",
+    "intermediate": "Intermediar",
+    "advanced": "Avansat"
+  },
+  "strokes": {
+    "unknown": "Unknown",
+    "freestyle": "Freestyle",
+    "backstroke": "Backstroke",
+    "breaststroke": "Breaststroke",
+    "butterfly": "Butterfly",
+    "im": "IM",
+    "imByRound": "IM by Round",
+    "reverseIm": "Reverse IM",
+    "choice": "Choice",
+    "mixed": "Mixed"
+  },
+  "card": {
+    "modified": "Modificat",
+    "minutes": "minute",
+    "meters": "metri",
+    "sets": "serii"
+  },
+  "actions": {
+    "edit": "Editează",
+    "duplicate": "Duplică",
+    "view": "Vezi",
+    "delete": "Șterge",
+    "copyLabel": "(copie)"
+  },
+  "alerts": {
+    "duplicated": "Workout duplicat!",
+    "confirmDelete": "Ștergi acest antrenament?",
+    "deleted": "Workout șters!"
+  },
+  "loading": "Se încarcă antrenamentele...",
+  "empty": {
+    "title": "Nu au fost găsite antrenamente",
+    "noWorkouts": "Nu ai încă antrenamente create. Începe prin a crea primul tău antrenament!",
+    "noResults": "Încearcă să modifici filtrele pentru a vedea mai multe rezultate.",
+    "createFirst": "Creează Primul Antrenament"
+  },
+  "resultsInfo": {
+    "showing": "Afișez {{filtered}} din {{total}} antrenamente",
+    "filtered": "filtrate"
+  },
+  "mockWorkouts": {
+    "sprintFreestyle": "Sprint Freestyle",
+    "butterflyTechnique": "Tehnică Fluture",
+    "mixedEndurance": "Rezistență Mixată"
+  }
+}
+,
+"announcements": {
+  "header": {
+    "title": "Administrare Anunțuri (Demo)",
+    "subtitle": "Creează și gestionează anunțuri pentru clubul tău de înot - Versiune cu date mock"
+  },
+  "form": {
+    "createTitle": "Creează Anunț Nou",
+    "editTitle": "Editează Anunțul",
+    "title": "Titlu",
+    "titlePlaceholder": "Introdu titlul anunțului",
+    "subtitle": "Subtitlu",
+    "subtitlePlaceholder": "Subtitlu opțional",
+    "content": "Conținut",
+    "contentPlaceholder": "Introdu conținutul anunțului",
+    "uploadImage": "Încarcă Imagine (Mock - Doar Previzualizare Locală)",
+    "uploading": "Se încarcă imaginea...",
+    "preview": "previzualizare",
+    "removeImage": "Elimină Imaginea",
+    "category": "Categorie",
+    "eventDate": "Data Evenimentului",
+    "startTime": "Ora de Început",
+    "endTime": "Ora de Sfârșit",
+    "location": "Locație",
+    "locationPlaceholder": "Locația evenimentului",
+    "priority": "Prioritate (0-100)",
+    "active": "Activ"
+  },
+  "categories": {
+    "general": "General",
+    "competition": "Competiție",
+    "training": "Antrenament",
+    "event": "Eveniment"
+  },
+  "buttons": {
+    "create": "Creează Anunțul",
+    "update": "Actualizează Anunțul",
+    "cancel": "Anulează",
+    "edit": "Editează",
+    "delete": "Șterge",
+    "retry": "Încearcă Din Nou"
+  },
+  "alerts": {
+    "invalidFileType": "Tip de fișier neacceptat. Folosiți JPEG, PNG sau GIF.",
+    "fileTooLarge": "Fișierul este prea mare. Dimensiunea maximă: 5MB.",
+    "createSuccess": "Anunț creat cu succes (demo)!",
+    "updateSuccess": "Anunț actualizat cu succes (demo)!",
+    "deleteSuccess": "Anunț șters cu succes (demo)!",
+    "confirmDelete": "Sigur doriți să ștergeți acest anunț?"
+  },
+  "card": {
+    "date": "Data",
+    "location": "Locație",
+    "category": "Categorie",
+    "priority": "Prioritate",
+    "status": "Status"
+  },
+  "status": {
+    "active": "Activ",
+    "inactive": "Inactiv"
+  },
+  "loading": "Se încarcă anunțurile...",
+  "empty": "Nu există anunțuri încă. Creează primul!",
+  "mockData": {
+    "competition": {
+      "title": "Competiție Națională de Înot",
+      "subtitle": "Participă la cel mai mare eveniment al anului",
+      "content": "Ne bucurăm să anunțăm organizarea competiției naționale de înot pentru toate categoriile de vârstă. Pregătește-te pentru performanțe de excepție!",
+      "location": "Complexul Sportiv Național"
+    },
+    "training": {
+      "title": "Antrenament Special - Tehnici Avansate",
+      "subtitle": "Pentru înotători nivel avansat",
+      "content": "Sesiune specială de antrenament dedicată tehnicilor avansate de înot. Coordonator: antrenor Popescu Gabriel.",
+      "location": "Piscina Olimpică"
+    },
+    "maintenance": {
+      "title": "Închidere Temporară pentru Întreținere",
+      "subtitle": "Lucrări de modernizare",
+      "content": "Vă informăm că în perioada 10-12 noiembrie, piscina va fi închisă pentru lucrări de întreținere și modernizare. Mulțumim pentru înțelegere!"
+    },
+    "summerEvent": {
+      "title": "Serată de Vară - Înot Recreativ",
+      "subtitle": "Event finalizat",
+      "content": "Mulțumim tuturor participanților la serata de vară! A fost un eveniment de neuitat.",
+      "location": "Piscina Exterioară"
+    }
+  }
+},
+"dashboard": {
+  "loading": "Se încarcă dashboard-ul...",
+  "hero": {
+    "title": "Centrul Tău de Comandă",
+    "subtitle": "Centrul tău de comandă pentru managementul înotului",
+    "totalStudents": "Total Cursanți",
+    "active": "Activi",
+    "activityRate": "Rată Activitate"
+  },
+  "alert": {
+    "title": "Atenție Necesară",
+    "description": "{{count}} înregistrări expiră în următoarele 7 zile"
+  },
+  "quickNav": {
+    "activeStudents": {
+      "title": "Cursanți Activi",
+      "subtitle": "Gestionează înotători"
+    },
+    "trainingHub": {
+      "value": "Hub",
+      "title": "Training Hub",
+      "subtitle": "Planuri și programe"
+    },
+    "trainingSessions": {
+      "value": "Azi",
+      "title": "Sesiuni Antrenament",
+      "subtitle": "Programul zilei"
+    },
+    "announcements": {
+      "value": "Anunțuri",
+      "title": "Comunicare",
+      "subtitle": "Gestionează mesaje"
+    }
+  },
+  "recentActivity": {
+    "title": "Activitate Recentă",
+    "viewAll": "Vezi tot",
+    "empty": "Nicio activitate recentă"
+  },
+  "activity": {
+    "newRegistration": "Înregistrare nouă",
+    "expiringNear": "Expirare apropiată"
+  },
+  "timeAgo": {
+    "minutes": "Acum {{count}} minute",
+    "hours": "Acum {{count}} ore",
+    "days": "Acum {{count}} zile"
+  }
+},
+"adminLayout": {
+  "header": {
+    "title": "Admin Panel (Demo)"
+  },
+  "pageTitle": {
+    "dashboard": "Dashboard Admin",
+    "trainingSession": "Sesiune de antrenament",
+    "students": "Gestiune Cursanți",
+    "trainingHub": "Centru de Antrenament",
+    "advancedSwimmers": "Înotători Avansați",
+    "groups": "Gestionare Grupuri",
+    "gdprConsent": "Consimțământ GDPR",
+    "systemInfo": "Informații Sistem",
+    "announcements": "Evenimente",
+    "aboutDemo": "Despre Demo",
+    "adminPanel": "Admin Panel"
+  },
+  "nav": {
+    "aboutDemo": "Despre Demo",
+    "dashboard": "Dashboard",
+    "students": "Cursanți",
+    "trainingSession": "Sesiune de antrenament",
+    "trainingHub": "Centru Antrenament",
+    "advancedSwimmers": "Înotători Avansați",
+    "groups": "Grupuri",
+    "announcements": "Evenimente",
+    "gdprConsent": "Consimțământ GDPR",
+    "system": "Sistem",
+    "systemInfo": "Informații Sistem"
+  },
+  "logout": {
+    "button": "Logout (Demo)",
+    "confirmDemo": "Aceasta este o versiune demo. Logout-ul nu este funcțional."
+  }
+},
+
+ "adminUsers": {
+    "pageTitle": "Gestiune Cursanți (Demo)",
+    "loading": "Se încarcă cursanții...",
+    "refreshing": "Se încarcă...",
+    "refreshButton": "Reîmprospătează",
+    "searchPlaceholder": "Caută după nume sau telefon...",
+    
+    "stats": {
+      "total": "Total",
+      "active": "Activi",
+      "expired": "Expirați"
+    },
+    
+    "status": {
+      "active": "Activ",
+      "expired": "Expirat"
+    },
+    
+    "filters": {
+      "allStudents": "Toți cursanții",
+      "activeOnly": "Doar activi",
+      "expiredOnly": "Doar expirați",
+      "allDays": "Toate zilele",
+      "allHours": "Toate orele"
+    },
+    
+    "sort": {
+      "newest": "Cei mai noi",
+      "oldest": "Cei mai vechi",
+      "alphabetical": "Sortare alfabetică"
+    },
+    
+    "days": {
+      "monday": "Luni",
+      "tuesday": "Marți",
+      "wednesday": "Miercuri",
+      "thursday": "Joi",
+      "friday": "Vineri"
+    },
+    
+    "export": {
+      "title": "Export Date (Mock)",
+      "csvButton": "📊 Export CSV",
+      "exporting": "Se exportă...",
+      "info": "Exportul conține: Nume Cursant, Nume Părinte, Telefon (date demonstrative)",
+      "headers": {
+        "studentName": "Nume Cursant",
+        "childName": "Nume Copil",
+        "phone": "Telefon",
+        "email": "Email",
+        "registrationDate": "Data Inregistrarii",
+        "status": "Status"
+      }
+    },
+    
+    "deleteModal": {
+      "title": "Confirmare ștergere",
+      "message": "Sigur doriți să ștergeți pe {{studentName}}? Această acțiune nu poate fi anulată și toate datele asociate vor fi pierdute permanent.",
+      "confirmButton": "Șterge",
+      "cancelButton": "Anulează",
+      "defaultStudentName": "acest cursant"
+    },
+    
+    "notifications": {
+      "exportSuccess": {
+        "title": "Export Realizat",
+        "message": "Fișierul {{filename}} a fost descărcat cu succes (date mock)."
+      },
+      "updateSuccess": {
+        "title": "Actualizare completă",
+        "message": "Lista de cursanți a fost actualizată cu succes (date mock)."
+      },
+      "deleteSuccess": {
+        "title": "Cursant șters",
+        "message": "{{studentName}} a fost șters cu succes. Modificarea va persista până la refresh."
+      }
+    },
+    
+    "resultsInfo": "Se afișează {{showing}} din {{total}} cursanți",
+    "noResultsFiltered": "Nu s-au găsit cursanți care să corespundă criteriilor de căutare.",
+    "noResultsEmpty": "Nu există cursanți înregistrați în sistem."
+  }
+,
+  "advancedSwimmers": {
+    "pageTitle": "Înotători Avansați (Demo)",
+    "pageSubtitle": "Gestionează profilurile înotătorilor cu monitorizare avansată - Date mock",
+    "loading": "Se încarcă înotătorii avansați...",
+    "filtered": "(filtrați)",
+    
+    "buttons": {
+      "swimmingTimes": "Timpii de Înot",
+      "addSwimmer": "Adaugă Înotător Avansat"
+    },
+    
+    "stats": {
+      "totalSwimmers": "Total Înotători",
+      "inGroups": "În Grupuri",
+      "activeGroups": "Grupuri Active"
+    },
+    
+    "filters": {
+      "hrMaxZone": "Zona HR Max",
+      "allZones": "Toate Zonele",
+      "lowZone": "Scăzută (<170)",
+      "mediumZone": "Medie (170-190)",
+      "highZone": "Înaltă (>190)",
+      "low": "Scăzută",
+      "medium": "Medie",
+      "high": "Înaltă",
+      "group": "Grup",
+      "noFilter": "Fără filtru",
+      "noGroup": "Fără Grup",
+      "search": "Căutare",
+      "searchPlaceholder": "Caută înotători...",
+      "clearFilters": "Șterge Filtrele",
+      "activeFilters": "Filtre active"
+    },
+    
+    "card": {
+      "studentId": "Cursant ID",
+      "max": "Max",
+      "resting": "Repaus",
+      "threshold": "Prag",
+      "created": "Creat",
+      "group": "Grup",
+      "hrMax": "HR Max (bpm)",
+      "hrResting": "HR Repaus (bpm)",
+      "hrThreshold": "HR Prag (bpm)",
+      "trainingZones": "Zone de Antrenament",
+      "viewMore": "Vezi Mai Mult"
+    },
+    
+    "emptyState": {
+      "title": "Nu au fost găsiți înotători avansați",
+      "noSwimmers": "Nu ai încă înotători avansați creați. Începe prin a adăuga primul!",
+      "noResults": "Încearcă să modifici filtrele pentru a vedea mai multe rezultate.",
+      "addFirst": "Adaugă Primul Înotător"
+    },
+    
+    "resultsInfo": "Afișez {{showing}} din {{total}} înotători avansați"
+  },
+    "consents": {
+      "pageTitle": "Consimțământ GDPR (Demo)",
+      "pageSubtitle": "Vizualizează toate consimțămintele GDPR înregistrate - Date mock",
+      "gdprButton": "Gestionare GDPR",
+      "searchPlaceholder": "Caută după nume...",
+      "loading": "Se încarcă consimțămintele...",
+      
+      "table": {
+        "id": "ID",
+        "fullName": "Nume Prenume",
+        "agreementDate": "Data Acord",
+        "deviceIp": "IP Dispozitiv",
+        "gdprVersion": "Versiune GDPR"
+      },
+      
+      "mobile": {
+        "agreementDate": "DATA ACORD",
+        "deviceIp": "IP DISPOZITIV",
+        "gdprVersion": "VERSIUNE GDPR"
+      },
+      
+      "emptyState": {
+        "noResults": "Nu au fost găsite rezultate",
+        "noConsents": "Nu există consimțăminte înregistrate",
+        "modifySearch": "Încearcă să modifici termenul de căutare",
+        "willAppear": "Consimțămintele vor apărea aici când utilizatorii completează formularul"
+      },
+      
+      "resultsCounter": {
+        "showing": "Se afișează",
+        "resultSingular": "rezultat",
+        "resultPlural": "rezultate",
+        "filtered": "(filtrat)"
+      }
+    }
+  ,
+  "createSwimmer": {
+    "pageTitle": "Adaugă Înotător Avansat (Demo)",
+    "pageSubtitle": "Creează un nou profil de înotător cu monitorizare avansată - Date mock",
+    "backButton": "Înapoi",
+    "cancelButton": "Anulează",
+    "createButton": "Creează Profilul (Mock)",
+    "creating": "Se creează...",
+    
+    "notifications": {
+      "warning": "Avertisment",
+      "validation": "Validare",
+      "profileCreated": "Profil Creat",
+      "successMessage": "Înotător avansat creat cu succes pentru {{name}}! (Mock)"
+    },
+    
+    "validation": {
+      "selectStudent": "Vă rugăm să selectați un cursant",
+      "maxHrRange": "Frecvența cardiacă maximă trebuie să fie între 120 și 220 bpm",
+      "restingHrRange": "Frecvența cardiacă de repaus trebuie să fie între 30 și 100 bpm",
+      "thresholdHrRange": "Frecvența cardiacă prag trebuie să fie între 100 și 200 bpm",
+      "restingLessThanMax": "Frecvența cardiacă de repaus trebuie să fie mai mică decât cea maximă"
+    },
+    
+    "step1": {
+      "title": "1. Selectează Cursantul",
+      "description": "Alege cursantul pentru care dorești să creezi profilul de înotător avansat",
+      "searchPlaceholder": "Caută după nume sau email...",
+      "loading": "Se încarcă cursanții...",
+      "noSearchResults": "Nu s-au găsit cursanți care să corespundă căutării",
+      "allHaveProfiles": "Toți cursanții au deja profiluri de înotători avansați",
+      "years": "ani"
+    },
+    
+    "step2": {
+      "title": "2. Configurează Datele de Frecvență Cardiacă",
+      "description": "Introdu valorile pentru frecvența cardiacă ale cursantului",
+      "autoCalculated": "⚡ Valorile au fost calculate automat pe baza vârstei. Poți să le modifici dacă este necesar.",
+      
+      "maxHrLabel": "Frecvența Cardiacă Maximă (bpm)",
+      "maxHrPlaceholder": "ex. 190",
+      "maxHrHelp": "Calculată: 220 - vârsta | Valori normale: 120-220 bpm",
+      
+      "restingHrLabel": "Frecvența Cardiacă de Repaus (bpm)",
+      "restingHrPlaceholder": "ex. 60",
+      "restingHrHelp": "Estimată pe baza vârstei și nivelului de fitness | Valori normale: 30-100 bpm",
+      
+      "thresholdHrLabel": "Frecvența Cardiacă Prag (bpm)",
+      "thresholdHrPlaceholder": "ex. 170",
+      "thresholdHrHelp": "Calculată: 87% din FC max | Valori normale: 100-200 bpm",
+      
+      "zonesPreview": "Previzualizare Zone de Antrenament",
+      
+      "zones": {
+        "zone1": "Zona 1 (Recuperare)",
+        "zone2": "Zona 2 (Aerob Ușor)",
+        "zone3": "Zona 3 (Aerob)",
+        "zone4": "Zona 4 (Prag)",
+        "zone5": "Zona 5 (Anaerob)"
+      }
+    }
+  },
+  "createTimes": {
+    "pageTitle": "Adaugă Timpii de Înot (Demo)",
+    "pageSubtitle": "Înregistrează timpii pentru antrenament sau competiție - Mock data",
+    "backButton": "Înapoi",
+    "cancelButton": "Anulează",
+    "saveButton": "Salvează Timpii ({{count}})",
+    "saving": "Se salvează...",
+    "saved": "Salvat (Mock)!",
+    "timesCompleted": "timpii completați",
+    "student": "Cursant",
+    "successMessage": "Timpii au fost salvați cu succes (mock)!",
+    
+    "validation": {
+      "studentRequired": "ID-ul cursantului este obligatoriu",
+      "dateRequired": "Data înregistrării este obligatorie",
+      "atLeastOneTime": "Trebuie să introduci cel puțin un timp",
+      "invalidFormat": "Formatul timpului pentru {{event}} este invalid. Folosește formatul MM:SS sau MM:SS.CC"
+    },
+    
+    "basicInfo": {
+      "title": "Informații Generale",
+      "description": "Completează informațiile de bază despre sesiunea de înot",
+      "student": "Cursant",
+      "loading": "Se încarcă...",
+      "recordDate": "Data Înregistrării",
+      "poolLength": "Lungimea Bazinului",
+      "meters25": "25 metri",
+      "meters50": "50 metri",
+      "competitionName": "Numele Competiției (opțional)",
+      "competitionPlaceholder": "ex. Campionatul Național de Înot",
+      "notes": "Note (opțional)",
+      "notesPlaceholder": "Adaugă note despre performanță, condiții, etc."
+    },
+    
+    "search": {
+      "title": "🔍 Caută și Filtrează Evenimente",
+      "description": "Găsește rapid evenimentele pentru care vrei să adaugi timpii",
+      "placeholder": "Caută evenimente (ex. 100m, liber, fluture)...",
+      "allCategories": "Toate Categoriile",
+      "onlyFilled": "Doar timpii completați",
+      "clearAll": "Șterge toate timpii",
+      "showingResults": "Se afișează {{showing}} din {{total}} evenimente"
+    },
+    
+    "times": {
+      "title": "⏱️ Timpii de Înot",
+      "formatInfo": "Introduce timpii în formatul MM:SS.CC (ex: 1:23.45 sau 01:23.45)",
+      "noEvents": "Nu s-au găsit evenimente care să corespundă criteriilor de căutare.",
+      "resetFilters": "Resetează filtrele",
+      "clearTime": "Șterge timpul"
+    },
+    
+    "categories": {
+      "freestyle": "Liber",
+      "backstroke": "Spate",
+      "breaststroke": "Bras",
+      "butterfly": "Fluture",
+      "im": "Mixt"
+    },
+    
+    "events": {
+      "freestyle50": "Liber 50m",
+      "freestyle100": "Liber 100m",
+      "freestyle200": "Liber 200m",
+      "freestyle400": "Liber 400m",
+      "freestyle800": "Liber 800m",
+      "freestyle1500": "Liber 1500m",
+      "backstroke50": "Spate 50m",
+      "backstroke100": "Spate 100m",
+      "backstroke200": "Spate 200m",
+      "breaststroke50": "Bras 50m",
+      "breaststroke100": "Bras 100m",
+      "breaststroke200": "Bras 200m",
+      "butterfly50": "Fluture 50m",
+      "butterfly100": "Fluture 100m",
+      "butterfly200": "Fluture 200m",
+      "im100": "Mixt 100m",
+      "im200": "Mixt 200m"
+    }
+  },
+  
+    "timesDetails": {
+      "pageSubtitle": "Timpii de înot și statistici detaliate",
+      "backButton": "Înapoi la Timpii de Înot",
+      "addNewTime": "Adaugă Timp Nou",
+      "student": "Cursant",
+      "loading": "Se încarcă datele...",
+      
+      "tabs": {
+        "allTimes": "Toți Timpii",
+        "personalBests": "Recorduri Personale",
+        "statistics": "Statistici & Grafice"
+      },
+      
+      "allTimes": {
+        "noTimes": "Nu sunt timpii înregistrați",
+        "noTimesDescription": "Acest înotător nu are încă timpii înregistrați.",
+        "competition": "Competiție",
+        "personalRecord": "Record Personal",
+        "notes": "Note"
+      },
+      
+      "personalBests": {
+        "noRecords": "Nu sunt recorduri personale",
+        "noRecordsDescription": "Acest înotător nu are încă recorduri personale stabilite.",
+        "showGraph": "Arată Graficul",
+        "hideGraph": "Ascunde Graficul"
+      },
+      
+      "statistics": {
+        "totalRecords": "Total Înregistrări",
+        "personalBests": "Recorduri Personale",
+        "competitionTimes": "Timpii de Competiție",
+        "monitoringDays": "Zile de Monitorizare",
+        "monitoringPeriod": "Perioada de Monitorizare",
+        "from": "De la",
+        "to": "până la",
+        "notEnoughData": "Nu sunt suficiente date pentru statistici",
+        "notEnoughDataDescription": "Adaugă mai mulți timpii pentru a vedea statistici detaliate."
+      },
+      
+      "graph": {
+        "notEnoughData": "Nu sunt suficiente date pentru grafic",
+        "evolution": "Evoluție Timpii"
+      },
+      
+      "categories": {
+        "freestyle": "Liber",
+        "backstroke": "Spate",
+        "breaststroke": "Bras",
+        "butterfly": "Fluture",
+        "im": "Mixt"
+      },
+      
+      "events": {
+        "freestyle50": "Liber 50m",
+        "freestyle100": "Liber 100m",
+        "freestyle200": "Liber 200m",
+        "freestyle400": "Liber 400m",
+        "freestyle800": "Liber 800m",
+        "freestyle1500": "Liber 1500m",
+        "backstroke50": "Spate 50m",
+        "backstroke100": "Spate 100m",
+        "backstroke200": "Spate 200m",
+        "breaststroke50": "Bras 50m",
+        "breaststroke100": "Bras 100m",
+        "breaststroke200": "Bras 200m",
+        "butterfly50": "Fluture 50m",
+        "butterfly100": "Fluture 100m",
+        "butterfly200": "Fluture 200m",
+        "im100": "Mixt 100m",
+        "im200": "Mixt 200m"
+      }
+    },
+      "gdpr": {
+        "pageTitle": "Gestionare GDPR",
+        "pageSubtitle": "Administrează versiunile politicii de confidențialitate GDPR",
+        "loading": "Se încarcă versiunile GDPR...",
+        
+        "stats": {
+          "versions": "Versiuni",
+          "nextVersion": "Următoarea"
+        },
+        
+        "emptyState": {
+          "title": "Nicio versiune GDPR",
+          "description": "Începe prin a adăuga prima versiune a politicii GDPR."
+        },
+        
+        "table": {
+          "id": "ID",
+          "version": "Versiune",
+          "createdAt": "Creat La",
+          "gdprText": "Text GDPR",
+          "actions": "Acțiuni",
+          "viewFullText": "Vezi textul complet",
+          "viewFull": "Vezi complet"
+        },
+        
+        "form": {
+          "title": "Adaugă Versiune Nouă GDPR",
+          "description": "Creează o nouă versiune a politicii de confidențialitate GDPR",
+          "versionLabel": "Versiune (generată automat)",
+          "gdprTextLabel": "Text GDPR",
+          "gdprTextPlaceholder": "Introdu textul complet al politicii GDPR...",
+          "characterCount": "{{count}} caractere",
+          "paragraphEstimate": "~{{count}} paragrafe",
+          "adding": "Se adaugă...",
+          "addButton": "Adaugă Versiune Nouă"
+        },
+        
+        "modal": {
+          "title": "Text GDPR Complet",
+          "close": "Închide",
+          "closeButton": "Închide"
+        }
+      }
+    ,
+    
+      "groups": {
+        "pageTitle": "Gestionare Grupuri (Demo)",
+        "groupSingular": "grup",
+        "groupPlural": "grupuri",
+        "newGroup": "Grup Nou",
+        "swimmers": "înotători",
+        "editButton": "Editează",
+        "deleteButton": "Șterge",
+        "confirmDelete": "Sigur vrei să ștergi acest grup? (Mock)",
+        
+        "emptyState": {
+          "title": "Nu există grupuri",
+          "description": "Creează primul grup pentru a organiza înotătorii avansați",
+          "createFirst": "Creează Primul Grup"
+        },
+        
+        "form": {
+          "createTitle": "Grup Nou (Demo)",
+          "editTitle": "Editează Grup (Demo)",
+          "createSubtitle": "Creează un nou grup pentru înotători",
+          "editSubtitle": "Modifică detaliile grupului",
+          "groupName": "Nume Grup",
+          "groupNamePlaceholder": "ex. Grup Performanță",
+          "description": "Descriere",
+          "descriptionPlaceholder": "Descriere grup...",
+          "groupColor": "Culoare Grup",
+          "swimmers": "Înotători",
+          "swimmersSelected": "{{count}} selectați",
+          "searchSwimmer": "Caută înotător...",
+          "noSwimmersAvailable": "Nu există înotători disponibili",
+          "student": "Cursant",
+          "inThisGroup": "În acest grup",
+          "cancelButton": "Anulează",
+          "createButton": "Creează Grup",
+          "updateButton": "Actualizează Grup",
+          "saving": "Se salvează..."
+        }
+      },
+
+        "swimmingTimes": {
+          "pageTitle": "Timpii de Înot",
+          "pageSubtitle": "Monitorizează progresul și recordurile personale ale înotătorilor",
+          "addNewTime": "Adaugă Timp Nou",
+          "student": "Cursant",
+          "loading": "Se încarcă timpii de înot...",
+          "filtered": "(filtrat)",
+          
+          "stats": {
+            "swimmersWithTimes": "Înotători cu Timpii",
+            "totalPersonalRecords": "Total Recorduri Personale",
+            "totalRecords": "Total Înregistrări",
+            "lastRecord": "Ultima Înregistrare"
+          },
+          
+          "filters": {
+            "searchSwimmer": "Căutare Înotător",
+            "searchPlaceholder": "Caută după nume sau ID...",
+            "clearFilters": "Șterge Filtrele",
+            "activeFilters": "Filtre active",
+            "search": "Căutare"
+          },
+          
+          "card": {
+            "personalRecords": "Recorduri Personale",
+            "totalRecords": "Total Înregistrări",
+            "lastTime": "Ultimul Timp",
+            "personalBestsTop4": "Recorduri Personale (Top 4)",
+            "moreRecords": "+{{count}} alte recorduri",
+            "viewAllTimes": "Vezi Toate Timpii",
+            "statistics": "Statistici & Grafice",
+            "addNewTime": "Adaugă Timp Nou"
+          },
+          
+          "emptyState": {
+            "noTimes": "Nu au fost găsiți timpii de înot",
+            "noTimesDescription": "Nu ai încă timpii înregistrați. Începe prin a adăuga primul!",
+            "modifyFilters": "Încearcă să modifici filtrele pentru a vedea mai multe rezultate.",
+            "addFirst": "Adaugă Primul Timp"
+          },
+          
+          "resultsInfo": "Afișez {{showing}} din {{total}} înotători cu timpii înregistrați",
+          
+          "events": {
+            "freestyle50": "Liber 50m",
+            "freestyle100": "Liber 100m",
+            "freestyle200": "Liber 200m",
+            "freestyle400": "Liber 400m",
+            "freestyle800": "Liber 800m",
+            "freestyle1500": "Liber 1500m",
+            "backstroke50": "Spate 50m",
+            "backstroke100": "Spate 100m",
+            "backstroke200": "Spate 200m",
+            "breaststroke50": "Bras 50m",
+            "breaststroke100": "Bras 100m",
+            "breaststroke200": "Bras 200m",
+            "butterfly50": "Fluture 50m",
+            "butterfly100": "Fluture 100m",
+            "butterfly200": "Fluture 200m",
+            "im100": "Mixt 100m",
+            "im200": "Mixt 200m"
+          }
+        }
+      
+    ,
+      "systemInfo": {
+        "pageTitle": "Informații Sistem (Demo)",
+        "loading": "Se încarcă informațiile de sistem...",
+        "updating": "Se actualizează...",
+        "refresh": "Actualizează",
+        "lastUpdate": "Ultima actualizare",
+        "retryButton": "Încearcă din nou",
+        
+        "tabs": {
+          "overview": "Prezentare Generală",
+          "memory": "Memorie",
+          "performance": "Performanță",
+          "database": "Baza de Date",
+          "system": "Sistem",
+          "network": "Rețea",
+          "disk": "Disk"
+        },
+        
+        "overview": {
+          "appVersion": "Versiune Aplicație",
+          "uptime": "Timp Funcționare",
+          "start": "Start",
+          "memoryUsage": "Utilizare Memorie",
+          "database": "Baza de Date",
+          "records": "înregistrări",
+          "systemPerformance": "Performanță Sistem",
+          "systemCpu": "CPU Sistem",
+          "heapMemory": "Memorie Heap",
+          "primaryDisk": "Disk Principal",
+          "recentActivity": "Activitate Recentă",
+          "lastUpdate": "Ultima actualizare",
+          "gcCollections": "Colectări GC",
+          "activeThreads": "Thread-uri active"
+        },
+        
+        "memory": {
+          "heapMemory": "Memorie Heap",
+          "nonHeapMemory": "Memorie Non-Heap",
+          "heapUsage": "Utilizare Heap",
+          "used": "Utilizată",
+          "committed": "Alocată",
+          "max": "Maximă",
+          "memoryPools": "Pool-uri de Memorie"
+        },
+        
+        "performance": {
+          "cpuAndSystem": "CPU & Sistem",
+          "systemCpu": "CPU Sistem",
+          "processCpu": "CPU Proces",
+          "loadAverage": "Load Average",
+          "threads": "Thread-uri",
+          "currentThreads": "Thread-uri Curente",
+          "daemonThreads": "Thread-uri Daemon",
+          "peakThreads": "Vârf Thread-uri",
+          "threadStates": "Stări Thread-uri",
+          "garbageCollection": "Garbage Collection",
+          "collections": "Colectări",
+          "time": "Timp"
+        },
+        
+        "database": {
+          "connectionStatus": "Status Conexiune",
+          "connected": "Conectată",
+          "error": "Eroare",
+          "responseTime": "Timp Răspuns",
+          "studentRecords": "Înregistrări Cursanți",
+          "announcements": "Anunțuri",
+          "estimatedSize": "Mărime Estimată"
+        },
+        
+        "system": {
+          "operatingSystem": "Sistem de Operare",
+          "name": "Nume",
+          "version": "Versiune",
+          "architecture": "Arhitectură",
+          "processors": "Procesoare",
+          "jvm": "Java Virtual Machine",
+          "javaVersion": "Versiune Java",
+          "vendor": "Vendor",
+          "jvmName": "Nume JVM",
+          "jvmVersion": "Versiune JVM",
+          "physicalResources": "Resurse Fizice",
+          "totalPhysicalMemory": "Memorie Fizică Totală",
+          "freePhysicalMemory": "Memorie Fizică Liberă",
+          "totalSwap": "Swap Total",
+          "freeSwap": "Swap Liber"
+        },
+        
+        "network": {
+          "basicInfo": "Informații de Bază",
+          "hostname": "Hostname",
+          "ipAddress": "Adresă IP",
+          "networkInterfaces": "Interfețe de Rețea"
+        },
+        
+        "disk": {
+          "diskVolumes": "Volume Disk",
+          "usage": "Utilizare",
+          "total": "Total",
+          "free": "Liber",
+          "usable": "Utilizabil",
+          "applicationData": "Date Aplicație",
+          "dataSize": "Mărime Date",
+          "fileCount": "Număr Fișiere"
+        }
+      }
+    ,
+    
+      "userCard": {
+        "years": "ani",
+        "expiresTraday": "Expiră azi!",
+        "oneDayRemaining": "1 zi rămasă",
+        "daysRemaining": "{{days}} zile rămase",
+        
+        "status": {
+          "expired": "Expirat",
+          "active": "Activ"
+        },
+        
+        "labels": {
+          "email": "Email",
+          "phone": "Telefon",
+          "age": "Varsta",
+          "birthDate": "Data nasterii",
+          "registrationDate": "Data inregistrarii",
+          "daysRemaining": "Zile ramase",
+          "contact": "Contact"
+        },
+        
+        "program": {
+          "title": "Program",
+          "with": "cu",
+          "noProgram": "Nu există program înregistrat"
+        },
+        
+        "documents": {
+          "title": "Documente",
+          "registrationForm": "Fișă de înscriere",
+          "declaration": "Declarație",
+          "medicalCertificate": "Adeverință medicală"
+        },
+        
+        "actions": {
+          "updating": "Se actualizează...",
+          "activate": "Activează",
+          "markExpired": "Marchează expirat",
+          "delete": "Șterge"
+        },
+        
+        "errors": {
+          "updateStatus": "Eroare la actualizarea statusului. Încercați din nou."
+        }
+      }
+    ,
+    
+      "viewSwimmer": {
+        "loading": "Se încarcă datele...",
+        "error": "Eroare",
+        "demo": "Demo",
+        "backToList": "Înapoi la Lista",
+        "studentId": "Cursant ID",
+        "student": "Cursant",
+        "created": "Creat",
+        "subtitle": "Profil Înotător Avansat - Date mock",
+        "addTime": "Adaugă Timp",
+        "cancel": "Anulează",
+        "edit": "Editează",
+        "deleteMock": "Șterge (Mock)",
+        "confirmDelete": "Sunteți sigur că doriți să ștergeți acest profil de înotător avansat? (Mock - nu va șterge efectiv)",
+        
+        "errors": {
+          "notFound": "Nu s-a găsit înotătorul."
+        },
+        
+        "validation": {
+          "maxHrRange": "Frecvența cardiacă maximă trebuie să fie între 120 și 220 bpm",
+          "restingHrRange": "Frecvența cardiacă de repaus trebuie să fie între 30 și 100 bpm",
+          "thresholdHrRange": "Frecvența cardiacă prag trebuie să fie între 100 și 200 bpm",
+          "restingLessThanMax": "Frecvența cardiacă de repaus trebuie să fie mai mică decât cea maximă"
+        },
+        
+        "success": {
+          "dataUpdated": "Date actualizate cu succes (mock)!"
+        },
+        
+        "tabs": {
+          "overview": "Prezentare Generală",
+          "times": "Timpii de Înot",
+          "analytics": "Analize și Grafice"
+        },
+        
+        "overview": {
+          "heartRate": "Frecvență Cardiacă",
+          "editMode": "Mod Editare",
+          "hrMax": "HR Max (bpm)",
+          "hrResting": "HR Repaus (bpm)",
+          "hrThreshold": "HR Prag (bpm)",
+          "saving": "Se salvează...",
+          "saveMock": "Salvează (Mock)",
+          "trainingZones": "Zone de Antrenament",
+          "swimmingStats": "Statistici Înot",
+          "totalTimes": "Total Timpii",
+          "records": "Recorduri",
+          "competitions": "Competiții"
+        },
+        
+        "zones": {
+          "recovery": "Recuperare",
+          "lightAerobic": "Aerob Ușor",
+          "aerobic": "Aerob",
+          "threshold": "Prag",
+          "anaerobic": "Anaerob"
+        },
+        
+        "times": {
+          "noTimes": "Nu sunt timpii înregistrați",
+          "noTimesDescription": "Acest înotător nu are încă timpii înregistrați.",
+          "addFirst": "Adaugă Primul Timp",
+          "andMore": "Și încă {{count}} timpii..."
+        },
+        
+        "analytics": {
+          "noData": "Nu sunt date pentru analize",
+          "noDataDescription": "Adaugă mai multe timpii pentru a vedea grafice și analize.",
+          "bestTime": "Cel mai bun",
+          "mostRecent": "Cel mai recent",
+          "totalRecords": "Total înregistrări",
+          "allTimes": "Toate timpii ({{count}})",
+          "moreTimes": "+{{count}} timpii în plus",
+          "showGraph": "Arată Graficul",
+          "hideGraph": "Ascunde Graficul"
+        },
+        
+        "graph": {
+          "notEnoughData": "Nu sunt suficiente date pentru grafic",
+          "evolution": "Evoluție Timpii"
+        },
+        
+        "categories": {
+          "freestyle": "Liber",
+          "backstroke": "Spate",
+          "breaststroke": "Bras",
+          "butterfly": "Fluture",
+          "im": "Mixt"
+        },
+        
+        "events": {
+          "freestyle50": "Liber 50m",
+          "freestyle100": "Liber 100m",
+          "freestyle200": "Liber 200m",
+          "freestyle400": "Liber 400m",
+          "freestyle800": "Liber 800m",
+          "freestyle1500": "Liber 1500m",
+          "backstroke50": "Spate 50m",
+          "backstroke100": "Spate 100m",
+          "backstroke200": "Spate 200m",
+          "breaststroke50": "Bras 50m",
+          "breaststroke100": "Bras 100m",
+          "breaststroke200": "Bras 200m",
+          "butterfly50": "Fluture 50m",
+          "butterfly100": "Fluture 100m",
+          "butterfly200": "Fluture 200m",
+          "im100": "Mixt 100m",
+          "im200": "Mixt 200m"
+        }
+      },
+      
+        "sessionManager": {
+          "change": "Schimbă",
+          "noWorkout": "Niciun antrenament",
+          "searchShort": "Caută...",
+          "searchWorkout": "Caută antrenament...",
+          "noWorkoutFound": "Niciun antrenament găsit",
+          "noWorkoutsAvailable": "Nu există antrenamente disponibile",
+          "evaluate": "Evaluează",
+          "evaluateSwimmer": "Evaluează înotătorul",
+          "status": {
+            "present": "Prezent",
+            "absent": "Absent",
+            "late": "Întârziat",
+            "injured": "Accidentat"
+          },
+          "week": "Săptămâna",
+          "day": "Ziua",
+          "time": "Ora",
+          "update": "Actualizează",
+          "workout": "Antrenament",
+          "swimmers": "Înotători",
+          "searchSwimmer": "Caută înotător...",
+          "noSwimmerFound": "Niciun înotător găsit",
+          "noSwimmersInPlan": "Niciun înotător în acest plan",
+          "recordTimes": "Notează timpi",
+          "liveSession": "Sesiune Live",
+          "pastDate": "Dată trecută",
+          "pastDateBanner": "Această dată este în trecut - modificările sunt limitate",
+          "confirmChangeWorkout": "Sigur vrei să schimbi antrenamentul?",
+          "confirmDeleteSession": "Sigur vrei să ștergi această sesiune?",
+          "adHocSession": "Sesiune ad-hoc",
+          "free": "LIBER",
+          "deleteSession": "Șterge sesiunea",
+          "addSwimmer": "Adaugă înotător...",
+          "noMoreSwimmers": "Nu mai sunt înotători disponibili",
+          "noSwimmersAdded": "Niciun înotător adăugat",
+          "cannotAddPastSession": "Nu poți adăuga sesiuni pentru date trecute",
+          "cannotDeletePastSession": "Nu poți șterge sesiuni pentru date trecute",
+          "loading": "Se încarcă...",
+          "retry": "Reîncearcă",
+          "sessionsShort": "Sesiuni",
+          "trainingSessions": "Sesiuni de antrenament",
+          "noActivePlans": "Nu există planuri active pentru această dată",
+          "adHocShort": "Ad-hoc",
+          "addAdHocSession": "Adaugă sesiune ad-hoc"
+        }
+      ,
+        "aboutDemo": {
+          "heroTitle": "Despre Această Versiune Demo",
+          "heroSubtitle": "Ghid complet pentru funcționalitățile platformei de management",
+          "readFirst": "Citește mai întâi",
+          "alertIntro": "Această pagină îți arată unde găsești principalele secțiuni ale platformei demo.",
+          "alertAdminNote": "Interfața este destinată",
+          "administrators": "administratorilor",
+          "alertLiveVersion": "Pentru versiunea live, vizitează:",
+          "warningTitle": "Toate datele afișate sunt doar pentru exemplificare:",
+          "warningNoCreate": "nu se pot crea înregistrări reale,",
+          "warningNoEdit": "nu se pot edita sau șterge date,",
+          "warningSimulated": "operațiile sunt doar simulate.",
+          "alertFooter": "Mai jos găsești prezentarea funcționalităților, împreună cu",
+          "quickLinks": "linkuri rapide",
+          "toEachSection": "către fiecare secțiune.",
+          "viewPage": "Vezi pagina",
+          "footerText": "Navighează prin secțiuni și explorează funcționalitățile platformei",
+          
+          "sections": {
+            "users": {
+              "title": "Înregistrări / Cursanți",
+              "intro": "Păstrează toate datele despre cei înscriși la club, inclusiv documentele autogenerate (",
+              "enrollmentForm": "fișa de înscriere",
+              "declaration": "declarație pe propria răspundere",
+              "medicalCert": "adeverința medicală",
+              "canBeFiltered": "Cursanții pot fi",
+              "filtered": "filtrați",
+              "afterCriteria": "după criterii specifice.",
+              "expiresAuto": "Expiră automat după o perioadă prestabilită sau pot fi marcați manual ca",
+              "expired": "expirați",
+              "orDeleted": "ori șterși definitiv.",
+              "allCanExport": "Toți cursanții pot fi",
+              "exported": "exportați",
+              "csvReport": "într-un fișier CSV pentru raportare."
+            },
+            
+            "sessions": {
+              "title": "Sesiuni de Antrenament",
+              "intro": "O sesiune de antrenament reprezintă",
+              "dayActivity": "activitatea dintr-o zi",
+              "canView": "Poți vizualiza sesiunile",
+              "planned": "planificate dintr-un plan",
+              "orAdHoc": "sau create",
+              "adHoc": "ad-hoc",
+              "eachHasTime": "Fiecare sesiune are",
+              "scheduledTime": "ora de desfășurare",
+              "established": "stabilită.",
+              "forPlanSessions": "Pentru sesiunile din plan,",
+              "swimmersGroups": "înotătorii sau grupele",
+              "alreadyAllocated": "sunt deja alocate; pentru cele ad-hoc, se adaugă manual.",
+              "pageContains": "Această pagină conține",
+              "actualWorkouts": "antrenamentele efective",
+              "ofPlans": "ale planurilor. În secțiunea de",
+              "plansSection": "Planuri",
+              "onlyDefineTypes": "se definesc doar tipurile de antrenamente necesare pentru fiecare zi.",
+              "navigationDays": "Navigarea se poate face",
+              "onDays": "pe zile",
+              "orCalendar": "sau prin iconița de calendar 📆 pentru a sări rapid la o dată anume."
+            },
+            
+            "traininghub": {
+              "title": "Centru de Antrenament",
+              "intro": "Pagina principală a modulului de antrenament, unde sunt afișate",
+              "generalStats": "statistici generale",
+              "offers": "Oferă",
+              "quickActions": "acțiuni rapide",
+              "createWorkout": "creare antrenament, accesare planuri.",
+              "youView": "Vizualizezi",
+              "upcomingComps": "competițiile viitoare",
+              "and": "și",
+              "testSets": "seturile de verificare",
+              "plannedInPlans": "planificate în planuri.",
+              "displays": "Afișează",
+              "latestWorkouts": "ultimele antrenamente",
+              "added": "adăugate."
+            },
+            
+            "workouts": {
+              "title": "Antrenamente",
+              "intro": "Pagina afișează toate",
+              "existingWorkouts": "antrenamentele existente",
+              "whichCan": "care pot fi",
+              "filtered": "filtrate",
+              "or": "sau",
+              "searched": "căutate",
+              "forEachWorkout": "Pentru fiecare antrenament există acțiuni:",
+              "edit": "editare",
+              "duplicate": "duplicare",
+              "viewPrint": "vizualizare pentru print",
+              "delete": "ștergere",
+              "creating": "Crearea unui antrenament",
+              "viaClick": "se face prin click pe",
+              "createWorkout": "Creează Antrenament",
+              "canHaveLevels": "Un antrenament poate avea",
+              "levels": "niveluri",
+              "beginner": "Începător, Intermediar, Avansat.",
+              "typesAvailable": "Tipuri disponibile:",
+              "endurance": "Rezistență",
+              "technique": "Tehnică",
+              "tempo": "Tempo",
+              "vo2max": "VO2max",
+              "sprint": "Sprint",
+              "recovery": "Recuperare",
+              "eachStepHas": "Fiecare pas are:",
+              "category": "Categoria: Warm-up, Main Set, Swim, Cooldown",
+              "distance": "Distanța (multiplu de 25m) – pentru a introduce rapid: selectează câmpul și scrie noua valoare",
+              "style": "Stil: Freestyle, Backstroke, Breaststroke, Butterfly etc.",
+              "drillType": "Tip drill: Kick, Pull, Drill",
+              "intensity": "Intensitate: Effort-based (HR), Pace-based, CSS (Critical Swim Speed)",
+              "equipment": "Echipament: Paddles, Pull buoy, Fins, Snorkel etc.",
+              "notes": "Notițe",
+              "repetitions": "Repetări:",
+              "addedWith": "se adaugă cu",
+              "addRepetition": "Adaugă Repetare",
+              "creatingBlock": "creând un bloc unde poți introduce mai mulți pași sau alte repetări."
+            },
+            
+            "plans": {
+              "title": "Planuri",
+              "accessedFrom": "Se accesează din",
+              "trainingHub": "Centru de Antrenament → Planuri",
+              "displayedCurrent": "Sunt afișate",
+              "currentPlans": "planurile curente",
+              "creatingPlan": "Crearea unui plan se face prin",
+              "createNewPlan": "Creează plan nou",
+              "planContains": "Un plan conține:",
+              "nameDesc": "Nume și descriere",
+              "startEndDate": "Data de start și de sfârșit",
+              "status": "Status: Draft, Activ, Pauză, Completat",
+              "macroPhases": "Fazele macro (Acumulare, Intensificare, Realizare, Descărcare, Tranziție)",
+              "keyComps": "Competiții cheie și obiective",
+              "presentedTheoretically": "Sunt prezentate",
+              "theoretically": "teoretic",
+              "macroTypes": "fazele macro, tipurile de antrenament și zonele de frecvență cardiacă.",
+              "calendarPlanning": "Planificare calendar:",
+              "weekAssignment": "asignarea pe săptămâni a fazelor macro și tipurilor de antrenamente pe zile.",
+              "canAddIndividual": "Se pot adăuga sportivi individuali sau",
+              "entireGroups": "întregi grupe",
+              "toPlan": "la plan.",
+              "actualWorkouts": "Antrenamentele efective",
+              "addedLater": "se adaugă ulterior din secțiunea",
+              "trainingSessions": "Sesiuni de antrenament",
+              "warningAttention": "Atenție:",
+              "toTestPlanning": "Pentru a testa planificarea în calendar, trebuie să accesezi un plan deja creat și să alegi",
+              "edit": "Editează",
+              "notAvailableDemo": "În versiunea demo, această opțiune nu este disponibilă în faza de creare."
+            },
+            
+            "advanced": {
+              "title": "Înotători Avansați",
+              "initially": "Inițial, orice nou cursant",
+              "noFeatureActive": "nu are această funcționalitate activă",
+              "toTransform": "Pentru a-l transforma în",
+              "advancedSwimmer": "înotător avansat",
+              "selectFromList": "se selectează din lista de cursanți obișnuiți.",
+              "afterActivation": "După activare, se pot asigna",
+              "trainingSessions": "sesiuni de antrenament",
+              "trainingZones": "zone de antrenament",
+              "specificDetails": "și alte detalii specifice.",
+              "configureParams": "Se configurează parametri precum:",
+              "hrMax": "HR maxim",
+              "threshold": "Prag",
+              "rest": "Repaus",
+              "valuesCalculated": "Valorile sunt calculate",
+              "autoByAge": "automat în funcție de vârstă",
+              "canBeManual": "dar pot fi introduse manual."
+            },
+            
+            "groups": {
+              "title": "Grupuri",
+              "canBeOrganized": "Înotătorii avansați pot fi",
+              "organized": "organizați în grupuri",
+              "efficientManagement": "pentru o gestionare mai eficientă.",
+              "groupsAllow": "Grupurile permit",
+              "fasterAssignment": "asignarea mai rapidă",
+              "plansAndSessions": "a planurilor și sesiunilor de antrenament.",
+              "eachGroupHas": "Fiecare grup are:",
+              "name": "Denumire",
+              "color": "Culoare",
+              "visualDiff": "(pentru diferențiere vizuală)",
+              "description": "Descriere"
+            },
+            
+            "announcements": {
+              "title": "Evenimente",
+              "adminCanCreate": "Administratorul poate",
+              "createEvents": "crea evenimente",
+              "appearOnMain": "ce vor apărea pe pagina principală.",
+              "canBeComps": "Evenimentele pot fi competiții, anunțuri sau activități speciale.",
+              "canAddDetails": "Se pot adăuga detalii precum:",
+              "title": "titlu",
+              "description": "descriere",
+              "dateTime": "data și ora",
+              "location": "locație",
+              "image": "imagine"
+            },
+            
+            "gdpr": {
+              "title": "GDPR",
+              "inThisPage": "În această pagină sunt accesibile",
+              "userConsents": "consimțămintele utilizatorilor",
+              "includesSignature": "Include semnătura digitală, care conține:",
+              "ipAddress": "Adresa IP",
+              "exactDateTime": "Data și ora exactă",
+              "gdprVersion": "Versiunea de GDPR acceptată",
+              "adminCanTrack": "Administratorul poate ține evidența și actualiza versiunile de GDPR."
+            },
+            
+            "system": {
+              "title": "Informații Sistem",
+              "pageOffers": "Pagina oferă acces administratorului la",
+              "essentialInfo": "informațiile esențiale despre server",
+              "containsTechnical": "Conține",
+              "technicalData": "date tehnice utile",
+              "monitoring": "pentru monitorizare și mentenanță.",
+              "canBeUsed": "Poate fi folosită pentru",
+              "troubleshooting": "depanare",
+              "checkingState": "și pentru verificarea stării generale a sistemului."
+            }
+          }
+        }
+      
+    
+}

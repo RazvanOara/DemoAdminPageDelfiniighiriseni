@@ -1,10 +1,12 @@
 import React, { useEffect, useState, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import './i18n';
 import './App.css';
 import './styles/globals.css';
 import './styles/animations.css';
 
-// Admin components only
+// Admin components
 const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard.js'));
 const AdminUsersPage = lazy(() => import('./pages/Admin/AdminUsersPage'));
 const AdminLayout = lazy(() => import('./pages/Admin/AdminLayout'));
@@ -24,7 +26,6 @@ const TimeRecorder = lazy(() => import('./pages/Admin/TimeRecorder.js'));
 const LiveWorkout = lazy(() => import('./pages/Admin/LiveWorkout'));
 const AboutDemo = lazy(() => import('./pages/Admin/AboutDemo.js'));
 
-
 // Training components
 const Planificare = lazy(() => import('./pages/Admin/Training/Planificare.js'));
 const WorkoutBuilder = lazy(() => import('./pages/Admin/Training/WorkoutBuilder.js'));
@@ -32,7 +33,7 @@ const Workouts = lazy(() => import('./pages/Admin/Training/Workouts.js'));
 const WorkoutPreview = lazy(() => import('./pages/Admin/Training/WorkoutPreview.js'));
 const Plans = lazy(() => import('./pages/Admin/Training/Plans.js'));
 
-// Enhanced loading component
+// Loading components
 const LoadingSpinner = ({ message = 'Se încarcă...' }) => (
   <div style={{
     display: 'flex',
@@ -61,7 +62,6 @@ const LoadingSpinner = ({ message = 'Se încarcă...' }) => (
   </div>
 );
 
-// Page-specific loading messages
 const PageLoader = ({ page }) => {
   const messages = {
     admin: 'Se încarcă panoul de administrare...',
@@ -72,6 +72,27 @@ const PageLoader = ({ page }) => {
   return <LoadingSpinner message={messages[page] || messages.default} />;
 };
 
+// Language sync component
+function LanguageSync() {
+  const { lang } = useParams();
+  const { i18n } = useTranslation();
+  
+  useEffect(() => {
+    if (lang && (lang === 'ro' || lang === 'en') && i18n.language !== lang) {
+      i18n.changeLanguage(lang);
+    }
+  }, [lang, i18n]);
+  
+  return null;
+}
+
+// Redirect component to add language to URL
+function LanguageRedirect() {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language || 'ro';
+  return <Navigate to={`/${currentLang}/admin/about-demo`} replace />;
+}
+
 function AppContent() {
   const location = useLocation();
   
@@ -81,362 +102,380 @@ function AppContent() {
   
   return (
     <div className="App">
+      <LanguageSync />
       <main className="main-content">
         <Routes>
-          {/* Redirect root to admin dashboard */}
-          <Route path="/" element={<Navigate to="/admin/about-demo" replace />} />
+          {/* Root redirect - adds language prefix */}
+          <Route path="/" element={<LanguageRedirect />} />
           
-          {/* Admin Dashboard */}
-          <Route
-            path="/admin"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <AdminDashboard />
-                  </Suspense>
-                </AdminLayout>
+          {/* Language-prefixed routes */}
+          <Route path="/:lang/*" element={<LanguageRoutes />} />
+          
+          {/* Fallback for paths without language - redirect to add language */}
+          <Route path="*" element={<LanguageRedirect />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
+
+// Separate component for language-prefixed routes
+function LanguageRoutes() {
+  const { lang } = useParams();
+  const location = useLocation();
+  
+  return (
+    <Routes>
+      {/* About Demo Page */}
+      <Route
+        path="admin/about-demo"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <AboutDemo />
               </Suspense>
-            }
-          />
-{/* About Demo Page */}
-<Route
-  path="/admin/about-demo"
+            </AdminLayout>
+          </Suspense>
+        }
+      />
+
+      {/* Admin Dashboard */}
+      <Route
+        path="admin"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <AdminDashboard />
+              </Suspense>
+            </AdminLayout>
+          </Suspense>
+        }
+      />
+
+      {/* Session Manager */}
+      <Route
+        path="admin/traininghub/sessionManager"
+        element={
+          <Suspense fallback={<PageLoader page="training" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <SessionManager />
+              </Suspense>
+            </AdminLayout>
+          </Suspense>
+        }
+      />
+
+      {/* Admin Users */}
+      <Route
+        path="admin/users"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <AdminUsersPage />
+              </Suspense>
+            </AdminLayout>
+          </Suspense>
+        }
+      />
+
+      {/* Admin Announcements */}
+      <Route
+        path="admin/announcements"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <AdminAnnouncements />
+              </Suspense>
+            </AdminLayout>
+          </Suspense>
+        }
+      />
+      
+      {/* Training Hub Dashboard */}
+      <Route
+  path="admin/traininghub"
   element={
-    <Suspense fallback={<PageLoader page="admin" />}>
-      <AdminLayout>
+    <Suspense fallback={<PageLoader page="training" />}>
+      <AdminLayout key={location.pathname}>
         <Suspense fallback={<LoadingSpinner />}>
-          <AboutDemo />
+          <Planificare key={location.pathname} />
         </Suspense>
       </AdminLayout>
     </Suspense>
   }
 />
 
-          {/* Session Manager */}
-          <Route
-            path="/admin/traininghub/sessionManager"
-            element={
-              <Suspense fallback={<PageLoader page="training" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <SessionManager />
-                  </Suspense>
-                </AdminLayout>
+      {/* GDPR Consents Dashboard */}
+      <Route
+        path="admin/consimtamant"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <Consimtamant/>
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Admin Users */}
-          <Route
-            path="/admin/users"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <AdminUsersPage />
-                  </Suspense>
-                </AdminLayout>
+      {/* GDPR Management */}
+      <Route
+        path="admin/gdpr"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <GdprTable />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Admin Announcements */}
-          <Route
-            path="/admin/announcements"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <AdminAnnouncements />
-                  </Suspense>
-                </AdminLayout>
+      {/* Workouts page */}
+      <Route
+        path="admin/traininghub/workouts"
+        element={
+          <Suspense fallback={<PageLoader page="training" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <Workouts />
               </Suspense>
-            }
-          />
-          
-          {/* Training Hub Dashboard */}
-          <Route
-            path="/admin/traininghub"
-            element={
-              <Suspense fallback={<PageLoader page="training" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Planificare />
-                  </Suspense>
-                </AdminLayout>
-              </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* GDPR Consents Dashboard */}
-          <Route
-            path="/admin/consimtamant"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Consimtamant/>
-                  </Suspense>
-                </AdminLayout>
+      {/* Plans page */}
+      <Route
+        path="admin/traininghub/plans"
+        element={
+          <Suspense fallback={<PageLoader page="training" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <Plans />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* GDPR Management */}
-          <Route
-            path="/admin/gdpr"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <GdprTable />
-                  </Suspense>
-                </AdminLayout>
+      {/* Plans Edit Mode */}
+      <Route
+        path="admin/traininghub/edit-plan/:planId"
+        element={
+          <Suspense fallback={<PageLoader page="training" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <Plans />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Workouts page */}
-          <Route
-            path="/admin/traininghub/workouts"
-            element={
-              <Suspense fallback={<PageLoader page="training" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Workouts />
-                  </Suspense>
-                </AdminLayout>
+      {/* Workout Builder (create new) */}
+      <Route
+        path="admin/traininghub/create-workout"
+        element={
+          <Suspense fallback={<PageLoader page="training" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <WorkoutBuilder />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Plans page */}
-          <Route
-            path="/admin/traininghub/plans"
-            element={
-              <Suspense fallback={<PageLoader page="training" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Plans />
-                  </Suspense>
-                </AdminLayout>
+      {/* Workout Builder (edit mode) */}
+      <Route
+        path="admin/traininghub/edit-workout/:id"
+        element={
+          <Suspense fallback={<PageLoader page="training" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <WorkoutBuilder />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Plans Edit Mode */}
-          <Route
-            path="/admin/traininghub/edit-plan/:planId"
-            element={
-              <Suspense fallback={<PageLoader page="training" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <Plans />
-                  </Suspense>
-                </AdminLayout>
+      {/* Time Recorder Page */}
+      <Route
+        path="admin/traininghub/session/:sessionId/times"
+        element={
+          <Suspense fallback={<PageLoader page="training" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <TimeRecorder />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Workout Builder (create new) */}
-          <Route
-            path="/admin/traininghub/create-workout"
-            element={
-              <Suspense fallback={<PageLoader page="training" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <WorkoutBuilder />
-                  </Suspense>
-                </AdminLayout>
+      {/* Live Workout Session */}
+      <Route
+        path="admin/traininghub/session/:sessionId/live"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <LiveWorkout />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Workout Builder (edit mode) */}
-          <Route
-            path="/admin/traininghub/edit-workout/:id"
-            element={
-              <Suspense fallback={<PageLoader page="training" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <WorkoutBuilder />
-                  </Suspense>
-                </AdminLayout>
+      {/* Workout Preview */}
+      <Route 
+        path="admin/traininghub/workouts/:id/preview" 
+        element={
+          <Suspense fallback={<PageLoader page="training" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <WorkoutPreview />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Time Recorder Page */}
-          <Route
-            path="/admin/traininghub/session/:sessionId/times"
-            element={
-              <Suspense fallback={<PageLoader page="training" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <TimeRecorder />
-                  </Suspense>
-                </AdminLayout>
+      {/* Advanced Swimmers Details */}
+      <Route
+        path="admin/advanced-swimmers/:id/details"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <ViewAdvancedSwimmer />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Live Workout Session */}
-          <Route
-            path="/admin/traininghub/session/:sessionId/live"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <LiveWorkout />
-                  </Suspense>
-                </AdminLayout>
+      {/* Create Advanced Swimmer */}
+      <Route
+        path="admin/advanced-swimmers/create"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <CreateAdvancedSwimmer />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Workout Preview */}
-          <Route 
-            path="/admin/traininghub/workouts/:id/preview" 
-            element={
-              <Suspense fallback={<PageLoader page="training" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <WorkoutPreview />
-                  </Suspense>
-                </AdminLayout>
+      {/* Advanced Swimmers List */}
+      <Route
+        path="admin/advanced-swimmers"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <AdvancedSwimmers />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Advanced Swimmers Details */}
-          <Route
-            path="/admin/advanced-swimmers/:id/details"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <ViewAdvancedSwimmer />
-                  </Suspense>
-                </AdminLayout>
+      {/* Groups Management */}
+      <Route
+        path="admin/groups"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <GroupsManagement />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Create Advanced Swimmer */}
-          <Route
-            path="/admin/advanced-swimmers/create"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <CreateAdvancedSwimmer />
-                  </Suspense>
-                </AdminLayout>
+      {/* Swimming Times Management */}
+      <Route
+        path="admin/swimming-times"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <SwimmingTimes />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Advanced Swimmers List */}
-          <Route
-            path="/admin/advanced-swimmers"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <AdvancedSwimmers />
-                  </Suspense>
-                </AdminLayout>
+      {/* Swimming Times Details for specific cursant */}
+      <Route
+        path="admin/swimming-times/cursant/:cursantId/details"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <CursantTimesDetails />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Groups Management */}
-          <Route
-            path="/admin/groups"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <GroupsManagement />
-                  </Suspense>
-                </AdminLayout>
+      {/* Create Swimming Times */}
+      <Route
+        path="admin/swimming-times/create"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <CreateSwimmingTimes />
               </Suspense>
-            }
-          />
+            </AdminLayout>
+          </Suspense>
+        }
+      />
 
-          {/* Swimming Times Management */}
-          <Route
-            path="/admin/swimming-times"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <SwimmingTimes />
-                  </Suspense>
-                </AdminLayout>
+      {/* Swimming Times Statistics for specific cursant */}
+      <Route
+        path="admin/swimming-times/cursant/:cursantId/statistics"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <CursantTimesDetails />
               </Suspense>
-            }
-          />
-
-          {/* Swimming Times Details for specific cursant */}
-          <Route
-            path="/admin/swimming-times/cursant/:cursantId/details"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <CursantTimesDetails />
-                  </Suspense>
-                </AdminLayout>
+            </AdminLayout>
+          </Suspense>
+        }
+      />
+      
+      {/* System Info */}
+      <Route
+        path="admin/system"
+        element={
+          <Suspense fallback={<PageLoader page="admin" />}>
+            <AdminLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <SystemInfo />
               </Suspense>
-            }
-          />
-
-          {/* Create Swimming Times */}
-          <Route
-            path="/admin/swimming-times/create"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <CreateSwimmingTimes />
-                  </Suspense>
-                </AdminLayout>
-              </Suspense>
-            }
-          />
-
-          {/* Swimming Times Statistics for specific cursant */}
-          <Route
-            path="/admin/swimming-times/cursant/:cursantId/statistics"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <CursantTimesDetails />
-                  </Suspense>
-                </AdminLayout>
-              </Suspense>
-            }
-          />
-          
-          {/* System Info */}
-          <Route
-            path="/admin/system"
-            element={
-              <Suspense fallback={<PageLoader page="admin" />}>
-                <AdminLayout>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <SystemInfo />
-                  </Suspense>
-                </AdminLayout>
-              </Suspense>
-            }
-          />
-        </Routes>
-      </main>
-    </div>
+            </AdminLayout>
+          </Suspense>
+        }
+      />
+    </Routes>
   );
 }
 

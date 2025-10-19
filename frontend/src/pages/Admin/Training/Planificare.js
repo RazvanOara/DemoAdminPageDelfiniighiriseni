@@ -1,148 +1,143 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './Planificare.css';
 import Workouts from './Workouts';
 
 const Planificare = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const { lang } = useParams();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [workouts, setWorkouts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [plans, setPlans] = useState([]);
 
-  // Set active tab based on current URL
   useEffect(() => {
-    if (location.pathname === '/admin/traininghub') {
+    const pathWithoutLang = location.pathname.replace(/^\/(ro|en)/, '');
+    if (pathWithoutLang === '/admin/traininghub') {
       setActiveTab('dashboard');
-    } else if (location.pathname === '/admin/traininghub/workouts') {
+    } else if (pathWithoutLang === '/admin/traininghub/workouts') {
       setActiveTab('workouts');
-    } else if (location.pathname === '/admin/traininghub/plans') {
+    } else if (pathWithoutLang === '/admin/traininghub/plans') {
       setActiveTab('plans');
     }
   }, [location.pathname]);
 
-    // Mock data for workouts
-    const mockWorkouts = [
-      {
-        id: 1,
-        name: 'Intervale Sprint Craul',
-        duration: 45,
-        totalDistance: 2000,
-        type: 'Sprint',
-        difficulty: 'Avansat',
-        lastModified: '2025-09-28',
-        sets: 5,
-        strokes: ['Craul'],
-        rawType: 'SPRINT',
-        rawLevel: 'AVANSAT'
-      },
-      {
-        id: 2,
-        name: 'Tehnică și Exerciții',
-        duration: 60,
-        totalDistance: 2500,
-        type: 'Tehnic',
-        difficulty: 'Intermediar',
-        lastModified: '2025-09-30',
-        sets: 6,
-        strokes: ['Spate', 'Craul'],
-        rawType: 'TEHNIC',
-        rawLevel: 'INTERMEDIAR'
-      },
-      {
-        id: 3,
-        name: 'Anduranță Distanță Lungă',
-        duration: 90,
-        totalDistance: 5000,
-        type: 'Rezistență',
-        difficulty: 'Avansat',
-        lastModified: '2025-09-25',
-        sets: 10,
-        strokes: ['Craul'],
-        rawType: 'REZISTENTA',
-        rawLevel: 'AVANSAT'
-      },
-      {
-        id: 4,
-        name: 'Seturi Fluture Putere',
-        duration: 40,
-        totalDistance: 1500,
-        type: 'Sprint',
-        difficulty: 'Începător',
-        lastModified: '2025-09-20',
-        sets: 4,
-        strokes: ['Fluture'],
-        rawType: 'SPRINT',
-        rawLevel: 'INCEPATOR'
-      },
-      {
-        id: 5,
-        name: 'Antrenament Mixt Poliatlon',
-        duration: 70,
-        totalDistance: 3000,
-        type: 'General',
-        difficulty: 'Intermediar',
-        lastModified: '2025-09-18',
-        sets: 8,
-        strokes: ['Mixt', 'Craul', 'Bras'],
-        rawType: 'GENERAL',
-        rawLevel: 'INTERMEDIAR'
-      }
-    ];
-  
-    // Date mock pentru planuri
-    const mockPlans = [
-      {
-        name: 'Plan Pregătire Competițională',
-        status: 'Active',
-        participants: [{ cursantId: 'inotator1' }, { cursantId: 'inotator2' }],
-        keyRaces: [
-          {
-            name: 'Campionatul Național de Înot',
-            raceDate: '2025-10-15',
-            raceType: 'target'
-          },
-          {
-            name: 'Calificări Regionale',
-            raceDate: '2025-11-05',
-            raceType: 'tuneup'
-          }
-        ]
-      },
-      {
-        name: 'Sezon Tehnică și Corecții',
-        status: 'Planned',
-        participants: [{ cursantId: 'inotator3' }],
-        keyRaces: []
-      }
-    ];
+  const mockWorkouts = useMemo(() => [
+    {
+      id: 1,
+      name: t('planificare.mockWorkouts.sprintIntervals'),
+      duration: 45,
+      totalDistance: 2000,
+      type: t('planificare.workoutTypes.sprint'),
+      difficulty: t('planificare.difficulties.advanced'),
+      lastModified: '2025-09-28',
+      sets: 5,
+      strokes: [t('planificare.strokes.freestyle')],
+      rawType: 'SPRINT',
+      rawLevel: 'AVANSAT'
+    },
+    {
+      id: 2,
+      name: t('planificare.mockWorkouts.techniqueDrills'),
+      duration: 60,
+      totalDistance: 2500,
+      type: t('planificare.workoutTypes.technical'),
+      difficulty: t('planificare.difficulties.intermediate'),
+      lastModified: '2025-09-30',
+      sets: 6,
+      strokes: [t('planificare.strokes.backstroke'), t('planificare.strokes.freestyle')],
+      rawType: 'TEHNIC',
+      rawLevel: 'INTERMEDIAR'
+    },
+    {
+      id: 3,
+      name: t('planificare.mockWorkouts.longDistance'),
+      duration: 90,
+      totalDistance: 5000,
+      type: t('planificare.workoutTypes.endurance'),
+      difficulty: t('planificare.difficulties.advanced'),
+      lastModified: '2025-09-25',
+      sets: 10,
+      strokes: [t('planificare.strokes.freestyle')],
+      rawType: 'REZISTENTA',
+      rawLevel: 'AVANSAT'
+    },
+    {
+      id: 4,
+      name: t('planificare.mockWorkouts.butterflyPower'),
+      duration: 40,
+      totalDistance: 1500,
+      type: t('planificare.workoutTypes.sprint'),
+      difficulty: t('planificare.difficulties.beginner'),
+      lastModified: '2025-09-20',
+      sets: 4,
+      strokes: [t('planificare.strokes.butterfly')],
+      rawType: 'SPRINT',
+      rawLevel: 'INCEPATOR'
+    },
+    {
+      id: 5,
+      name: t('planificare.mockWorkouts.mixedMedley'),
+      duration: 70,
+      totalDistance: 3000,
+      type: t('planificare.workoutTypes.general'),
+      difficulty: t('planificare.difficulties.intermediate'),
+      lastModified: '2025-09-18',
+      sets: 8,
+      strokes: [t('planificare.strokes.mixed'), t('planificare.strokes.freestyle'), t('planificare.strokes.breaststroke')],
+      rawType: 'GENERAL',
+      rawLevel: 'INTERMEDIAR'
+    }
+  ], [t]);
 
-  // Calculate comprehensive workout statistics
+  const mockPlans = useMemo(() => [
+    {
+      name: t('planificare.mockPlans.competitionPrep'),
+      status: 'Active',
+      participants: [{ cursantId: 'inotator1' }, { cursantId: 'inotator2' }],
+      keyRaces: [
+        {
+          name: t('planificare.mockPlans.nationalChampionship'),
+          raceDate: '2025-10-15',
+          raceType: 'target'
+        },
+        {
+          name: t('planificare.mockPlans.regionalQualifiers'),
+          raceDate: '2025-11-05',
+          raceType: 'tuneup'
+        }
+      ]
+    },
+    {
+      name: t('planificare.mockPlans.techniqueSeason'),
+      status: 'Planned',
+      participants: [{ cursantId: 'inotator3' }],
+      keyRaces: []
+    }
+  ], [t]);
+
   const calculateWorkoutStats = (workouts) => {
     const totalDistance = workouts.reduce((sum, workout) => sum + (workout.totalDistance || 0), 0);
     const avgDistance = workouts.length > 0 ? Math.round(totalDistance / workouts.length) : 0;
-   
     
-    // Calculate total training volume in minutes
     const totalVolume = workouts.reduce((sum, workout) => sum + (workout.duration || 0), 0);
     const avgDuration = workouts.length > 0 ? Math.round(totalVolume / workouts.length) : 0;
     
-    // Count workouts by type
     const typeDistribution = workouts.reduce((acc, workout) => {
-      const type = workout.type || 'General';
+      const type = workout.type || t('planificare.workoutTypes.general');
       acc[type] = (acc[type] || 0) + 1;
       return acc;
     }, {});
 
-    // Count workouts by difficulty
     const difficultyDistribution = workouts.reduce((acc, workout) => {
-      const difficulty = workout.difficulty || 'Intermediar';
+      const difficulty = workout.difficulty || t('planificare.difficulties.intermediate');
       acc[difficulty] = (acc[difficulty] || 0) + 1;
       return acc;
     }, {});
 
-    // Analyze stroke distribution across all workouts
     const strokeDistribution = {};
     workouts.forEach(workout => {
       workout.strokes.forEach(stroke => {
@@ -152,14 +147,16 @@ const Planificare = () => {
       });
     });
 
-    // Calculate intensity distribution (based on difficulty)
     const intensityScore = workouts.reduce((sum, workout) => {
-      const scores = { 'Începător': 1, 'Intermediar': 2, 'Avansat': 3 };
+      const scores = { 
+        [t('planificare.difficulties.beginner')]: 1, 
+        [t('planificare.difficulties.intermediate')]: 2, 
+        [t('planificare.difficulties.advanced')]: 3 
+      };
       return sum + (scores[workout.difficulty] || 2);
     }, 0);
     const avgIntensity = workouts.length > 0 ? (intensityScore / workouts.length).toFixed(1) : 0;
 
-    // Recent activity (workouts modified in last 7 days, 30 days)
     const now = new Date();
     const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
     const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -172,13 +169,10 @@ const Planificare = () => {
       new Date(workout.lastModified) > oneMonthAgo
     ).length;
 
-    // Calculate training load per week
-    const weeklyLoad = Math.round((totalDistance / 4) / 1000); // Assume 4 weeks, convert to km
+    const weeklyLoad = Math.round((totalDistance / 4) / 1000);
 
-    // Identify most used workout type
     const mostUsedType = Object.entries(typeDistribution).sort(([,a], [,b]) => b - a)[0]?.[0] || 'N/A';
 
-    // Calculate workout variety score (0-100)
     const uniqueTypes = Object.keys(typeDistribution).length;
     const varietyScore = Math.min(100, (uniqueTypes / 5) * 100);
 
@@ -239,17 +233,14 @@ const Planificare = () => {
       upcomingRaces
     };
   };
-  
 
-  // Fetch workouts from API
   useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {
       setWorkouts(mockWorkouts);
       setIsLoading(false);
-    }, 500); // fake delay
+    }, 500);
   }, []);
-
 
   const calculateWorkoutDuration = (workout) => {
     if (!workout.items || workout.items.length === 0) return 0;
@@ -300,12 +291,9 @@ const Planificare = () => {
     return Math.round(totalSeconds / 60);
   };
 
-  // Fetch plans from API
   useEffect(() => {
     setPlans(mockPlans);
   }, []);
-
-
 
   const getWorkoutStrokes = (workout) => {
     if (!workout.items || workout.items.length === 0) return ['Unknown'];
@@ -329,15 +317,15 @@ const Planificare = () => {
     countStrokes(workout.items);
     
     const strokeLabels = {
-      'FREESTYLE': 'Freestyle',
-      'BACKSTROKE': 'Backstroke', 
-      'BREASTSTROKE': 'Breaststroke',
-      'BUTTERFLY': 'Butterfly',
-      'IM': 'IM',
-      'IM_BY_ROUND': 'IM by Round',
-      'REVERSE_IM': 'Reverse IM',
-      'CHOICE': 'Choice',
-      'MIXED': 'Mixed'
+      'FREESTYLE': t('planificare.strokes.freestyle'),
+      'BACKSTROKE': t('planificare.strokes.backstroke'), 
+      'BREASTSTROKE': t('planificare.strokes.breaststroke'),
+      'BUTTERFLY': t('planificare.strokes.butterfly'),
+      'IM': t('planificare.strokes.im'),
+      'IM_BY_ROUND': t('planificare.strokes.imByRound'),
+      'REVERSE_IM': t('planificare.strokes.reverseIm'),
+      'CHOICE': t('planificare.strokes.choice'),
+      'MIXED': t('planificare.strokes.mixed')
     };
     
     const sortedStrokes = Object.entries(strokeCounts)
@@ -346,7 +334,7 @@ const Planificare = () => {
     
     if (sortedStrokes.length === 0) return ['Unknown'];
     if (sortedStrokes.length === 1) return sortedStrokes;
-    if (sortedStrokes.length > 3) return ['Mixed'];
+    if (sortedStrokes.length > 3) return [t('planificare.strokes.mixed')];
     
     return sortedStrokes;
   };
@@ -355,14 +343,14 @@ const Planificare = () => {
     if (!value) return value;
     
     const enumMappings = {
-      'SPRINT': 'Sprint',
-      'REZISTENTA': 'Rezistență',
-      'TEHNIC': 'Tehnic',
-      'RECUPERARE': 'Recuperare',
-      'GENERAL': 'General',
-      'INCEPATOR': 'Începător',
-      'INTERMEDIAR': 'Intermediar',
-      'AVANSAT': 'Avansat'
+      'SPRINT': t('planificare.workoutTypes.sprint'),
+      'REZISTENTA': t('planificare.workoutTypes.endurance'),
+      'TEHNIC': t('planificare.workoutTypes.technical'),
+      'RECUPERARE': t('planificare.workoutTypes.recovery'),
+      'GENERAL': t('planificare.workoutTypes.general'),
+      'INCEPATOR': t('planificare.difficulties.beginner'),
+      'INTERMEDIAR': t('planificare.difficulties.intermediate'),
+      'AVANSAT': t('planificare.difficulties.advanced')
     };
     
     return enumMappings[value] || value;
@@ -414,7 +402,7 @@ const Planificare = () => {
   );
 
   const RecentWorkoutCard = ({ workout }) => (
-    <div className="recent-workout-card" onClick={() => navigate(`/admin/traininghub/edit-workout/${workout.id}`)}>
+    <div className="recent-workout-card" onClick={() => navigate(`/${lang}/admin/traininghub/edit-workout/${workout.id}`)}>
       <div className="recent-workout-header">
         <h4 className="recent-workout-name">{workout.name}</h4>
         <span className={`difficulty-mini-badge ${workout.difficulty.toLowerCase()}`}>
@@ -423,11 +411,11 @@ const Planificare = () => {
       </div>
       <div className="recent-workout-stats">
         <span className="workout-distance">{workout.totalDistance}m</span>
-        <span className="workout-duration">{workout.duration} min</span>
+        <span className="workout-duration">{workout.duration} {t('planificare.units.minutes')}</span>
         <span className="workout-type">{workout.type}</span>
       </div>
       <div className="recent-workout-date">
-        Modificat: {workout.lastModified}
+        {t('planificare.labels.modified')}: {workout.lastModified}
       </div>
     </div>
   );
@@ -453,27 +441,26 @@ const Planificare = () => {
       .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))
       .slice(0, 5);
 
-    // Generate coaching insights
     const insights = [];
     
     if (workoutStats.varietyScore < 60) {
       insights.push({
         type: 'warning',
-        message: 'Consideră adăugarea mai multei varietăți în tipurile de antrenament'
+        message: t('planificare.insights.addVariety')
       });
     }
     
     if (workoutStats.avgIntensity < 1.5) {
       insights.push({
         type: 'tip',
-        message: 'Intensitatea medie este scăzută - poate e timpul pentru provocări mai mari'
+        message: t('planificare.insights.lowIntensity')
       });
     }
     
     if (workoutStats.recentWorkouts === 0) {
       insights.push({
         type: 'info',
-        message: 'Niciun antrenament nou în ultima săptămână'
+        message: t('planificare.insights.noRecentWorkouts')
       });
     }
     
@@ -483,7 +470,7 @@ const Planificare = () => {
       if (strokeEntries.length === 1) {
         insights.push({
           type: 'warning',
-          message: `Toate antrenamentele folosesc ${dominantStroke} - adaugă varietate de stiluri`
+          message: t('planificare.insights.singleStroke', { stroke: dominantStroke })
         });
       }
     }
@@ -491,60 +478,60 @@ const Planificare = () => {
     if (workoutStats.weeklyLoad > 15) {
       insights.push({
         type: 'success',
-        message: 'Volum săptămânal excelent pentru progres consistent'
+        message: t('planificare.insights.excellentVolume')
       });
     }
 
     return (
       <div className="planificare-dashboard">
         <div className="dashboard-header">
-          <h2 className="dashboard-title">Centrul de Programare</h2>
-          <p className="dashboard-subtitle">Gestionează programele și antrenamentele tale</p>
+          <h2 className="dashboard-title">{t('planificare.dashboard.title')}</h2>
+          <p className="dashboard-subtitle">{t('planificare.dashboard.subtitle')}</p>
         </div>
         
         <div className="stats-grid">
           <StatCard 
             icon="🏊" 
             value={stats.totalWorkouts} 
-            label="Total Antrenamente"
-            subtext={`${(workoutStats.totalDistance / 1000).toFixed(1)}km distanță totală`}
+            label={t('planificare.stats.totalWorkouts')}
+            subtext={t('planificare.stats.totalDistanceSubtext', { distance: (workoutStats.totalDistance / 1000).toFixed(1) })}
           />
           <StatCard 
             icon="⏱️" 
             value={workoutStats.totalVolume} 
-            label="Volum Total"
-            subtext={`${workoutStats.avgDuration} min per antrenament`}
+            label={t('planificare.stats.totalVolume')}
+            subtext={t('planificare.stats.avgDurationSubtext', { duration: workoutStats.avgDuration })}
           />
           <StatCard 
             icon="📊" 
             value={`${(workoutStats.avgDistance / 1000).toFixed(1)}km`}
-            label="Distanță Medie"
-            subtext="per antrenament"
+            label={t('planificare.stats.avgDistance')}
+            subtext={t('planificare.stats.perWorkout')}
             highlight={workoutStats.avgDistance > 3000}
           />
           <StatCard 
             icon="🔥" 
             value={workoutStats.avgIntensity} 
-            label="Intensitate Medie"
-            subtext="1=Începător, 3=Avansat"
+            label={t('planificare.stats.avgIntensity')}
+            subtext={t('planificare.stats.intensityScale')}
           />
           <StatCard 
             icon="📈" 
             value={`${workoutStats.weeklyLoad}km`}
-            label="Volum Săptămânal"
-            subtext="medie estimată"
+            label={t('planificare.stats.weeklyVolume')}
+            subtext={t('planificare.stats.estimatedAverage')}
           />
           <StatCard 
             icon="⚡" 
             value={workoutStats.recentWorkouts} 
-            label="Activitate Recentă"
-            subtext="antrenamente în 7 zile"
+            label={t('planificare.stats.recentActivity')}
+            subtext={t('planificare.stats.workoutsIn7Days')}
           />
         </div>
 
         {insights.length > 0 && (
           <div className="coaching-insights-section">
-            <h3 className="section-title">💡 Recomandări pentru Antrenor</h3>
+            <h3 className="section-title">{t('planificare.sections.coachRecommendations')}</h3>
             <div className="coaching-insights-grid">
               {insights.map((insight, idx) => (
                 <CoachInsightBadge key={idx} type={insight.type} message={insight.message} />
@@ -554,27 +541,27 @@ const Planificare = () => {
         )}
         
         <div className="quick-actions-section">
-          <h3 className="section-title">Acțiuni Rapide</h3>
+          <h3 className="section-title">{t('planificare.sections.quickActions')}</h3>
           <div className="quick-actions-grid">
             <QuickActionCard
               icon="➕"
-              title="Creează Antrenament"
-              description="Construiește un antrenament nou cu seturile și intervalele dorite"
-              onClick={() => navigate('/admin/traininghub/create-workout')}
+              title={t('planificare.quickActions.createWorkout.title')}
+              description={t('planificare.quickActions.createWorkout.description')}
+              onClick={() => navigate(`/${lang}/admin/traininghub/create-workout`)}
               className="create-workout"
             />
            
             <QuickActionCard
               icon="📋"
-              title="Planificare Avansată"
-              description="Creează planuri pe termen lung pentru competiții și periodizare"
-              onClick={() => navigate('/admin/traininghub/plans')}
+              title={t('planificare.quickActions.advancedPlanning.title')}
+              description={t('planificare.quickActions.advancedPlanning.description')}
+              onClick={() => navigate(`/${lang}/admin/traininghub/plans`)}
               className="create-plan"
             />
             <QuickActionCard
               icon="📊"
-              title="Analize și Statistici"
-              description="Vizualizează progresul și metricile de performanță"
+              title={t('planificare.quickActions.analytics.title')}
+              description={t('planificare.quickActions.analytics.description')}
               onClick={() => {}}
               className="analytics"
             />
@@ -583,7 +570,7 @@ const Planificare = () => {
 
         <div className="dashboard-insights">
           <div className="insights-grid">
-            <InsightCard title="Distribuție Stiluri de Înot" type="stroke-distribution">
+            <InsightCard title={t('planificare.insights.strokeDistribution')} type="stroke-distribution">
               <div className="stroke-chart">
                 {Object.entries(workoutStats.strokeDistribution).length > 0 ? (
                   Object.entries(workoutStats.strokeDistribution)
@@ -603,12 +590,12 @@ const Planificare = () => {
                       </div>
                     ))
                 ) : (
-                  <p className="no-data">Nu există date disponibile</p>
+                  <p className="no-data">{t('planificare.labels.noDataAvailable')}</p>
                 )}
               </div>
             </InsightCard>
 
-            <InsightCard title="Distribuție pe Tipuri" type="type-distribution">
+            <InsightCard title={t('planificare.insights.typeDistribution')} type="type-distribution">
               <div className="distribution-chart">
                 {Object.entries(workoutStats.typeDistribution).map(([type, count]) => {
                   const percentage = ((count / stats.totalWorkouts) * 100).toFixed(0);
@@ -628,7 +615,7 @@ const Planificare = () => {
               </div>
             </InsightCard>
 
-            <InsightCard title="Niveluri de Dificultate" type="difficulty-breakdown">
+            <InsightCard title={t('planificare.insights.difficultyBreakdown')} type="difficulty-breakdown">
               <div className="difficulty-breakdown">
                 {Object.entries(workoutStats.difficultyDistribution).map(([difficulty, count]) => {
                   const percentage = ((count / stats.totalWorkouts) * 100).toFixed(0);
@@ -646,76 +633,76 @@ const Planificare = () => {
           </div>
         </div>
         {planStats.upcomingRaces.length > 0 && (
-  <div className="upcoming-races-section">
-    <h3 className="section-title">Competiții Viitoare</h3>
-    <div className="races-timeline">
-      {planStats.upcomingRaces.map((race, idx) => (
-        <div key={idx} className="race-timeline-item">
-          <div className="race-date-badge">
-            <span className="race-days">{race.daysUntil}</span>
-            <span className="race-days-label">
-              {race.daysUntil === 0 ? 'astăzi' : 
-               race.daysUntil === 1 ? 'zi' : 'zile'}
-            </span>
+          <div className="upcoming-races-section">
+            <h3 className="section-title">{t('planificare.sections.upcomingRaces')}</h3>
+            <div className="races-timeline">
+              {planStats.upcomingRaces.map((race, idx) => (
+                <div key={idx} className="race-timeline-item">
+                  <div className="race-date-badge">
+                    <span className="race-days">{race.daysUntil}</span>
+                    <span className="race-days-label">
+                      {race.daysUntil === 0 ? t('planificare.time.today') : 
+                       race.daysUntil === 1 ? t('planificare.time.day') : t('planificare.time.days')}
+                    </span>
+                  </div>
+                  <div className="race-info">
+                    <h4 className="race-name">{race.raceName}</h4>
+                    <p className="race-plan">
+                      <span className="race-plan-label">{t('planificare.labels.plan')}:</span> {race.planName}
+                    </p>
+                    <p className="race-date-text">{race.formattedDate}</p>
+                    <span className={`race-type-badge ${race.type}`}>
+                      {race.type === 'target' ? t('planificare.raceTypes.target') : 
+                       race.type === 'tuneup' ? t('planificare.raceTypes.tuneup') : 
+                       t('planificare.raceTypes.test')}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="race-info">
-            <h4 className="race-name">{race.raceName}</h4>
-            <p className="race-plan">
-              <span className="race-plan-label">Plan:</span> {race.planName}
-            </p>
-            <p className="race-date-text">{race.formattedDate}</p>
-            <span className={`race-type-badge ${race.type}`}>
-              {race.type === 'target' ? '🎯 Cursă Țintă' : 
-               race.type === 'tuneup' ? '🏃 Pregătire' : 
-               '📊 Test'}
-            </span>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
+        )}
         <div className="training-summary-section">
-          <h3 className="section-title">📋 Sumar Planificare</h3>
+          <h3 className="section-title">{t('planificare.sections.trainingSummary')}</h3>
           <div className="training-summary-grid">
             <div className="summary-card">
               <div className="summary-header">
                 <span className="summary-icon">🎯</span>
-                <h4>Tipul Predominant</h4>
+                <h4>{t('planificare.summary.predominantType')}</h4>
               </div>
               <div className="summary-value">{workoutStats.mostUsedType}</div>
               <div className="summary-subtext">
-                {workoutStats.typeDistribution[workoutStats.mostUsedType] || 0} antrenamente
+                {t('planificare.summary.workouts', { count: workoutStats.typeDistribution[workoutStats.mostUsedType] || 0 })}
               </div>
             </div>
 
             <div className="summary-card">
               <div className="summary-header">
                 <span className="summary-icon">📅</span>
-                <h4>Activitate Lunară</h4>
+                <h4>{t('planificare.summary.monthlyActivity')}</h4>
               </div>
               <div className="summary-value">{workoutStats.monthlyWorkouts}</div>
-              <div className="summary-subtext">antrenamente în ultimele 30 zile</div>
+              <div className="summary-subtext">{t('planificare.summary.workoutsLast30Days')}</div>
             </div>
 
             <div className="summary-card">
               <div className="summary-header">
                 <span className="summary-icon">💪</span>
-                <h4>Progresie</h4>
+                <h4>{t('planificare.summary.progression')}</h4>
               </div>
               <div className="summary-value">
-                {workoutStats.difficultyDistribution['Avansat'] || 0}
+                {workoutStats.difficultyDistribution[t('planificare.difficulties.advanced')] || 0}
               </div>
-              <div className="summary-subtext">antrenamente avansate</div>
+              <div className="summary-subtext">{t('planificare.summary.advancedWorkouts')}</div>
             </div>
 
             <div className="summary-card">
               <div className="summary-header">
                 <span className="summary-icon">⏰</span>
-                <h4>Durată Medie</h4>
+                <h4>{t('planificare.summary.avgDuration')}</h4>
               </div>
-              <div className="summary-value">{workoutStats.avgDuration} min</div>
-              <div className="summary-subtext">per sesiune de antrenament</div>
+              <div className="summary-value">{workoutStats.avgDuration} {t('planificare.units.minutes')}</div>
+              <div className="summary-subtext">{t('planificare.summary.perTrainingSession')}</div>
             </div>
           </div>
         </div>
@@ -723,12 +710,12 @@ const Planificare = () => {
         {recentWorkouts.length > 0 && (
           <div className="recent-section">
             <div className="section-header">
-              <h3 className="section-title">Antrenamente Recente</h3>
+              <h3 className="section-title">{t('planificare.sections.recentWorkouts')}</h3>
               <button 
                 className="view-all-btn"
-                onClick={() => navigate('/admin/traininghub/workouts')}
+                onClick={() => navigate(`/${lang}/admin/traininghub/workouts`)}
               >
-                Vezi Toate →
+                {t('planificare.buttons.viewAll')} →
               </button>
             </div>
             <div className="recent-workouts-grid">
@@ -742,13 +729,13 @@ const Planificare = () => {
         {workouts.length === 0 && !isLoading && (
           <div className="getting-started">
             <div className="getting-started-content">
-              <h3>Să începem!</h3>
-              <p>Nu ai încă antrenamente create. Începe prin a crea primul tău antrenament pentru a începe să vezi statistici și analize utile.</p>
+              <h3>{t('planificare.gettingStarted.title')}</h3>
+              <p>{t('planificare.gettingStarted.description')}</p>
               <button 
                 className="btn-primary"
-                onClick={() => navigate('/admin/traininghub/create-workout')}
+                onClick={() => navigate(`/${lang}/admin/traininghub/create-workout`)}
               >
-                Creează Primul Antrenament
+                {t('planificare.gettingStarted.createFirst')}
               </button>
             </div>
           </div>
@@ -767,26 +754,35 @@ const Planificare = () => {
     <div className="planificare-container">
       <div className="planificare-header">
         <nav className="planificare-nav">
-          <button 
-            className={`nav-tab ${activeTab === 'dashboard' ? 'active' : ''}`}
-            onClick={() => navigate('/admin/traininghub')}
-          >
+        <button 
+  className={`nav-tab ${activeTab === 'dashboard' ? 'active' : ''}`}
+  onClick={(e) => {
+    e.preventDefault();
+    navigate(`/${lang || 'ro'}/admin/traininghub`);
+  }}
+>
             <span className="tab-icon">📊</span>
-            Tablou de Bord
+            {t('planificare.nav.dashboard')}
           </button>
           <button 
-            className={`nav-tab ${activeTab === 'workouts' ? 'active' : ''}`}
-            onClick={() => navigate('/admin/traininghub/workouts')}
-          >
+  className={`nav-tab ${activeTab === 'workouts' ? 'active' : ''}`}
+  onClick={(e) => {
+    e.preventDefault();
+    navigate(`/${lang || 'ro'}/admin/traininghub/workouts`);
+  }}
+>
             <span className="tab-icon">🏊</span>
-            Antrenamente
+            {t('planificare.nav.workouts')}
           </button>
           <button 
-            className={`nav-tab ${activeTab === 'plans' ? 'active' : ''}`}
-            onClick={() => navigate('/admin/traininghub/plans')}
-          >
+  className={`nav-tab ${activeTab === 'plans' ? 'active' : ''}`}
+  onClick={(e) => {
+    e.preventDefault();
+    navigate(`/${lang || 'ro'}/admin/traininghub/plans`);
+  }}
+>
             <span className="tab-icon">📋</span>
-            Planuri
+            {t('planificare.nav.plans')}
           </button>
         </nav>
       </div>

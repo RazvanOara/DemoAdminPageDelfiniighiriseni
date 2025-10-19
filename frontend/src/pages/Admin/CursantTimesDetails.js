@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import './CursantTimesDetails.css';
 
 const CursantTimesDetails = () => {
-  const { cursantId } = useParams();
+  const { t } = useTranslation();
+  const { cursantId, lang } = useParams();
   const navigate = useNavigate();
   const [cursantTimes, setCursantTimes] = useState([]);
   const [personalBests, setPersonalBests] = useState([]);
@@ -14,23 +16,23 @@ const CursantTimesDetails = () => {
   const [showGraph, setShowGraph] = useState(false);
 
   const swimmingEvents = [
-    { key: 'freestyle50m', label: 'Liber 50m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle100m', label: 'Liber 100m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle200m', label: 'Liber 200m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle400m', label: 'Liber 400m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle800m', label: 'Liber 800m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'freestyle1500m', label: 'Liber 1500m', icon: '🏊‍♂️', category: 'Liber' },
-    { key: 'backstroke50m', label: 'Spate 50m', icon: '🏊‍♀️', category: 'Spate' },
-    { key: 'backstroke100m', label: 'Spate 100m', icon: '🏊‍♀️', category: 'Spate' },
-    { key: 'backstroke200m', label: 'Spate 200m', icon: '🏊‍♀️', category: 'Spate' },
-    { key: 'breaststroke50m', label: 'Bras 50m', icon: '🤽‍♂️', category: 'Bras' },
-    { key: 'breaststroke100m', label: 'Bras 100m', icon: '🤽‍♂️', category: 'Bras' },
-    { key: 'breaststroke200m', label: 'Bras 200m', icon: '🤽‍♂️', category: 'Bras' },
-    { key: 'butterfly50m', label: 'Fluture 50m', icon: '🦋', category: 'Fluture' },
-    { key: 'butterfly100m', label: 'Fluture 100m', icon: '🦋', category: 'Fluture' },
-    { key: 'butterfly200m', label: 'Fluture 200m', icon: '🦋', category: 'Fluture' },
-    { key: 'im100m', label: 'Mixt 100m', icon: '🏆', category: 'Mixt' },
-    { key: 'im200m', label: 'Mixt 200m', icon: '🏆', category: 'Mixt' }
+    { key: 'freestyle50m', label: t('timesDetails.events.freestyle50'), icon: '🏊‍♂️', category: t('timesDetails.categories.freestyle') },
+    { key: 'freestyle100m', label: t('timesDetails.events.freestyle100'), icon: '🏊‍♂️', category: t('timesDetails.categories.freestyle') },
+    { key: 'freestyle200m', label: t('timesDetails.events.freestyle200'), icon: '🏊‍♂️', category: t('timesDetails.categories.freestyle') },
+    { key: 'freestyle400m', label: t('timesDetails.events.freestyle400'), icon: '🏊‍♂️', category: t('timesDetails.categories.freestyle') },
+    { key: 'freestyle800m', label: t('timesDetails.events.freestyle800'), icon: '🏊‍♂️', category: t('timesDetails.categories.freestyle') },
+    { key: 'freestyle1500m', label: t('timesDetails.events.freestyle1500'), icon: '🏊‍♂️', category: t('timesDetails.categories.freestyle') },
+    { key: 'backstroke50m', label: t('timesDetails.events.backstroke50'), icon: '🏊‍♀️', category: t('timesDetails.categories.backstroke') },
+    { key: 'backstroke100m', label: t('timesDetails.events.backstroke100'), icon: '🏊‍♀️', category: t('timesDetails.categories.backstroke') },
+    { key: 'backstroke200m', label: t('timesDetails.events.backstroke200'), icon: '🏊‍♀️', category: t('timesDetails.categories.backstroke') },
+    { key: 'breaststroke50m', label: t('timesDetails.events.breaststroke50'), icon: '🤽‍♂️', category: t('timesDetails.categories.breaststroke') },
+    { key: 'breaststroke100m', label: t('timesDetails.events.breaststroke100'), icon: '🤽‍♂️', category: t('timesDetails.categories.breaststroke') },
+    { key: 'breaststroke200m', label: t('timesDetails.events.breaststroke200'), icon: '🤽‍♂️', category: t('timesDetails.categories.breaststroke') },
+    { key: 'butterfly50m', label: t('timesDetails.events.butterfly50'), icon: '🦋', category: t('timesDetails.categories.butterfly') },
+    { key: 'butterfly100m', label: t('timesDetails.events.butterfly100'), icon: '🦋', category: t('timesDetails.categories.butterfly') },
+    { key: 'butterfly200m', label: t('timesDetails.events.butterfly200'), icon: '🦋', category: t('timesDetails.categories.butterfly') },
+    { key: 'im100m', label: t('timesDetails.events.im100'), icon: '🏆', category: t('timesDetails.categories.im') },
+    { key: 'im200m', label: t('timesDetails.events.im200'), icon: '🏆', category: t('timesDetails.categories.im') }
   ];
 
   // Format time from seconds to MM:SS.cc
@@ -123,7 +125,7 @@ const CursantTimesDetails = () => {
   // Simple graph component using CSS
   const SimpleGraph = ({ eventKey, eventLabel }) => {
     const data = getEventData(eventKey);
-    if (data.length < 2) return <p>Nu sunt suficiente date pentru grafic</p>;
+    if (data.length < 2) return <p>{t('timesDetails.graph.notEnoughData')}</p>;
 
     const minTime = Math.min(...data.map(d => d.time));
     const maxTime = Math.max(...data.map(d => d.time));
@@ -131,7 +133,7 @@ const CursantTimesDetails = () => {
 
     return (
       <div className="simple-graph">
-        <h4>{eventLabel} - Evoluție Timpii</h4>
+        <h4>{eventLabel} - {t('timesDetails.graph.evolution')}</h4>
         <div className="graph-container">
           <div className="graph-y-axis">
             <span className="y-label">{formatTime(maxTime)}</span>
@@ -178,24 +180,24 @@ const CursantTimesDetails = () => {
     );
   };
 
-  const cursantName = cursantTimes.length > 0 ? cursantTimes[0].cursantNume : `Cursant ${cursantId}`;
+  const cursantName = cursantTimes.length > 0 ? cursantTimes[0].cursantNume : `${t('timesDetails.student')} ${cursantId}`;
 
   return (
     <div className="cursant-details-container">
       {/* Header */}
       <div className="details-header">
-        <button className="back-btn" onClick={() => navigate('/admin/swimming-times')}>
-          ← Înapoi la Timpii de Înot
+        <button className="back-btn" onClick={() => navigate(`/${lang}/admin/swimming-times`)}>
+          ← {t('timesDetails.backButton')}
         </button>
         <div className="header-content">
           <h1 className="page-title">{cursantName}</h1>
-          <p className="page-subtitle">Timpii de înot și statistici detaliate</p>
+          <p className="page-subtitle">{t('timesDetails.pageSubtitle')}</p>
         </div>
         <button 
           className="btn-primary"
-          onClick={() => navigate(`/admin/swimming-times/create?cursantId=${cursantId}`)}
+          onClick={() => navigate(`/${lang}/admin/swimming-times/create?cursantId=${cursantId}`)}
         >
-          ➕ Adaugă Timp Nou
+          ➕ {t('timesDetails.addNewTime')}
         </button>
       </div>
 
@@ -205,26 +207,26 @@ const CursantTimesDetails = () => {
           className={`tab-btn ${activeView === 'toate' ? 'active' : ''}`}
           onClick={() => setActiveView('toate')}
         >
-          📊 Toți Timpii
+          📊 {t('timesDetails.tabs.allTimes')}
         </button>
         <button 
           className={`tab-btn ${activeView === 'recorduri' ? 'active' : ''}`}
           onClick={() => setActiveView('recorduri')}
         >
-          🏆 Recorduri Personale
+          🏆 {t('timesDetails.tabs.personalBests')}
         </button>
         <button 
           className={`tab-btn ${activeView === 'statistici' ? 'active' : ''}`}
           onClick={() => setActiveView('statistici')}
         >
-          📈 Statistici & Grafice
+          📈 {t('timesDetails.tabs.statistics')}
         </button>
       </div>
 
       {isLoading ? (
         <div className="loading-state">
           <div className="loading-spinner">🔄</div>
-          <p>Se încarcă datele...</p>
+          <p>{t('timesDetails.loading')}</p>
         </div>
       ) : (
         <>
@@ -234,8 +236,8 @@ const CursantTimesDetails = () => {
               {cursantTimes.length === 0 ? (
                 <div className="empty-state">
                   <div className="empty-icon">⏱️</div>
-                  <h3>Nu sunt timpii înregistrați</h3>
-                  <p>Acest înotător nu are încă timpii înregistrați.</p>
+                  <h3>{t('timesDetails.allTimes.noTimes')}</h3>
+                  <p>{t('timesDetails.allTimes.noTimesDescription')}</p>
                 </div>
               ) : (
                 cursantTimes.map(time => (
@@ -249,10 +251,10 @@ const CursantTimesDetails = () => {
                           <span className="pool-badge">{time.poolLength}m</span>
                         )}
                         {time.competitionName && (
-                          <span className="competition-badge">🏆 Competiție</span>
+                          <span className="competition-badge">🏆 {t('timesDetails.allTimes.competition')}</span>
                         )}
                         {time.isPersonalBest && (
-                          <span className="pb-badge">🥇 Record Personal</span>
+                          <span className="pb-badge">🥇 {t('timesDetails.allTimes.personalRecord')}</span>
                         )}
                       </div>
                     </div>
@@ -278,7 +280,7 @@ const CursantTimesDetails = () => {
                     
                     {time.notes && (
                       <div className="record-notes">
-                        <strong>Note:</strong> {time.notes}
+                        <strong>{t('timesDetails.allTimes.notes')}:</strong> {time.notes}
                       </div>
                     )}
                   </div>
@@ -293,8 +295,8 @@ const CursantTimesDetails = () => {
               {personalBests.length === 0 ? (
                 <div className="empty-state">
                   <div className="empty-icon">🏆</div>
-                  <h3>Nu sunt recorduri personale</h3>
-                  <p>Acest înotător nu are încă recorduri personale stabilite.</p>
+                  <h3>{t('timesDetails.personalBests.noRecords')}</h3>
+                  <p>{t('timesDetails.personalBests.noRecordsDescription')}</p>
                 </div>
               ) : (
                 swimmingEvents.map(event => {
@@ -323,7 +325,7 @@ const CursantTimesDetails = () => {
                           setShowGraph(!showGraph || selectedEvent !== event.key);
                         }}
                       >
-                        {showGraph && selectedEvent === event.key ? 'Ascunde Graficul' : 'Arată Graficul'}
+                        {showGraph && selectedEvent === event.key ? t('timesDetails.personalBests.hideGraph') : t('timesDetails.personalBests.showGraph')}
                       </button>
                       
                       {showGraph && selectedEvent === event.key && (
@@ -348,21 +350,21 @@ const CursantTimesDetails = () => {
                       <span className="stat-icon">📊</span>
                       <div className="stat-content">
                         <span className="stat-value">{statistics.totalRecords}</span>
-                        <span className="stat-label">Total Înregistrări</span>
+                        <span className="stat-label">{t('timesDetails.statistics.totalRecords')}</span>
                       </div>
                     </div>
                     <div className="stat-card">
                       <span className="stat-icon">🏆</span>
                       <div className="stat-content">
                         <span className="stat-value">{statistics.personalBestsCount}</span>
-                        <span className="stat-label">Recorduri Personale</span>
+                        <span className="stat-label">{t('timesDetails.statistics.personalBests')}</span>
                       </div>
                     </div>
                     <div className="stat-card">
                       <span className="stat-icon">🏅</span>
                       <div className="stat-content">
                         <span className="stat-value">{statistics.competitionTimesCount}</span>
-                        <span className="stat-label">Timpii de Competiție</span>
+                        <span className="stat-label">{t('timesDetails.statistics.competitionTimes')}</span>
                       </div>
                     </div>
                     <div className="stat-card">
@@ -374,24 +376,24 @@ const CursantTimesDetails = () => {
                             : 0
                           }
                         </span>
-                        <span className="stat-label">Zile de Monitorizare</span>
+                        <span className="stat-label">{t('timesDetails.statistics.monitoringDays')}</span>
                       </div>
                     </div>
                   </div>
                   
                   <div className="stats-details">
-                    <h3>Perioada de Monitorizare</h3>
+                    <h3>{t('timesDetails.statistics.monitoringPeriod')}</h3>
                     <p>
-                      De la: {statistics.earliestDate ? new Date(statistics.earliestDate).toLocaleDateString('ro-RO') : 'N/A'}
-                      {' '} până la: {statistics.latestDate ? new Date(statistics.latestDate).toLocaleDateString('ro-RO') : 'N/A'}
+                      {t('timesDetails.statistics.from')}: {statistics.earliestDate ? new Date(statistics.earliestDate).toLocaleDateString('ro-RO') : 'N/A'}
+                      {' '}{t('timesDetails.statistics.to')}: {statistics.latestDate ? new Date(statistics.latestDate).toLocaleDateString('ro-RO') : 'N/A'}
                     </p>
                   </div>
                 </>
               ) : (
                 <div className="empty-state">
                   <div className="empty-icon">📈</div>
-                  <h3>Nu sunt suficiente date pentru statistici</h3>
-                  <p>Adaugă mai mulți timpii pentru a vedea statistici detaliate.</p>
+                  <h3>{t('timesDetails.statistics.notEnoughData')}</h3>
+                  <p>{t('timesDetails.statistics.notEnoughDataDescription')}</p>
                 </div>
               )}
             </div>

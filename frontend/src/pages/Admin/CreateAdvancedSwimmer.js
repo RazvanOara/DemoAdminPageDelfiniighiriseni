@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import './CreateAdvancedSwimmer.css';
 
 // Mock cursants data (filtered - those without advanced profiles)
@@ -28,7 +29,9 @@ const MOCK_CURSANTS = [
 ];
 
 const CreateAdvancedSwimmer = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const { lang } = useParams();
   const [allCursants, setAllCursants] = useState([]);
   const [filteredCursants, setFilteredCursants] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -149,8 +152,8 @@ const CreateAdvancedSwimmer = () => {
 
   const handleCreateAdvancedSwimmer = async () => {
     if (!selectedCursant) {
-      setError('Vă rugăm să selectați un cursant');
-      showNotification('warning', 'Avertisment', 'Vă rugăm să selectați un cursant');
+      setError(t('createSwimmer.validation.selectStudent'));
+      showNotification('warning', t('createSwimmer.notifications.warning'), t('createSwimmer.validation.selectStudent'));
       return;
     }
 
@@ -160,26 +163,26 @@ const CreateAdvancedSwimmer = () => {
     const thresholdHr = parseInt(heartRateData.thresholdHeartRate);
 
     if (maxHr < 120 || maxHr > 220) {
-      setError('Frecvența cardiacă maximă trebuie să fie între 120 și 220 bpm');
-      showNotification('warning', 'Validare', 'Frecvența cardiacă maximă trebuie să fie între 120 și 220 bpm');
+      setError(t('createSwimmer.validation.maxHrRange'));
+      showNotification('warning', t('createSwimmer.notifications.validation'), t('createSwimmer.validation.maxHrRange'));
       return;
     }
 
     if (restingHr < 30 || restingHr > 100) {
-      setError('Frecvența cardiacă de repaus trebuie să fie între 30 și 100 bpm');
-      showNotification('warning', 'Validare', 'Frecvența cardiacă de repaus trebuie să fie între 30 și 100 bpm');
+      setError(t('createSwimmer.validation.restingHrRange'));
+      showNotification('warning', t('createSwimmer.notifications.validation'), t('createSwimmer.validation.restingHrRange'));
       return;
     }
 
     if (thresholdHr < 100 || thresholdHr > 200) {
-      setError('Frecvența cardiacă prag trebuie să fie între 100 și 200 bpm');
-      showNotification('warning', 'Validare', 'Frecvența cardiacă prag trebuie să fie între 100 și 200 bpm');
+      setError(t('createSwimmer.validation.thresholdHrRange'));
+      showNotification('warning', t('createSwimmer.notifications.validation'), t('createSwimmer.validation.thresholdHrRange'));
       return;
     }
 
     if (restingHr >= maxHr) {
-      setError('Frecvența cardiacă de repaus trebuie să fie mai mică decât cea maximă');
-      showNotification('warning', 'Validare', 'Frecvența cardiacă de repaus trebuie să fie mai mică decât cea maximă');
+      setError(t('createSwimmer.validation.restingLessThanMax'));
+      showNotification('warning', t('createSwimmer.notifications.validation'), t('createSwimmer.validation.restingLessThanMax'));
       return;
     }
 
@@ -189,12 +192,12 @@ const CreateAdvancedSwimmer = () => {
     setTimeout(() => {
       showNotification(
         'success',
-        'Profil Creat',
-        `Înotător avansat creat cu succes pentru ${selectedCursant.numeComplet}! (Mock)`
+        t('createSwimmer.notifications.profileCreated'),
+        t('createSwimmer.notifications.successMessage', { name: selectedCursant.numeComplet })
       );
       
       setTimeout(() => {
-        navigate('/admin/advanced-swimmers');
+        navigate(`/${lang}/admin/advanced-swimmers`);
       }, 2000);
     }, 800);
   };
@@ -230,14 +233,14 @@ const CreateAdvancedSwimmer = () => {
         <div className="header-content">
           <button 
             className="btn-secondary back-btn"
-            onClick={() => navigate('/admin/advanced-swimmers')}
+            onClick={() => navigate(`/${lang}/admin/advanced-swimmers`)}
           >
             <span className="btn-icon">←</span>
-            Înapoi
+            {t('createSwimmer.backButton')}
           </button>
           <div>
-            <h1 className="page-title">Adaugă Înotător Avansat (Demo)</h1>
-            <p className="page-subtitle">Creează un nou profil de înotător cu monitorizare avansată - Date mock</p>
+            <h1 className="page-title">{t('createSwimmer.pageTitle')}</h1>
+            <p className="page-subtitle">{t('createSwimmer.pageSubtitle')}</p>
           </div>
         </div>
       </div>
@@ -253,15 +256,15 @@ const CreateAdvancedSwimmer = () => {
         {/* Step 1: Select Cursant */}
         <div className="step-card">
           <div className="step-header">
-            <h2>1. Selectează Cursantul</h2>
-            <p>Alege cursantul pentru care dorești să creezi profilul de înotător avansat</p>
+            <h2>{t('createSwimmer.step1.title')}</h2>
+            <p>{t('createSwimmer.step1.description')}</p>
           </div>
           
           <div className="search-section">
             <input
               type="text"
               className="search-input"
-              placeholder="Caută după nume sau email..."
+              placeholder={t('createSwimmer.step1.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -270,13 +273,13 @@ const CreateAdvancedSwimmer = () => {
           {isLoading ? (
             <div className="loading-state">
               <div className="loading-spinner">🔄</div>
-              <p>Se încarcă cursanții...</p>
+              <p>{t('createSwimmer.step1.loading')}</p>
             </div>
           ) : (
             <div className="cursants-list">
               {filteredCursants.length === 0 ? (
                 <div className="no-results">
-                  {searchQuery ? 'Nu s-au găsit cursanți care să corespundă căutării' : 'Toți cursanții au deja profiluri de înotători avansați'}
+                  {searchQuery ? t('createSwimmer.step1.noSearchResults') : t('createSwimmer.step1.allHaveProfiles')}
                 </div>
               ) : (
                 filteredCursants.map(cursant => (
@@ -289,7 +292,7 @@ const CreateAdvancedSwimmer = () => {
                       <h4>{cursant.numeComplet || cursant.nume}</h4>
                       {cursant.telefon && <p>📞 {cursant.telefon}</p>}
                       {cursant.dataNasterii && (
-                        <p>🎂 {calculateAge(cursant.dataNasterii)} ani</p>
+                        <p>🎂 {calculateAge(cursant.dataNasterii)} {t('createSwimmer.step1.years')}</p>
                       )}
                     </div>
                     <div className="cursant-select">
@@ -306,22 +309,22 @@ const CreateAdvancedSwimmer = () => {
         {selectedCursant && (
           <div className="step-card">
             <div className="step-header">
-              <h2>2. Configurează Datele de Frecvență Cardiacă</h2>
+              <h2>{t('createSwimmer.step2.title')}</h2>
               <p>
-                Introdu valorile pentru frecvența cardiacă ale cursantului <strong>{selectedCursant.numeComplet || selectedCursant.nume}</strong>
+                {t('createSwimmer.step2.description')} <strong>{selectedCursant.numeComplet || selectedCursant.nume}</strong>
                 {selectedCursant.dataNasterii && (
-                  <span> ({calculateAge(selectedCursant.dataNasterii)} ani)</span>
+                  <span> ({calculateAge(selectedCursant.dataNasterii)} {t('createSwimmer.step1.years')})</span>
                 )}
               </p>
               <small className="auto-calculated-note">
-                ⚡ Valorile au fost calculate automat pe baza vârstei. Poți să le modifici dacă este necesar.
+                {t('createSwimmer.step2.autoCalculated')}
               </small>
             </div>
             
             <div className="heart-rate-form">
               <div className="form-grid">
                 <div className="form-group">
-                  <label>Frecvența Cardiacă Maximă (bpm)</label>
+                  <label>{t('createSwimmer.step2.maxHrLabel')}</label>
                   <input
                     type="number"
                     min="120"
@@ -331,13 +334,13 @@ const CreateAdvancedSwimmer = () => {
                       ...heartRateData,
                       maxHeartRate: e.target.value
                     })}
-                    placeholder="ex. 190"
+                    placeholder={t('createSwimmer.step2.maxHrPlaceholder')}
                   />
-                  <small>Calculată: 220 - vârsta | Valori normale: 120-220 bpm</small>
+                  <small>{t('createSwimmer.step2.maxHrHelp')}</small>
                 </div>
 
                 <div className="form-group">
-                  <label>Frecvența Cardiacă de Repaus (bpm)</label>
+                  <label>{t('createSwimmer.step2.restingHrLabel')}</label>
                   <input
                     type="number"
                     min="30"
@@ -347,13 +350,13 @@ const CreateAdvancedSwimmer = () => {
                       ...heartRateData,
                       restingHeartRate: e.target.value
                     })}
-                    placeholder="ex. 60"
+                    placeholder={t('createSwimmer.step2.restingHrPlaceholder')}
                   />
-                  <small>Estimată pe baza vârstei și nivelului de fitness | Valori normale: 30-100 bpm</small>
+                  <small>{t('createSwimmer.step2.restingHrHelp')}</small>
                 </div>
 
                 <div className="form-group">
-                  <label>Frecvența Cardiacă Prag (bpm)</label>
+                  <label>{t('createSwimmer.step2.thresholdHrLabel')}</label>
                   <input
                     type="number"
                     min="100"
@@ -363,9 +366,9 @@ const CreateAdvancedSwimmer = () => {
                       ...heartRateData,
                       thresholdHeartRate: e.target.value
                     })}
-                    placeholder="ex. 170"
+                    placeholder={t('createSwimmer.step2.thresholdHrPlaceholder')}
                   />
-                  <small>Calculată: 87% din FC max | Valori normale: 100-200 bpm</small>
+                  <small>{t('createSwimmer.step2.thresholdHrHelp')}</small>
                 </div>
               </div>
             </div>
@@ -373,7 +376,7 @@ const CreateAdvancedSwimmer = () => {
             {/* Heart Rate Zones Preview */}
             {heartRateData.maxHeartRate && heartRateData.restingHeartRate && (
               <div className="zones-preview">
-                <h3>Previzualizare Zone de Antrenament</h3>
+                <h3>{t('createSwimmer.step2.zonesPreview')}</h3>
                 <div className="zones-preview-grid">
                   {(() => {
                     const zones = calculateHeartRateZones(
@@ -385,23 +388,23 @@ const CreateAdvancedSwimmer = () => {
                     return (
                       <>
                         <div className="zone-preview zone-1">
-                          <span className="zone-name">Zona 1 (Recuperare)</span>
+                          <span className="zone-name">{t('createSwimmer.step2.zones.zone1')}</span>
                           <span className="zone-range">{zones.zone1.min}-{zones.zone1.max} bpm</span>
                         </div>
                         <div className="zone-preview zone-2">
-                          <span className="zone-name">Zona 2 (Aerob Ușor)</span>
+                          <span className="zone-name">{t('createSwimmer.step2.zones.zone2')}</span>
                           <span className="zone-range">{zones.zone2.min}-{zones.zone2.max} bpm</span>
                         </div>
                         <div className="zone-preview zone-3">
-                          <span className="zone-name">Zona 3 (Aerob)</span>
+                          <span className="zone-name">{t('createSwimmer.step2.zones.zone3')}</span>
                           <span className="zone-range">{zones.zone3.min}-{zones.zone3.max} bpm</span>
                         </div>
                         <div className="zone-preview zone-4">
-                          <span className="zone-name">Zona 4 (Prag)</span>
+                          <span className="zone-name">{t('createSwimmer.step2.zones.zone4')}</span>
                           <span className="zone-range">{zones.zone4.min}-{zones.zone4.max} bpm</span>
                         </div>
                         <div className="zone-preview zone-5">
-                          <span className="zone-name">Zona 5 (Anaerob)</span>
+                          <span className="zone-name">{t('createSwimmer.step2.zones.zone5')}</span>
                           <span className="zone-range">{zones.zone5.min}-{zones.zone5.max} bpm</span>
                         </div>
                       </>
@@ -415,17 +418,17 @@ const CreateAdvancedSwimmer = () => {
             <div className="form-actions">
               <button 
                 className="btn-secondary"
-                onClick={() => navigate('/admin/advanced-swimmers')}
+                onClick={() => navigate(`/${lang}/admin/advanced-swimmers`)}
                 disabled={isLoading}
               >
-                Anulează
+                {t('createSwimmer.cancelButton')}
               </button>
               <button 
                 className="btn-primary"
                 onClick={handleCreateAdvancedSwimmer}
                 disabled={!heartRateData.maxHeartRate || !heartRateData.restingHeartRate || !heartRateData.thresholdHeartRate || isLoading}
               >
-                {isLoading ? 'Se creează...' : 'Creează Profilul (Mock)'}
+                {isLoading ? t('createSwimmer.creating') : t('createSwimmer.createButton')}
               </button>
             </div>
           </div>

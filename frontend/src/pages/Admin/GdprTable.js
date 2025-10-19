@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import "./GpdrTable.css";
 
 const GdprTable = () => {
+  const { t } = useTranslation();
   const [gdprList, setGdprList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [newText, setNewText] = useState("");
@@ -98,20 +100,20 @@ const GdprTable = () => {
         <div className="gdpr-header-content">
           <h1 className="gdpr-title">
             <span className="gdpr-icon">🔒</span>
-            Gestionare GDPR
+            {t('gdpr.pageTitle')}
           </h1>
           <p className="gdpr-subtitle">
-            Administrează versiunile politicii de confidențialitate GDPR
+            {t('gdpr.pageSubtitle')}
           </p>
         </div>
         <div className="gdpr-stats">
           <div className="stat-item">
             <span className="stat-number">{gdprList.length}</span>
-            <span className="stat-label">Versiuni</span>
+            <span className="stat-label">{t('gdpr.stats.versions')}</span>
           </div>
           <div className="stat-item">
             <span className="stat-number">{nextVersion}</span>
-            <span className="stat-label">Următoarea</span>
+            <span className="stat-label">{t('gdpr.stats.nextVersion')}</span>
           </div>
         </div>
       </div>
@@ -119,15 +121,15 @@ const GdprTable = () => {
       {isLoading ? (
         <div className="loading-container">
           <div className="spinner"></div>
-          <p className="loading-text">Se încarcă versiunile GDPR...</p>
+          <p className="loading-text">{t('gdpr.loading')}</p>
         </div>
       ) : (
         <div className="gdpr-table-container">
           {gdprList.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">📋</div>
-              <h3>Nicio versiune GDPR</h3>
-              <p>Începe prin a adăuga prima versiune a politicii GDPR.</p>
+              <h3>{t('gdpr.emptyState.title')}</h3>
+              <p>{t('gdpr.emptyState.description')}</p>
             </div>
           ) : (
             <div className="table-wrapper">
@@ -135,19 +137,19 @@ const GdprTable = () => {
                 <thead>
                   <tr>
                     <th className="th-id">
-                      <span className="th-content">ID</span>
+                      <span className="th-content">{t('gdpr.table.id')}</span>
                     </th>
                     <th className="th-version">
-                      <span className="th-content">Versiune</span>
+                      <span className="th-content">{t('gdpr.table.version')}</span>
                     </th>
                     <th className="th-date">
-                      <span className="th-content">Creat La</span>
+                      <span className="th-content">{t('gdpr.table.createdAt')}</span>
                     </th>
                     <th className="th-text">
-                      <span className="th-content">Text GDPR</span>
+                      <span className="th-content">{t('gdpr.table.gdprText')}</span>
                     </th>
                     <th className="th-actions">
-                      <span className="th-content">Acțiuni</span>
+                      <span className="th-content">{t('gdpr.table.actions')}</span>
                     </th>
                   </tr>
                 </thead>
@@ -176,10 +178,10 @@ const GdprTable = () => {
                               setModalText(g.text);
                               setModalOpen(true);
                             }}
-                            title="Vezi textul complet"
+                            title={t('gdpr.table.viewFullText')}
                           >
                             <span className="btn-icon">👁️</span>
-                            Vezi complet
+                            {t('gdpr.table.viewFull')}
                           </button>
                         )}
                       </td>
@@ -196,10 +198,10 @@ const GdprTable = () => {
         <div className="form-header">
           <h2 className="form-title">
             <span className="form-icon">➕</span>
-            Adaugă Versiune Nouă GDPR
+            {t('gdpr.form.title')}
           </h2>
           <p className="form-description">
-            Creează o nouă versiune a politicii de confidențialitate GDPR
+            {t('gdpr.form.description')}
           </p>
         </div>
 
@@ -208,7 +210,7 @@ const GdprTable = () => {
             <div className="form-group version-group">
               <label className="form-label">
                 <span className="label-icon">🏷️</span>
-                Versiune (generată automat)
+                {t('gdpr.form.versionLabel')}
               </label>
               <div className="version-input-wrapper">
                 <input
@@ -225,23 +227,23 @@ const GdprTable = () => {
           <div className="form-group">
             <label className="form-label">
               <span className="label-icon">📝</span>
-              Text GDPR
+              {t('gdpr.form.gdprTextLabel')}
               <span className="label-required">*</span>
             </label>
             <textarea
               className="form-textarea gdpr-textarea"
               value={newText}
               onChange={(e) => setNewText(e.target.value)}
-              placeholder="Introdu textul complet al politicii GDPR..."
+              placeholder={t('gdpr.form.gdprTextPlaceholder')}
               rows="8"
             />
             <div className="textarea-info">
               <span className="char-count">
-                {newText.length} caractere
+                {t('gdpr.form.characterCount', { count: newText.length })}
               </span>
               {newText.length > 0 && (
                 <span className="char-estimate">
-                  ~{Math.ceil(newText.length / 100)} paragrafe
+                  {t('gdpr.form.paragraphEstimate', { count: Math.ceil(newText.length / 100) })}
                 </span>
               )}
             </div>
@@ -256,12 +258,12 @@ const GdprTable = () => {
               {isAdding ? (
                 <>
                   <div className="btn-spinner"></div>
-                  Se adaugă...
+                  {t('gdpr.form.adding')}
                 </>
               ) : (
                 <>
                   <span className="btn-icon">✨</span>
-                  Adaugă Versiune Nouă
+                  {t('gdpr.form.addButton')}
                 </>
               )}
             </button>
@@ -276,12 +278,12 @@ const GdprTable = () => {
             <div className="modal-header">
               <h2 className="modal-title">
                 <span className="modal-icon">📄</span>
-                Text GDPR Complet
+                {t('gdpr.modal.title')}
               </h2>
               <button
                 className="modal-close-btn"
                 onClick={() => setModalOpen(false)}
-                title="Închide"
+                title={t('gdpr.modal.close')}
               >
                 ✕
               </button>
@@ -295,7 +297,7 @@ const GdprTable = () => {
                 onClick={() => setModalOpen(false)}
               >
                 <span className="btn-icon">👍</span>
-                Închide
+                {t('gdpr.modal.closeButton')}
               </button>
             </div>
           </div>
