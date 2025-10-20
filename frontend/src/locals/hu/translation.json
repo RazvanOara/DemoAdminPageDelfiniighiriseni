@@ -1,0 +1,1786 @@
+{"planificare": {
+    "nav": {
+      "dashboard": "Irányítópult",
+      "workouts": "Edzések",
+      "plans": "Tervek"
+    },
+    "dashboard": {
+      "title": "Tervezési Központ",
+      "subtitle": "Programok és edzések kezelése"
+    },
+    "stats": {
+      "totalWorkouts": "Összes Edzés",
+      "totalDistanceSubtext": "{{distance}}km össztávolság",
+      "totalVolume": "Összes Volumen",
+      "avgDurationSubtext": "{{duration}} perc edzésenként",
+      "avgDistance": "Átlagos Távolság",
+      "perWorkout": "edzésenként",
+      "avgIntensity": "Átlagos Intenzitás",
+      "intensityScale": "1=Kezdő, 3=Haladó",
+      "weeklyVolume": "Heti Volumen",
+      "estimatedAverage": "becsült átlag",
+      "recentActivity": "Legutóbbi Aktivitás",
+      "workoutsIn7Days": "edzés 7 nap alatt"
+    },
+    "sections": {
+      "coachRecommendations": "💡 Edzői Ajánlások",
+      "quickActions": "Gyors Műveletek",
+      "upcomingRaces": "Közelgő Versenyek",
+      "trainingSummary": "📋 Tervezési Összefoglaló",
+      "recentWorkouts": "Legutóbbi Edzések"
+    },
+    "quickActions": {
+      "createWorkout": {
+        "title": "Edzés Létrehozása",
+        "description": "Új edzés készítése sorozatokkal és intervallumokkal"
+      },
+      "advancedPlanning": {
+        "title": "Haladó Tervezés",
+        "description": "Hosszú távú tervek létrehozása versenyekhez és periodizációhoz"
+      },
+      "analytics": {
+        "title": "Elemzések és Statisztikák",
+        "description": "Előrehaladás és teljesítmény mutatók megtekintése"
+      }
+    },
+    "insights": {
+      "strokeDistribution": "Úszásnem Eloszlás",
+      "typeDistribution": "Típus Eloszlás",
+      "difficultyBreakdown": "Nehézségi Szintek",
+      "addVariety": "Fontold meg több változatosságot az edzéstípusokban",
+      "lowIntensity": "Az átlagos intenzitás alacsony - lehet, hogy ideje nagyobb kihívásoknak",
+      "noRecentWorkouts": "Nincs új edzés az elmúlt héten",
+      "singleStroke": "Minden edzés {{stroke}} úszásnemet használ - adj hozzá változatosságot",
+      "excellentVolume": "Kiváló heti volumen a folyamatos fejlődéshez"
+    },
+    "summary": {
+      "predominantType": "Domináns Típus",
+      "workouts": "{{count}} edzés",
+      "monthlyActivity": "Havi Aktivitás",
+      "workoutsLast30Days": "edzés az elmúlt 30 napban",
+      "progression": "Fejlődés",
+      "advancedWorkouts": "haladó edzések",
+      "avgDuration": "Átlagos Időtartam",
+      "perTrainingSession": "edzésalkalmanként"
+    },
+    "buttons": {
+      "viewAll": "Összes Megtekintése"
+    },
+    "gettingStarted": {
+      "title": "Kezdjünk hozzá!",
+      "description": "Még nincs létrehozott edzésed. Kezdd az első edzés létrehozásával, hogy hasznos statisztikákat és elemzéseket láthass.",
+      "createFirst": "Első Edzés Létrehozása"
+    },
+    "labels": {
+      "modified": "Módosítva",
+      "noDataAvailable": "Nincs elérhető adat",
+      "plan": "Terv"
+    },
+    "time": {
+      "today": "ma",
+      "day": "nap",
+      "days": "nap"
+    },
+    "units": {
+      "minutes": "perc"
+    },
+    "raceTypes": {
+      "target": "🎯 Cél Verseny",
+      "tuneup": "🏃 Felkészítő",
+      "test": "📊 Teszt"
+    },
+    "workoutTypes": {
+      "sprint": "Sprint",
+      "endurance": "Állóképesség",
+      "technical": "Technikai",
+      "recovery": "Regeneráló",
+      "general": "Általános"
+    },
+    "difficulties": {
+      "beginner": "Kezdő",
+      "intermediate": "Közép",
+      "advanced": "Haladó"
+    },
+    "strokes": {
+      "freestyle": "Gyors",
+      "backstroke": "Hát",
+      "breaststroke": "Mell",
+      "butterfly": "Pillangó",
+      "im": "Vegyes",
+      "imByRound": "Vegyes Körönként",
+      "reverseIm": "Fordított Vegyes",
+      "choice": "Választott",
+      "mixed": "Kevert"
+    },
+    "mockWorkouts": {
+      "sprintIntervals": "Gyors Sprint Intervallumok",
+      "techniqueDrills": "Technika és Gyakorlatok",
+      "longDistance": "Hosszútáv Állóképesség",
+      "butterflyPower": "Pillangó Erő Sorozatok",
+      "mixedMedley": "Kevert Vegyes Edzés"
+    },
+    "mockPlans": {
+      "competitionPrep": "Versenyfelkészítő Terv",
+      "nationalChampionship": "Országos Úszó Bajnokság",
+      "regionalQualifiers": "Regionális Selejtezők",
+      "techniqueSeason": "Technika és Javítási Szezon"
+    }
+  },
+  
+  "plans": {
+    "mockPlans": {
+      "competitiveSeason": "2025 Verseny Szezon",
+      "competitiveSeasonDesc": "Átfogó felkészülési terv a fő versenyszezonra, minden makrofázist beleértve.",
+      "competitiveSeasonGoals": "Aerob bázis építése, progresszív intenzitásnövelés és csúcsforma az Országos Bajnokságra.",
+      "regionalCompetition": "Regionális Verseny",
+      "regionalCompetitionDesc": "Az első közbülső teszt a szezonban",
+      "nationalChampionship": "Országos Bajnokság",
+      "nationalChampionshipDesc": "A szezon fő versenye",
+      "offSeasonPlan": "Holtszezon / Regeneráló Terv",
+      "offSeasonPlanDesc": "Átmeneti és aktív regeneráló terv a versenyszezon után, technikára fókuszálva csökkentett volumennel.",
+      "offSeasonPlanGoals": "Fizikai és mentális regeneráció, technika javítás és felkészülés a következő ciklusra.",
+      "testSet400m": "400m Teszt Sorozat",
+      "testSet400mDesc": "Szezon utáni szintfelmérés"
+    },
+    "mockData": {
+      "swimmer1": "Úszó 1",
+      "swimmer2": "Úszó 2",
+      "swimmer3": "Úszó 3",
+      "juniorGroup": "Junior Csoport",
+      "seniorGroup": "Felnőtt Csoport"
+    },
+    "trainingTypes": {
+      "endurance": "Állóképesség",
+      "technique": "Technika",
+      "anaerobicThreshold": "Anaerob Küszöb",
+      "lactateTolerance": "Laktát Tolerancia",
+      "vo2max": "VO2 Max",
+      "raceTempo": "Versenytempó"
+    },
+    "hrZones": {
+      "zone1": "Regeneráló - Bemelegítés és lazítás",
+      "zone2": "Zsírégető - Állóképesség",
+      "zone3": "Aerob - Kardiovaszkuláris kapacitás (AT)",
+      "zone4": "Nagy intenzitás - Anaerob küszöb (TOL)",
+      "zone5": "Maximális intenzitás (VO2)",
+      "zone6": "Versenytempó (TEMPO)"
+    },
+    "macroPhases": {
+      "accumulation": {
+        "name": "Felhalmozás",
+        "description": "Volumen-fókuszú fázis az aerob bázis építésére",
+        "duration": "4-6 hét"
+      },
+      "intensification": {
+        "name": "Intenzifikáció",
+        "description": "Nagy intenzitású edzésfázis",
+        "duration": "2-4 hét"
+      },
+      "realization": {
+        "name": "Megvalósítás",
+        "description": "Verseny-specifikus felkészülés",
+        "duration": "1-2 hét"
+      },
+      "taper": {
+        "name": "Leépítés",
+        "description": "Volumen csökkentése verseny előtt",
+        "duration": "1-3 hét"
+      },
+      "transition": {
+        "name": "Átmenet",
+        "description": "Aktív regeneráció",
+        "duration": "2-4 hét"
+      }
+    },
+    "raceTypes": {
+      "target": "Cél Verseny",
+      "targetDesc": "Fő verseny célkitűzés",
+      "tuneup": "Felkészítő Verseny",
+      "tuneupDesc": "Előkészítő verseny",
+      "testset": "Teszt Sorozat",
+      "testsetDesc": "Edzés értékelés"
+    },
+    "days": {
+      "monday": "Hétfő",
+      "tuesday": "Kedd",
+      "wednesday": "Szerda",
+      "thursday": "Csütörtök",
+      "friday": "Péntek",
+      "saturday": "Szombat",
+      "sunday": "Vasárnap"
+    },
+    "alerts": {
+      "phasesCannotOverlap": "A fázisok nem fedhetik egymást! Válassz másik időszakot.",
+      "fillAllRequired": "Kérlek töltsd ki az összes kötelező mezőt a versenyekhez."
+    },
+    "recovery": {
+      "insufficientRecovery": "Nincs elegendő regenerálódás a(z) {{training}} után {{day}}-ről ({{week}}. hét). {{days}} {{daysLabel}} regenerálódás szükséges.",
+      "day": "nap",
+      "days": "nap"
+    },
+    "validation": {
+      "raceNameRequired": "A verseny neve kötelező",
+      "raceDateRequired": "A verseny dátuma kötelező"
+    },
+    "duration": {
+      "weeks": "{{count}} hét"
+    },
+    "overview": {
+      "title": "Edzéstervek",
+      "subtitle": "Hosszú távú programok és versenyfelkészítés kezelése",
+      "createNewPlan": "Új Terv Létrehozása",
+      "emptyState": {
+        "title": "Nincs létrehozott terv",
+        "description": "Kezdd az első edzésterv létrehozásával a hatékony edzéskezeléshez.",
+        "createFirst": "Első Terv Létrehozása"
+      }
+    },
+    "card": {
+      "start": "Kezdés:",
+      "end": "Vége:",
+      "duration": "Időtartam:",
+      "progress": "Előrehaladás",
+      "macroPhases": "Makrofázisok:",
+      "keyRaces": "Kulcsversenyek:",
+      "edit": "Szerkesztés",
+      "viewDetails": "Részletek Megtekintése"
+    },
+    "form": {
+      "back": "← Vissza",
+      "createTitle": "Új Terv Létrehozása",
+      "editTitle": "Terv Szerkesztése",
+      "generalInfo": "Általános Információk",
+      "planName": "Terv Neve *",
+      "planNamePlaceholder": "pl. 2025 Országos Bajnokság",
+      "description": "Leírás",
+      "descriptionPlaceholder": "Edzésterv leírása...",
+      "startDate": "Kezdő Dátum *",
+      "endDate": "Befejező Dátum *",
+      "planStatus": "Terv Állapota",
+      "statusDraft": "Vázlat",
+      "statusActive": "Aktív",
+      "statusPaused": "Szüneteltetve",
+      "statusCompleted": "Befejezett",
+      "macroPhases": "Makrofázisok",
+      "macroPhasesDesc": "Válaszd ki az edzéstervbe kerülő makrofázisokat",
+      "keyRaces": "Kulcsversenyek",
+      "keyRacesDesc": "Adj hozzá fontos versenyeket, ellenőrzéseket és teszteket a tervben",
+      "competition": "Verseny",
+      "competitionName": "Verseny Neve *",
+      "competitionNamePlaceholder": "pl. Országos Bajnokság",
+      "date": "Dátum *",
+      "type": "Típus",
+      "addCompetition": "+ Verseny Hozzáadása",
+      "goalsAndZones": "Célok és Edzészónák",
+      "planGoals": "Terv Céljai",
+      "planGoalsPlaceholder": "Határozd meg a terv konkrét céljait...",
+      "hrZones": "Pulzuszónák",
+      "zone": "Zóna",
+      "trainingTypes": "Edzéstípusok",
+      "trainingTypeZone": "Zóna:",
+      "trainingTypeHR": "Pulzus:",
+      "trainingTypeRecovery": "Regenerálódás:",
+      "calendarPlanning": "Naptári Tervezés",
+      "calendarPlanningDesc": "Makrofázisok hozzárendelése konkrét hetekhez és heti edzések konfigurálása",
+      "macroPhaseView": "Makrofázisok",
+      "weeklyTrainingView": "Heti Edzések",
+      "assignMacroPhases": "Makrofázisok Hozzárendelése Hetekhez",
+      "week": "Hét",
+      "weekShort": "Hét",
+      "selectStartWeek": "Válassz...",
+      "startWeek": "Kezdő hét",
+      "endWeek": "Befejező hét",
+      "cancel": "Mégse",
+      "assign": "Hozzárendelés",
+      "assignPhase": "{{phase}} Hozzárendelése",
+      "trainingTypesLegend": "Edzéstípusok",
+      "rest": "Pihenő",
+      "participants": "Résztvevők",
+      "participantsDesc": "Egyéni úszók vagy teljes csoportok hozzárendelése ehhez az edzéstervhez",
+      "individualSwimmers": "Egyéni Úszók",
+      "groups": "Csoportok",
+      "selectSwimmer": "Válassz úszót...",
+      "selectGroup": "Válassz csoportot...",
+      "swimmer": "Úszó",
+      "group": "Csoport",
+      "swimmers": "úszó",
+      "cancelButton": "Mégse",
+      "creating": "Létrehozás...",
+      "updating": "Frissítés...",
+      "createPlan": "Terv Létrehozása",
+      "updatePlan": "Terv Frissítése"
+    },
+    "recoveryModal": {
+      "title": "Figyelmeztetés - Regenerálódási Időszak",
+      "requiresRecovery": "A(z) {{training}} {{days}} {{daysLabel}} regenerálódást igényel intenzív edzések után.",
+      "conflictsDetected": "Ütközések észlelve:",
+      "recommendation": "Javasolt regeneráló napokat ütemezni (ÁLLÓKÉPESSÉG, TECHNIKA vagy Pihenő) intenzív edzések között, hogy megelőzzük a túledzést és a sérüléseket.",
+      "continueAnyway": "Folytatás mindenképpen"
+    }
+  },
+  
+  "workoutBuilder": {
+    "defaultName": "Új edzés",
+    "loading": "Edzés betöltése...",
+    "levels": {
+      "beginner": "Kezdő",
+      "intermediate": "Közép",
+      "advanced": "Haladó"
+    },
+    "types": {
+      "endurance": "Állóképesség",
+      "technique": "Technika",
+      "anaerobicThreshold": "Anaerob Küszöb (AT)",
+      "lactateTolerance": "Laktát Tolerancia (TOL)",
+      "vo2max": "VO2 Max",
+      "raceTempo": "Versenytempó"
+    },
+    "strokes": {
+      "freestyle": "Gyors",
+      "backstroke": "Hát",
+      "breaststroke": "Mell",
+      "butterfly": "Pillangó",
+      "choice": "Választott",
+      "im": "Vegyes",
+      "imByRound": "Vegyes körönként",
+      "reverseIm": "Fordított Vegyes",
+      "mixed": "Kevert"
+    },
+    "stepTypes": {
+      "warmup": "Bemelegítés",
+      "mainSet": "Fő Sorozat",
+      "cooldown": "Leúszás",
+      "rest": "Pihenő",
+      "swim": "Úszás"
+    },
+    "drillTypes": {
+      "none": "Nincs",
+      "kick": "Láb",
+      "pull": "Kar",
+      "drill": "Gyakorlat"
+    },
+    "effortLevels": {
+      "recovery": "Regeneráló (50–60% Max Pulzus)",
+      "easy": "Könnyű (60–70% Max Pulzus)",
+      "moderate": "Mérsékelt (70–80% Max Pulzus)",
+      "hard": "Nehéz (80–90% Max Pulzus)",
+      "veryHard": "Nagyon Nehéz (90–95% Max Pulzus)",
+      "allOut": "Teljes Erő (95–100% Max Pulzus)",
+      "ascending": "Növekvő",
+      "descending": "Csökkenő",
+      "sprint": "Sprint (95–100% Max Pulzus)"
+    },
+    "equipment": {
+      "none": "Nincs Felszerelés",
+      "kickboard": "Lábtábla",
+      "pullbuoy": "Pull Buoy",
+      "fins": "Uszony",
+      "paddles": "Kézilapát",
+      "snorkel": "Snorkel"
+    },
+    "labels": {
+      "repeat": "Ismétlés",
+      "repeatBlock": "Ismétlő Blokk",
+      "rest": "Pihenő",
+      "equipment": "Felszerelés",
+      "emptyRepeatBlock": "Üres ismétlő blokk",
+      "workout": "Edzés",
+      "notation": "Jelölés"
+    },
+    "stats": {
+      "totalDistance": "Össztávolság",
+      "steps": "Lépések"
+    },
+    "actions": {
+      "addToRepeat": "Hozzáadás ismétléshez",
+      "decreaseRepeats": "Ismétlések csökkentése",
+      "increaseRepeats": "Ismétlések növelése",
+      "edit": "Szerkesztés",
+      "duplicate": "Másolás",
+      "delete": "Törlés"
+    },
+    "buttons": {
+      "addStep": "Lépés Hozzáadása",
+      "addRepeat": "Ismétlés Hozzáadása",
+      "updateItem": "Elem Frissítése",
+      "cancel": "Mégse",
+      "loading": "Betöltés...",
+      "updateWorkout": "Edzés Frissítése",
+      "saveWorkout": "Edzés Mentése",
+      "exportJson": "JSON Exportálás"
+    },
+    "form": {
+      "editStep": "Lépés Szerkesztése",
+      "addNewStep": "Új Lépés Hozzáadása",
+      "addingToRepeat": "Hozzáadás ismétlő blokkhoz",
+      "category": "Kategória",
+      "distance": "Távolság (méter)",
+      "distanceHelper": "A távolság 25m-re lesz kerekítve, amikor befejezel",
+      "stroke": "Úszásnem",
+      "drillType": "Gyakorlat Típusa",
+      "intensityTarget": "Intenzitás Cél",
+      "effortBased": "Erőfeszítés Alapú",
+      "targetPace": "Cél Tempó",
+      "cssTarget": "CSS Cél",
+      "effortLevel": "Erőfeszítési Szint",
+      "targetPacePer100": "Cél Tempó (100m-enként)",
+      "cssTargetOffset": "CSS Cél (másodperc eltérés)",
+      "cssTargetHelper": "Eltérés a CSS tempótól (negatív = gyorsabb, pozitív = lassabb)",
+      "restDuration": "Pihenő Időtartama (másodperc)",
+      "restHelper": "Hagyd 0-n, ha nem határozott pihenőidő",
+      "equipment": "Felszerelés",
+      "notes": "Jegyzetek",
+      "notesPlaceholder": "Opcionális jegyzetek vagy utasítások...",
+      "workoutNamePlaceholder": "Edzés neve...",
+      "level": "Szint",
+      "type": "Típus"
+    },
+    "empty": {
+      "title": "Még nincs hozzáadott lépés",
+      "subtitle": "Kezdd el az edzésed létrehozását"
+    },
+    "validation": {
+      "nameRequired": "Az edzés neve kötelező",
+      "nameDuplicate": "Már létezik edzés ezzel a névvel. Kérlek válassz másik nevet."
+    },
+    "alerts": {
+      "loadFailed": "Az edzés betöltése sikertelen",
+      "confirmDelete": "Törlöd ezt az elemet?",
+      "saveSuccess": "Edzés sikeresen elmentve! Azonosító: {{id}}",
+      "updateSuccess": "Edzés sikeresen frissítve! Azonosító: {{id}}",
+      "saveSuccessGeneric": "Edzés sikeresen elmentve",
+      "error": "Hiba",
+      "saveFailed": "Az edzés mentése sikertelen"
+    }
+  },
+  
+  "workouts": {
+    "header": {
+      "title": "Edzés Könyvtár",
+      "subtitle": "Edzésalkalmak létrehozása, szerkesztése és kezelése",
+      "createWorkout": "Edzés Létrehozása"
+    },
+    "stats": {
+      "totalWorkouts": "Összes Edzés",
+      "totalMeters": "Összes Méter",
+      "trainingHours": "Edzésórák"
+    },
+    "filters": {
+      "type": "Típus",
+      "allTypes": "Minden Típus",
+      "difficulty": "Nehézség",
+      "allLevels": "Minden Szint",
+      "search": "Keresés",
+      "searchPlaceholder": "Edzések keresése...",
+      "clearFilters": "Szűrők Törlése",
+      "activeFilters": "Aktív szűrők"
+    },
+    "types": {
+      "sprint": "Sprint",
+      "endurance": "Állóképesség",
+      "technical": "Technikai",
+      "recovery": "Regeneráló",
+      "general": "Általános"
+    },
+    "difficulties": {
+      "beginner": "Kezdő",
+      "intermediate": "Közép",
+      "advanced": "Haladó"
+    },
+    "strokes": {
+      "unknown": "Ismeretlen",
+      "freestyle": "Gyors",
+      "backstroke": "Hát",
+      "breaststroke": "Mell",
+      "butterfly": "Pillangó",
+      "im": "Vegyes",
+      "imByRound": "Vegyes Körönként",
+      "reverseIm": "Fordított Vegyes",
+      "choice": "Választott",
+      "mixed": "Kevert"
+    },
+    "card": {
+      "modified": "Módosítva",
+      "minutes": "perc",
+      "meters": "méter",
+      "sets": "sorozat"
+    },
+    "actions": {
+      "edit": "Szerkesztés",
+      "duplicate": "Másolás",
+      "view": "Megtekintés",
+      "delete": "Törlés",
+      "copyLabel": "(másolat)"
+    },
+    "alerts": {
+      "duplicated": "Edzés másolva!",
+      "confirmDelete": "Törlöd ezt az edzést?",
+      "deleted": "Edzés törölve!"
+    },
+    "loading": "Edzések betöltése...",
+    "empty": {
+      "title": "Nincs találat",
+      "noWorkouts": "Még nincs létrehozott edzésed. Kezdd az első edzés létrehozásával!",
+      "noResults": "Próbáld meg módosítani a szűrőket több eredményért.",
+      "createFirst": "Első Edzés Létrehozása"
+    },
+    "resultsInfo": {
+      "showing": "{{filtered}} / {{total}} edzés megjelenítése",
+      "filtered": "szűrve"
+    },
+    "mockWorkouts": {
+      "sprintFreestyle": "Sprint Gyors",
+      "butterflyTechnique": "Pillangó Technika",
+      "mixedEndurance": "Kevert Állóképesség"
+    }
+  },
+  
+  "sessionManager": {
+    "change": "Váltás",
+    "noWorkout": "Nincs edzés",
+    "searchShort": "Keresés...",
+    "searchWorkout": "Edzés keresése...",
+    "noWorkoutFound": "Nincs ilyen edzés",
+    "noWorkoutsAvailable": "Nincsenek elérhető edzések",
+    "evaluate": "Értékelés",
+    "evaluateSwimmer": "Úszó értékelése",
+    "status": {
+      "present": "Jelen",
+      "absent": "Hiányzik",
+      "late": "Késett",
+      "injured": "Sérült"
+    },
+    "week": "Hét",
+    "day": "Nap",
+    "time": "Időpont",
+    "update": "Frissítés",
+    "workout": "Edzés",
+    "swimmers": "Úszók",
+    "searchSwimmer": "Úszó keresése...",
+    "noSwimmerFound": "Nincs ilyen úszó",
+    "noSwimmersInPlan": "Nincsenek úszók ebben a tervben",
+    "recordTimes": "Időeredmények rögzítése",
+    "liveSession": "Élő Edzés",
+    "pastDate": "Múltbeli dátum",
+    "pastDateBanner": "Ez a dátum a múltban van - a módosítások korlátozottak",
+    "confirmChangeWorkout": "Biztosan megváltoztatod az edzést?",
+    "confirmDeleteSession": "Biztosan törlöd ezt az edzésalkalmot?",
+    "adHocSession": "Alkalmi edzésalkalom",
+    "free": "SZABAD",
+    "deleteSession": "Edzésalkalom törlése",
+    "addSwimmer": "Úszó hozzáadása...",
+    "noMoreSwimmers": "Nincs több elérhető úszó",
+    "noSwimmersAdded": "Nincsenek hozzáadott úszók",
+    "cannotAddPastSession": "Nem lehet múltbeli dátumra edzésalkalmakat hozzáadni",
+    "cannotDeletePastSession": "Nem lehet múltbeli dátumú edzésalkalmakat törölni",
+    "loading": "Betöltés...",
+    "retry": "Újrapróbálás",
+    "sessionsShort": "Alkalmak",
+    "trainingSessions": "Edzésalkalmak",
+    "noActivePlans": "Nincs aktív terv erre a dátumra",
+    "adHocShort": "Alkalmi",
+    "addAdHocSession": "Alkalmi edzésalkalom hozzáadása"
+  },"announcements": {
+      "header": {
+        "title": "Eseménykezelés (Demó)",
+        "subtitle": "Események létrehozása és kezelése az úszóklub számára - Teszt adatok"
+      },
+      "form": {
+        "createTitle": "Új Esemény Létrehozása",
+        "editTitle": "Esemény Szerkesztése",
+        "title": "Cím",
+        "titlePlaceholder": "Add meg az esemény címét",
+        "subtitle": "Alcím",
+        "subtitlePlaceholder": "Opcionális alcím",
+        "content": "Tartalom",
+        "contentPlaceholder": "Add meg az esemény tartalmát",
+        "uploadImage": "Kép Feltöltése (Teszt - Csak Helyi Előnézet)",
+        "uploading": "Kép feltöltése...",
+        "preview": "előnézet",
+        "removeImage": "Kép Eltávolítása",
+        "category": "Kategória",
+        "eventDate": "Esemény Dátuma",
+        "startTime": "Kezdési Időpont",
+        "endTime": "Befejezési Időpont",
+        "location": "Helyszín",
+        "locationPlaceholder": "Esemény helyszíne",
+        "priority": "Prioritás (0-100)",
+        "active": "Aktív"
+      },
+      "categories": {
+        "general": "Általános",
+        "competition": "Verseny",
+        "training": "Edzés",
+        "event": "Esemény"
+      },
+      "buttons": {
+        "create": "Esemény Létrehozása",
+        "update": "Esemény Frissítése",
+        "cancel": "Mégse",
+        "edit": "Szerkesztés",
+        "delete": "Törlés",
+        "retry": "Újrapróbálás"
+      },
+      "alerts": {
+        "invalidFileType": "Érvénytelen fájltípus. Használj JPEG, PNG vagy GIF formátumot.",
+        "fileTooLarge": "A fájl túl nagy. Maximum méret: 5MB.",
+        "createSuccess": "Esemény sikeresen létrehozva (demó)!",
+        "updateSuccess": "Esemény sikeresen frissítve (demó)!",
+        "deleteSuccess": "Esemény sikeresen törölve (demó)!",
+        "confirmDelete": "Biztosan törlöd ezt az eseményt?"
+      },
+      "card": {
+        "date": "Dátum",
+        "location": "Helyszín",
+        "category": "Kategória",
+        "priority": "Prioritás",
+        "status": "Állapot"
+      },
+      "status": {
+        "active": "Aktív",
+        "inactive": "Inaktív"
+      },
+      "loading": "Események betöltése...",
+      "empty": "Még nincsenek események. Hozd létre az elsőt!",
+      "mockData": {
+        "competition": {
+          "title": "Országos Úszóverseny",
+          "subtitle": "Vegyél részt az év legnagyobb eseményén",
+          "content": "Örömmel jelentjük be az országos úszóversenyt minden korosztály számára. Készülj fel kivételes teljesítményekre!",
+          "location": "Országos Sportcsarnok"
+        },
+        "training": {
+          "title": "Különleges Edzés - Haladó Technikák",
+          "subtitle": "Haladó szintű úszók számára",
+          "content": "Különleges edzésalkalom haladó úszástechnikákra. Koordinátor: Popescu Gábor edző.",
+          "location": "Olimpiai Uszoda"
+        },
+        "maintenance": {
+          "title": "Átmeneti Zárva Tartás Karbantartás Miatt",
+          "subtitle": "Korszerűsítési munkálatok",
+          "content": "Tájékoztatunk, hogy november 10-12 között az uszoda zárva tart karbantartási és korszerűsítési munkálatok miatt. Köszönjük a megértést!"
+        },
+        "summerEvent": {
+          "title": "Nyári Este - Szabadidős Úszás",
+          "subtitle": "Lezajlott esemény",
+          "content": "Köszönjük minden résztvevőnek a nyári estét! Felejthetetlen esemény volt.",
+          "location": "Szabadtéri Medence"
+        }
+      }
+    },
+    
+    "dashboard": {
+      "loading": "Vezérlőpult betöltése...",
+      "hero": {
+        "title": "Irányítóközpont",
+        "subtitle": "Az úszás menedzsment központja",
+        "totalStudents": "Összes Úszó",
+        "active": "Aktív",
+        "activityRate": "Aktivitási Arány"
+      },
+      "alert": {
+        "title": "Figyelem Szükséges",
+        "description": "{{count}} rekord lejár a következő 7 napon belül"
+      },
+      "quickNav": {
+        "activeStudents": {
+          "title": "Aktív Úszók",
+          "subtitle": "Úszók kezelése"
+        },
+        "trainingHub": {
+          "value": "Központ",
+          "title": "Edzésközpont",
+          "subtitle": "Tervek és programok"
+        },
+        "trainingSessions": {
+          "value": "Ma",
+          "title": "Edzésalkalmak",
+          "subtitle": "Mai beosztás"
+        },
+        "announcements": {
+          "value": "Események",
+          "title": "Kommunikáció",
+          "subtitle": "Üzenetek kezelése"
+        }
+      },
+      "recentActivity": {
+        "title": "Legutóbbi Aktivitás",
+        "viewAll": "Összes megtekintése",
+        "empty": "Nincs legutóbbi aktivitás"
+      },
+      "activity": {
+        "newRegistration": "Új regisztráció",
+        "expiringNear": "Hamarosan lejár"
+      },
+      "timeAgo": {
+        "minutes": "{{count}} perce",
+        "hours": "{{count}} órája",
+        "days": "{{count}} napja"
+      }
+    },
+    
+    "adminLayout": {
+      "header": {
+        "title": "Admin Panel (Demó)"
+      },
+      "pageTitle": {
+        "dashboard": "Admin Vezérlőpult",
+        "trainingSession": "Edzésalkalom",
+        "students": "Úszók Kezelése",
+        "trainingHub": "Edzésközpont",
+        "advancedSwimmers": "Haladó Úszók",
+        "groups": "Csoportkezelés",
+        "gdprConsent": "GDPR Beleegyezés",
+        "systemInfo": "Rendszerinformáció",
+        "announcements": "Események",
+        "aboutDemo": "A Demóról",
+        "adminPanel": "Admin Panel"
+      },
+      "nav": {
+        "aboutDemo": "A Demóról",
+        "dashboard": "Vezérlőpult",
+        "students": "Úszók",
+        "trainingSession": "Edzésalkalom",
+        "trainingHub": "Edzésközpont",
+        "advancedSwimmers": "Haladó Úszók",
+        "groups": "Csoportok",
+        "announcements": "Események",
+        "gdprConsent": "GDPR Beleegyezés",
+        "system": "Rendszer",
+        "systemInfo": "Rendszerinformáció"
+      },
+      "logout": {
+        "button": "Kijelentkezés (Demó)",
+        "confirmDemo": "Ez egy demó verzió. A kijelentkezés nem funkcionál."
+      }
+    },
+    
+    "adminUsers": {
+      "pageTitle": "Úszók Kezelése (Demó)",
+      "loading": "Úszók betöltése...",
+      "refreshing": "Betöltés...",
+      "refreshButton": "Frissítés",
+      "searchPlaceholder": "Keresés név vagy telefon alapján...",
+      
+      "stats": {
+        "total": "Összes",
+        "active": "Aktív",
+        "expired": "Lejárt"
+      },
+      
+      "status": {
+        "active": "Aktív",
+        "expired": "Lejárt"
+      },
+      
+      "filters": {
+        "allStudents": "Minden úszó",
+        "activeOnly": "Csak aktívak",
+        "expiredOnly": "Csak lejártak",
+        "allDays": "Minden nap",
+        "allHours": "Minden óra"
+      },
+      
+      "sort": {
+        "newest": "Legújabb",
+        "oldest": "Legrégebbi",
+        "alphabetical": "Ábécé"
+      },
+      
+      "days": {
+        "monday": "Hétfő",
+        "tuesday": "Kedd",
+        "wednesday": "Szerda",
+        "thursday": "Csütörtök",
+        "friday": "Péntek"
+      },
+      
+      "export": {
+        "title": "Adatok Exportálása (Teszt)",
+        "csvButton": "CSV Exportálás",
+        "exporting": "Exportálás...",
+        "info": "Az export tartalmazza: Úszó neve, Szülő neve, Telefon (demonstrációs adatok)",
+        "headers": {
+          "studentName": "Úszó Neve",
+          "childName": "Gyermek Neve",
+          "phone": "Telefon",
+          "email": "Email",
+          "registrationDate": "Regisztráció Dátuma",
+          "status": "Állapot"
+        }
+      },
+      
+      "deleteModal": {
+        "title": "Törlés megerősítése",
+        "message": "Biztosan törlöd {{studentName}} adatait? Ez a művelet nem vonható vissza és minden kapcsolódó adat véglegesen elvész.",
+        "confirmButton": "Törlés",
+        "cancelButton": "Mégse",
+        "defaultStudentName": "ezt az úszót"
+      },
+      
+      "notifications": {
+        "exportSuccess": {
+          "title": "Export Kész",
+          "message": "A {{filename}} fájl sikeresen letöltve (teszt adatok)."
+        },
+        "updateSuccess": {
+          "title": "Frissítés kész",
+          "message": "Az úszólista sikeresen frissítve (teszt adatok)."
+        },
+        "deleteSuccess": {
+          "title": "Úszó törölve",
+          "message": "{{studentName}} sikeresen törölve. A változás frissítésig megmarad."
+        }
+      },
+      
+      "resultsInfo": "{{showing}} / {{total}} úszó megjelenítése",
+      "noResultsFiltered": "Nincs találat a keresési feltételeknek megfelelően.",
+      "noResultsEmpty": "Nincsenek regisztrált úszók a rendszerben."
+    },
+    
+    "advancedSwimmers": {
+      "pageTitle": "Haladó Úszók (Demó)",
+      "pageSubtitle": "Úszó profilok kezelése haladó monitoringgal - Teszt adatok",
+      "loading": "Haladó úszók betöltése...",
+      "filtered": "(szűrve)",
+      
+      "buttons": {
+        "swimmingTimes": "Úszási Idők",
+        "addSwimmer": "Haladó Úszó Hozzáadása"
+      },
+      
+      "stats": {
+        "totalSwimmers": "Összes Úszó",
+        "inGroups": "Csoportokban",
+        "activeGroups": "Aktív Csoportok"
+      },
+      
+      "filters": {
+        "hrMaxZone": "Max Pulzus Zóna",
+        "allZones": "Minden Zóna",
+        "lowZone": "Alacsony (<170)",
+        "mediumZone": "Közepes (170-190)",
+        "highZone": "Magas (>190)",
+        "low": "Alacsony",
+        "medium": "Közepes",
+        "high": "Magas",
+        "group": "Csoport",
+        "noFilter": "Nincs szűrő",
+        "noGroup": "Nincs Csoport",
+        "search": "Keresés",
+        "searchPlaceholder": "Úszók keresése...",
+        "clearFilters": "Szűrők Törlése",
+        "activeFilters": "Aktív szűrők"
+      },
+      
+      "card": {
+        "studentId": "Úszó Azonosító",
+        "max": "Max",
+        "resting": "Nyugalmi",
+        "threshold": "Küszöb",
+        "created": "Létrehozva",
+        "group": "Csoport",
+        "hrMax": "Max Pulzus (bpm)",
+        "hrResting": "Nyugalmi Pulzus (bpm)",
+        "hrThreshold": "Küszöb Pulzus (bpm)",
+        "trainingZones": "Edzészónák",
+        "viewMore": "Több Megtekintése"
+      },
+      
+      "emptyState": {
+        "title": "Nincs találat haladó úszók között",
+        "noSwimmers": "Még nincs létrehozott haladó úszód. Kezdd az első hozzáadásával!",
+        "noResults": "Próbáld meg módosítani a szűrőket több eredményért.",
+        "addFirst": "Első Úszó Hozzáadása"
+      },
+      
+      "resultsInfo": "{{showing}} / {{total}} haladó úszó megjelenítése"
+    },
+    
+    "consents": {
+      "pageTitle": "GDPR Beleegyezés (Demó)",
+      "pageSubtitle": "Minden rögzített GDPR beleegyezés megtekintése - Teszt adatok",
+      "gdprButton": "GDPR Kezelés",
+      "searchPlaceholder": "Keresés név alapján...",
+      "loading": "Beleegyezések betöltése...",
+      
+      "table": {
+        "id": "Azonosító",
+        "fullName": "Teljes Név",
+        "agreementDate": "Elfogadás Dátuma",
+        "deviceIp": "Eszköz IP",
+        "gdprVersion": "GDPR Verzió"
+      },
+      
+      "mobile": {
+        "agreementDate": "ELFOGADÁS DÁTUMA",
+        "deviceIp": "ESZKÖZ IP",
+        "gdprVersion": "GDPR VERZIÓ"
+      },
+      
+      "emptyState": {
+        "noResults": "Nincs találat",
+        "noConsents": "Nincsenek rögzített beleegyezések",
+        "modifySearch": "Próbáld meg módosítani a keresési kifejezést",
+        "willAppear": "A beleegyezések itt jelennek meg, amikor a felhasználók kitöltik az űrlapot"
+      },
+      
+      "resultsCounter": {
+        "showing": "Megjelenítve",
+        "resultSingular": "eredmény",
+        "resultPlural": "eredmény",
+        "filtered": "(szűrve)"
+      }
+    },
+    
+    "createSwimmer": {
+      "pageTitle": "Haladó Úszó Hozzáadása (Demó)",
+      "pageSubtitle": "Új úszó profil létrehozása haladó monitoringgal - Teszt adatok",
+      "backButton": "Vissza",
+      "cancelButton": "Mégse",
+      "createButton": "Profil Létrehozása (Teszt)",
+      "creating": "Létrehozás...",
+      
+      "notifications": {
+        "warning": "Figyelmeztetés",
+        "validation": "Ellenőrzés",
+        "profileCreated": "Profil Létrehozva",
+        "successMessage": "Haladó úszó profil sikeresen létrehozva {{name}} számára! (Teszt)"
+      },
+      
+      "validation": {
+        "selectStudent": "Kérlek válassz egy úszót",
+        "maxHrRange": "A maximális pulzusnak 120 és 220 bpm között kell lennie",
+        "restingHrRange": "A nyugalmi pulzusnak 30 és 100 bpm között kell lennie",
+        "thresholdHrRange": "A küszöb pulzusnak 100 és 200 bpm között kell lennie",
+        "restingLessThanMax": "A nyugalmi pulzusnak kisebbnek kell lennie a maximálisnál"
+      },
+      
+      "step1": {
+        "title": "1. Úszó Kiválasztása",
+        "description": "Válaszd ki azt az úszót, akinek haladó úszó profilt szeretnél létrehozni",
+        "searchPlaceholder": "Keresés név vagy email alapján...",
+        "loading": "Úszók betöltése...",
+        "noSearchResults": "Nincs találat a keresésnek megfelelő úszó",
+        "allHaveProfiles": "Minden úszónak már van haladó úszó profilja",
+        "years": "éves"
+      },
+      
+      "step2": {
+        "title": "2. Pulzusadatok Beállítása",
+        "description": "Add meg az úszó pulzusértékeit",
+        "autoCalculated": "⚡ Az értékek automatikusan kiszámítódtak az életkor alapján. Szükség esetén módosíthatod őket.",
+        
+        "maxHrLabel": "Maximális Pulzus (bpm)",
+        "maxHrPlaceholder": "pl. 190",
+        "maxHrHelp": "Számított: 220 - életkor | Normális értékek: 120-220 bpm",
+        
+        "restingHrLabel": "Nyugalmi Pulzus (bpm)",
+        "restingHrPlaceholder": "pl. 60",
+        "restingHrHelp": "Becsült érték életkor és fittség alapján | Normális értékek: 30-100 bpm",
+        
+        "thresholdHrLabel": "Küszöb Pulzus (bpm)",
+        "thresholdHrPlaceholder": "pl. 170",
+        "thresholdHrHelp": "Számított: a max pulzus 87%-a | Normális értékek: 100-200 bpm",
+        
+        "zonesPreview": "Edzészónák Előnézete",
+        
+        "zones": {
+          "zone1": "1. Zóna (Regenerálódás)",
+          "zone2": "2. Zóna (Könnyű Aerob)",
+          "zone3": "3. Zóna (Aerob)",
+          "zone4": "4. Zóna (Küszöb)",
+          "zone5": "5. Zóna (Anaerob)"
+        }
+      }
+    },
+    
+    "createTimes": {
+      "pageTitle": "Úszási Idők Hozzáadása (Demó)",
+      "pageSubtitle": "Idők rögzítése edzéshez vagy versenyre - Teszt adatok",
+      "backButton": "Vissza",
+      "cancelButton": "Mégse",
+      "saveButton": "Idők Mentése ({{count}})",
+      "saving": "Mentés...",
+      "saved": "Mentve (Teszt)!",
+      "timesCompleted": "idő kitöltve",
+      "student": "Úszó",
+      "successMessage": "Idők sikeresen mentve (teszt)!",
+      
+      "validation": {
+        "studentRequired": "Az úszó azonosító kötelező",
+        "dateRequired": "A rögzítés dátuma kötelező",
+        "atLeastOneTime": "Legalább egy időt meg kell adnod",
+        "invalidFormat": "A(z) {{event}} időformátuma érvénytelen. Használd az PP:MM vagy PP:MM.CC formátumot"
+      },
+      
+      "basicInfo": {
+        "title": "Általános Információk",
+        "description": "Töltsd ki az úszásalkalom alapvető információit",
+        "student": "Úszó",
+        "loading": "Betöltés...",
+        "recordDate": "Rögzítés Dátuma",
+        "poolLength": "Medence Hossza",
+        "meters25": "25 méter",
+        "meters50": "50 méter",
+        "competitionName": "Verseny Neve (opcionális)",
+        "competitionPlaceholder": "pl. Országos Úszó Bajnokság",
+        "notes": "Jegyzetek (opcionális)",
+        "notesPlaceholder": "Adj hozzá jegyzeteket a teljesítményről, körülményekről stb."
+      },
+      
+      "search": {
+        "title": "🔍 Versenyszámok Keresése és Szűrése",
+        "description": "Gyorsan megtalálhatod azokat a versenyszámokat, amelyekhez időt szeretnél hozzáadni",
+        "placeholder": "Versenyszámok keresése (pl. 100m, gyors, pillangó)...",
+        "allCategories": "Minden Kategória",
+        "onlyFilled": "Csak kitöltött idők",
+        "clearAll": "Összes idő törlése",
+        "showingResults": "{{showing}} / {{total}} versenyszám megjelenítése"
+      },
+      
+      "times": {
+        "title": "⏱️ Úszási Idők",
+        "formatInfo": "Az időket PP:MM.CC formátumban add meg (pl. 1:23.45 vagy 01:23.45)",
+        "noEvents": "Nincs találat a keresési feltételeknek megfelelő versenyszám.",
+        "resetFilters": "Szűrők visszaállítása",
+        "clearTime": "Idő törlése"
+      },
+      
+      "categories": {
+        "freestyle": "Gyors",
+        "backstroke": "Hát",
+        "breaststroke": "Mell",
+        "butterfly": "Pillangó",
+        "im": "Vegyes"
+      },
+      
+      "events": {
+        "freestyle50": "Gyors 50m",
+        "freestyle100": "Gyors 100m",
+        "freestyle200": "Gyors 200m",
+        "freestyle400": "Gyors 400m",
+        "freestyle800": "Gyors 800m",
+        "freestyle1500": "Gyors 1500m",
+        "backstroke50": "Hát 50m",
+        "backstroke100": "Hát 100m",
+        "backstroke200": "Hát 200m",
+        "breaststroke50": "Mell 50m",
+        "breaststroke100": "Mell 100m",
+        "breaststroke200": "Mell 200m",
+        "butterfly50": "Pillangó 50m",
+        "butterfly100": "Pillangó 100m",
+        "butterfly200": "Pillangó 200m",
+        "im100": "Vegyes 100m",
+        "im200": "Vegyes 200m"
+      }
+    },
+    
+    "timesDetails": {
+      "pageSubtitle": "Úszási idők és részletes statisztikák",
+      "backButton": "Vissza az Úszási Időkhöz",
+      "addNewTime": "Új Idő Hozzáadása",
+      "student": "Úszó",
+      "loading": "Adatok betöltése...",
+      
+      "tabs": {
+        "allTimes": "Összes Idő",
+        "personalBests": "Egyéni Csúcsok",
+        "statistics": "Statisztikák és Grafikonok"
+      },
+      
+      "allTimes": {
+        "noTimes": "Nincsenek rögzített idők",
+        "noTimesDescription": "Ennek az úszónak még nincsenek rögzített idői.",
+        "competition": "Verseny",
+        "personalRecord": "Egyéni Csúcs",
+        "notes": "Jegyzetek"
+      },
+      
+      "personalBests": {
+        "noRecords": "Nincsenek egyéni rekordok",
+        "noRecordsDescription": "Ennek az úszónak még nincsenek egyéni rekordjai.",
+        "showGraph": "Grafikon Megjelenítése",
+        "hideGraph": "Grafikon Elrejtése"
+      },
+      
+      "statistics": {
+        "totalRecords": "Összes Rekord",
+        "personalBests": "Egyéni Csúcsok",
+        "competitionTimes": "Versenyen Elért Idők",
+        "monitoringDays": "Nyomon Követési Napok",
+        "monitoringPeriod": "Nyomon Követési Időszak",
+        "from": "Kezdet",
+        "to": "Vége",
+        "notEnoughData": "Nincs elég adat a statisztikákhoz",
+        "notEnoughDataDescription": "Adj hozzá több időt a részletes statisztikák megtekintéséhez."
+      },
+      
+      "graph": {
+        "notEnoughData": "Nincs elég adat a grafikonhoz",
+        "evolution": "Idők Fejlődése"
+      },
+      
+      "categories": {
+        "freestyle": "Gyors",
+        "backstroke": "Hát",
+        "breaststroke": "Mell",
+        "butterfly": "Pillangó",
+        "im": "Vegyes"
+      },
+      
+      "events": {
+        "freestyle50": "Gyors 50m",
+        "freestyle100": "Gyors 100m",
+        "freestyle200": "Gyors 200m",
+        "freestyle400": "Gyors 400m",
+        "freestyle800": "Gyors 800m",
+        "freestyle1500": "Gyors 1500m",
+        "backstroke50": "Hát 50m",
+        "backstroke100": "Hát 100m",
+        "backstroke200": "Hát 200m",
+        "breaststroke50": "Mell 50m",
+        "breaststroke100": "Mell 100m",
+        "breaststroke200": "Mell 200m",
+        "butterfly50": "Pillangó 50m",
+        "butterfly100": "Pillangó 100m",
+        "butterfly200": "Pillangó 200m",
+        "im100": "Vegyes 100m",
+        "im200": "Vegyes 200m"
+      }
+    },
+    
+    "gdpr": {
+      "pageTitle": "GDPR Kezelés",
+      "pageSubtitle": "GDPR adatvédelmi szabályzat verzióinak kezelése",
+      "loading": "GDPR verziók betöltése...",
+      
+      "stats": {
+        "versions": "Verziók",
+        "nextVersion": "Következő"
+      },
+      
+      "emptyState": {
+        "title": "Nincsenek GDPR verziók",
+        "description": "Kezdd a GDPR szabályzat első verziójának hozzáadásával."
+      },
+      
+      "table": {
+        "id": "Azonosító",
+        "version": "Verzió",
+        "createdAt": "Létrehozva",
+        "gdprText": "GDPR Szöveg",
+        "actions": "Műveletek",
+        "viewFullText": "Teljes szöveg megtekintése",
+        "viewFull": "Teljes megtekintése"
+      },
+      
+      "form": {
+        "title": "Új GDPR Verzió Hozzáadása",
+        "description": "Hozz létre egy új verziót a GDPR adatvédelmi szabályzatból",
+        "versionLabel": "Verzió (automatikusan generált)",
+        "gdprTextLabel": "GDPR Szöveg",
+        "gdprTextPlaceholder": "Add meg a teljes GDPR szabályzat szövegét...",
+        "characterCount": "{{count}} karakter",
+        "paragraphEstimate": "~{{count}} bekezdés",
+        "adding": "Hozzáadás...",
+        "addButton": "Új Verzió Hozzáadása"
+      },
+      
+      "modal": {
+        "title": "Teljes GDPR Szöveg",
+        "close": "Bezárás",
+        "closeButton": "Bezárás"
+      }
+    },
+    
+    "groups": {
+      "pageTitle": "Csoportkezelés (Demó)",
+      "groupSingular": "csoport",
+      "groupPlural": "csoport",
+      "newGroup": "Új Csoport",
+      "swimmers": "úszó",
+      "editButton": "Szerkesztés",
+      "deleteButton": "Törlés",
+      "confirmDelete": "Biztosan törlöd ezt a csoportot? (Teszt)",
+      
+      "emptyState": {
+        "title": "Nincsenek csoportok",
+        "description": "Hozd létre az első csoportot a haladó úszók szervezéséhez",
+        "createFirst": "Első Csoport Létrehozása"
+      },
+      
+      "form": {
+        "createTitle": "Új Csoport (Demó)",
+        "editTitle": "Csoport Szerkesztése (Demó)",
+        "createSubtitle": "Új csoport létrehozása úszók számára",
+        "editSubtitle": "Csoport részleteinek módosítása",
+        "groupName": "Csoport Neve",
+       "groupNamePlaceholder": "pl. Teljesítmény Csoport",
+        "description": "Leírás",
+        "descriptionPlaceholder": "Csoport leírása...",
+        "groupColor": "Csoport Színe",
+        "swimmers": "Úszók",
+        "swimmersSelected": "{{count}} kiválasztva",
+        "searchSwimmer": "Úszó keresése...",
+        "noSwimmersAvailable": "Nincsenek elérhető úszók",
+        "student": "Úszó",
+        "inThisGroup": "Ebben a csoportban",
+        "cancelButton": "Mégse",
+        "createButton": "Csoport Létrehozása",
+        "updateButton": "Csoport Frissítése",
+        "saving": "Mentés..."
+      }
+    },
+    
+    "swimmingTimes": {
+      "pageTitle": "Úszási Idők",
+      "pageSubtitle": "Úszók előrehaladásának és egyéni rekordjainak nyomon követése",
+      "addNewTime": "Új Idő Hozzáadása",
+      "student": "Úszó",
+      "loading": "Úszási idők betöltése...",
+      "filtered": "(szűrve)",
+      
+      "stats": {
+        "swimmersWithTimes": "Úszók Időkkel",
+        "totalPersonalRecords": "Összes Egyéni Rekord",
+        "totalRecords": "Összes Rekord",
+        "lastRecord": "Utolsó Rekord"
+      },
+      
+      "filters": {
+        "searchSwimmer": "Úszó Keresése",
+        "searchPlaceholder": "Keresés név vagy azonosító alapján...",
+        "clearFilters": "Szűrők Törlése",
+        "activeFilters": "Aktív szűrők",
+        "search": "Keresés"
+      },
+      
+      "card": {
+        "personalRecords": "Egyéni Rekordok",
+        "totalRecords": "Összes Rekord",
+        "lastTime": "Utolsó Idő",
+        "personalBestsTop4": "Egyéni Csúcsok (Top 4)",
+        "moreRecords": "+{{count}} további rekord",
+        "viewAllTimes": "Összes Idő Megtekintése",
+        "statistics": "Statisztikák és Grafikonok",
+        "addNewTime": "Új Idő Hozzáadása"
+      },
+      
+      "emptyState": {
+        "noTimes": "Nincsenek úszási idők",
+        "noTimesDescription": "Még nincsenek rögzített időid. Kezdd az első hozzáadásával!",
+        "modifyFilters": "Próbáld meg módosítani a szűrőket több eredményért.",
+        "addFirst": "Első Idő Hozzáadása"
+      },
+      
+      "resultsInfo": "{{showing}} / {{total}} úszó megjelenítése rögzített időkkel",
+      
+      "events": {
+        "freestyle50": "Gyors 50m",
+        "freestyle100": "Gyors 100m",
+        "freestyle200": "Gyors 200m",
+        "freestyle400": "Gyors 400m",
+        "freestyle800": "Gyors 800m",
+        "freestyle1500": "Gyors 1500m",
+        "backstroke50": "Hát 50m",
+        "backstroke100": "Hát 100m",
+        "backstroke200": "Hát 200m",
+        "breaststroke50": "Mell 50m",
+        "breaststroke100": "Mell 100m",
+        "breaststroke200": "Mell 200m",
+        "butterfly50": "Pillangó 50m",
+        "butterfly100": "Pillangó 100m",
+        "butterfly200": "Pillangó 200m",
+        "im100": "Vegyes 100m",
+        "im200": "Vegyes 200m"
+      }
+    },
+    
+    "systemInfo": {
+      "pageTitle": "Rendszerinformáció (Demó)",
+      "loading": "Rendszerinformáció betöltése...",
+      "updating": "Frissítés...",
+      "refresh": "Frissítés",
+      "lastUpdate": "Utolsó frissítés",
+      "retryButton": "Újrapróbálás",
+      
+      "tabs": {
+        "overview": "Áttekintés",
+        "memory": "Memória",
+        "performance": "Teljesítmény",
+        "database": "Adatbázis",
+        "system": "Rendszer",
+        "network": "Hálózat",
+        "disk": "Lemez"
+      },
+      
+      "overview": {
+        "appVersion": "Alkalmazás Verzió",
+        "uptime": "Futási Idő",
+        "start": "Indítás",
+        "memoryUsage": "Memóriahasználat",
+        "database": "Adatbázis",
+        "records": "rekord",
+        "systemPerformance": "Rendszer Teljesítmény",
+        "systemCpu": "Rendszer CPU",
+        "heapMemory": "Heap Memória",
+        "primaryDisk": "Elsődleges Lemez",
+        "recentActivity": "Legutóbbi Aktivitás",
+        "lastUpdate": "Utolsó frissítés",
+        "gcCollections": "GC Gyűjtések",
+        "activeThreads": "Aktív szálak"
+      },
+      
+      "memory": {
+        "heapMemory": "Heap Memória",
+        "nonHeapMemory": "Non-Heap Memória",
+        "heapUsage": "Heap Használat",
+        "used": "Használt",
+        "committed": "Lefoglalt",
+        "max": "Maximum",
+        "memoryPools": "Memória Készletek"
+      },
+      
+      "performance": {
+        "cpuAndSystem": "CPU és Rendszer",
+        "systemCpu": "Rendszer CPU",
+        "processCpu": "Folyamat CPU",
+        "loadAverage": "Átlagos Terhelés",
+        "threads": "Szálak",
+        "currentThreads": "Jelenlegi Szálak",
+        "daemonThreads": "Daemon Szálak",
+        "peakThreads": "Csúcs Szálak",
+        "threadStates": "Szál Állapotok",
+        "garbageCollection": "Szemétgyűjtés",
+        "collections": "Gyűjtések",
+        "time": "Idő"
+      },
+      
+      "database": {
+        "connectionStatus": "Kapcsolat Állapota",
+        "connected": "Csatlakozva",
+        "error": "Hiba",
+        "responseTime": "Válaszidő",
+        "studentRecords": "Úszó Rekordok",
+        "announcements": "Események",
+        "estimatedSize": "Becsült Méret"
+      },
+      
+      "system": {
+        "operatingSystem": "Operációs Rendszer",
+        "name": "Név",
+        "version": "Verzió",
+        "architecture": "Architektúra",
+        "processors": "Processzorok",
+        "jvm": "Java Virtuális Gép",
+        "javaVersion": "Java Verzió",
+        "vendor": "Gyártó",
+        "jvmName": "JVM Név",
+        "jvmVersion": "JVM Verzió",
+        "physicalResources": "Fizikai Erőforrások",
+        "totalPhysicalMemory": "Összes Fizikai Memória",
+        "freePhysicalMemory": "Szabad Fizikai Memória",
+        "totalSwap": "Összes Swap",
+        "freeSwap": "Szabad Swap"
+      },
+      
+      "network": {
+        "basicInfo": "Alapvető Információk",
+        "hostname": "Gazdanév",
+        "ipAddress": "IP Cím",
+        "networkInterfaces": "Hálózati Interfészek"
+      },
+      
+      "disk": {
+        "diskVolumes": "Lemez Kötetek",
+        "usage": "Használat",
+        "total": "Összes",
+        "free": "Szabad",
+        "usable": "Használható",
+        "applicationData": "Alkalmazás Adatok",
+        "dataSize": "Adatméret",
+        "fileCount": "Fájlok Száma"
+      }
+    },
+    
+    "userCard": {
+      "years": "éves",
+      "expiresTraday": "Ma jár le!",
+      "oneDayRemaining": "1 nap van hátra",
+      "daysRemaining": "{{days}} nap van hátra",
+      
+      "status": {
+        "expired": "Lejárt",
+        "active": "Aktív"
+      },
+      
+      "labels": {
+        "email": "Email",
+        "phone": "Telefon",
+        "age": "Kor",
+        "birthDate": "Születési Dátum",
+        "registrationDate": "Regisztráció Dátuma",
+        "daysRemaining": "Hátralévő Napok",
+        "contact": "Kapcsolat"
+      },
+      
+      "program": {
+        "title": "Program",
+        "with": "-vel/-ről",
+        "noProgram": "Nincs regisztrált program"
+      },
+      
+      "documents": {
+        "title": "Dokumentumok",
+        "registrationForm": "Regisztrációs Űrlap",
+        "declaration": "Nyilatkozat",
+        "medicalCertificate": "Orvosi Igazolás"
+      },
+      
+      "actions": {
+        "updating": "Frissítés...",
+        "activate": "Aktiválás",
+        "markExpired": "Lejártként Megjelölés",
+        "delete": "Törlés"
+      },
+      
+      "errors": {
+        "updateStatus": "Hiba az állapot frissítése során. Kérlek próbáld újra."
+      }
+    },
+    
+    "viewSwimmer": {
+      "loading": "Adatok betöltése...",
+      "error": "Hiba",
+      "demo": "Demó",
+      "backToList": "Vissza a Listához",
+      "studentId": "Úszó Azonosító",
+      "student": "Úszó",
+      "created": "Létrehozva",
+      "subtitle": "Haladó Úszó Profil - Teszt adatok",
+      "addTime": "Idő Hozzáadása",
+      "cancel": "Mégse",
+      "edit": "Szerkesztés",
+      "deleteMock": "Törlés (Teszt)",
+      "confirmDelete": "Biztosan törlöd ezt a haladó úszó profilt? (Teszt - nem törlődik valójában)",
+      
+      "errors": {
+        "notFound": "Az úszó nem található."
+      },
+      
+      "validation": {
+        "maxHrRange": "A maximális pulzusnak 120 és 220 bpm között kell lennie",
+        "restingHrRange": "A nyugalmi pulzusnak 30 és 100 bpm között kell lennie",
+        "thresholdHrRange": "A küszöb pulzusnak 100 és 200 bpm között kell lennie",
+        "restingLessThanMax": "A nyugalmi pulzusnak kisebbnek kell lennie a maximálisnál"
+      },
+      
+      "success": {
+        "dataUpdated": "Adatok sikeresen frissítve (teszt)!"
+      },
+      
+      "tabs": {
+        "overview": "Áttekintés",
+        "times": "Úszási Idők",
+        "analytics": "Elemzések és Grafikonok"
+      },
+      
+      "overview": {
+        "heartRate": "Pulzus",
+        "editMode": "Szerkesztési Mód",
+        "hrMax": "Max Pulzus (bpm)",
+        "hrResting": "Nyugalmi Pulzus (bpm)",
+        "hrThreshold": "Küszöb Pulzus (bpm)",
+        "saving": "Mentés...",
+        "saveMock": "Mentés (Teszt)",
+        "trainingZones": "Edzészónák",
+        "swimmingStats": "Úszás Statisztikák",
+        "totalTimes": "Összes Idő",
+        "records": "Rekordok",
+        "competitions": "Versenyek"
+      },
+      
+      "zones": {
+        "recovery": "Regenerálódás",
+        "lightAerobic": "Könnyű Aerob",
+        "aerobic": "Aerob",
+        "threshold": "Küszöb",
+        "anaerobic": "Anaerob"
+      },
+      
+      "times": {
+        "noTimes": "Nincsenek rögzített idők",
+        "noTimesDescription": "Ennek az úszónak még nincsenek rögzített idői.",
+        "addFirst": "Első Idő Hozzáadása",
+        "andMore": "És még {{count}} idő..."
+      },
+      
+      "analytics": {
+        "noData": "Nincsenek adatok az elemzéshez",
+        "noDataDescription": "Adj hozzá több időt a grafikonok és elemzések megtekintéséhez.",
+        "bestTime": "Legjobb",
+        "mostRecent": "Legutóbbi",
+        "totalRecords": "Összes rekord",
+        "allTimes": "Összes idő ({{count}})",
+        "moreTimes": "+{{count}} további idő",
+        "showGraph": "Grafikon Megjelenítése",
+        "hideGraph": "Grafikon Elrejtése"
+      },
+      
+      "graph": {
+        "notEnoughData": "Nincs elég adat a grafikonhoz",
+        "evolution": "Idők Fejlődése"
+      },
+      
+      "categories": {
+        "freestyle": "Gyors",
+        "backstroke": "Hát",
+        "breaststroke": "Mell",
+        "butterfly": "Pillangó",
+        "im": "Vegyes"
+      },
+      
+      "events": {
+        "freestyle50": "Gyors 50m",
+        "freestyle100": "Gyors 100m",
+        "freestyle200": "Gyors 200m",
+        "freestyle400": "Gyors 400m",
+        "freestyle800": "Gyors 800m",
+        "freestyle1500": "Gyors 1500m",
+        "backstroke50": "Hát 50m",
+        "backstroke100": "Hát 100m",
+        "backstroke200": "Hát 200m",
+        "breaststroke50": "Mell 50m",
+        "breaststroke100": "Mell 100m",
+        "breaststroke200": "Mell 200m",
+        "butterfly50": "Pillangó 50m",
+        "butterfly100": "Pillangó 100m",
+        "butterfly200": "Pillangó 200m",
+        "im100": "Vegyes 100m",
+        "im200": "Vegyes 200m"
+      }
+    },
+    
+    "aboutDemo": {
+      "heroTitle": "A Demó Verzióról",
+      "heroSubtitle": "Teljes útmutató a menedzsment platform funkcióihoz",
+      "readFirst": "Olvasd el először",
+      "alertIntro": "Ez az oldal megmutatja, hol találod a demó platform fő szakaszait.",
+      "alertAdminNote": "A felület",
+      "administrators": "rendszergazdák",
+      "alertLiveVersion": "számára készült. Az éles verzióért látogasd meg:",
+      "warningTitle": "Minden megjelenített adat csak demonstrációs célokat szolgál:",
+      "warningNoCreate": "nem lehet valódi rekordokat létrehozni,",
+      "warningNoEdit": "az adatokat nem lehet szerkeszteni vagy törölni,",
+      "warningSimulated": "a műveletek csak szimuláltak.",
+      "alertFooter": "Alább megtalálod a funkciók bemutatását, valamint",
+      "quickLinks": "gyorslinkeket",
+      "toEachSection": "minden szakaszhoz.",
+      "viewPage": "Oldal megtekintése",
+      "footerText": "Navigálj a szakaszok között és fedezd fel a platform funkcióit",
+      
+      "sections": {
+        "users": {
+          "title": "Regisztrációk / úszók",
+          "intro": "Minden adat a klub beiratkozóiról, beleértve az automatikusan generált dokumentumokat (",
+          "enrollmentForm": "regisztrációs űrlap",
+          "declaration": "saját felelősségre vonatkozó nyilatkozat",
+          "medicalCert": "orvosi igazolás",
+          "canBeFiltered": "Az úszók",
+          "filtered": "szűrhetők",
+          "afterCriteria": "konkrét kritériumok alapján.",
+          "expiresAuto": "Automatikusan lejár egy előre beállított időszak után, vagy manuálisan",
+          "expired": "lejártként",
+          "orDeleted": "megjelölhető vagy véglegesen törölhető.",
+          "allCanExport": "Minden úszó",
+          "exported": "exportálható",
+          "csvReport": "CSV fájlba jelentéskészítés céljából."
+        },
+        
+        "sessions": {
+          "title": "Edzésalkalmak",
+          "intro": "Az edzésalkalom egy",
+          "dayActivity": "napi tevékenységet",
+          "canView": "jelent. Megtekintheted a tervből származó",
+          "planned": "tervezett alkalmakat",
+          "orAdHoc": "vagy",
+          "adHoc": "alkalmi",
+          "eachHasTime": "módon létrehozottakat. Minden alkalomnak van",
+          "scheduledTime": "meghatározott időpontja",
+          "established": ".",
+          "forPlanSessions": "A tervből származó alkalmaknál",
+          "swimmersGroups": "az úszók vagy csoportok",
+          "alreadyAllocated": "már kiosztottak; az alkalmiaknál manuálisan kell hozzáadni.",
+          "pageContains": "Ez az oldal tartalmazza a tervek",
+          "actualWorkouts": "tényleges edzéseit",
+          "ofPlans": ". A",
+          "plansSection": "Tervek",
+          "onlyDefineTypes": "szakaszban csak a mindennapi edzéstípusok vannak meghatározva.",
+          "navigationDays": "A navigáció",
+          "onDays": "napokra",
+          "orCalendar": "vagy a naptár ikonon 📆 keresztül történhet, hogy gyorsan ugorj egy konkrét dátumra."
+        },
+        
+        "traininghub": {
+          "title": "Edzésközpont",
+          "intro": "Az edzési modul főoldala, ahol",
+          "generalStats": "általános statisztikák",
+          "offers": "jelennek meg. Kínál",
+          "quickActions": "gyors műveleteket",
+          "createWorkout": "edzéslétrehozáshoz, tervek eléréséhez.",
+          "youView": "Megtekintheted a",
+          "upcomingComps": "közelgő versenyeket",
+          "and": "és",
+          "testSets": "ellenőrző sorozatokat",
+          "plannedInPlans": "amelyek a tervekben vannak tervezve.",
+          "displays": "Megjeleníti a",
+          "latestWorkouts": "legutóbb hozzáadott",
+          "added": "edzéseket."
+        },
+        
+        "workouts": {
+          "title": "Edzések",
+          "intro": "Az oldal az összes",
+          "existingWorkouts": "létező edzést",
+          "whichCan": "jeleníti meg, amelyek",
+          "filtered": "szűrhetők",
+          "or": "vagy",
+          "searched": "kereshetők",
+          "forEachWorkout": ". Minden edzéshez műveletek:",
+          "edit": "szerkesztés",
+          "duplicate": "másolás",
+          "viewPrint": "megtekintés nyomtatáshoz",
+          "delete": "törlés",
+          "creating": ". Az edzés létrehozása",
+          "viaClick": "a",
+          "createWorkout": "Edzés Létrehozása",
+          "canHaveLevels": "gombra kattintással történik. Az edzésnek lehetnek",
+          "levels": "szintjei",
+          "beginner": ": Kezdő, Közép, Haladó.",
+          "typesAvailable": "Elérhető típusok:",
+          "endurance": "Állóképesség",
+          "technique": "Technika",
+          "tempo": "Tempó",
+          "vo2max": "VO2max",
+          "sprint": "Sprint",
+          "recovery": "Regenerálódás",
+          "eachStepHas": ". Minden lépésnek van:",
+          "category": "Kategóriája: Bemelegítés, Fő Sorozat, Úszás, Leúszás",
+          "distance": "Távolság (25m többszöröse) – gyors beíráshoz: jelöld ki a mezőt és írd be az új értéket",
+          "style": "Úszásnem: Gyors, Hát, Mell, Pillangó stb.",
+          "drillType": "Gyakorlat típusa: Láb, Kar, Gyakorlat",
+          "intensity": "Intenzitás: Erőfeszítés alapú (Pulzus), Tempó alapú, CSS (Kritikus Úszósebess ég)",
+          "equipment": "Felszerelés: Kézilapát, Pull buoy, Uszony, Snorkel stb.",
+          "notes": "Jegyzetek",
+          "repetitions": ". Ismétlések:",
+          "addedWith": "a",
+          "addRepetition": "Ismétlés Hozzáadása",
+          "creatingBlock": "gombbal adhatók hozzá, létrehozva egy blokkot, ahova több lépést vagy más ismétléseket adhatsz."
+        },
+        
+        "plans": {
+          "title": "Tervek",
+          "accessedFrom": "Elérhető az",
+          "trainingHub": "Edzésközpont → Tervek",
+          "displayedCurrent": "útvonalon. Megjeleníti az",
+          "currentPlans": "aktuális terveket",
+          "creatingPlan": ". A terv létrehozása a",
+          "createNewPlan": "Új terv létrehozása",
+          "planContains": "gombbal történik. Egy terv tartalmaz:",
+          "nameDesc": "Nevet és leírást",
+          "startEndDate": "Kezdő és befejező dátumot",
+          "status": "Állapotot: Vázlat, Aktív, Szüneteltetve, Befejezett",
+          "macroPhases": "Makrofázisokat (Felhalmozás, Intenzifikáció, Megvalósítás, Leépítés, Átmenet)",
+          "keyComps": "Kulcsversenyeket és célokat",
+          "presentedTheoretically": ". Bemutatásra kerülnek",
+          "theoretically": "elméletileg",
+          "macroTypes": "a makrofázisok, edzéstípusok és pulzuszónák.",
+          "calendarPlanning": "Naptári tervezés:",
+          "weekAssignment": "heti hozzárendelés makrofázisokhoz és edzéstípusokhoz napokra.",
+          "canAddIndividual": "Egyéni sportolók vagy",
+          "entireGroups": "teljes csoportok",
+          "toPlan": "hozzáadhatók a tervhez.",
+          "actualWorkouts": "A tényleges edzések",
+          "addedLater": "később kerülnek hozzáadásra az",
+          "trainingSessions": "Edzésalkalmak",
+          "warningAttention": "szakaszból. Figyelem:",
+          "toTestPlanning": "A naptári tervezés teszteléséhez egy már létrehozott tervet kell elérned és választanod a",
+          "edit": "Szerkesztés",
+          "notAvailableDemo": "opciót. A demó verzióban ez az opció nem elérhető a létrehozási fázisban."
+        },
+        
+        "advanced": {
+          "title": "Haladó Úszók",
+          "initially": "Kezdetben minden új úszónál",
+          "noFeatureActive": "nincs aktív ez a funkció",
+          "toTransform": ". Ahhoz, hogy",
+          "advancedSwimmer": "haladó úszóvá",
+          "selectFromList": "alakítsd, ki kell választani őket a normál úszók listájából.",
+          "afterActivation": "Aktiválás után hozzárendelhetsz",
+          "trainingSessions": "edzésalkalmakat",
+          "trainingZones": ", edzészónákat",
+          "specificDetails": "és más specifikus részleteket.",
+          "configureParams": "Konfigurálj paramétereket mint:",
+          "hrMax": "Max Pulzus",
+          "threshold": "Küszöb",
+          "rest": "Nyugalmi",
+          "valuesCalculated": ". Az értékek",
+          "autoByAge": "automatikusan kiszámítódnak életkor alapján",
+          "canBeManual": ", de manuálisan is megadhatók."
+        },
+        
+        "groups": {
+          "title": "Csoportok",
+          "canBeOrganized": "A haladó úszók",
+          "organized": "csoportokba szervezhetők",
+          "efficientManagement": "a hatékonyabb kezelés érdekében.",
+          "groupsAllow": "A csoportok lehetővé teszik",
+          "fasterAssignment": "a gyorsabb hozzárendelést",
+          "plansAndSessions": "tervekhez és edzésalkalmakhoz.",
+          "eachGroupHas": "Minden csoportnak van:",
+          "name": "Neve",
+          "color": "Színe",
+          "visualDiff": "(a vizuális megkülönböztetéshez)",
+          "description": "Leírása"
+        },
+        
+        "announcements": {
+          "title": "Események",
+          "adminCanCreate": "A rendszergazda",
+          "createEvents": "eseményeket hozhat létre",
+          "appearOnMain": ", amelyek megjelennek a főoldalon.",
+          "canBeComps": "Az események lehetnek versenyek, bejelentések vagy különleges tevékenységek.",
+          "canAddDetails": "Részletek adhatók hozzá mint:",
+          "title": "cím",
+          "description": "leírás",
+          "dateTime": "dátum és időpont",
+          "location": "helyszín",
+          "image": "kép"
+        },
+        
+        "gdpr": {
+          "title": "GDPR",
+          "inThisPage": "Ezen az oldalon",
+          "userConsents": "a felhasználói beleegyezések",
+          "includesSignature": "érhetők el. Tartalmazza a digitális aláírást, amely:",
+          "ipAddress": "IP Cím",
+          "exactDateTime": "Pontos dátum és időpont",
+          "gdprVersion": "Elfogadott GDPR verzió",
+          "adminCanTrack": ". A rendszergazda nyomon követheti és frissítheti a GDPR verziókat."
+        },
+        
+        "system": {
+          "title": "Rendszerinformáció",
+          "pageOffers": "Az oldal hozzáférést biztosít a rendszergazda számára",
+          "essentialInfo": "lényeges szerverinformációkhoz",
+          "containsTechnical": ". Tartalmaz",
+          "technicalData": "hasznos technikai adatokat",
+          "monitoring": "a monitorozáshoz és karbantartáshoz.",
+          "canBeUsed": "Használható",
+          "troubleshooting": "hibaelhárításra",
+          "checkingState": "és az általános rendszerállapot ellenőrzésére."
+        }
+      }
+    }
+    }

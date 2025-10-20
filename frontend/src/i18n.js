@@ -4,6 +4,9 @@ import { initReactI18next } from 'react-i18next';
 // Import your translation files
 import translationRO from './locals/ro/translation.json';
 import translationEN from './locals/en/translation.json';
+import translationDE from './locals/de/translation.json';
+import translationHU from './locals/hu/translation.json';
+import translationES from './locals/es/translation.json';
 
 const resources = {
   ro: {
@@ -11,6 +14,15 @@ const resources = {
   },
   en: {
     translation: translationEN
+  },
+  de: {
+    translation: translationDE
+  },
+  hu: {
+    translation: translationHU
+  },
+  es: {
+    translation: translationES
   }
 };
 
@@ -21,7 +33,7 @@ const getLanguageFromPath = () => {
   if (pathParts.length > 0 && (pathParts[0] === 'ro' || pathParts[0] === 'en')) {
     return pathParts[0];
   }
-  return 'ro'; // default language
+  return 'en'; // default language
 };
 
 const initialLanguage = getLanguageFromPath();

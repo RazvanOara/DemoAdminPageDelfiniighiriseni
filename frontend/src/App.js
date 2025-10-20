@@ -78,7 +78,7 @@ function LanguageSync() {
   const { i18n } = useTranslation();
   
   useEffect(() => {
-    if (lang && (lang === 'ro' || lang === 'en') && i18n.language !== lang) {
+    if (lang && (lang === 'ro' || lang === 'en' || lang === 'de'|| lang === 'hu'|| lang === 'es') && i18n.language !== lang) {
       i18n.changeLanguage(lang);
     }
   }, [lang, i18n]);

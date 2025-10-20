@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
@@ -8,17 +8,17 @@ const AboutDemo = () => {
   const location = useLocation();
   const { lang } = useParams();
   const [expandedSection, setExpandedSection] = useState(null);
-
+  const [showLangMenu, setShowLangMenu] = useState(false);
+  
   const toggleSection = (id) => {
     setExpandedSection(expandedSection === id ? null : id);
   };
-
   const changeLanguage = (newLang) => {
     // Get current path without language
     const pathParts = location.pathname.split('/').filter(p => p);
     
-    // Remove current language if it exists
-    if (pathParts.length > 0 && (pathParts[0] === 'ro' || pathParts[0] === 'en')) {
+    // Remove current language if it exists at the start
+    if (pathParts.length > 0 && ['ro', 'en', 'hu', 'de', 'es'].includes(pathParts[0])) {
       pathParts.shift();
     }
     
@@ -32,7 +32,23 @@ const AboutDemo = () => {
 
   // Helper function to create language-aware links
   const createLink = (path) => `/${lang || 'ro'}${path}`;
+  const langRef = React.useRef(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (langRef.current && !langRef.current.contains(event.target)) {
+        setShowLangMenu(false);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, []);
   const sections = [
     {
       id: "users",
@@ -338,26 +354,61 @@ const AboutDemo = () => {
       <style>{cssString}</style>
 
       {/* Language Selector */}
-      <div style={styles.languageSelector}>
-        <button 
-          onClick={() => changeLanguage('ro')}
-          style={{
-            ...styles.langButton,
-            ...(i18n.language === 'ro' ? styles.langButtonActive : {})
+<div style={styles.languageSelector} ref={langRef}>
+  <button
+    style={styles.langBtn}
+    onClick={() => setShowLangMenu((prev) => !prev)}
+  >
+    <img
+      src={`https://flagcdn.com/24x18/${
+        { ro: 'ro', hu: 'hu', de: 'de', es: 'es' }[i18n.language] || 'gb'
+      }.png`}
+      srcSet={`https://flagcdn.com/48x36/${
+        { ro: 'ro', hu: 'hu', de: 'de', es: 'es' }[i18n.language] || 'gb'
+      }.png 2x`}
+      width="24"
+      height="18"
+      alt={i18n.language.toUpperCase()}
+      style={styles.flagImg}
+    />
+    <span style={styles.langCode}>{i18n.language.toUpperCase()}</span>
+  </button>
+
+  {showLangMenu && (
+    <div style={styles.langMenu}>
+      {[
+        { code: 'ro', label: 'RO' },
+        { code: 'en', label: 'EN' },
+        { code: 'hu', label: 'HU' },
+        { code: 'de', label: 'DE' },
+        { code: 'es', label: 'ES' },
+      ].map(({ code, label }) => (
+        <button
+          key={code}
+          onClick={() => {
+            changeLanguage(code);
+            setShowLangMenu(false);
           }}
+          style={styles.langMenuItem}
         >
-          🇷🇴 RO
+          <img
+            src={`https://flagcdn.com/24x18/${
+              code === 'en' ? 'gb' : code
+            }.png`}
+            srcSet={`https://flagcdn.com/48x36/${
+              code === 'en' ? 'gb' : code
+            }.png 2x`}
+            width="24"
+            height="18"
+            alt={label}
+            style={styles.flagImg}
+          />
+          {label}
         </button>
-        <button 
-          onClick={() => changeLanguage('en')}
-          style={{
-            ...styles.langButton,
-            ...(i18n.language === 'en' ? styles.langButtonActive : {})
-          }}
-        >
-          🇬🇧 EN
-        </button>
-      </div>
+      ))}
+    </div>
+  )}
+</div>
 
       {/* Read First Alert */}
       <div style={styles.alertBox}>
@@ -439,14 +490,16 @@ const AboutDemo = () => {
                 {section.content}
               </div>
 
-              <a 
-                href={section.link} 
-                className="view-button"
-                style={{...styles.viewButton, backgroundColor: section.color}}
-                onClick={(e) => e.stopPropagation()}
-              >
-                ➡️ {t('aboutDemo.viewPage')}
-              </a>
+              <button
+  className="view-button"
+  style={{...styles.viewButton, backgroundColor: section.color}}
+  onClick={(e) => {
+    e.stopPropagation();
+    navigate(section.link);
+  }}
+>
+  ➡️ {t('aboutDemo.viewPage')}
+</button>
             </div>
           </div>
         ))}
@@ -477,35 +530,59 @@ const styles = {
     position: "fixed",
     top: "1rem",
     right: "1rem",
-    display: "flex",
-    gap: "0.5rem",
-    zIndex: 1000,
-    background: "rgba(30, 41, 59, 0.95)",
-    padding: "0.5rem",
-    borderRadius: "12px",
-    border: "1px solid rgba(148, 163, 184, 0.2)",
-    backdropFilter: "blur(10px)",
-    boxShadow: "0 4px 16px rgba(0, 0, 0, 0.3)"
+    zIndex: 1000
   },
-  langButton: {
+  langBtn: {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
     padding: "0.5rem 1rem",
-    background: "transparent",
-    border: "1px solid rgba(148, 163, 184, 0.3)",
-    borderRadius: "8px",
-    color: "#94a3b8",
+    background: "rgba(30, 41, 59, 0.95)",
+    border: "1px solid rgba(148, 163, 184, 0.2)",
+    borderRadius: "12px",
+    color: "#e2e8f0",
     cursor: "pointer",
     fontSize: "0.9rem",
     fontWeight: "600",
     transition: "all 0.3s ease",
+    backdropFilter: "blur(10px)",
+    boxShadow: "0 4px 16px rgba(0, 0, 0, 0.3)"
+  },
+  langCode: {
+    fontSize: "0.9rem",
+    fontWeight: "600"
+  },
+  flagImg: {
+    borderRadius: "2px"
+  },
+  langMenu: {
+    position: "absolute",
+    top: "calc(100% + 0.5rem)",
+    right: 0,
+    background: "rgba(30, 41, 59, 0.98)",
+    border: "1px solid rgba(148, 163, 184, 0.2)",
+    borderRadius: "12px",
+    padding: "0.5rem",
+    minWidth: "140px",
+    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.4)",
+    backdropFilter: "blur(10px)",
+    zIndex: 1001
+  },
+  langMenuItem: {
     display: "flex",
     alignItems: "center",
-    gap: "0.25rem"
-  },
-  langButtonActive: {
-    background: "linear-gradient(135deg, #6366f1, #a855f7)",
-    color: "white",
-    border: "1px solid transparent",
-    boxShadow: "0 2px 8px rgba(99, 102, 241, 0.4)"
+    gap: "0.75rem",
+    width: "100%",
+    padding: "0.75rem 1rem",
+    background: "transparent",
+    border: "none",
+    borderRadius: "8px",
+    color: "#cbd5e1",
+    cursor: "pointer",
+    fontSize: "0.9rem",
+    fontWeight: "500",
+    transition: "all 0.2s ease",
+    textAlign: "left"
   },
   alertBox: {
     background: "linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.06))",
@@ -746,7 +823,17 @@ const cssString = `
     font-style: italic;
   }
   
-  @media (min-width: 768px) {
+  .langBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .langMenuItem:hover {
+    background: rgba(99, 102, 241, 0.2);
+    color: #e2e8f0;
+  }
+  
+@media (min-width: 969px) {
     .sectionsContainer {
       max-width: 900px !important;
       margin: 0 auto 3rem !important;
@@ -774,27 +861,32 @@ const cssString = `
     }
   }
   
-  @media (max-width: 480px) {
+  @media (max-width: 968px) {
+    .languageSelector {
+      top: 4.5rem !important;
+      right: 1rem !important;
+    }
+    
     .cardHeaderContent {
       flex-direction: row;
-      alignItems: center;
+      align-items: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .languageSelector {
+      top: 4.5rem !important;
+      right: 1rem !important;
     }
     
     .cardIcon {
       font-size: 1.75rem !important;
     }
     
-    .languageSelector {
-      top: 0.5rem !important;
-      right: 0.5rem !important;
-      padding: 0.4rem !important;
-    }
-    
-    .langButton {
+    .langBtn {
       padding: 0.4rem 0.75rem !important;
       font-size: 0.85rem !important;
     }
   }
 `;
-
 export default AboutDemo;

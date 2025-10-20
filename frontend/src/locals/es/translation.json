@@ -1,0 +1,1785 @@
+{"planificare": {
+    "nav": {
+      "dashboard": "Panel",
+      "workouts": "Entrenamientos",
+      "plans": "Planes"
+    },
+    "dashboard": {
+      "title": "Centro de Planificación",
+      "subtitle": "Gestiona tus programas y entrenamientos"
+    },
+    "stats": {
+      "totalWorkouts": "Entrenamientos Totales",
+      "totalDistanceSubtext": "{{distance}}km distancia total",
+      "totalVolume": "Volumen Total",
+      "avgDurationSubtext": "{{duration}} min por entrenamiento",
+      "avgDistance": "Distancia Promedio",
+      "perWorkout": "por entrenamiento",
+      "avgIntensity": "Intensidad Promedio",
+      "intensityScale": "1=Principiante, 3=Avanzado",
+      "weeklyVolume": "Volumen Semanal",
+      "estimatedAverage": "promedio estimado",
+      "recentActivity": "Actividad Reciente",
+      "workoutsIn7Days": "entrenamientos en 7 días"
+    },
+    "sections": {
+      "coachRecommendations": "💡 Recomendaciones del Entrenador",
+      "quickActions": "Acciones Rápidas",
+      "upcomingRaces": "Competiciones Próximas",
+      "trainingSummary": "📋 Resumen de Planificación",
+      "recentWorkouts": "Entrenamientos Recientes"
+    },
+    "quickActions": {
+      "createWorkout": {
+        "title": "Crear Entrenamiento",
+        "description": "Construye un nuevo entrenamiento con series e intervalos deseados"
+      },
+      "advancedPlanning": {
+        "title": "Planificación Avanzada",
+        "description": "Crea planes a largo plazo para competiciones y periodización"
+      },
+      "analytics": {
+        "title": "Análisis y Estadísticas",
+        "description": "Visualiza progreso y métricas de rendimiento"
+      }
+    },
+    "insights": {
+      "strokeDistribution": "Distribución de Estilos",
+      "typeDistribution": "Distribución de Tipos",
+      "difficultyBreakdown": "Niveles de Dificultad",
+      "addVariety": "Considera agregar más variedad en tipos de entrenamiento",
+      "lowIntensity": "La intensidad promedio es baja - puede ser momento de mayores desafíos",
+      "noRecentWorkouts": "No hay nuevos entrenamientos en la última semana",
+      "singleStroke": "Todos los entrenamientos usan {{stroke}} - agrega variedad de estilos",
+      "excellentVolume": "Excelente volumen semanal para progreso constante"
+    },
+    "summary": {
+      "predominantType": "Tipo Predominante",
+      "workouts": "{{count}} entrenamientos",
+      "monthlyActivity": "Actividad Mensual",
+      "workoutsLast30Days": "entrenamientos en últimos 30 días",
+      "progression": "Progresión",
+      "advancedWorkouts": "entrenamientos avanzados",
+      "avgDuration": "Duración Promedio",
+      "perTrainingSession": "por sesión de entrenamiento"
+    },
+    "buttons": {
+      "viewAll": "Ver Todo"
+    },
+    "gettingStarted": {
+      "title": "¡Comencemos!",
+      "description": "Aún no tienes entrenamientos creados. Comienza creando tu primer entrenamiento para empezar a ver estadísticas y análisis útiles.",
+      "createFirst": "Crear Primer Entrenamiento"
+    },
+    "labels": {
+      "modified": "Modificado",
+      "noDataAvailable": "No hay datos disponibles",
+      "plan": "Plan"
+    },
+    "time": {
+      "today": "hoy",
+      "day": "día",
+      "days": "días"
+    },
+    "units": {
+      "minutes": "min"
+    },
+    "raceTypes": {
+      "target": "🎯 Carrera Objetivo",
+      "tuneup": "🏃 Preparación",
+      "test": "📊 Prueba"
+    },
+    "workoutTypes": {
+      "sprint": "Sprint",
+      "endurance": "Resistencia",
+      "technical": "Técnico",
+      "recovery": "Recuperación",
+      "general": "General"
+    },
+    "difficulties": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "strokes": {
+      "freestyle": "Libre",
+      "backstroke": "Espalda",
+      "breaststroke": "Pecho",
+      "butterfly": "Mariposa",
+      "im": "Medley Individual",
+      "imByRound": "IM por Ronda",
+      "reverseIm": "IM Inverso",
+      "choice": "Elección del Nadador",
+      "mixed": "Mixto"
+    },
+    "mockWorkouts": {
+      "sprintIntervals": "Intervalos Sprint de Libre",
+      "techniqueDrills": "Técnica y Ejercicios",
+      "longDistance": "Resistencia de Larga Distancia",
+      "butterflyPower": "Series de Potencia en Mariposa",
+      "mixedMedley": "Entrenamiento Medley Mixto"
+    },
+    "mockPlans": {
+      "competitionPrep": "Plan de Preparación para Competición",
+      "nationalChampionship": "Campeonato Nacional de Natación",
+      "regionalQualifiers": "Clasificatorias Regionales",
+      "techniqueSeason": "Temporada de Técnica y Correcciones"
+    }
+  },
+  
+  "plans": {
+    "mockPlans": {
+      "competitiveSeason": "Temporada de Competición 2025",
+      "competitiveSeasonDesc": "Plan de preparación integral para la temporada principal de competición, incluyendo todas las fases macro.",
+      "competitiveSeasonGoals": "Construcción de base aeróbica, aumento progresivo de intensidad y pico para el Campeonato Nacional.",
+      "regionalCompetition": "Competición Regional",
+      "regionalCompetitionDesc": "Primera prueba intermedia de la temporada",
+      "nationalChampionship": "Campeonato Nacional",
+      "nationalChampionshipDesc": "Competición principal de la temporada",
+      "offSeasonPlan": "Plan de Fuera de Temporada / Recuperación",
+      "offSeasonPlanDesc": "Plan de transición y recuperación activa después de la temporada de competición, enfocado en técnica y volumen reducido.",
+      "offSeasonPlanGoals": "Recuperación física y mental, corrección de técnica y preparación para el próximo ciclo.",
+      "testSet400m": "Serie de Prueba 400m",
+      "testSet400mDesc": "Evaluación de nivel post-temporada"
+    },
+    "mockData": {
+      "swimmer1": "Nadador 1",
+      "swimmer2": "Nadador 2",
+      "swimmer3": "Nadador 3",
+      "juniorGroup": "Grupo Junior",
+      "seniorGroup": "Grupo Senior"
+    },
+    "trainingTypes": {
+      "endurance": "Resistencia",
+      "technique": "Técnica",
+      "anaerobicThreshold": "Umbral Anaeróbico",
+      "lactateTolerance": "Tolerancia al Lactato",
+      "vo2max": "VO2 Máx",
+      "raceTempo": "Ritmo de Carrera"
+    },
+    "hrZones": {
+      "zone1": "Recuperación - Calentamiento y relajación",
+      "zone2": "Quema de grasa - Resistencia",
+      "zone3": "Aeróbico - Capacidad cardiovascular (AT)",
+      "zone4": "Alta intensidad - Umbral anaeróbico (TOL)",
+      "zone5": "Intensidad máxima (VO2)",
+      "zone6": "Ritmo de carrera (TEMPO)"
+    },
+    "macroPhases": {
+      "accumulation": {
+        "name": "Acumulación",
+        "description": "Fase enfocada en volumen para construir base aeróbica",
+        "duration": "4-6 semanas"
+      },
+      "intensification": {
+        "name": "Intensificación",
+        "description": "Fase de entrenamiento de alta intensidad",
+        "duration": "2-4 semanas"
+      },
+      "realization": {
+        "name": "Realización",
+        "description": "Preparación específica para competición",
+        "duration": "1-2 semanas"
+      },
+      "taper": {
+        "name": "Descenso",
+        "description": "Reducción de volumen antes de competición",
+        "duration": "1-3 semanas"
+      },
+      "transition": {
+        "name": "Transición",
+        "description": "Recuperación activa y regeneración",
+        "duration": "2-4 semanas"
+      }
+    },
+    "raceTypes": {
+      "target": "Carrera Objetivo",
+      "targetDesc": "Objetivo principal de competición",
+      "tuneup": "Competición de Preparación",
+      "tuneupDesc": "Competición de preparación",
+      "testset": "Serie de Prueba",
+      "testsetDesc": "Evaluación de entrenamiento"
+    },
+    "days": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "alerts": {
+      "phasesCannotOverlap": "¡Las fases no pueden solaparse! Elige un intervalo diferente.",
+      "fillAllRequired": "Por favor completa todos los campos requeridos para las competiciones."
+    },
+    "recovery": {
+      "insufficientRecovery": "Recuperación insuficiente después de {{training}} del {{day}} (Semana {{week}}). Requiere {{days}} {{daysLabel}} de recuperación.",
+      "day": "día",
+      "days": "días"
+    },
+    "validation": {
+      "raceNameRequired": "El nombre de la competición es requerido",
+      "raceDateRequired": "La fecha de la competición es requerida"
+    },
+    "duration": {
+      "weeks": "{{count}} semanas"
+    },
+    "overview": {
+      "title": "Planes de Entrenamiento",
+      "subtitle": "Gestiona programas a largo plazo y preparación para competiciones",
+      "createNewPlan": "Crear Nuevo Plan",
+      "emptyState": {
+        "title": "No hay planes creados",
+        "description": "Comienza creando tu primer plan de entrenamiento para una gestión efectiva del entrenamiento.",
+        "createFirst": "Crear Primer Plan"
+      }
+    },
+    "card": {
+      "start": "Inicio:",
+      "end": "Fin:",
+      "duration": "Duración:",
+      "progress": "Progreso",
+      "macroPhases": "Fases Macro:",
+      "keyRaces": "Competiciones Clave:",
+      "edit": "Editar",
+      "viewDetails": "Ver Detalles"
+    },
+    "form": {
+      "back": "← Atrás",
+      "createTitle": "Crear Nuevo Plan",
+      "editTitle": "Editar Plan",
+      "generalInfo": "Información General",
+      "planName": "Nombre del Plan *",
+      "planNamePlaceholder": "ej. Campeonato Nacional 2025",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Descripción del plan de entrenamiento...",
+      "startDate": "Fecha de Inicio *",
+      "endDate": "Fecha de Fin *",
+      "planStatus": "Estado del Plan",
+      "statusDraft": "Borrador",
+      "statusActive": "Activo",
+      "statusPaused": "Pausado",
+      "statusCompleted": "Completado",
+      "macroPhases": "Fases Macro",
+      "macroPhasesDesc": "Selecciona las fases macro a incluir en este plan de entrenamiento",
+      "keyRaces": "Competiciones Clave",
+      "keyRacesDesc": "Agrega competiciones importantes, chequeos y pruebas dentro del plan",
+      "competition": "Competición",
+      "competitionName": "Nombre de Competición *",
+      "competitionNamePlaceholder": "ej. Campeonato Nacional",
+      "date": "Fecha *",
+      "type": "Tipo",
+      "addCompetition": "+ Agregar Competición",
+      "goalsAndZones": "Objetivos y Zonas de Entrenamiento",
+      "planGoals": "Objetivos del Plan",
+      "planGoalsPlaceholder": "Define los objetivos específicos de este plan...",
+      "hrZones": "Zonas de Frecuencia Cardíaca",
+      "zone": "Zona",
+      "trainingTypes": "Tipos de Entrenamiento",
+      "trainingTypeZone": "Zona:",
+      "trainingTypeHR": "FC:",
+      "trainingTypeRecovery": "Recuperación:",
+      "calendarPlanning": "Planificación de Calendario",
+      "calendarPlanningDesc": "Asigna fases macro a semanas específicas y configura entrenamientos semanales",
+      "macroPhaseView": "Fases Macro",
+      "weeklyTrainingView": "Entrenamientos Semanales",
+      "assignMacroPhases": "Asignar Fases Macro a Semanas",
+      "week": "Semana",
+      "weekShort": "Semana",
+      "selectStartWeek": "Seleccionar...",
+      "startWeek": "Semana de inicio",
+      "endWeek": "Semana de fin",
+      "cancel": "Cancelar",
+      "assign": "Asignar",
+      "assignPhase": "Asignar {{phase}}",
+      "trainingTypesLegend": "Tipos de Entrenamiento",
+      "rest": "Descanso",
+      "participants": "Participantes",
+      "participantsDesc": "Asigna nadadores individuales o grupos enteros a este plan de entrenamiento",
+      "individualSwimmers": "Nadadores Individuales",
+      "groups": "Grupos",
+      "selectSwimmer": "Selecciona un nadador...",
+      "selectGroup": "Selecciona un grupo...",
+      "swimmer": "Nadador",
+      "group": "Grupo",
+      "swimmers": "nadadores",
+      "cancelButton": "Cancelar",
+      "creating": "Creando...",
+      "updating": "Actualizando...",
+      "createPlan": "Crear Plan",
+      "updatePlan": "Actualizar Plan"
+    },
+    "recoveryModal": {
+      "title": "Advertencia - Período de Recuperación",
+      "requiresRecovery": "{{training}} requiere {{days}} {{daysLabel}} de recuperación después de entrenamientos intensos.",
+      "conflictsDetected": "Conflictos detectados:",
+      "recommendation": "Se recomienda programar días de recuperación (END, TÉCNICA o Descanso) entre entrenamientos intensos para prevenir sobreentrenamiento y lesiones.",
+      "continueAnyway": "Continuar de todos modos"
+    }
+  },
+  
+  "workoutBuilder": {
+    "defaultName": "Nuevo entrenamiento",
+    "loading": "Cargando entrenamiento...",
+    "levels": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "types": {
+      "endurance": "Resistencia",
+      "technique": "Técnica",
+      "anaerobicThreshold": "Umbral Anaeróbico (AT)",
+      "lactateTolerance": "Tolerancia al Lactato (TOL)",
+      "vo2max": "VO2 Máx",
+      "raceTempo": "Ritmo de Carrera"
+    },
+    "strokes": {
+      "freestyle": "Libre",
+      "backstroke": "Espalda",
+      "breaststroke": "Pecho",
+      "butterfly": "Mariposa",
+      "choice": "Elección del Nadador",
+      "im": "Medley Individual",
+      "imByRound": "IM por ronda",
+      "reverseIm": "IM Inverso",
+      "mixed": "Mixto"
+    },
+    "stepTypes": {
+      "warmup": "Calentamiento",
+      "mainSet": "Serie Principal",
+      "cooldown": "Enfriamiento",
+      "rest": "Descanso",
+      "swim": "Nadar"
+    },
+    "drillTypes": {
+      "none": "Ninguno",
+      "kick": "Patada",
+      "pull": "Brazos",
+      "drill": "Ejercicio"
+    },
+    "effortLevels": {
+      "recovery": "Recuperación (50–60% FC máx)",
+      "easy": "Fácil (60–70% FC máx)",
+      "moderate": "Moderado (70–80% FC máx)",
+      "hard": "Duro (80–90% FC máx)",
+      "veryHard": "Muy Duro (90–95% FC máx)",
+      "allOut": "Todo (95–100% FC máx)",
+      "ascending": "Ascendente",
+      "descending": "Descendente",
+      "sprint": "Sprint (95–100% FC máx)"
+    },
+    "equipment": {
+      "none": "Sin Equipo",
+      "kickboard": "Tabla",
+      "pullbuoy": "Pull Buoy",
+      "fins": "Aletas",
+      "paddles": "Palas",
+      "snorkel": "Snorkel"
+    },
+    "labels": {
+      "repeat": "Repetir",
+      "repeatBlock": "Bloque de Repetición",
+      "rest": "Descanso",
+      "equipment": "Equipo",
+      "emptyRepeatBlock": "Bloque de repetición vacío",
+      "workout": "Entrenamiento",
+      "notation": "Notación"
+    },
+    "stats": {
+      "totalDistance": "Distancia Total",
+      "steps": "Pasos"
+    },
+    "actions": {
+      "addToRepeat": "Agregar a repetición",
+      "decreaseRepeats": "Disminuir repeticiones",
+      "increaseRepeats": "Aumentar repeticiones",
+      "edit": "Editar",
+      "duplicate": "Duplicar",
+      "delete": "Eliminar"
+    },
+    "buttons": {
+      "addStep": "Agregar Paso",
+      "addRepeat": "Agregar Repetición",
+      "updateItem": "Actualizar Elemento",
+      "cancel": "Cancelar",
+      "loading": "Cargando...",
+      "updateWorkout": "Actualizar Entrenamiento",
+      "saveWorkout": "Guardar Entrenamiento",
+      "exportJson": "Exportar JSON"
+    },
+    "form": {
+      "editStep": "Editar Paso",
+      "addNewStep": "Agregar Nuevo Paso",
+      "addingToRepeat": "Agregando a bloque de repetición",
+      "category": "Categoría",
+      "distance": "Distancia (metros)",
+      "distanceHelper": "La distancia se redondeará a los 25m más cercanos cuando termines de escribir",
+      "stroke": "Estilo",
+      "drillType": "Tipo de Ejercicio",
+      "intensityTarget": "Objetivo de Intensidad",
+      "effortBased": "Basado en Esfuerzo",
+      "targetPace": "Ritmo Objetivo",
+      "cssTarget": "Objetivo CSS",
+      "effortLevel": "Nivel de Esfuerzo",
+      "targetPacePer100": "Ritmo Objetivo (por 100m)",
+      "cssTargetOffset": "Objetivo CSS (desviación en segundos)",
+      "cssTargetHelper": "Desviación del ritmo CSS (negativo = más rápido, positivo = más lento)",
+      "restDuration": "Duración del Descanso (segundos)",
+      "restHelper": "Deja en 0 para tiempo de descanso no especificado",
+      "equipment": "Equipo",
+      "notes": "Notas",
+      "notesPlaceholder": "Notas opcionales o instrucciones...",
+      "workoutNamePlaceholder": "Nombre del entrenamiento...",
+      "level": "Nivel",
+      "type": "Tipo"
+    },
+    "empty": {
+      "title": "Aún no se han agregado pasos",
+      "subtitle": "Comienza a crear tu entrenamiento"
+    },
+    "validation": {
+      "nameRequired": "El nombre del entrenamiento es requerido",
+      "nameDuplicate": "Ya existe un entrenamiento con este nombre. Por favor elige un nombre diferente."
+    },
+    "alerts": {
+      "loadFailed": "Error al cargar entrenamiento",
+      "confirmDelete": "¿Eliminar este elemento?",
+      "saveSuccess": "¡Entrenamiento guardado exitosamente! ID: {{id}}",
+      "updateSuccess": "¡Entrenamiento actualizado exitosamente! ID: {{id}}",
+      "saveSuccessGeneric": "Entrenamiento guardado exitosamente",
+      "error": "Error",
+      "saveFailed": "Error al guardar entrenamiento"
+    }
+  },"workouts": {
+    "header": {
+      "title": "Biblioteca de Entrenamientos",
+      "subtitle": "Crea, edita y gestiona sesiones de entrenamiento",
+      "createWorkout": "Crear Entrenamiento"
+    },
+    "stats": {
+      "totalWorkouts": "Entrenamientos Totales",
+      "totalMeters": "Metros Totales",
+      "trainingHours": "Horas de Entrenamiento"
+    },
+    "filters": {
+      "type": "Tipo",
+      "allTypes": "Todos los Tipos",
+      "difficulty": "Dificultad",
+      "allLevels": "Todos los Niveles",
+      "search": "Buscar",
+      "searchPlaceholder": "Buscar entrenamientos...",
+      "clearFilters": "Limpiar Filtros",
+      "activeFilters": "Filtros activos"
+    },
+    "types": {
+      "sprint": "Sprint",
+      "endurance": "Resistencia",
+      "technical": "Técnico",
+      "recovery": "Recuperación",
+      "general": "General"
+    },
+    "difficulties": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "strokes": {
+      "unknown": "Desconocido",
+      "freestyle": "Libre",
+      "backstroke": "Espalda",
+      "breaststroke": "Pecho",
+      "butterfly": "Mariposa",
+      "im": "IM",
+      "imByRound": "IM por Ronda",
+      "reverseIm": "IM Inverso",
+      "choice": "Elección",
+      "mixed": "Mixto"
+    },
+    "card": {
+      "modified": "Modificado",
+      "minutes": "minutos",
+      "meters": "metros",
+      "sets": "series"
+    },
+    "actions": {
+      "edit": "Editar",
+      "duplicate": "Duplicar",
+      "view": "Ver",
+      "delete": "Eliminar",
+      "copyLabel": "(copia)"
+    },
+    "alerts": {
+      "duplicated": "¡Entrenamiento duplicado!",
+      "confirmDelete": "¿Eliminar este entrenamiento?",
+      "deleted": "¡Entrenamiento eliminado!"
+    },
+    "loading": "Cargando entrenamientos...",
+    "empty": {
+      "title": "No se encontraron entrenamientos",
+      "noWorkouts": "Aún no tienes entrenamientos creados. ¡Comienza creando tu primer entrenamiento!",
+      "noResults": "Intenta ajustar los filtros para ver más resultados.",
+      "createFirst": "Crear Primer Entrenamiento"
+    },
+    "resultsInfo": {
+      "showing": "Mostrando {{filtered}} de {{total}} entrenamientos",
+      "filtered": "filtrados"
+    },
+    "mockWorkouts": {
+      "sprintFreestyle": "Sprint Libre",
+      "butterflyTechnique": "Técnica de Mariposa",
+      "mixedEndurance": "Resistencia Mixta"
+    }
+  },
+  
+  "sessionManager": {
+    "change": "Cambiar",
+    "noWorkout": "Sin entrenamiento",
+    "searchShort": "Buscar...",
+    "searchWorkout": "Buscar entrenamiento...",
+    "noWorkoutFound": "No se encontró entrenamiento",
+    "noWorkoutsAvailable": "No hay entrenamientos disponibles",
+    "evaluate": "Evaluar",
+    "evaluateSwimmer": "Evaluar nadador",
+    "status": {
+      "present": "Presente",
+      "absent": "Ausente",
+      "late": "Tarde",
+      "injured": "Lesionado"
+    },
+    "week": "Semana",
+    "day": "Día",
+    "time": "Hora",
+    "update": "Actualizar",
+    "workout": "Entrenamiento",
+    "swimmers": "Nadadores",
+    "searchSwimmer": "Buscar nadador...",
+    "noSwimmerFound": "No se encontró nadador",
+    "noSwimmersInPlan": "No hay nadadores en este plan",
+    "recordTimes": "Registrar tiempos",
+    "liveSession": "Sesión en Vivo",
+    "pastDate": "Fecha pasada",
+    "pastDateBanner": "Esta fecha está en el pasado - las modificaciones están limitadas",
+    "confirmChangeWorkout": "¿Estás seguro de que quieres cambiar el entrenamiento?",
+    "confirmDeleteSession": "¿Estás seguro de que quieres eliminar esta sesión?",
+    "adHocSession": "Sesión improvisada",
+    "free": "LIBRE",
+    "deleteSession": "Eliminar sesión",
+    "addSwimmer": "Agregar nadador...",
+    "noMoreSwimmers": "No hay más nadadores disponibles",
+    "noSwimmersAdded": "No se agregaron nadadores",
+    "cannotAddPastSession": "No se pueden agregar sesiones para fechas pasadas",
+    "cannotDeletePastSession": "No se pueden eliminar sesiones para fechas pasadas",
+    "loading": "Cargando...",
+    "retry": "Reintentar",
+    "sessionsShort": "Sesiones",
+    "trainingSessions": "Sesiones de entrenamiento",
+    "noActivePlans": "No hay planes activos para esta fecha",
+    "adHocShort": "Improvisada",
+    "addAdHocSession": "Agregar sesión improvisada"
+  },
+    "announcements": {
+      "header": {
+        "title": "Gestión de Anuncios (Demo)",
+        "subtitle": "Crea y gestiona anuncios para tu club de natación - Versión con datos simulados"
+      },
+      "form": {
+        "createTitle": "Crear Nuevo Anuncio",
+        "editTitle": "Editar Anuncio",
+        "title": "Título",
+        "titlePlaceholder": "Ingresa el título del anuncio",
+        "subtitle": "Subtítulo",
+        "subtitlePlaceholder": "Subtítulo opcional",
+        "content": "Contenido",
+        "contentPlaceholder": "Ingresa el contenido del anuncio",
+        "uploadImage": "Subir Imagen (Simulado - Vista Previa Local Solamente)",
+        "uploading": "Subiendo imagen...",
+        "preview": "vista previa",
+        "removeImage": "Eliminar Imagen",
+        "category": "Categoría",
+        "eventDate": "Fecha del Evento",
+        "startTime": "Hora de Inicio",
+        "endTime": "Hora de Fin",
+        "location": "Ubicación",
+        "locationPlaceholder": "Ubicación del evento",
+        "priority": "Prioridad (0-100)",
+        "active": "Activo"
+      },
+      "categories": {
+        "general": "General",
+        "competition": "Competición",
+        "training": "Entrenamiento",
+        "event": "Evento"
+      },
+      "buttons": {
+        "create": "Crear Anuncio",
+        "update": "Actualizar Anuncio",
+        "cancel": "Cancelar",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "retry": "Reintentar"
+      },
+      "alerts": {
+        "invalidFileType": "Tipo de archivo inválido. Usa JPEG, PNG o GIF.",
+        "fileTooLarge": "El archivo es demasiado grande. Tamaño máximo: 5MB.",
+        "createSuccess": "¡Anuncio creado exitosamente (demo)!",
+        "updateSuccess": "¡Anuncio actualizado exitosamente (demo)!",
+        "deleteSuccess": "¡Anuncio eliminado exitosamente (demo)!",
+        "confirmDelete": "¿Estás seguro de que quieres eliminar este anuncio?"
+      },
+      "card": {
+        "date": "Fecha",
+        "location": "Ubicación",
+        "category": "Categoría",
+        "priority": "Prioridad",
+        "status": "Estado"
+      },
+      "status": {
+        "active": "Activo",
+        "inactive": "Inactivo"
+      },
+      "loading": "Cargando anuncios...",
+      "empty": "¡Aún no hay anuncios. Crea el primero!",
+      "mockData": {
+        "competition": {
+          "title": "Competición Nacional de Natación",
+          "subtitle": "Participa en el evento más grande del año",
+          "content": "Nos complace anunciar la competición nacional de natación para todas las categorías de edad. ¡Prepárate para actuaciones excepcionales!",
+          "location": "Complejo Deportivo Nacional"
+        },
+        "training": {
+          "title": "Entrenamiento Especial - Técnicas Avanzadas",
+          "subtitle": "Para nadadores de nivel avanzado",
+          "content": "Sesión de entrenamiento especial dedicada a técnicas avanzadas de natación. Coordinador: Entrenador Gabriel Popescu.",
+          "location": "Piscina Olímpica"
+        },
+        "maintenance": {
+          "title": "Cierre Temporal por Mantenimiento",
+          "subtitle": "Trabajos de modernización",
+          "content": "Les informamos que entre el 10 y el 12 de noviembre, la piscina estará cerrada por trabajos de mantenimiento y modernización. ¡Gracias por su comprensión!"
+        },
+        "summerEvent": {
+          "title": "Tarde de Verano - Natación Recreativa",
+          "subtitle": "Evento completado",
+          "content": "¡Gracias a todos los participantes en la tarde de verano! Fue un evento inolvidable.",
+          "location": "Piscina al Aire Libre"
+        }
+      }
+    },
+    
+    "dashboard": {
+      "loading": "Cargando panel...",
+      "hero": {
+        "title": "Tu Centro de Control",
+        "subtitle": "Tu centro de control para la gestión de natación",
+        "totalStudents": "Nadadores Totales",
+        "active": "Activos",
+        "activityRate": "Tasa de Actividad"
+      },
+      "alert": {
+        "title": "Atención Necesaria",
+        "description": "{{count}} registros expiran en los próximos 7 días"
+      },
+      "quickNav": {
+        "activeStudents": {
+          "title": "Nadadores Activos",
+          "subtitle": "Gestionar nadadores"
+        },
+        "trainingHub": {
+          "value": "Centro",
+          "title": "Centro de Entrenamiento",
+          "subtitle": "Planes y programas"
+        },
+        "trainingSessions": {
+          "value": "Hoy",
+          "title": "Sesiones de Entrenamiento",
+          "subtitle": "Agenda de hoy"
+        },
+        "announcements": {
+          "value": "Anuncios",
+          "title": "Comunicación",
+          "subtitle": "Gestionar mensajes"
+        }
+      },
+      "recentActivity": {
+        "title": "Actividad Reciente",
+        "viewAll": "Ver todo",
+        "empty": "Sin actividad reciente"
+      },
+      "activity": {
+        "newRegistration": "Nuevo registro",
+        "expiringNear": "Expira pronto"
+      },
+      "timeAgo": {
+        "minutes": "hace {{count}} minutos",
+        "hours": "hace {{count}} horas",
+        "days": "hace {{count}} días"
+      }
+    },
+    
+    "adminLayout": {
+      "header": {
+        "title": "Panel de Administración (Demo)"
+      },
+      "pageTitle": {
+        "dashboard": "Panel de Administración",
+        "trainingSession": "Sesión de entrenamiento",
+        "students": "Gestión de Nadadores",
+        "trainingHub": "Centro de Entrenamiento",
+        "advancedSwimmers": "Nadadores Avanzados",
+        "groups": "Gestión de Grupos",
+        "gdprConsent": "Consentimiento GDPR",
+        "systemInfo": "Información del Sistema",
+        "announcements": "Eventos",
+        "aboutDemo": "Acerca de Demo",
+        "adminPanel": "Panel de Administración"
+      },
+      "nav": {
+        "aboutDemo": "Acerca de Demo",
+        "dashboard": "Panel",
+        "students": "Nadadores",
+        "trainingSession": "Sesión de entrenamiento",
+        "trainingHub": "Centro de Entrenamiento",
+        "advancedSwimmers": "Nadadores Avanzados",
+        "groups": "Grupos",
+        "announcements": "Eventos",
+        "gdprConsent": "Consentimiento GDPR",
+        "system": "Sistema",
+        "systemInfo": "Información del Sistema"
+      },
+      "logout": {
+        "button": "Cerrar Sesión (Demo)",
+        "confirmDemo": "Esta es una versión demo. El cierre de sesión no es funcional."
+      }
+    },
+    
+    "adminUsers": {
+      "pageTitle": "Gestión de Nadadores (Demo)",
+      "loading": "Cargando nadadores...",
+      "refreshing": "Cargando...",
+      "refreshButton": "Actualizar",
+      "searchPlaceholder": "Buscar por nombre o teléfono...",
+      
+      "stats": {
+        "total": "Total",
+        "active": "Activos",
+        "expired": "Expirados"
+      },
+      
+      "status": {
+        "active": "Activo",
+        "expired": "Expirado"
+      },
+      
+      "filters": {
+        "allStudents": "Todos los nadadores",
+        "activeOnly": "Solo activos",
+        "expiredOnly": "Solo expirados",
+        "allDays": "Todos los días",
+        "allHours": "Todas las horas"
+      },
+      
+      "sort": {
+        "newest": "Más recientes",
+        "oldest": "Más antiguos",
+        "alphabetical": "Alfabético"
+      },
+      
+      "days": {
+        "monday": "Lunes",
+        "tuesday": "Martes",
+        "wednesday": "Miércoles",
+        "thursday": "Jueves",
+        "friday": "Viernes"
+      },
+      
+      "export": {
+        "title": "Exportar Datos (Simulado)",
+        "csvButton": "Exportar CSV",
+        "exporting": "Exportando...",
+        "info": "La exportación contiene: Nombre del Nadador, Nombre del Padre, Teléfono (datos de demostración)",
+        "headers": {
+          "studentName": "Nombre del Nadador",
+          "childName": "Nombre del Hijo",
+          "phone": "Teléfono",
+          "email": "Email",
+          "registrationDate": "Fecha de Registro",
+          "status": "Estado"
+        }
+      },
+      
+      "deleteModal": {
+        "title": "Confirmar eliminación",
+        "message": "¿Estás seguro de que quieres eliminar a {{studentName}}? Esta acción no se puede deshacer y todos los datos asociados se perderán permanentemente.",
+        "confirmButton": "Eliminar",
+        "cancelButton": "Cancelar",
+        "defaultStudentName": "este nadador"
+      },
+      
+      "notifications": {
+        "exportSuccess": {
+          "title": "Exportación Completa",
+          "message": "El archivo {{filename}} fue descargado exitosamente (datos simulados)."
+        },
+        "updateSuccess": {
+          "title": "Actualización completa",
+          "message": "La lista de nadadores fue actualizada exitosamente (datos simulados)."
+        },
+        "deleteSuccess": {
+          "title": "Nadador eliminado",
+          "message": "{{studentName}} fue eliminado exitosamente. El cambio persistirá hasta actualizar."
+        }
+      },
+      
+      "resultsInfo": "Mostrando {{showing}} de {{total}} nadadores",
+      "noResultsFiltered": "No se encontraron nadadores que coincidan con los criterios de búsqueda.",
+      "noResultsEmpty": "No hay nadadores registrados en el sistema."
+    },
+    
+    "advancedSwimmers": {
+      "pageTitle": "Nadadores Avanzados (Demo)",
+      "pageSubtitle": "Gestiona perfiles de nadadores con monitoreo avanzado - Datos simulados",
+      "loading": "Cargando nadadores avanzados...",
+      "filtered": "(filtrados)",
+      
+      "buttons": {
+        "swimmingTimes": "Tiempos de Natación",
+        "addSwimmer": "Agregar Nadador Avanzado"
+      },
+      
+      "stats": {
+        "totalSwimmers": "Nadadores Totales",
+        "inGroups": "En Grupos",
+        "activeGroups": "Grupos Activos"
+      },
+      
+      "filters": {
+        "hrMaxZone": "Zona FC Máx",
+        "allZones": "Todas las Zonas",
+        "lowZone": "Baja (<170)",
+        "mediumZone": "Media (170-190)",
+        "highZone": "Alta (>190)",
+        "low": "Baja",
+        "medium": "Media",
+        "high": "Alta",
+        "group": "Grupo",
+        "noFilter": "Sin filtro",
+        "noGroup": "Sin Grupo",
+        "search": "Buscar",
+        "searchPlaceholder": "Buscar nadadores...",
+        "clearFilters": "Limpiar Filtros",
+        "activeFilters": "Filtros activos"
+      },
+      
+      "card": {
+        "studentId": "ID de Nadador",
+        "max": "Máx",
+        "resting": "Reposo",
+        "threshold": "Umbral",
+        "created": "Creado",
+        "group": "Grupo",
+        "hrMax": "FC Máx (lpm)",
+        "hrResting": "FC Reposo (lpm)",
+        "hrThreshold": "FC Umbral (lpm)",
+        "trainingZones": "Zonas de Entrenamiento",
+        "viewMore": "Ver Más"
+      },
+      
+      "emptyState": {
+        "title": "No se encontraron nadadores avanzados",
+        "noSwimmers": "Aún no tienes nadadores avanzados creados. ¡Comienza agregando el primero!",
+        "noResults": "Intenta ajustar los filtros para ver más resultados.",
+        "addFirst": "Agregar Primer Nadador"
+      },
+      
+      "resultsInfo": "Mostrando {{showing}} de {{total}} nadadores avanzados"
+    },
+    
+    "consents": {
+      "pageTitle": "Consentimiento GDPR (Demo)",
+      "pageSubtitle": "Ver todos los consentimientos GDPR registrados - Datos simulados",
+      "gdprButton": "Gestión GDPR",
+      "searchPlaceholder": "Buscar por nombre...",
+      "loading": "Cargando consentimientos...",
+      
+      "table": {
+        "id": "ID",
+        "fullName": "Nombre Completo",
+        "agreementDate": "Fecha de Acuerdo",
+        "deviceIp": "IP del Dispositivo",
+        "gdprVersion": "Versión GDPR"
+      },
+      
+      "mobile": {
+        "agreementDate": "FECHA DE ACUERDO",
+        "deviceIp": "IP DEL DISPOSITIVO",
+        "gdprVersion": "VERSIÓN GDPR"
+      },
+      
+      "emptyState": {
+        "noResults": "No se encontraron resultados",
+        "noConsents": "No hay consentimientos registrados",
+        "modifySearch": "Intenta modificar el término de búsqueda",
+        "willAppear": "Los consentimientos aparecerán aquí cuando los usuarios completen el formulario"
+      },
+      
+      "resultsCounter": {
+        "showing": "Mostrando",
+        "resultSingular": "resultado",
+        "resultPlural": "resultados",
+        "filtered": "(filtrados)"
+      }
+    },
+    
+    "createSwimmer": {
+      "pageTitle": "Agregar Nadador Avanzado (Demo)",
+      "pageSubtitle": "Crea un nuevo perfil de nadador con monitoreo avanzado - Datos simulados",
+      "backButton": "Atrás",
+      "cancelButton": "Cancelar",
+      "createButton": "Crear Perfil (Simulado)",
+      "creating": "Creando...",
+      
+      "notifications": {
+        "warning": "Advertencia",
+        "validation": "Validación",
+        "profileCreated": "Perfil Creado",
+        "successMessage": "¡Nadador avanzado creado exitosamente para {{name}}! (Simulado)"
+      },
+      
+      "validation": {
+        "selectStudent": "Por favor selecciona un nadador",
+        "maxHrRange": "La frecuencia cardíaca máxima debe estar entre 120 y 220 lpm",
+        "restingHrRange": "La frecuencia cardíaca en reposo debe estar entre 30 y 100 lpm",
+        "thresholdHrRange": "La frecuencia cardíaca umbral debe estar entre 100 y 200 lpm",
+        "restingLessThanMax": "La frecuencia cardíaca en reposo debe ser menor que la máxima"
+      },
+      
+      "step1": {
+        "title": "1. Seleccionar Nadador",
+        "description": "Elige el nadador para quien quieres crear el perfil de nadador avanzado",
+        "searchPlaceholder": "Buscar por nombre o email...",
+        "loading": "Cargando nadadores...",
+        "noSearchResults": "No se encontraron nadadores que coincidan con la búsqueda",
+        "allHaveProfiles": "Todos los nadadores ya tienen perfiles de nadador avanzado",
+        "years": "años"
+      },
+      
+      "step2": {
+        "title": "2. Configurar Datos de Frecuencia Cardíaca",
+        "description": "Ingresa los valores de frecuencia cardíaca del nadador",
+        "autoCalculated": "⚡ Los valores fueron calculados automáticamente según la edad. Puedes modificarlos si es necesario.",
+        
+        "maxHrLabel": "Frecuencia Cardíaca Máxima (lpm)",
+        "maxHrPlaceholder": "ej. 190",
+        "maxHrHelp": "Calculado: 220 - edad | Valores normales: 120-220 lpm",
+        
+        "restingHrLabel": "Frecuencia Cardíaca en Reposo (lpm)",
+        "restingHrPlaceholder": "ej. 60",
+        "restingHrHelp": "Estimado según edad y nivel de condición física | Valores normales: 30-100 lpm",
+        
+        "thresholdHrLabel": "Frecuencia Cardíaca Umbral (lpm)",
+        "thresholdHrPlaceholder": "ej. 170",
+        "thresholdHrHelp": "Calculado: 87% de FC máx | Valores normales: 100-200 lpm",
+        
+        "zonesPreview": "Vista Previa de Zonas de Entrenamiento",
+        
+        "zones": {
+          "zone1": "Zona 1 (Recuperación)",
+          "zone2": "Zona 2 (Aeróbico Ligero)",
+          "zone3": "Zona 3 (Aeróbico)",
+          "zone4": "Zona 4 (Umbral)",
+          "zone5": "Zona 5 (Anaeróbico)"
+        }
+      }
+    },
+    
+    "createTimes": {
+      "pageTitle": "Agregar Tiempos de Natación (Demo)",
+      "pageSubtitle": "Registra tiempos para entrenamiento o competición - Datos simulados",
+      "backButton": "Atrás",
+      "cancelButton": "Cancelar",
+      "saveButton": "Guardar Tiempos ({{count}})",
+      "saving": "Guardando...",
+      "saved": "¡Guardado (Simulado)!",
+      "timesCompleted": "tiempos completados",
+      "student": "Nadador",
+      "successMessage": "¡Tiempos guardados exitosamente (simulado)!",
+      
+      "validation": {
+        "studentRequired": "El ID del nadador es requerido",
+        "dateRequired": "La fecha de registro es requerida",
+        "atLeastOneTime": "Debes ingresar al menos un tiempo",
+        "invalidFormat": "El formato de tiempo para {{event}} es inválido. Usa formato MM:SS o MM:SS.CC"
+      },
+      
+      "basicInfo": {
+        "title": "Información General",
+        "description": "Completa la información básica sobre la sesión de natación",
+        "student": "Nadador",
+        "loading": "Cargando...",
+        "recordDate": "Fecha de Registro",
+        "poolLength": "Longitud de Piscina",
+        "meters25": "25 metros",
+        "meters50": "50 metros",
+        "competitionName": "Nombre de Competición (opcional)",
+        "competitionPlaceholder": "ej. Campeonato Nacional de Natación",
+        "notes": "Notas (opcional)",
+        "notesPlaceholder": "Agrega notas sobre rendimiento, condiciones, etc."
+      },
+      
+      "search": {
+        "title": "🔍 Buscar y Filtrar Eventos",
+        "description": "Encuentra rápidamente los eventos para los que deseas agregar tiempos",
+        "placeholder": "Buscar eventos (ej. 100m, libre, mariposa)...",
+        "allCategories": "Todas las Categorías",
+        "onlyFilled": "Solo tiempos completados",
+        "clearAll": "Limpiar todos los tiempos",
+        "showingResults": "Mostrando {{showing}} de {{total}} eventos"
+      },
+      
+      "times": {
+        "title": "⏱️ Tiempos de Natación",
+        "formatInfo": "Ingresa los tiempos en formato MM:SS.CC (ej. 1:23.45 o 01:23.45)",
+        "noEvents": "No se encontraron eventos que coincidan con los criterios de búsqueda.",
+        "resetFilters": "Restablecer filtros",
+        "clearTime": "Limpiar tiempo"
+      },
+      
+      "categories": {
+        "freestyle": "Libre",
+        "backstroke": "Espalda",
+        "breaststroke": "Pecho",
+        "butterfly": "Mariposa",
+        "im": "Medley Individual"
+      },
+      
+      "events": {
+        "freestyle50": "Libre 50m",
+        "freestyle100": "Libre 100m",
+        "freestyle200": "Libre 200m",
+        "freestyle400": "Libre 400m",
+        "freestyle800": "Libre 800m",
+        "freestyle1500": "Libre 1500m",
+        "backstroke50": "Espalda 50m",
+        "backstroke100": "Espalda 100m",
+        "backstroke200": "Espalda 200m",
+        "breaststroke50": "Pecho 50m",
+        "breaststroke100": "Pecho 100m",
+        "breaststroke200": "Pecho 200m",
+        "butterfly50": "Mariposa 50m",
+        "butterfly100": "Mariposa 100m",
+        "butterfly200": "Mariposa 200m",
+        "im100": "IM 100m",
+        "im200": "IM 200m"
+      }
+    },
+    
+    "timesDetails": {
+      "pageSubtitle": "Tiempos de natación y estadísticas detalladas",
+      "backButton": "Volver a Tiempos de Natación",
+      "addNewTime": "Agregar Nuevo Tiempo",
+      "student": "Nadador",
+      "loading": "Cargando datos...",
+      
+      "tabs": {
+        "allTimes": "Todos los Tiempos",
+        "personalBests": "Mejores Marcas Personales",
+        "statistics": "Estadísticas y Gráficos"
+      },
+      
+      "allTimes": {
+        "noTimes": "No hay tiempos registrados",
+        "noTimesDescription": "Este nadador aún no tiene tiempos registrados.",
+        "competition": "Competición",
+        "personalRecord": "Récord Personal",
+        "notes": "Notas"
+      },
+      
+      "personalBests": {
+        "noRecords": "No hay récords personales",
+        "noRecordsDescription": "Este nadador aún no tiene récords personales establecidos.",
+        "showGraph": "Mostrar Gráfico",
+        "hideGraph": "Ocultar Gráfico"
+      },
+      
+      "statistics": {
+        "totalRecords": "Registros Totales",
+        "personalBests": "Mejores Marcas Personales",
+        "competitionTimes": "Tiempos de Competición",
+        "monitoringDays": "Días de Monitoreo",
+        "monitoringPeriod": "Período de Monitoreo",
+        "from": "Desde",
+        "to": "hasta",
+        "notEnoughData": "No hay suficientes datos para estadísticas",
+        "notEnoughDataDescription": "Agrega más tiempos para ver estadísticas detalladas."
+      },
+      
+      "graph": {
+        "notEnoughData": "No hay suficientes datos para el gráfico",
+        "evolution": "Evolución de Tiempos"
+      },
+      
+      "categories": {
+        "freestyle": "Libre",
+        "backstroke": "Espalda",
+        "breaststroke": "Pecho",
+        "butterfly": "Mariposa",
+        "im": "Medley Individual"
+      },
+      
+      "events": {
+        "freestyle50": "Libre 50m",
+        "freestyle100": "Libre 100m",
+        "freestyle200": "Libre 200m",
+        "freestyle400": "Libre 400m",
+        "freestyle800": "Libre 800m",
+        "freestyle1500": "Libre 1500m",
+        "backstroke50": "Espalda 50m",
+        "backstroke100": "Espalda 100m",
+        "backstroke200": "Espalda 200m",
+        "breaststroke50": "Pecho 50m",
+        "breaststroke100": "Pecho 100m",
+        "breaststroke200": "Pecho 200m",
+        "butterfly50": "Mariposa 50m",
+        "butterfly100": "Mariposa 100m",
+        "butterfly200": "Mariposa 200m",
+        "im100": "IM 100m",
+        "im200": "IM 200m"
+      }
+    },
+    
+    "gdpr": {
+      "pageTitle": "Gestión GDPR",
+      "pageSubtitle": "Gestiona versiones de la política de privacidad GDPR",
+      "loading": "Cargando versiones GDPR...",
+      
+      "stats": {
+        "versions": "Versiones",
+        "nextVersion": "Siguiente"
+      },
+      
+      "emptyState": {
+        "title": "No hay versiones GDPR",
+        "description": "Comienza agregando la primera versión de la política GDPR."
+      },
+      
+      "table": {
+        "id": "ID",
+        "version": "Versión",
+        "createdAt": "Creado el",
+        "gdprText": "Texto GDPR",
+        "actions": "Acciones",
+        "viewFullText": "Ver texto completo",
+        "viewFull": "Ver completo"
+      },
+      
+      "form": {
+        "title": "Agregar Nueva Versión GDPR",
+        "description": "Crea una nueva versión de la política de privacidad GDPR",
+        "versionLabel": "Versión (auto-generada)",
+        "gdprTextLabel": "Texto GDPR",
+        "gdprTextPlaceholder": "Ingresa el texto completo de la política GDPR...",
+        "characterCount": "{{count}} caracteres",
+        "paragraphEstimate": "~{{count}} párrafos",
+        "adding": "Agregando...",
+        "addButton": "Agregar Nueva Versión"
+      },
+      
+      "modal": {
+        "title": "Texto GDPR Completo",
+        "close": "Cerrar",
+        "closeButton": "Cerrar"
+      }
+    },
+    
+    "groups": {
+      "pageTitle": "Gestión de Grupos (Demo)",
+      "groupSingular": "grupo",
+      "groupPlural": "grupos",
+      "newGroup": "Nuevo Grupo",
+      "swimmers": "nadadores",
+      "editButton": "Editar",
+      "deleteButton": "Eliminar",
+      "confirmDelete": "¿Estás seguro de que quieres eliminar este grupo? (Simulado)",
+      
+      "emptyState": {
+        "title": "No existen grupos",
+        "description": "Crea el primer grupo para organizar nadadores avanzados",
+        "createFirst": "Crear Primer Grupo"
+      },
+      
+      "form": {
+        "createTitle": "Nuevo Grupo (Demo)",
+        "editTitle": "Editar Grupo (Demo)",
+        "createSubtitle": "Crea un nuevo grupo para nadadores",
+        "editSubtitle": "Modifica los detalles del grupo",
+        "groupName": "Nombre del Grupo",
+        "groupNamePlaceholder": "ej. Grupo de Rendimiento",
+        "description": "Descripción",
+        "descriptionPlaceholder": "Descripción del grupo...",
+        "groupColor": "Color del Grupo",
+        "swimmers": "Nadadores",
+        "swimmersSelected": "{{count}} seleccionados",
+        "searchSwimmer": "Buscar nadador...",
+        "noSwimmersAvailable": "No hay nadadores disponibles",
+        "student": "Nadador",
+        "inThisGroup": "En este grupo",
+        "cancelButton": "Cancelar",
+        "createButton": "Crear Grupo",
+        "updateButton": "Actualizar Grupo",
+        "saving": "Guardando..."
+      }
+    },
+    
+    "swimmingTimes": {
+      "pageTitle": "Tiempos de Natación",
+      "pageSubtitle": "Monitorea el progreso y récords personales de los nadadores",
+      "addNewTime": "Agregar Nuevo Tiempo",
+      "student": "Nadador",
+      "loading": "Cargando tiempos de natación...",
+      "filtered": "(filtrados)",
+      
+      "stats": {
+        "swimmersWithTimes": "Nadadores con Tiempos",
+        "totalPersonalRecords": "Récords Personales Totales",
+        "totalRecords": "Registros Totales",
+        "lastRecord": "Último Registro"
+      },
+      
+      "filters": {
+        "searchSwimmer": "Buscar Nadador",
+        "searchPlaceholder": "Buscar por nombre o ID...",
+        "clearFilters": "Limpiar Filtros",
+        "activeFilters": "Filtros activos",
+        "search": "Buscar"
+      },
+      
+      "card": {
+        "personalRecords": "Récords Personales",
+        "totalRecords": "Registros Totales",
+        "lastTime": "Último Tiempo",
+        "personalBestsTop4": "Mejores Marcas Personales (Top 4)",
+        "moreRecords": "+{{count}} récords más",
+        "viewAllTimes": "Ver Todos los Tiempos",
+        "statistics": "Estadísticas y Gráficos",
+        "addNewTime": "Agregar Nuevo Tiempo"
+      },
+      
+      "emptyState": {
+        "noTimes": "No se encontraron tiempos de natación",
+        "noTimesDescription": "Aún no tienes tiempos registrados. ¡Comienza agregando el primero!",
+        "modifyFilters": "Intenta ajustar los filtros para ver más resultados.",
+        "addFirst": "Agregar Primer Tiempo"
+      },
+      
+      "resultsInfo": "Mostrando {{showing}} de {{total}} nadadores con tiempos registrados",
+      
+      "events": {
+        "freestyle50": "Libre 50m",
+        "freestyle100": "Libre 100m",
+        "freestyle200": "Libre 200m",
+        "freestyle400": "Libre 400m",
+        "freestyle800": "Libre 800m",
+        "freestyle1500": "Libre 1500m",
+        "backstroke50": "Espalda 50m",
+        "backstroke100": "Espalda 100m",
+        "backstroke200": "Espalda 200m",
+        "breaststroke50": "Pecho 50m",
+        "breaststroke100": "Pecho 100m",
+        "breaststroke200": "Pecho 200m",
+        "butterfly50": "Mariposa 50m",
+        "butterfly100": "Mariposa 100m",
+        "butterfly200": "Mariposa 200m",
+        "im100": "IM 100m",
+        "im200": "IM 200m"
+      }
+    },
+    
+    "systemInfo": {
+      "pageTitle": "Información del Sistema (Demo)",
+      "loading": "Cargando información del sistema...",
+      "updating": "Actualizando...",
+      "refresh": "Actualizar",
+      "lastUpdate": "Última actualización",
+      "retryButton": "Reintentar",
+      
+      "tabs": {
+        "overview": "Vista General",
+        "memory": "Memoria",
+        "performance": "Rendimiento",
+        "database": "Base de Datos",
+        "system": "Sistema",
+        "network": "Red",
+        "disk": "Disco"
+      },
+      
+      "overview": {
+        "appVersion": "Versión de la App",
+        "uptime": "Tiempo Activo",
+        "start": "Inicio",
+        "memoryUsage": "Uso de Memoria",
+        "database": "Base de Datos",
+        "records": "registros",
+        "systemPerformance": "Rendimiento del Sistema",
+        "systemCpu": "CPU del Sistema",
+        "heapMemory": "Memoria Heap",
+        "primaryDisk": "Disco Primario",
+        "recentActivity": "Actividad Reciente",
+        "lastUpdate": "Última actualización",
+        "gcCollections": "Colecciones GC",
+        "activeThreads": "Hilos activos"
+      },
+      
+      "memory": {
+        "heapMemory": "Memoria Heap",
+        "nonHeapMemory": "Memoria Non-Heap",
+        "heapUsage": "Uso de Heap",
+        "used": "Usado",
+        "committed": "Comprometido",
+        "max": "Máximo",
+        "memoryPools": "Pools de Memoria"
+      },
+      
+      "performance": {
+        "cpuAndSystem": "CPU y Sistema",
+        "systemCpu": "CPU del Sistema",
+        "processCpu": "CPU del Proceso",
+        "loadAverage": "Carga Promedio",
+        "threads": "Hilos",
+        "currentThreads": "Hilos Actuales",
+        "daemonThreads": "Hilos Daemon",
+        "peakThreads": "Hilos Pico",
+        "threadStates": "Estados de Hilos",
+        "garbageCollection": "Recolección de Basura",
+        "collections": "Colecciones",
+        "time": "Tiempo"
+      },
+      
+      "database": {
+        "connectionStatus": "Estado de Conexión",
+        "connected": "Conectado",
+        "error": "Error",
+        "responseTime": "Tiempo de Respuesta",
+        "studentRecords": "Registros de Nadadores",
+        "announcements": "Anuncios",
+        "estimatedSize": "Tamaño Estimado"
+      },
+      
+      "system": {
+        "operatingSystem": "Sistema Operativo",
+        "name": "Nombre",
+        "version": "Versión",
+        "architecture": "Arquitectura",
+        "processors": "Procesadores",
+        "jvm": "Máquina Virtual Java",
+        "javaVersion": "Versión Java",
+        "vendor": "Proveedor",
+        "jvmName": "Nombre JVM",
+        "jvmVersion": "Versión JVM",
+        "physicalResources": "Recursos Físicos",
+        "totalPhysicalMemory": "Memoria Física Total",
+        "freePhysicalMemory": "Memoria Física Libre",
+        "totalSwap": "Swap Total",
+        "freeSwap": "Swap Libre"
+      },
+      
+      "network": {
+        "basicInfo": "Información Básica",
+        "hostname": "Nombre de Host",
+        "ipAddress": "Dirección IP",
+        "networkInterfaces": "Interfaces de Red"
+      },
+      
+      "disk": {
+        "diskVolumes": "Volúmenes de Disco",
+        "usage": "Uso",
+        "total": "Total",
+        "free": "Libre",
+        "usable": "Utilizable",
+        "applicationData": "Datos de Aplicación",
+        "dataSize": "Tamaño de Datos",
+        "fileCount": "Cantidad de Archivos"
+      }
+    },
+    
+    "userCard": {
+      "years": "años",
+      "expiresTraday": "¡Expira hoy!",
+      "oneDayRemaining": "1 día restante",
+      "daysRemaining": "{{days}} días restantes",
+      
+      "status": {
+        "expired": "Expirado",
+        "active": "Activo"
+      },
+      
+      "labels": {
+        "email": "Email",
+        "phone": "Teléfono",
+        "age": "Edad",
+        "birthDate": "Fecha de Nacimiento",
+        "registrationDate": "Fecha de Registro",
+        "daysRemaining": "Días Restantes",
+        "contact": "Contacto"
+      },
+      
+      "program": {
+        "title": "Programa",
+        "with": "con",
+        "noProgram": "Sin programa registrado"
+      },
+      
+      "documents": {
+        "title": "Documentos",
+        "registrationForm": "Formulario de Registro",
+        "declaration": "Declaración",
+        "medicalCertificate": "Certificado Médico"
+      },
+      
+      "actions": {
+        "updating": "Actualizando...",
+        "activate": "Activar",
+        "markExpired": "Marcar expirado",
+        "delete": "Eliminar"
+      },
+      
+      "errors": {
+        "updateStatus": "Error al actualizar estado. Por favor intenta de nuevo."
+      }
+    },
+    
+    "viewSwimmer": {
+      "loading": "Cargando datos...",
+      "error": "Error",
+      "demo": "Demo",
+      "backToList": "Volver a la Lista",
+      "studentId": "ID de Nadador",
+      "student": "Nadador",
+      "created": "Creado",
+      "subtitle": "Perfil de Nadador Avanzado - Datos simulados",
+      "addTime": "Agregar Tiempo",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "deleteMock": "Eliminar (Simulado)",
+      "confirmDelete": "¿Estás seguro de que quieres eliminar este perfil de nadador avanzado? (Simulado - no eliminará realmente)",
+      
+      "errors": {
+        "notFound": "Nadador no encontrado."
+      },
+      
+      "validation": {
+        "maxHrRange": "La frecuencia cardíaca máxima debe estar entre 120 y 220 lpm",
+        "restingHrRange": "La frecuencia cardíaca en reposo debe estar entre 30 y 100 lpm",
+        "thresholdHrRange": "La frecuencia cardíaca umbral debe estar entre 100 y 200 lpm",
+        "restingLessThanMax": "La frecuencia cardíaca en reposo debe ser menor que la máxima"
+      },
+      
+      "success": {
+        "dataUpdated": "¡Datos actualizados exitosamente (simulado)!"
+      },
+      
+      "tabs": {
+        "overview": "Vista General",
+        "times": "Tiempos de Natación",
+        "analytics": "Análisis y Gráficos"
+      },
+      
+      "overview": {
+        "heartRate": "Frecuencia Cardíaca",
+        "editMode": "Modo de Edición",
+        "hrMax": "FC Máx (lpm)",
+        "hrResting": "FC Reposo (lpm)",
+        "hrThreshold": "FC Umbral (lpm)",
+        "saving": "Guardando...",
+        "saveMock": "Guardar (Simulado)",
+        "trainingZones": "Zonas de Entrenamiento",
+        "swimmingStats": "Estadísticas de Natación",
+        "totalTimes": "Tiempos Totales",
+        "records": "Récords",
+        "competitions": "Competiciones"
+      },
+      
+      "zones": {
+        "recovery": "Recuperación",
+        "lightAerobic": "Aeróbico Ligero",
+        "aerobic": "Aeróbico",
+        "threshold": "Umbral",
+        "anaerobic": "Anaeróbico"
+      },
+      
+      "times": {
+        "noTimes": "No hay tiempos registrados",
+        "noTimesDescription": "Este nadador aún no tiene tiempos registrados.",
+        "addFirst": "Agregar Primer Tiempo",
+        "andMore": "Y {{count}} tiempos más..."
+      },
+      
+      "analytics": {
+        "noData": "No hay datos para análisis",
+        "noDataDescription": "Agrega más tiempos para ver gráficos y análisis.",
+        "bestTime": "Mejor",
+        "mostRecent": "Más reciente",
+        "totalRecords": "Registros totales",
+        "allTimes": "Todos los tiempos ({{count}})",
+        "moreTimes": "+{{count}} tiempos más",
+        "showGraph": "Mostrar Gráfico",
+        "hideGraph": "Ocultar Gráfico"
+      },
+      
+      "graph": {
+        "notEnoughData": "No hay suficientes datos para el gráfico",
+        "evolution": "Evolución de Tiempos"
+      },
+      
+      "categories": {
+        "freestyle": "Libre",
+        "backstroke": "Espalda",
+        "breaststroke": "Pecho",
+        "butterfly": "Mariposa",
+        "im": "Medley Individual"
+      },
+      
+      "events": {
+        "freestyle50": "Libre 50m",
+        "freestyle100": "Libre 100m",
+        "freestyle200": "Libre 200m",
+        "freestyle400": "Libre 400m",
+        "freestyle800": "Libre 800m",
+        "freestyle1500": "Libre 1500m",
+        "backstroke50": "Espalda 50m",
+        "backstroke100": "Espalda 100m",
+        "backstroke200": "Espalda 200m",
+        "breaststroke50": "Pecho 50m",
+        "breaststroke100": "Pecho 100m",
+        "breaststroke200": "Pecho 200m",
+        "butterfly50": "Mariposa 50m",
+        "butterfly100": "Mariposa 100m",
+        "butterfly200": "Mariposa 200m",
+        "im100": "IM 100m",
+        "im200": "IM 200m"
+      }
+    },
+    
+    "aboutDemo": {
+      "heroTitle": "Acerca de Esta Versión Demo",
+      "heroSubtitle": "Guía completa de las funcionalidades de la plataforma de gestión",
+      "readFirst": "Leer primero",
+      "alertIntro": "Esta página te muestra dónde encontrar las secciones principales de la plataforma demo.",
+      "alertAdminNote": "La interfaz está diseñada para",
+      "administrators": "administradores",
+      "alertLiveVersion": "Para la versión en vivo, visita:",
+      "warningTitle": "Todos los datos mostrados son solo para fines de demostración:",
+      "warningNoCreate": "no se pueden crear registros reales,",
+      "warningNoEdit": "los datos no se pueden editar ni eliminar,",
+      "warningSimulated": "las operaciones solo están simuladas.",
+      "alertFooter": "A continuación encontrarás la presentación de funcionalidades, junto con",
+      "quickLinks": "enlaces rápidos",
+      "toEachSection": "a cada sección.",
+      "viewPage": "Ver página",
+      "footerText": "Navega por las secciones y explora las funcionalidades de la plataforma",
+      
+      "sections": {
+        "users": {
+          "title": "Registros / nadadores",
+          "intro": "Mantiene todos los datos sobre los inscritos del club, incluyendo documentos generados automáticamente (",
+          "enrollmentForm": "formulario de inscripción",
+          "declaration": "declaración bajo propia responsabilidad",
+          "medicalCert": "certificado médico",
+          "canBeFiltered": "Los nadadores pueden ser",
+          "filtered": "filtrados",
+          "afterCriteria": "según criterios específicos.",
+          "expiresAuto": "Expira automáticamente después de un período preestablecido o puede ser marcado manualmente como",
+          "expired": "expirado",
+          "orDeleted": "o eliminado permanentemente.",
+          "allCanExport": "Todos los nadadores pueden ser",
+          "exported": "exportados",
+          "csvReport": "a un archivo CSV para reportes."
+        },
+        
+        "sessions": {
+          "title": "Sesiones de Entrenamiento",
+          "intro": "Una sesión de entrenamiento representa",
+          "dayActivity": "la actividad de un día",
+          "canView": "Puedes ver",
+          "planned": "sesiones planificadas de un plan",
+          "orAdHoc": "o creadas",
+          "adHoc": "improvisadamente",
+          "eachHasTime": "Cada sesión tiene una",
+          "scheduledTime": "hora programada",
+          "established": "establecida.",
+          "forPlanSessions": "Para sesiones de plan,",
+          "swimmersGroups": "nadadores o grupos",
+          "alreadyAllocated": "ya están asignados; para las improvisadas, se agregan manualmente.",
+          "pageContains": "Esta página contiene los",
+          "actualWorkouts": "entrenamientos reales",
+          "ofPlans": "de los planes. En la sección de",
+          "plansSection": "Planes",
+          "onlyDefineTypes": ", solo se definen los tipos de entrenamiento necesarios para cada día.",
+          "navigationDays": "La navegación se puede hacer",
+          "onDays": "por días",
+          "orCalendar": "o a través del ícono de calendario 📆 para saltar rápidamente a una fecha específica."
+        },
+        
+        "traininghub": {
+          "title": "Centro de Entrenamiento",
+          "intro": "La página principal del módulo de entrenamiento, donde",
+          "generalStats": "estadísticas generales",
+          "offers": "se muestran. Ofrece",
+          "quickActions": "acciones rápidas",
+          "createWorkout": "creación de entrenamientos, acceso a planes.",
+          "youView": "Visualizas",
+          "upcomingComps": "competiciones próximas",
+          "and": "y",
+          "testSets": "series de verificación",
+          "plannedInPlans": "planificadas en los planes.",
+          "displays": "Muestra",
+          "latestWorkouts": "últimos entrenamientos",
+          "added": "agregados."
+        },
+        
+        "workouts": {
+          "title": "Entrenamientos",
+          "intro": "La página muestra todos los",
+          "existingWorkouts": "entrenamientos existentes",
+          "whichCan": "que pueden ser",
+          "filtered": "filtrados",
+          "or": "o",
+          "searched": "buscados",
+          "forEachWorkout": "Para cada entrenamiento hay acciones:",
+          "edit": "editar",
+          "duplicate": "duplicar",
+          "viewPrint": "ver para imprimir",
+          "delete": "eliminar",
+          "creating": "La creación de un entrenamiento",
+          "viaClick": "se hace haciendo clic en",
+          "createWorkout": "Crear Entrenamiento",
+          "canHaveLevels": "Un entrenamiento puede tener",
+          "levels": "niveles",
+          "beginner": "Principiante, Intermedio, Avanzado.",
+          "typesAvailable": "Tipos disponibles:",
+          "endurance": "Resistencia",
+          "technique": "Técnica",
+          "tempo": "Tempo",
+          "vo2max": "VO2máx",
+          "sprint": "Sprint",
+          "recovery": "Recuperación",
+          "eachStepHas": "Cada paso tiene:",
+          "category": "Categoría: Calentamiento, Serie Principal, Nado, Enfriamiento",
+          "distance": "Distancia (múltiplo de 25m) – para ingresar rápidamente: selecciona el campo y escribe el nuevo valor",
+          "style": "Estilo: Libre, Espalda, Pecho, Mariposa, etc.",
+          "drillType": "Tipo de ejercicio: Patada, Brazos, Ejercicio",
+          "intensity": "Intensidad: Basada en esfuerzo (FC), Basada en ritmo, CSS (Velocidad Crítica de Nado)",
+          "equipment": "Equipo: Palas, Pull buoy, Aletas, Snorkel, etc.",
+          "notes": "Notas",
+          "repetitions": "Repeticiones:",
+          "addedWith": "agregadas con",
+          "addRepetition": "Agregar Repetición",
+          "creatingBlock": "creando un bloque donde puedes agregar múltiples pasos u otras repeticiones."
+        },
+        
+        "plans": {
+          "title": "Planes",
+          "accessedFrom": "Accedido desde",
+          "trainingHub": "Centro de Entrenamiento → Planes",
+          "displayedCurrent": "Muestra",
+          "currentPlans": "planes actuales",
+          "creatingPlan": "La creación de un plan se hace a través de",
+          "createNewPlan": "Crear nuevo plan",
+          "planContains": "Un plan contiene:",
+          "nameDesc": "Nombre y descripción",
+          "startEndDate": "Fecha de inicio y fin",
+          "status": "Estado: Borrador, Activo, Pausado, Completado",
+          "macroPhases": "Fases macro (Acumulación, Intensificación, Realización, Descenso, Transición)",
+          "keyComps": "Competiciones clave y objetivos",
+          "presentedTheoretically": "Se presentan",
+          "theoretically": "teóricamente",
+          "macroTypes": "fases macro, tipos de entrenamiento y zonas de frecuencia cardíaca.",
+          "calendarPlanning": "Planificación de calendario:",
+          "weekAssignment": "asignación semanal de fases macro y tipos de entrenamiento por días.",
+          "canAddIndividual": "Se pueden agregar atletas individuales o",
+          "entireGroups": "grupos enteros",
+          "toPlan": "al plan.",
+          "actualWorkouts": "Los entrenamientos reales",
+          "addedLater": "se agregan más tarde desde la sección de",
+          "trainingSessions": "Sesiones de Entrenamiento",
+          "warningAttention": ". Atención:",
+          "toTestPlanning": "Para probar la planificación de calendario, debes acceder a un plan ya creado y elegir",
+          "edit": "Editar",
+          "notAvailableDemo": "En la versión demo, esta opción no está disponible en la fase de creación."
+        },
+        
+        "advanced": {
+          "title": "Nadadores Avanzados",
+          "initially": "Inicialmente, cualquier nuevo nadador",
+          "noFeatureActive": "no tiene esta función activa",
+          "toTransform": "Para transformarlos en un",
+          "advancedSwimmer": "nadador avanzado",
+          "selectFromList": "se seleccionan de la lista de nadadores regulares.",
+          "afterActivation": "Después de la activación, puedes asignar",
+          "trainingSessions": "sesiones de entrenamiento",
+          "trainingZones": "zonas de entrenamiento",
+          "specificDetails": "y otros detalles específicos.",
+          "configureParams": "Configura parámetros como:",
+          "hrMax": "FC Máx",
+          "threshold": "Umbral",
+          "rest": "Reposo",
+          "valuesCalculated": "Los valores se calculan",
+          "autoByAge": "automáticamente según la edad",
+          "canBeManual": "pero pueden ingresarse manualmente."
+        },
+        
+        "groups": {
+          "title": "Grupos",
+          "canBeOrganized": "Los nadadores avanzados pueden ser",
+          "organized": "organizados en grupos",
+          "efficientManagement": "para una gestión más eficiente.",
+          "groupsAllow": "Los grupos permiten",
+          "fasterAssignment": "asignación más rápida",
+          "plansAndSessions": "de planes y sesiones de entrenamiento.",
+          "eachGroupHas": "Cada grupo tiene:",
+          "name": "Nombre",
+          "color": "Color",
+          "visualDiff": "(para diferenciación visual)",
+          "description": "Descripción"
+        },
+        
+        "announcements": {
+          "title": "Eventos",
+          "adminCanCreate": "El administrador puede",
+          "createEvents": "crear eventos",
+          "appearOnMain": "que aparecerán en la página principal.",
+          "canBeComps": "Los eventos pueden ser competiciones, anuncios o actividades especiales.",
+          "canAddDetails": "Se pueden agregar detalles como:",
+          "title": "título",
+          "description": "descripción",
+          "dateTime": "fecha y hora",
+          "location": "ubicación",
+          "image": "imagen"
+        },
+        
+        "gdpr": {
+          "title": "GDPR",
+          "inThisPage": "En esta página,",
+          "userConsents": "los consentimientos de usuarios",
+          "includesSignature": "son accesibles. Incluye firma digital, que contiene:",
+          "ipAddress": "Dirección IP",
+          "exactDateTime": "Fecha y hora exacta",
+          "gdprVersion": "Versión GDPR aceptada",
+          "adminCanTrack": "El administrador puede rastrear y actualizar versiones GDPR."
+        },
+        
+        "system": {
+          "title": "Información del Sistema",
+          "pageOffers": "La página ofrece al administrador acceso a",
+          "essentialInfo": "información esencial del servidor",
+          "containsTechnical": "Contiene",
+          "technicalData": "datos técnicos útiles",
+          "monitoring": "para monitoreo y mantenimiento.",
+          "canBeUsed": "Puede usarse para",
+          "troubleshooting": "resolución de problemas",
+          "checkingState": "y verificación del estado general del sistema."
+        }
+      }
+    }
+    }
