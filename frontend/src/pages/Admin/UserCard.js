@@ -219,36 +219,30 @@ const UserCard = ({ inscriere, onDelete, onStatusUpdate }) => {
             <p className="no-program">{t('userCard.program.noProgram')}</p>
           )}
         </div>
-
+        
         <div className="documents-section">
-          <h4>{t('userCard.documents.title')}</h4>
-          <div className="document-links">
-            <a 
-              href={`${API_BASE_URL}/api/admin/pdf/inscriere/${id}`} 
-              target="_blank" 
-              rel="noreferrer"
-              className="document-link"
-            >
-              📄 {t('userCard.documents.registrationForm')}
-            </a>
-            <a 
-              href={`${API_BASE_URL}/api/admin/pdf/declaratie/${id}`} 
-              target="_blank" 
-              rel="noreferrer"
-              className="document-link"
-            >
-              📋 {t('userCard.documents.declaration')}
-            </a>
-            <a 
-              href={`${API_BASE_URL}/api/admin/pdf/adeverinta/${id}`} 
-              target="_blank" 
-              rel="noreferrer"
-              className="document-link"
-            >
-              🏥 {t('userCard.documents.medicalCertificate')}
-            </a>
-          </div>
-        </div>
+  <h4>{t('userCard.documents.title')}</h4>
+  <div className="document-links">
+    <span 
+      className="document-link disabled"
+      style={{ cursor: 'not-allowed', opacity: 0.5 }}
+    >
+      📄 {t('userCard.documents.registrationForm')}
+    </span>
+    <span 
+      className="document-link disabled"
+      style={{ cursor: 'not-allowed', opacity: 0.5 }}
+    >
+      📋 {t('userCard.documents.declaration')}
+    </span>
+    <span 
+      className="document-link disabled"
+      style={{ cursor: 'not-allowed', opacity: 0.5 }}
+    >
+      🏥 {t('userCard.documents.medicalCertificate')}
+    </span>
+  </div>
+</div>
 
         <div className="user-actions">
           <button 
