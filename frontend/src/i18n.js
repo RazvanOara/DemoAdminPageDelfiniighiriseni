@@ -26,11 +26,13 @@ const resources = {
   }
 };
 
-// Get language from URL path or default to 'ro'
+// Get language from URL path or default to 'en'
 const getLanguageFromPath = () => {
   const pathParts = window.location.pathname.split('/').filter(p => p);
+  const supportedLanguages = ['ro', 'en', 'de', 'hu', 'es'];
+  
   // Check if first part of path is a valid language code
-  if (pathParts.length > 0 && (pathParts[0] === 'ro' || pathParts[0] === 'en')) {
+  if (pathParts.length > 0 && supportedLanguages.includes(pathParts[0])) {
     return pathParts[0];
   }
   return 'en'; // default language
